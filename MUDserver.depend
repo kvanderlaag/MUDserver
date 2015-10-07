@@ -1,0 +1,29 @@
+# depslib dependency file v1.0
+1444255507 source:d:\users\kvand_000\code\cpp\mudserver\connection.cpp
+	<winsock2.h>
+	<ws2tcpip.h>
+	<sys/socket.h>
+	"Connection.hpp"
+
+1444252876 d:\users\kvand_000\code\cpp\mudserver\connection.hpp
+	<winsock2.h>
+	<ws2tcpip.h>
+	<sys/socket.h>
+
+1444265027 source:d:\users\kvand_000\code\cpp\mudserver\main.cpp
+	<iostream>
+	"Server.hpp"
+	"Connection.hpp"
+
+1444265291 d:\users\kvand_000\code\cpp\mudserver\server.hpp
+	<winsock2.h>
+	<ws2tcpip.h>
+	<sys/socket.h>
+
+1444265352 source:d:\users\kvand_000\code\cpp\mudserver\server.cpp
+	<winsock2.h>
+	<ws2tcpip.h>
+	<sys/socket.h>
+	"Server.hpp"
+	<iostream>
+
