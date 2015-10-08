@@ -37,6 +37,8 @@
 		</Linker>
 		<Unit filename="Connection.cpp" />
 		<Unit filename="Connection.hpp" />
+		<Unit filename="ConnectionList.cpp" />
+		<Unit filename="ConnectionList.hpp" />
 		<Unit filename="Server.cpp" />
 		<Unit filename="Server.hpp" />
 		<Unit filename="main.cpp" />

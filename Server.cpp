@@ -1,7 +1,7 @@
 #ifdef _WIN32
 
 #ifndef _WIN32_WINNT
-#define _WIN32_WINNT 0x501
+#define _WIN32_WINNT 0x6000
 #endif // _WIN32_WINNT
 
 #include <winsock2.h>
@@ -13,7 +13,9 @@
 
 #endif
 
+#ifndef _SERVER_H
 #include "Server.hpp"
+#endif // _SERVER_H
 
 #include <iostream>
 
@@ -52,10 +54,7 @@ int Server::Listen() {
 
     #endif // _WIN32
 
-    struct sockaddr_storage externalHost;
-    socklen_t addr_size;
     struct addrinfo hints, *res;
-    int new_fd;
     int status;
 
     memset(&hints, 0, sizeof hints);
@@ -104,4 +103,23 @@ int Server::Close() {
     }
     cout << "Error closing socket: Socket was never open.\n";
     return -1;
+}
+
+int Server::CheckForNewConnections() {
+
+    int addrlen;
+    struct sockaddr addrinfo;
+    addrlen = sizeof addrinfo;
+
+    int newsock;
+
+    if ((newsock = accept(this->listenSocket, &addrinfo, &addrlen)) == -1) {
+        //cout << "Error accepting incoming connection. Error: " << WSAGetLastError() << '\n';
+        return -1;
+    } else {
+        this->connections->AddConnection(new Connection(&addrinfo, newsock));
+        cout << "Accepted new connection." << '\n';
+    }
+
+    return 0;
 }

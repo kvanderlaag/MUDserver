@@ -1,3 +1,5 @@
+#pragma once
+
 #ifdef _WIN32
 
 #include <winsock2.h>
@@ -10,13 +12,11 @@
 #endif
 
 class Connection {
+public:
+    Connection(struct sockaddr* host, int socketfd);
 
-    public:
-        Connection();
-        int Listen(int port);
-
-    protected:
-        int *port;
-        struct addrinfo *host;
+protected:
+    int socketfd;
+    struct sockaddr *host;
 
 };
