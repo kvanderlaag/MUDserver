@@ -14,7 +14,8 @@
 
 #define DEFAULT_PORT "4000"
 #define MAX_PORT_LENGTH 6
-#define MAX_CONNECTIONS 100
+#define MAX_CONNECTIONS 5
+#define MAX_BUFFER_LENGTH 100
 
 class ConnectionList;
 
@@ -25,6 +26,7 @@ public:
     int Listen();
     int Close();
     int CheckForNewConnections();
+    int ReceiveConnections();
 
 
 protected:

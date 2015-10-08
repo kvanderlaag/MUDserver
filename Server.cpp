@@ -18,26 +18,31 @@
 #endif // _SERVER_H
 
 #include <iostream>
+#include <cstdio>
 
 using namespace std;
 
 Server::Server() {
     this->port = (char*) malloc(sizeof (char) * MAX_PORT_LENGTH);
     strcpy(this->port, DEFAULT_PORT);
+
     cout << "Attempting to start server on port " << this->port << '\n';
     if (this->Listen() != 0) {
         cout << "Failed to listen on port " << port << ". Server in idle state." << '\n';
+    this->connections = new ConnectionList();
     };
 
 }
 
 Server::Server(int port) {
     this->port = (char*) malloc(sizeof (char) * MAX_PORT_LENGTH);
-    itoa(port, this->port, 10);
+    sprintf(this->port, "%d", port);
+    //itoa(port, this->port, 10);
     cout << "Attempting to start server on port " << this->port << '\n';
     if (this->Listen() != 0) {
         cout << "Failed to listen on port " << port << ". Server in idle state." << '\n';
     };
+    this->connections = new ConnectionList();
 
 }
 
@@ -114,11 +119,27 @@ int Server::CheckForNewConnections() {
     int newsock;
 
     if ((newsock = accept(this->listenSocket, &addrinfo, &addrlen)) == -1) {
+        if (WSAGetLastError() != 10022) {
+            return -1;
+        } else {
         //cout << "Error accepting incoming connection. Error: " << WSAGetLastError() << '\n';
-        return -1;
+        }
     } else {
         this->connections->AddConnection(new Connection(&addrinfo, newsock));
         cout << "Accepted new connection." << '\n';
+    }
+
+    return 0;
+}
+
+int Server::ReceiveConnections() {
+    for (int i = 0; i < MAX_CONNECTIONS; ++i) {
+        Connection* con = this->connections->GetConnection(i);
+        char* buffer = (char*) malloc (sizeof (char) * MAX_BUFFER_LENGTH);
+        if (con != nullptr) {
+            recv(con->GetSocket(), buffer, MAX_BUFFER_LENGTH, 0);
+            cout << buffer;
+        }
     }
 
     return 0;

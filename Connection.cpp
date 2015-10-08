@@ -16,3 +16,7 @@ Connection::Connection(struct sockaddr* host, int socketfd) {
     this->host = host;
     this->socketfd = socketfd;
 }
+
+int Connection::GetSocket() {
+    return this->socketfd;
+}

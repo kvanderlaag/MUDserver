@@ -12,7 +12,7 @@ int main()
 
     while (running) {
         gameServer->CheckForNewConnections();
-
+        gameServer->ReceiveConnections();
     }
 
 
