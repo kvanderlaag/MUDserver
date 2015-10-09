@@ -11,8 +11,10 @@ int main()
     Server *gameServer = new Server(4500);
 
     while (running) {
-        gameServer->CheckForNewConnections();
-        gameServer->ReceiveConnections();
+        if (gameServer->CheckForNewConnections() == 1) {
+                running = false;
+        }
+        //gameServer->ReceiveConnections();
     }
 
 

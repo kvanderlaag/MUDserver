@@ -10,6 +10,10 @@
 #include "Connection.hpp"
 #include "ConnectionList.hpp"
 
+#include <sys/time.h>
+#include <sys/types.h>
+#include <sys/unistd.h>
+
 #include <vector>
 
 #define DEFAULT_PORT "4000"
@@ -34,4 +38,6 @@ protected:
     char* port;
     int listenSocket;
     ConnectionList* connections;
+    fd_set listener;
+    int fdmax;
 };

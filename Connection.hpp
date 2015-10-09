@@ -14,6 +14,8 @@
 class Connection {
 public:
     Connection(struct sockaddr* host, int socketfd);
+    ~Connection();
+    int Close();
     int GetSocket();
 
 protected:

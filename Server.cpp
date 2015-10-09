@@ -13,6 +13,10 @@
 
 #endif
 
+#include <sys/time.h>
+#include <sys/types.h>
+#include <sys/unistd.h>
+
 #ifndef _SERVER_H
 #include "Server.hpp"
 #endif // _SERVER_H
@@ -24,12 +28,17 @@ using namespace std;
 
 Server::Server() {
     this->port = (char*) malloc(sizeof (char) * MAX_PORT_LENGTH);
-    strcpy(this->port, DEFAULT_PORT);
+    sprintf(this->port, DEFAULT_PORT);
+
+    FD_ZERO(&this->listener);
+    this->fdmax = 0;
 
     cout << "Attempting to start server on port " << this->port << '\n';
     if (this->Listen() != 0) {
         cout << "Failed to listen on port " << port << ". Server in idle state." << '\n';
     this->connections = new ConnectionList();
+
+
     };
 
 }
@@ -37,7 +46,10 @@ Server::Server() {
 Server::Server(int port) {
     this->port = (char*) malloc(sizeof (char) * MAX_PORT_LENGTH);
     sprintf(this->port, "%d", port);
-    //itoa(port, this->port, 10);
+
+    FD_ZERO(&this->listener);
+    this->fdmax = 0;
+
     cout << "Attempting to start server on port " << this->port << '\n';
     if (this->Listen() != 0) {
         cout << "Failed to listen on port " << port << ". Server in idle state." << '\n';
@@ -96,7 +108,15 @@ int Server::Listen() {
         cout << "Error listening on port " << this->port << '\n';
         return -1;
     }
+
+    freeaddrinfo(res);
+
     cout << "Server listening on port " << this->port << '\n';
+
+    FD_SET(this->listenSocket, &this->listener);
+    if (this->listenSocket > this->fdmax) {
+        this->fdmax = this->listenSocket;
+    }
 
     return 0;
 }
@@ -114,6 +134,7 @@ int Server::Close() {
             return -1;
         } else {
             cout << "Server no longer listening on port " << this->port << '\n';
+            this->connections->CloseAll();
             return 0;
         }
     }
@@ -123,29 +144,48 @@ int Server::Close() {
 
 int Server::CheckForNewConnections() {
 
-    int addrlen;
-    sockaddr_storage extsocket;
-    addrlen = sizeof extsocket;
+    timeval tv;
 
-    int newsock;
+    tv.tv_sec = 0;
+    tv.tv_usec = 0;
 
-    cout << "Waiting to accept: " << '\n';
-    newsock = accept(this->listenSocket, (sockaddr*) &extsocket, &addrlen);
+    fd_set fdlist;
 
-    if (newsock == -1) {
-        #ifdef _WIN32
-        if (WSAGetLastError() != 10022) {
-            return -1;
-        } else {
-        cout << "Error accepting incoming connection. Error: " << WSAGetLastError() << '\n';
-        }
-        #endif
-    } else {
-        this->connections->AddConnection(new Connection( (sockaddr*) &extsocket, newsock));
-        cout << "Accepted new connection." << '\n';
+    fdlist = this->listener;
+
+    if (select(this->fdmax+1, &fdlist, NULL, NULL, &tv) == -1) {
+        cout << "Error: select()." << '\n';
+        return -1;
     }
 
+    if (FD_ISSET(this->listenSocket, &fdlist)) {
+            int addrlen;
+            sockaddr_storage extsocket;
+            addrlen = sizeof extsocket;
+            int newsock;
+            cout << "Waiting to accept: " << '\n';
+            newsock = accept(this->listenSocket, (sockaddr*) &extsocket, &addrlen);
+            if (newsock == -1) {
+                #ifdef _WIN32
+                if (WSAGetLastError() != 10022) {
+                    return -1;
+                } else {
+                cout << "Error accepting incoming connection. Error: " << WSAGetLastError() << '\n';
+                }
+                #endif
+            } else {
+                Connection* con = new Connection( (sockaddr*) &extsocket, newsock);
+                if (this->connections->AddConnection(con) != -1) {
+                        cout << "Accepted new connection." << '\n';
+                } else {
+                    con->Close();
+                }
+
+            }
+
+    }
     return 0;
+
 }
 
 int Server::ReceiveConnections() {
