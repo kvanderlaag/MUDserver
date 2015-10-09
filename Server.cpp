@@ -63,7 +63,7 @@ int Server::Listen() {
     int status;
 
     memset(&hints, 0, sizeof hints);
-    hints.ai_family = AF_UNSPEC;  // use IPv4 or IPv6, whichever
+    hints.ai_family = AF_INET;  // use IPv4 or IPv6, whichever
     hints.ai_socktype = SOCK_STREAM;
     hints.ai_flags = AI_PASSIVE;     // fill in my IP for me
 
@@ -75,18 +75,29 @@ int Server::Listen() {
     }
 
     this->listenSocket = socket(res->ai_family, res->ai_socktype, res->ai_protocol);
-    if (this->listenSocket == INVALID_SOCKET) {
+    if (this->listenSocket < 0) {
         cout << "Error creating socket for server." << '\n';
         return -1;
     }
 
     status = bind(this->listenSocket, res->ai_addr, res->ai_addrlen);
-    if (status == SOCKET_ERROR) {
+    if (status != 0) {
         cout << "Error binding socket for server." << '\n';
+        #ifdef _WIN32
+            closesocket(this->listenSocket);
+        #else
+            close(this->listenSocket);
+        #endif // _WIN32
         return -1;
     }
 
+    status = listen(this->listenSocket, MAX_CONNECTIONS);
+    if (status != 0) {
+        cout << "Error listening on port " << this->port << '\n';
+        return -1;
+    }
     cout << "Server listening on port " << this->port << '\n';
+
     return 0;
 }
 
@@ -113,19 +124,24 @@ int Server::Close() {
 int Server::CheckForNewConnections() {
 
     int addrlen;
-    struct sockaddr addrinfo;
-    addrlen = sizeof addrinfo;
+    sockaddr_storage extsocket;
+    addrlen = sizeof extsocket;
 
     int newsock;
 
-    if ((newsock = accept(this->listenSocket, &addrinfo, &addrlen)) == -1) {
+    cout << "Waiting to accept: " << '\n';
+    newsock = accept(this->listenSocket, (sockaddr*) &extsocket, &addrlen);
+
+    if (newsock == -1) {
+        #ifdef _WIN32
         if (WSAGetLastError() != 10022) {
             return -1;
         } else {
-        //cout << "Error accepting incoming connection. Error: " << WSAGetLastError() << '\n';
+        cout << "Error accepting incoming connection. Error: " << WSAGetLastError() << '\n';
         }
+        #endif
     } else {
-        this->connections->AddConnection(new Connection(&addrinfo, newsock));
+        this->connections->AddConnection(new Connection( (sockaddr*) &extsocket, newsock));
         cout << "Accepted new connection." << '\n';
     }
 
@@ -133,6 +149,7 @@ int Server::CheckForNewConnections() {
 }
 
 int Server::ReceiveConnections() {
+    cout << "Receiving connections." << '\n';
     for (int i = 0; i < MAX_CONNECTIONS; ++i) {
         Connection* con = this->connections->GetConnection(i);
         char* buffer = (char*) malloc (sizeof (char) * MAX_BUFFER_LENGTH);
