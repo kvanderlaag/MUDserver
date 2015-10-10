@@ -9,21 +9,31 @@ using namespace std;
 
 ConnectionList::ConnectionList() {
     connections = (Connection**) malloc(sizeof (Connection*) * MAX_CONNECTIONS);
-    for (int i = 0; i < MAX_CONNECTIONS; ++i) {
-        this->connections[i] = nullptr;
-    }
+    memset(connections, 0, sizeof(Connection*) * MAX_CONNECTIONS);
+    connectionCount = 0;
 }
 
 
 int ConnectionList::AddConnection(Connection* con) {
+    for (Connection* current = connections; current->GetNext() != nullptr; current = current->GetNext()) {
+            if (current->GetNext() == nullptr) {
+                current->SetNext(con);
+                return 0;
+            }
+    }
+
     return -1;
 }
 
 Connection* ConnectionList::GetConnection(int index) {
-    return this->connections[index];
+    return connections[index];
 }
 
 int ConnectionList::CloseAll() {
 
     return 0;
+}
+
+int ConnectionList::GetConnectionCount() {
+    return connectionCount;
 }

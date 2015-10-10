@@ -4,6 +4,7 @@
 Connection::Connection(TCPStream* con) {
     stream = con;
     buffer = "";
+    next = nullptr;
 }
 
 Connection::~Connection() {
@@ -29,4 +30,13 @@ int Connection::Close() {
 
 void Connection::PrintBuffer() {
     cout << buffer;
+}
+
+Connection* GetNext() {
+    return next;
+}
+
+int SetNext(Connection* con) {
+    next = con;
+    return 0;
 }

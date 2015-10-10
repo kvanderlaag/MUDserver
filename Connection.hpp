@@ -14,9 +14,12 @@ public:
     TCPStream* GetTCPStream();
     int Read();
     void PrintBuffer();
+    Connection* GetNext();
+    int SetNext(Connection* con);
 
 protected:
     TCPStream* stream;
+    Connection* next;
     string buffer;
 
 };

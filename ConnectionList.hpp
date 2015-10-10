@@ -14,9 +14,11 @@ public:
     int AddConnection(Connection* con);
     int CloseAll();
     Connection *GetConnection(int index);
+    int GetConnectionCount();
 
 protected:
-    Connection **connections;
+    int connectionCount;
+    Connection* connections;
     fd_set sockets;
     int maxsocket;
 };

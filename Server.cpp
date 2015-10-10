@@ -46,9 +46,14 @@ int Server::CheckForNewConnections() {
     if (listener->waitForConnectEvent(0)) {
         newConnection = listener->accept();
         if (newConnection) {
-            cout << "Accepted connection." << '\n';
             Connection* con = new Connection(newConnection);
-            connections->AddConnection(con);
+            if (connections->AddConnection(con) == 0) {
+                cout << "Accepted connection." << '\n';
+            } else {
+                cout << "Could not accept connections. Maximum connections reached." << '\n';
+            }
+
+
         }
     }
     return 0;
