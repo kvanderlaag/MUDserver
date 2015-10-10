@@ -1,15 +1,11 @@
-#pragma once
+#ifndef __CONNECTIONLIST_H__
+#define __CONNECTIONLIST_H__
 
-#include "Server.hpp"
 #include "Connection.hpp"
 
 #include <sys/time.h>
 #include <sys/types.h>
 #include <sys/unistd.h>
-
-#ifndef MAX_CONNECTIONS
-#define MAX_CONNECTIONS 5
-#endif
 
 class ConnectionList {
 public:
@@ -20,7 +16,9 @@ public:
     Connection *GetConnection(int index);
 
 protected:
-    Connection *connections[MAX_CONNECTIONS];
+    Connection **connections;
     fd_set sockets;
     int maxsocket;
 };
+
+#endif

@@ -1,44 +1,32 @@
-
-#ifdef _WIN32
-
-#include <winsock2.h>
-#include <ws2tcpip.h>
-
-#else // _WIN32
-
-#include <sys/socket.h>
-
-#endif
-
 #include "Connection.hpp"
+#include <iostream>
 
-Connection::Connection(struct sockaddr* host, int socketfd) {
-    this->host = host;
-    this->socketfd = socketfd;
+Connection::Connection(TCPStream* con) {
+    stream = con;
+    buffer = "";
 }
 
 Connection::~Connection() {
-    if (this->socketfd != -1) {
-        #ifdef _WIN32
-            closesocket(this->socketfd);
-        #else
-            close(this->socketfd);
-        #endif // _WIN32
-    }
-    free(this->host);
+
 }
 
-int Connection::GetSocket() {
-    return this->socketfd;
+TCPStream* Connection::GetTCPStream() {
+    return stream;
+}
+
+int Connection::Read() {
+    char* buff = (char*) malloc(MAX_CONNECTION_BUFFER);
+    buffer += stream->receive(buff, MAX_CONNECTION_BUFFER, 0);
+    int len = strlen(buff);
+    free(buff);
+    return len;
 }
 
 int Connection::Close() {
-    #ifdef _WIN32
-        closesocket(this->socketfd);
-    #else
-        close(this->socketfd);
-    #endif // _WIN32
-    this->socketfd = -1;
-    this->host = nullptr;
+    delete stream;
     return 0;
+}
+
+void Connection::PrintBuffer() {
+    cout << buffer;
 }

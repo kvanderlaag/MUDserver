@@ -1,25 +1,24 @@
-#pragma once
+#ifndef __CONNECTION_H__
+#define __CONNECTION_H__
 
-#ifdef _WIN32
+#define MAX_CONNECTION_BUFFER 50
 
-#include <winsock2.h>
-#include <ws2tcpip.h>
-
-#else // _WIN32
-
-#include <sys/socket.h>
-
-#endif
+#include "TCPStream.h"
+#include <string>
 
 class Connection {
 public:
-    Connection(struct sockaddr* host, int socketfd);
+    Connection(TCPStream* con);
     ~Connection();
     int Close();
-    int GetSocket();
+    TCPStream* GetTCPStream();
+    int Read();
+    void PrintBuffer();
 
 protected:
-    int socketfd;
-    struct sockaddr *host;
+    TCPStream* stream;
+    string buffer;
 
 };
+
+#endif // __CONNECTION_H__

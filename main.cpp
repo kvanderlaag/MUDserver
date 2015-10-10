@@ -1,6 +1,7 @@
-#include <iostream>
 #include "Server.hpp"
 #include "Connection.hpp"
+
+#include <iostream>
 
 using namespace std;
 
@@ -8,17 +9,16 @@ int main()
 {
     bool running = true;
 
-    Server *gameServer = new Server(4500);
+    Server *gameServer = new Server(9500);
+    gameServer->Listen();
 
     while (running) {
-        if (gameServer->CheckForNewConnections() == 1) {
-                running = false;
-        }
-        //gameServer->ReceiveConnections();
+        if (gameServer->CheckForNewConnections() == -1) {
+            running = false;
+        };
+        gameServer->ReceiveConnections();
     }
 
-
-    gameServer->Close();
 
     delete gameServer;
 

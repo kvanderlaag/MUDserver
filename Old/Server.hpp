@@ -1,5 +1,4 @@
-#ifndef __SERVER_H__
-#define __SERVER_H__
+#pragma once
 
 #ifdef _WIN32
     #include <winsock2.h>
@@ -9,9 +8,7 @@
 #endif
 
 #include "Connection.hpp"
-
 #include "ConnectionList.hpp"
-#include "TCPAcceptor.h"
 
 #include <sys/time.h>
 #include <sys/types.h>
@@ -24,11 +21,12 @@
 #define MAX_CONNECTIONS 5
 #define MAX_BUFFER_LENGTH 100
 
+class ConnectionList;
 
 class Server {
 public:
-    Server(int port=4500);
-    ~Server();
+    Server();
+    Server(int port);
     int Listen();
     int Close();
     int CheckForNewConnections();
@@ -38,9 +36,9 @@ public:
 
 protected:
     int HandleConnection();
-    int port;
-    TCPAcceptor* listener;
+    char* port;
+    int listenSocket;
     ConnectionList* connections;
+    fd_set listener;
+    int fdmax;
 };
-
-#endif // __SERVER_H__
