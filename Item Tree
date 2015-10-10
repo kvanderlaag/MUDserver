@@ -1,0 +1,83 @@
+#include <iostream>
+
+using namespace std;
+
+//Initialize class and function calls
+class ItemTree {
+    
+    private:
+        struct item {
+            item* left;
+            item* right;
+            int id;
+            string name;
+        };
+        
+        item* root;
+   
+    public:
+        ItemTree() {
+            root = NULL;
+        }
+        bool isEmpty() const { return root==NULL; }
+        void insert (int, string);
+        void print ();
+        void prints (item*);
+};
+
+void ItemTree::insert(int d, string name) {
+    
+    item* t = new item;
+    item* parent;
+    
+    t->id = d;
+    t->name = name;
+    t->left = NULL;
+    t->right = NULL;
+    parent = NULL;
+    
+    if(isEmpty()) root = t;
+    
+    else {
+        
+        item* curr = root;
+            
+        while (curr) {
+            parent = curr;
+            if(t->id > curr->id) curr = curr->right;
+            else curr = curr->left;
+            
+        }
+        
+        if (t->id < parent->id) {
+            parent->left = t;
+        }else {
+            parent->right = t;
+        }
+    }
+}
+
+void ItemTree::print() {
+    prints(root);
+}
+            
+void ItemTree::prints(item* p) {
+    if(p != NULL)
+    {
+        if(p->left) prints(p->left);
+        cout<<" "<<p->id<<" ";
+        if(p->right) prints(p->right);
+    }
+    else return;
+}
+
+int main() {
+    
+    ItemTree items;
+    
+    //Insert as needed
+    //type items.insert (item number, "item name") to insert an item into the tree
+    //items.print() to print list inorder   
+    
+    return 0;
+}
