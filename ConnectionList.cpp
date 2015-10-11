@@ -8,32 +8,68 @@
 using namespace std;
 
 ConnectionList::ConnectionList() {
-    connections = (Connection**) malloc(sizeof (Connection*) * MAX_CONNECTIONS);
-    memset(connections, 0, sizeof(Connection*) * MAX_CONNECTIONS);
-    connectionCount = 0;
+    this->connections = nullptr;
+    this->connectionCount = 0;
 }
 
 
 int ConnectionList::AddConnection(Connection* con) {
-    for (Connection* current = connections; current->GetNext() != nullptr; current = current->GetNext()) {
-            if (current->GetNext() == nullptr) {
-                current->SetNext(con);
-                return 0;
-            }
+    cout << "Adding connection." << '\n';
+    if (connectionCount == 0) {
+        cout << "No connections so far." << '\n';
+        connections = con;
+        cout << "Added first connection." << '\n';
+        ++connectionCount;
+        cout << "Incremented connectionCount." << '\n';
+        FD_SET(con->GetTCPStream()->getSocket(), &sockets);
+        return 0;
     }
 
-    return -1;
+    Connection* current = connections;
+    for (int i = 0; i < connectionCount; ++i) {
+        current = current->GetNext();
+    }
+    current->SetNext(con);
+    ++connectionCount;
+
+
+    return 0;
 }
 
 Connection* ConnectionList::GetConnection(int index) {
-    return connections[index];
+    Connection* con = connections;
+    for (int i = 0; i <= index; i--) {
+        if (con->GetNext()) {
+            con = con->GetNext();
+        }
+    }
+    return con;
 }
 
-int ConnectionList::CloseAll() {
-
+int ConnectionList::RemoveConnection(int index) {
+    Connection* con = connections;
+    Connection* prev = con;
+    for (int i = 0; i <= index; i--) {
+        prev = con;
+        con = con->GetNext();
+    }
+    prev->SetNext(con->GetNext());
+    FD_CLR(con->GetTCPStream()->getSocket(), &sockets);
+    delete con;
     return 0;
 }
 
 int ConnectionList::GetConnectionCount() {
     return connectionCount;
+}
+
+void ConnectionList::Receive() {
+    Connection* current = connections;
+    for (int i = 0; i < connectionCount; ++i) {
+        if (current->Read() != 0) {
+            cout << current->GetTCPStream()->getPeerIP() << '\n';
+            current->PrintBuffer();
+            current = current->GetNext();
+        }
+    }
 }

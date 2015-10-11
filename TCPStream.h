@@ -35,6 +35,8 @@ public:
     ssize_t send(char* buffer, size_t len);
     ssize_t receive(char* buffer, size_t len, int timeout=0);
 
+    int getSocket();
+
     string getPeerIP();
     int getPeerPort();
 

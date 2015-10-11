@@ -14,9 +14,13 @@ public:
     int AddConnection(Connection* con);
     int CloseAll();
     Connection *GetConnection(int index);
+    int RemoveConnection(int index);
     int GetConnectionCount();
 
-protected:
+    void Receive();
+
+
+private:
     int connectionCount;
     Connection* connections;
     fd_set sockets;

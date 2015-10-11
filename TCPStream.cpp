@@ -49,6 +49,10 @@ int TCPStream::getPeerPort() {
     return peerPort;
 }
 
+int TCPStream::getSocket() {
+    return socketfd;
+}
+
 bool TCPStream::waitForReadEvent(int timeout)
 {
     fd_set sdset;

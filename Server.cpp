@@ -16,6 +16,7 @@ Server::Server(int port) {
 
     this->port = port;
     listener = new TCPAcceptor(port);
+    connections = new ConnectionList();
 }
 
 Server::~Server() {
@@ -50,7 +51,7 @@ int Server::CheckForNewConnections() {
             if (connections->AddConnection(con) == 0) {
                 cout << "Accepted connection." << '\n';
             } else {
-                cout << "Could not accept connections. Maximum connections reached." << '\n';
+                cout << "Failed to accept connection." << '\n';
             }
 
 
@@ -60,6 +61,6 @@ int Server::CheckForNewConnections() {
 }
 
 int Server::ReceiveConnections() {
-
+    connections->Receive();
     return 0;
 }
