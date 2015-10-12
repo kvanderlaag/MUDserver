@@ -21,4 +21,4 @@ public:
 
 };
 
-#endif // ____ENTITYLIST_H__
+#endif // __ENTITYLIST_H__
