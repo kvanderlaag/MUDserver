@@ -6,14 +6,20 @@
 class GameEntity {
 
 private:
-    int index;
-    std::string value;
+    int id_;
+    std::string name_;
+    std::string description_;
 
 public:
-    GameEntity();
-    GameEntity(int, std::string);
-    ~GameEntity();
-    
+    GameEntity( int id, std::string name );
+    GameEntity( int id, std::string name, std::string description );
+    ~GameEntity(  );
+    void Print(  );
+
+    int GetId(  );
+    std::string GetDescription(  );
+    void SetDescription( std::string description );
+
 };
 
 #endif // __GAMEENTITY_H__
