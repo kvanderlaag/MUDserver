@@ -129,7 +129,6 @@ void TCPListener::accept_cb(evutil_socket_t listener, short event) {
 	}
 	else {
 		TCPStream* newStream = new TCPStream(this, fd);
-		streamSet.insert(newStream);
 		bufferevent* bev;
 		evutil_make_socket_nonblocking(fd);
 		std::cout << "Socket " << fd << " is nonblocking." << '\n';

@@ -9,6 +9,7 @@ Server::Server(int port)
 	std::cout << "Creating new TCPListener on port " << port << ".\n";
 	listener = new TCPListener(this);
 	std::cout << "TCPListener creation successful." << '\n';
+	world = new GameWorld();
 }
 
 

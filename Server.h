@@ -3,6 +3,7 @@
 #include "TCPListener.h"
 #include "MessageBuffer.h"
 #include <map>
+#include "GameWorld.hpp"
 
 class TCPListener;
 class TCPStream;
@@ -22,6 +23,7 @@ public:
 	void PutMessage(Message* mess);
 
 private:
+	GameWorld* world;
 	TCPListener* listener;
 	std::map<int, TCPStream*> connections;
 	MessageBuffer mBuffer;

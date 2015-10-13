@@ -42,7 +42,6 @@ public:
 
 private:
 	Server* parent;
-	std::set<TCPStream*> streamSet;
 	event_base* base;
 	int port;
 

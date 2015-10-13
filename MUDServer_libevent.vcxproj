@@ -148,6 +148,9 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EntityList.cpp" />
+    <ClCompile Include="GameEntity.cpp" />
+    <ClCompile Include="GameWorld.cpp" />
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="MessageBuffer.cpp" />
     <ClCompile Include="MUDServer_libevent.cpp" />
@@ -156,6 +159,9 @@
     <ClCompile Include="TCPStream.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EntityList.hpp" />
+    <ClInclude Include="GameEntity.hpp" />
+    <ClInclude Include="GameWorld.hpp" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="MessageBuffer.h" />
     <ClInclude Include="Server.h" />

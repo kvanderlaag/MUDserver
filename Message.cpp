@@ -1,9 +1,11 @@
 #include "Message.h"
 
 
-Message::Message(const std::string load)
+Message::Message(const std::string load, int id, MessageType mType)
 {
 	payload = load;
+	connectionID = id;
+	type = mType;
 }
 
 
@@ -24,4 +26,12 @@ int Message::Write(const std::string load) {
 int Message::Append(const std::string load) {
 	payload += load;
 	return 0;
+}
+
+Message::MessageType Message::GetType() {
+	return type;
+}
+
+int Message::GetSource() {
+	return connectionID;
 }
