@@ -3,15 +3,12 @@
 #include <map>
 #include <iostream>
 
-using namespace std;
-
-
 Server::Server(int port)
 {
-	cout << "Creating new Server on port " << port << ".\n";
-	cout << "Creating new TCPListener on port " << port << ".\n";
+	std::cout << "Creating new Server on port " << port << ".\n";
+	std::cout << "Creating new TCPListener on port " << port << ".\n";
 	listener = new TCPListener(this);
-	cout << "TCPListener creation successful." << '\n';
+	std::cout << "TCPListener creation successful." << '\n';
 }
 
 
@@ -27,8 +24,8 @@ void Server::Start() {
 }
 
 int Server::AddConnection(TCPStream* stream) {
-	connections.insert(pair<int, TCPStream*>(stream->GetSocket(), stream));
-	cout << "Added socket " << stream->GetSocket() << " to the connection list." << '\n';
+	connections.insert(std::pair<int, TCPStream*>(stream->GetSocket(), stream));
+	std::cout << "Added socket " << stream->GetSocket() << " to the connection list." << '\n';
 	return 0;
 }
 

@@ -3,8 +3,6 @@
 #include "TCPListener.h"
 #include <map>
 
-using namespace std;
-
 class TCPListener;
 class TCPStream;
 
@@ -22,7 +20,7 @@ public:
 
 private:
 	TCPListener* listener;
-	map<int, TCPStream*> connections;
+	std::map<int, TCPStream*> connections;
 
 
 };

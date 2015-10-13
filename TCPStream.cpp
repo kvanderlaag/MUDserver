@@ -19,9 +19,9 @@ TCPStream::~TCPStream()
 #else
 	close(socketfd);
 #endif
-	cout << "Closing socket " << socketfd << '\n';
+	std::cout << "Closing socket " << socketfd << '\n';
 	if (parent->GetParent()->RemoveConnection(this) == 1) {
-		cout << "Removed socket " << socketfd << " from connection list." << '\n';
+		std::cout << "Removed socket " << socketfd << " from connection list." << '\n';
 	}
 }
 
@@ -52,7 +52,7 @@ void TCPStream::read_cb(struct bufferevent *bev) {
 		// This is where you would send the buffer back to the server/game engine
 		// for processing, but instead for now, we're just going to echo it to the console.
 		if (buffer.compare("") != 0) {
-			cout << "Socket " << socketfd << ": " << buffer << '\n';
+			std::cout << "Socket " << socketfd << ": " << buffer << '\n';
 			if (buffer.compare("quit") == 0) {
 				error_cb(bev, BEV_EVENT_EOF);
 				delete this;
@@ -71,9 +71,9 @@ void TCPStream::write_cb() {
 
 }
 
-void TCPStream::error_cb(struct bufferevent *bev, short error) {
+void TCPStream::error_cb(bufferevent *bev, short error) {
 	if (error & BEV_EVENT_EOF) {
-		cout << "Connection closed." << '\n';
+		std::cout << "Connection closed." << '\n';
 #ifdef _WIN32
 		closesocket(bufferevent_getfd(bev));
 #else

@@ -29,7 +29,7 @@ int WinsockStart() {
 	int iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
 
 	if (iResult != 0) {
-		cout << "Shitty WSAStartup. Exiting.";
+		std::cout << "Shitty WSAStartup. Exiting.";
 	}
 	return iResult;
 }
@@ -46,7 +46,7 @@ int main() {
 
 #ifdef _WIN32
 	if (WinsockStart() != 0) {
-		cout << "Could not initialize Winsock." << '\n';
+		std::cout << "Could not initialize Winsock." << '\n';
 		return -1;
 	}
 #endif

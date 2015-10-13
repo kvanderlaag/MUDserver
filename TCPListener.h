@@ -19,7 +19,8 @@
 #include <iostream>
 #include <set>
 
-#define MAX_LINE 16384
+const int MAX_LINE = 16384;
+
 
 class TCPStream;
 
@@ -31,7 +32,7 @@ public:
 	void Listen();
 	void Shutdown();
 	void accept_cb(evutil_socket_t listener, short event);
-	void ListenerClose(int socketfd);
+	void ListenerClose(const int socketfd);
 	Server* GetParent();
 	static void do_accept(evutil_socket_t listener, short event, void* arg);
 

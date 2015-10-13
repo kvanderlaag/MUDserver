@@ -9,8 +9,6 @@
 
 #include <string>
 
-using namespace std;
-
 class TCPListener;
 class Server;
 
@@ -22,7 +20,7 @@ public:
 
 	void read_cb(struct bufferevent *bev);
 	void write_cb();
-	void error_cb(struct bufferevent *bev, short error);
+	void error_cb(bufferevent *bev, short error);
 
 	int GetSocket();
 
@@ -33,7 +31,7 @@ public:
 private:
 	TCPListener* parent;
 	int socketfd;
-	string buffer;
+	std::string buffer;
 
 };
 
