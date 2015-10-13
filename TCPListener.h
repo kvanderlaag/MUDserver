@@ -13,8 +13,10 @@
 #include "event2/event.h"
 #include "event2/buffer.h"
 #include "event2/bufferevent.h"
+
 #include "TCPStream.h"
 #include "Server.h"
+#include "Message.h"
 
 #include <iostream>
 #include <set>
@@ -35,6 +37,8 @@ public:
 	void ListenerClose(const int socketfd);
 	Server* GetParent();
 	static void do_accept(evutil_socket_t listener, short event, void* arg);
+
+	void PutMessage(Message* mess);
 
 private:
 	Server* parent;

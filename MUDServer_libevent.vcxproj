@@ -149,6 +149,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Message.cpp" />
+    <ClCompile Include="MessageBuffer.cpp" />
     <ClCompile Include="MUDServer_libevent.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="TCPListener.cpp" />
@@ -156,6 +157,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Message.h" />
+    <ClInclude Include="MessageBuffer.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="TCPListener.h" />
     <ClInclude Include="TCPStream.h" />

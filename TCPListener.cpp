@@ -112,6 +112,7 @@ void TCPListener::ListenerClose(const int socketfd) {
 	return;
 }
 
+// GetParent. Returns the parent server object of the listener.
 Server* TCPListener::GetParent() {
 	return parent;
 }
@@ -126,9 +127,6 @@ void TCPListener::accept_cb(evutil_socket_t listener, short event) {
 	if (fd < 0) {
 		perror("accept");
 	}
-	//else if (fd > FD_SETSIZE) {
-	//	closesocket(fd);
-	//}
 	else {
 		TCPStream* newStream = new TCPStream(this, fd);
 		streamSet.insert(newStream);
@@ -145,4 +143,9 @@ void TCPListener::accept_cb(evutil_socket_t listener, short event) {
 		std::cout << "Enabled buffer event." << '\n';
 		parent->AddConnection(newStream);
 	}
+}
+
+// PutMessage. Sends a message from a child stream to the parent server.
+void TCPListener::PutMessage(Message* mess) {
+	parent->PutMessage(mess);
 }

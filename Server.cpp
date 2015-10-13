@@ -31,7 +31,7 @@ int Server::AddConnection(TCPStream* stream) {
 
 int Server::RemoveConnection(TCPStream* stream) {
 	int status = connections.erase(stream->GetSocket());
-	if (status) {
+	if (status && stream) {
 		delete stream;
 	}
 	return status;
@@ -41,4 +41,8 @@ int Server::RemoveConnection(TCPStream* stream) {
 void Server::Shutdown() {
 	delete listener;
 	listener = nullptr;
+}
+
+void Server::PutMessage(Message* mess) {
+	mBuffer.PutMessage(mess);
 }

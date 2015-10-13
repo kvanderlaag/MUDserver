@@ -1,6 +1,7 @@
 #pragma once
 
 #include "TCPListener.h"
+#include "MessageBuffer.h"
 #include <map>
 
 class TCPListener;
@@ -18,9 +19,12 @@ public:
 	void Start();
 	void Shutdown();
 
+	void PutMessage(Message* mess);
+
 private:
 	TCPListener* listener;
 	std::map<int, TCPStream*> connections;
+	MessageBuffer mBuffer;
 
 
 };
