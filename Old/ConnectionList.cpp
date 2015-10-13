@@ -66,7 +66,7 @@ int ConnectionList::GetConnectionCount() {
 void ConnectionList::Receive() {
     Connection* current = connections;
     for (int i = 0; i < connectionCount; ++i) {
-        if (current->Read() != 0) {
+        if (current->Read() != 0 && current->GetBuffer() != "") {
             cout << current->GetTCPStream()->getPeerIP() << '\n';
             current->PrintBuffer();
             current = current->GetNext();

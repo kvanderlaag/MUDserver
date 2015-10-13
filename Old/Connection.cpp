@@ -18,9 +18,8 @@ TCPStream* Connection::GetTCPStream() {
 int Connection::Read() {
     char* buff = (char*) malloc(MAX_CONNECTION_BUFFER);
     memset(buff, 0, MAX_CONNECTION_BUFFER);
-    stream->receive(buff, MAX_CONNECTION_BUFFER, 0);
+    int len = stream->receive(buff, MAX_CONNECTION_BUFFER, 0);
     buffer += buff;
-    int len = strlen(buff);
     free(buff);
     return len;
 }
@@ -37,6 +36,10 @@ void Connection::PrintBuffer() {
 
 Connection* Connection::GetNext() {
     return next;
+}
+
+string Connection::GetBuffer() {
+    return buffer;
 }
 
 int Connection::SetNext(Connection* con) {

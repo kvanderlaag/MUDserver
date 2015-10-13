@@ -1,57 +1,37 @@
-#ifndef __TCPSTREAM_H__
-#define __TCPSTREAM_H__
+#pragma once
 
+#include "TCPListener.h"
+#include "Server.h"
 
-#ifdef _WIN32
+#include "event2/event.h"
+#include "event2/buffer.h"
+#include "event2/bufferevent.h"
 
-#include <winsock2.h>
-#include <ws2tcpip.h>
-#include "wsinet.h"
-
-#ifndef _WIN32_WINNT
-#define _WIN32_WINNT 0x6000
-#endif // _WIN32_WINNT
-
-#else
-
-#include <sys/socket.h>
-
-#endif // _WIN32
-
-#include <sys/types.h>
-#include <sys/unistd.h>
 #include <string>
 
 using namespace std;
 
-class TCPStream{
-    int socketfd;
-    int peerPort;
-    string peerIP;
+class TCPListener;
+class Server;
+
+class TCPStream
+{
 public:
-    friend class TCPAcceptor;
+	TCPStream(TCPListener* par, int socket);
+	~TCPStream();
 
-    ~TCPStream();
-    ssize_t send(char* buffer, size_t len);
-    ssize_t receive(char* buffer, size_t len, int timeout=0);
+	void read_cb(struct bufferevent *bev);
+	void write_cb();
+	void error_cb(struct bufferevent *bev, short error);
 
-    int getSocket();
+	static void do_error(struct bufferevent *bev, short error, void* arg);
 
-    string getPeerIP();
-    int getPeerPort();
-
-    enum {
-        connectionClosed = 0,
-        connectionReset = -1,
-        connectionTimedOut = -2
-    };
+	static void do_read(struct bufferevent *bev, void* arg);
 
 private:
-    bool waitForReadEvent(int timeout);
+	TCPListener* parent;
+	int socketfd;
+	string buffer;
 
-    TCPStream(int sd, struct sockaddr_in* address);
-    TCPStream();
-    TCPStream(const TCPStream& stream);
 };
 
-#endif // __TCPSTREAM_H__

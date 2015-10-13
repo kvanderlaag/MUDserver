@@ -1,70 +1,81 @@
 #include "TCPStream.h"
 
-using namespace std;
+#include <iostream>
 
-TCPStream::TCPStream(int socketfd, struct sockaddr_in* address) {
-    char ip[50];
-    //socklen_t addr_len = sizeof(address);
-    //getnameinfo((struct sockaddr*)&address,addr_len,ip,sizeof(ip), 0,0,NI_NUMERICHOST);
-    inet_ntop(PF_INET, (struct in_addr*)&(address->sin_addr.s_addr), ip, sizeof(ip)-1);
-    peerIP = ip;
-    peerPort = ntohs(address->sin_port);
-}
 
-TCPStream::TCPStream() {
 
-}
-
-TCPStream::TCPStream(const TCPStream& stream) {
-
-}
-
-TCPStream::~TCPStream() {
-    #ifdef _WIN32
-        closesocket(socketfd);
-    #else
-        close(socketfd);
-    #endif // _WIN32
-}
-
-ssize_t TCPStream::send(char* buffer, size_t len) {
-    return write(socketfd, buffer, len);
-}
-
-ssize_t TCPStream::receive(char* buffer, size_t len, int timeout) {
-    if (timeout <= 0) return read(socketfd, buffer, len);
-
-    if (waitForReadEvent(timeout) == true)
-    {
-        return read(socketfd, buffer, len);
-    }
-    return connectionTimedOut;
-}
-
-string TCPStream::getPeerIP() {
-    return peerIP;
-}
-
-int TCPStream::getPeerPort() {
-    return peerPort;
-}
-
-int TCPStream::getSocket() {
-    return socketfd;
-}
-
-bool TCPStream::waitForReadEvent(int timeout)
+TCPStream::TCPStream(TCPListener* par, int socket) 
 {
-    fd_set sdset;
-    struct timeval tv;
+	parent = par;
+	buffer = "";
+	socketfd = socket;
+}
 
-    tv.tv_sec = timeout;
-    tv.tv_usec = 0;
-    FD_ZERO(&sdset);
-    FD_SET(socketfd, &sdset);
-    if (select(socketfd+1, &sdset, NULL, NULL, &tv) > 0)
-    {
-        return true;
-    }
-    return false;
+
+TCPStream::~TCPStream()
+{
+#ifdef _WIN32
+	closesocket(socketfd);
+#else
+	close(socketfd);
+#endif
+	cout << "Closing socket " << socketfd << '\n';
+}
+
+void TCPStream::do_error(struct bufferevent *bev, short error, void* arg) {
+	(static_cast<TCPStream*>(arg))->error_cb(bev, error);
+}
+
+void TCPStream::do_read(struct bufferevent *bev, void* arg) {
+	(static_cast<TCPStream*>(arg))->read_cb(bev);
+}
+
+void TCPStream::read_cb(struct bufferevent *bev) {
+	evbuffer *input, *output;
+	char* line;
+	size_t n;
+	input = bufferevent_get_input(bev);
+	output = bufferevent_get_output(bev);
+
+	line = evbuffer_readln(input, &n, EVBUFFER_EOL_CRLF);
+	if (line) {
+		//evbuffer_add(output, line, n);
+		//const char* nl = "\n\r";
+		//evbuffer_add(output, nl, 1);
+		for (int i = 0; i < n; ++i) {
+			buffer += line[i];
+		}
+
+		// This is where you would send the buffer back to the server/game engine
+		// for processing, but instead for now, we're just going to echo it to the console.
+		if (buffer.compare("") != 0) {
+			cout << "Socket " << socketfd << ": " << buffer << '\n';
+			if (buffer.compare("quit") == 0) {
+				error_cb(bev, BEV_EVENT_EOF);
+				delete this;
+			}
+			else if (buffer.compare("shutdown") == 0) {
+				parent->Shutdown();
+			}
+			else {
+				buffer = "";
+			}
+		}
+	}
+}
+
+void TCPStream::write_cb() {
+
+}
+
+void TCPStream::error_cb(struct bufferevent *bev, short error) {
+	if (error & BEV_EVENT_EOF) {
+		cout << "Connection closed." << '\n';
+#ifdef _WIN32
+		closesocket(bufferevent_getfd(bev));
+#else
+		close(bufferevent_getfd(bev));
+#endif
+		bufferevent_free(bev);
+	}
 }

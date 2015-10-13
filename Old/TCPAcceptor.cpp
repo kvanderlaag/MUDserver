@@ -22,6 +22,7 @@ int TCPAcceptor::start()
     m_lsd = socket(PF_INET, SOCK_STREAM, 0);
     struct sockaddr_in address;
 
+
     memset(&address, 0, sizeof(address));
     address.sin_family = PF_INET;
     address.sin_port = htons(m_port);

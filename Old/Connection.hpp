@@ -16,6 +16,7 @@ public:
     void PrintBuffer();
     Connection* GetNext();
     int SetNext(Connection* con);
+    string GetBuffer();
 
 protected:
     TCPStream* stream;
