@@ -14,6 +14,9 @@ public:
 	Server(int port=9500);
 	~Server();
 
+	int AddConnection(TCPStream* stream);
+	int RemoveConnection(TCPStream* stream);
+
 	void Start();
 	void Shutdown();
 

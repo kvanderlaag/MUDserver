@@ -26,6 +26,21 @@ void Server::Start() {
 	listener->Listen();
 }
 
+int Server::AddConnection(TCPStream* stream) {
+	connections.insert(pair<int, TCPStream*>(stream->GetSocket(), stream));
+	cout << "Added socket " << stream->GetSocket() << " to the connection list." << '\n';
+	return 0;
+}
+
+int Server::RemoveConnection(TCPStream* stream) {
+	int status = connections.erase(stream->GetSocket());
+	if (status) {
+		delete stream;
+	}
+	return status;
+	
+}
+
 void Server::Shutdown() {
 	delete listener;
 	listener = nullptr;

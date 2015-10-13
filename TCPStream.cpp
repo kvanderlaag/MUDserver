@@ -20,6 +20,9 @@ TCPStream::~TCPStream()
 	close(socketfd);
 #endif
 	cout << "Closing socket " << socketfd << '\n';
+	if (parent->GetParent()->RemoveConnection(this) == 1) {
+		cout << "Removed socket " << socketfd << " from connection list." << '\n';
+	}
 }
 
 void TCPStream::do_error(struct bufferevent *bev, short error, void* arg) {
@@ -78,4 +81,8 @@ void TCPStream::error_cb(struct bufferevent *bev, short error) {
 #endif
 		bufferevent_free(bev);
 	}
+}
+
+int TCPStream::GetSocket() {
+	return socketfd;
 }

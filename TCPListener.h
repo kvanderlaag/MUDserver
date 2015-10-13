@@ -32,6 +32,7 @@ public:
 	void Shutdown();
 	void accept_cb(evutil_socket_t listener, short event);
 	void ListenerClose(int socketfd);
+	Server* GetParent();
 	static void do_accept(evutil_socket_t listener, short event, void* arg);
 
 private:

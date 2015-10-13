@@ -114,6 +114,10 @@ void TCPListener::ListenerClose(int socketfd) {
 	return;
 }
 
+Server* TCPListener::GetParent() {
+	return parent;
+}
+
 // accept_cb. Callback function for accepting incoming connections.
 void TCPListener::accept_cb(evutil_socket_t listener, short event) {
 	sockaddr_storage ss;
@@ -141,5 +145,6 @@ void TCPListener::accept_cb(evutil_socket_t listener, short event) {
 		cout << "Set watermark." << '\n';
 		bufferevent_enable(bev, EV_READ | EV_WRITE);
 		cout << "Enabled buffer event." << '\n';
+		parent->AddConnection(newStream);
 	}
 }

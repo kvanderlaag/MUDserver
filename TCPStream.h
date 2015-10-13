@@ -24,6 +24,8 @@ public:
 	void write_cb();
 	void error_cb(struct bufferevent *bev, short error);
 
+	int GetSocket();
+
 	static void do_error(struct bufferevent *bev, short error, void* arg);
 
 	static void do_read(struct bufferevent *bev, void* arg);
