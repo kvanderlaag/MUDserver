@@ -20,13 +20,13 @@ public:
 	void Start();
 	void Shutdown();
 
-	void PutMessage(Message* mess);
+	void PutMessage(const Message& mess);
 
 private:
 	GameWorld* world;
 	TCPListener* listener;
 	std::map<int, TCPStream*> connections;
-	MessageBuffer mBuffer;
+	MessageBuffer* mBuffer;
 
 
 };

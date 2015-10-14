@@ -34,16 +34,19 @@ public:
 	void Listen();
 	void Shutdown();
 	void accept_cb(evutil_socket_t listener, short event);
-	void ListenerClose(const int socketfd);
-	Server* GetParent();
+	void ListenerClose();
+	const Server& GetParent();
+	const event_base* GetBase();
 	static void do_accept(evutil_socket_t listener, short event, void* arg);
 
-	void PutMessage(Message* mess);
+	void PutMessage(const Message& mess);
 
 private:
 	Server* parent;
 	event_base* base;
 	int port;
+	evutil_socket_t listenerfd;
+	event* listener_ev;
 
 
 };

@@ -8,8 +8,8 @@ class MessageBuffer
 public:
 	MessageBuffer();
 	~MessageBuffer();
-	int PutMessage(Message* mess);
-	Message* DequeueMessage();
+	int PutMessage(const Message& mess);
+	const Message* DequeueMessage();
 	bool IsEmpty();
 
 private:

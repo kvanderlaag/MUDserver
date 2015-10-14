@@ -5,16 +5,27 @@
 
 
 
-TCPStream::TCPStream(TCPListener* par, int socket) 
+TCPStream::TCPStream(TCPListener* par, int socket)
+	: parent(par)
+	, socketfd(socket)
+	, bEvent(bufferevent_socket_new((event_base*) par->GetBase(), socket, BEV_OPT_CLOSE_ON_FREE))
 {
-	parent = par;
-	buffer = "";
-	socketfd = socket;
+	evutil_make_socket_nonblocking(socketfd);
+	std::cout << "Socket " << socketfd << " is nonblocking." << '\n';
+
+	std::cout << "Made new buffer event." << '\n';
+	bufferevent_setcb(bEvent, do_read, NULL, do_error, (void*)this);
+	std::cout << "Set read callback and error callback." << '\n';
+	bufferevent_setwatermark(bEvent, EV_READ, 0, MAX_LINE);
+	std::cout << "Set watermark." << '\n';
+	bufferevent_enable(bEvent, EV_READ | EV_WRITE);
+	std::cout << "Enabled buffer event." << '\n';
 }
 
 
 TCPStream::~TCPStream()
 {
+	bufferevent_free(bEvent);
 	std::cout << "Closing socket " << socketfd << '\n';
 	std::cout << "Removed socket " << socketfd << " from connection list." << '\n';
 }
@@ -36,7 +47,7 @@ void TCPStream::read_cb(struct bufferevent *bev) {
 
 	line = evbuffer_readln(input, &n, EVBUFFER_EOL_CRLF);
 	if (line) {
-		for (int i = 0; i < n; ++i) {
+		for (unsigned int i = 0; i < n; ++i) {
 			buffer += line[i];
 		}
 
@@ -44,19 +55,19 @@ void TCPStream::read_cb(struct bufferevent *bev) {
 		// for processing, but instead for now, we're just going to echo it to the console.
 
 		Message* mess = new Message(buffer, socketfd, Message::inputMessage);
-		parent->PutMessage(mess);
+		parent->PutMessage(*mess);
 
 		if (buffer.compare("") != 0) {
 			std::cout << "Socket " << socketfd << ": " << buffer << '\n';
 			if (buffer.compare("quit") == 0) {
 				error_cb(bev, BEV_EVENT_EOF);
-				delete this;
 			}
 			else if (buffer.compare("shutdown") == 0) {
+				buffer.clear();
 				parent->Shutdown();
 			}
 			else {
-				buffer = "";
+				buffer.clear();
 			}
 		}
 	}
@@ -69,10 +80,10 @@ void TCPStream::write_cb() {
 void TCPStream::error_cb(bufferevent *bev, short error) {
 	if (error & BEV_EVENT_EOF) {
 		std::cout << "Connection closed." << '\n';
-		bufferevent_free(bev);
+		delete this;
 	}
 }
 
-int TCPStream::GetSocket() {
+const int TCPStream::GetSocket() {
 	return socketfd;
 }

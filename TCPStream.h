@@ -22,13 +22,14 @@ public:
 	void write_cb();
 	void error_cb(bufferevent *bev, short error);
 
-	int GetSocket();
+	const int GetSocket();
 
 	static void do_error(struct bufferevent *bev, short error, void* arg);
 
 	static void do_read(struct bufferevent *bev, void* arg);
 
 private:
+	bufferevent* bEvent;
 	TCPListener* parent;
 	int socketfd;
 	std::string buffer;

@@ -3,13 +3,14 @@
 #include <map>
 #include <iostream>
 
-Server::Server(int port)
+Server::Server(int port) 
+	: listener(new TCPListener(this))
+	, world(new GameWorld())
+	, mBuffer(new MessageBuffer())
 {
 	std::cout << "Creating new Server on port " << port << ".\n";
-	std::cout << "Creating new TCPListener on port " << port << ".\n";
-	listener = new TCPListener(this);
+	
 	std::cout << "TCPListener creation successful." << '\n';
-	world = new GameWorld();
 }
 
 
@@ -17,6 +18,9 @@ Server::~Server()
 {
 	if (listener) {
 		delete listener;
+	}
+	if (mBuffer) {
+		delete mBuffer;
 	}
 }
 
@@ -32,7 +36,7 @@ int Server::AddConnection(TCPStream* stream) {
 
 int Server::RemoveConnection(TCPStream* stream) {
 	int status = connections.erase(stream->GetSocket());
-	if (status && stream) {
+	if (status) {
 		delete stream;
 	}
 	return status;
@@ -40,10 +44,13 @@ int Server::RemoveConnection(TCPStream* stream) {
 }
 
 void Server::Shutdown() {
+	for (int i = 0; i < connections.size(); ++i) {
+		RemoveConnection(connections.begin()->second);
+	}
 	delete listener;
 	listener = nullptr;
 }
 
-void Server::PutMessage(Message* mess) {
-	mBuffer.PutMessage(mess);
+void Server::PutMessage(const Message& mess) {
+	mBuffer->PutMessage(mess);
 }

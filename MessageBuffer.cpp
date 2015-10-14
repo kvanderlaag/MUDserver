@@ -3,8 +3,9 @@
 #include <queue>
 
 MessageBuffer::MessageBuffer()
+	: length(0)
 {
-	length = 0;
+
 }
 
 
@@ -13,13 +14,13 @@ MessageBuffer::~MessageBuffer()
 
 }
 
-int MessageBuffer::PutMessage(Message* mess) {
-	buffer.push(mess);
+int MessageBuffer::PutMessage(const Message& mess) {
+	buffer.push((Message*) &mess);
 	return ++length;
 }
 
-Message* MessageBuffer::DequeueMessage() {
-	Message* ret = buffer.front();
+const Message* MessageBuffer::DequeueMessage() {
+	const Message* ret = buffer.front();
 	buffer.pop();
 	length--;
 	return ret;

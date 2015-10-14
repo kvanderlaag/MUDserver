@@ -6,15 +6,15 @@
 // Constructor. Initializes parent Server pointer,
 // Creates new event_base for libevent.
 TCPListener::TCPListener(Server* par, int port)
+	: parent(par)
+	, port(port)
+	, base(event_base_new())
+	, listenerfd(-1)
 {
-	parent = par;
-	base = event_base_new();
-
 	if (!base) {
 		std::cout << "Error creating event base." << '\n';
 	}
-
-	this->port = port;
+	std::cout << "Creating new TCPListener on port " << port << ".\n";
 
 
 }
@@ -42,8 +42,6 @@ void TCPListener::do_accept(evutil_socket_t listener, short event, void* arg) {
 // specified port. Adds accept callback event to event base.
 void TCPListener::Listen() {
 	sockaddr_in sin;
-	evutil_socket_t listener;
-	event* listener_ev;
 	if (!base) {
 		std::cout << "Cannot listen on port " << port << ". No event base created." << '\n';
 		return;
@@ -53,68 +51,68 @@ void TCPListener::Listen() {
 	sin.sin_addr.s_addr = 0;
 	sin.sin_port = htons(port);
 	std::cout << "Creating socket" << ".\n";
-	listener = socket(AF_INET, SOCK_STREAM, 0);
-	if (listener == -1) {
+	listenerfd = socket(AF_INET, SOCK_STREAM, 0);
+	if (listenerfd == -1) {
 		std::cout << "Error creating socket." << '\n';
 		return;
 	}
 
-	std::cout << "Created socket " << listener << ".\n";
+	std::cout << "Created socket " << listenerfd << ".\n";
 
 	std::cout << "Making socket non-blocking." << '\n';
-	if (evutil_make_socket_nonblocking(listener) == -1) {
+	if (evutil_make_socket_nonblocking(listenerfd) == -1) {
 		std::cout << "Error making socket non-blocking." << '\n';
-		ListenerClose(listener);
+		ListenerClose();
 		return;
 	}
 
-	if (bind(listener, (sockaddr*)&sin, sizeof(sin)) < 0) {
+	if (bind(listenerfd, (sockaddr*)&sin, sizeof(sin)) < 0) {
 		std::cout << "Error binding socket." << '\n';
-		ListenerClose(listener);
+		ListenerClose();
 		return;
 	}
 
-	if (listen(listener, 10) < 0) {
+	if (listen(listenerfd, 10) < 0) {
 		std::cout << "Error listening on socket." << '\n';
-		ListenerClose(listener);
+		ListenerClose();
 		return;
 	}
 
-	std::cout << "Socket " << listener << " listening on port " << port << ".\n";
+	std::cout << "Socket " << listenerfd << " listening on port " << port << ".\n";
 
 	std::cout << "Creating new accept event." << '\n';
-	listener_ev = event_new(base, listener, EV_READ | EV_PERSIST, do_accept, (void*)this);
+	listener_ev = event_new(base, listenerfd, EV_READ | EV_PERSIST, do_accept, (void*)this);
 	if (!listener_ev) {
 		std::cout << "Error creating accept event." << '\n';
-		ListenerClose(listener);
+		ListenerClose();
 	}
 
 	std::cout << "Adding accept event to event base." << '\n';
 	if (event_add(listener_ev, NULL) == -1) {
 		std::cout << "Error adding accept event to event base." << '\n';
-		ListenerClose(listener);
+		ListenerClose();
 	}
 
 	std::cout << "Starting event base." << '\n';
 	if (event_base_dispatch(base) == -1) {
 		std::cout << "Error starting event base." << '\n';
-		ListenerClose(listener);
+		ListenerClose();
 	}
 }
 
 // ListenerClose. Utility function for closing sockets.
-void TCPListener::ListenerClose(const int socketfd) {
+void TCPListener::ListenerClose() {
 #ifdef _WIN32
-	closesocket(socketfd);
+	closesocket(listenerfd);
 #else
-	close(listener);
+	close(listenerfd);
 #endif
 	return;
 }
 
 // GetParent. Returns the parent server object of the listener.
-Server* TCPListener::GetParent() {
-	return parent;
+const Server& TCPListener::GetParent() {
+	return *parent;
 }
 
 // accept_cb. Callback function for accepting incoming connections.
@@ -123,28 +121,22 @@ void TCPListener::accept_cb(evutil_socket_t listener, short event) {
 	socklen_t slen = sizeof(ss);
 
 	int fd = accept(listener, (sockaddr*)&ss, &slen);
-	std::cout << "Accepted connection." << '\n';
+	
 	if (fd < 0) {
-		perror("accept");
+		std::cout << "Error accepting connection." << '\n';
 	}
 	else {
+		std::cout << "Accepted connection." << '\n';
 		TCPStream* newStream = new TCPStream(this, fd);
-		bufferevent* bev;
-		evutil_make_socket_nonblocking(fd);
-		std::cout << "Socket " << fd << " is nonblocking." << '\n';
-		bev = bufferevent_socket_new(base, fd, BEV_OPT_CLOSE_ON_FREE);
-		std::cout << "Made new buffer event." << '\n';
-		bufferevent_setcb(bev, newStream->do_read, NULL, newStream->do_error, (void*)newStream);
-		std::cout << "Set read callback and error callback." << '\n';
-		bufferevent_setwatermark(bev, EV_READ, 0, MAX_LINE);
-		std::cout << "Set watermark." << '\n';
-		bufferevent_enable(bev, EV_READ | EV_WRITE);
-		std::cout << "Enabled buffer event." << '\n';
 		parent->AddConnection(newStream);
 	}
 }
 
 // PutMessage. Sends a message from a child stream to the parent server.
-void TCPListener::PutMessage(Message* mess) {
+void TCPListener::PutMessage(const Message& mess) {
 	parent->PutMessage(mess);
+}
+
+const event_base* TCPListener::GetBase() {
+	return base;
 }
