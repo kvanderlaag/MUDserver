@@ -2,6 +2,7 @@
 #include "TCPStream.h"
 #include <Windows.h>
 
+
 #include <iostream>
 
 // Constructor. Initializes parent Server pointer,
@@ -34,12 +35,6 @@ void TCPListener::Shutdown() {
 	parent->Shutdown();
 }
 
-
-DWORD WINAPI TCPListener::CreateListenerThread(void* arg) {
-	TCPListener* instance = (TCPListener*)arg;
-	instance->Listen();
-	return 0;
-}
 
 // Accept callback - passes libevent accept event to TCPListener instance.
 void TCPListener::do_accept(evutil_socket_t listener, short event, void* arg) {

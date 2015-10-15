@@ -6,6 +6,7 @@
 #include <Windows.h>
 #include <tchar.h.>
 #include <strsafe.h>
+#include <thread>
 
 
 Server::Server(int port)
@@ -31,42 +32,12 @@ Server::~Server()
 
 void Server::Start() {
 	running = true;
-	const int MAX_THREADS = 2;
 
-	HANDLE hThreadArray[MAX_THREADS];
-	DWORD dwThreadIdArray[MAX_THREADS];
+	std::thread listenerThread (&CreateListenerThread, listener);
+	std::thread messageQueueThread (&CreateMessageQueueThread, this);
 
-	hThreadArray[0] = CreateThread(
-		NULL,
-		0,
-		Server::CreateMessageQueueThread,
-		this,
-		0,
-		&dwThreadIdArray[0]);
-
-	hThreadArray[1] = CreateThread(
-		NULL,
-		0,
-		TCPListener::CreateListenerThread,
-		listener,
-		0,
-		&dwThreadIdArray[1]);
-
-	if (hThreadArray[0] == NULL) {
-		ErrorHandler("Create thread failed for Message Queue.");
-		ExitProcess(3);
-	}
-	if (hThreadArray[1] == NULL) {
-		ErrorHandler("Create thread failed for Listener.");
-		ExitProcess(3);
-	}
-	
-	WaitForMultipleObjects(MAX_THREADS, hThreadArray, TRUE, INFINITE);
-
-	CloseHandle(hThreadArray[0]);
-	CloseHandle(hThreadArray[1]);
-
-	// listener->Listen();
+	listenerThread.join();
+	messageQueueThread.join();
 }
 
 int Server::AddConnection(TCPStream* stream) {
@@ -111,8 +82,12 @@ void Server::ErrorHandler(const std::string arg) {
 	std::cout << arg << '\n';
 }
 
-DWORD WINAPI Server::CreateMessageQueueThread(void* arg) {
+void Server::CreateMessageQueueThread(void* arg) {
 	Server* instance = (Server*)arg;
 	instance->HandleMessageQueue();
-	return 0;
+}
+
+void Server::CreateListenerThread(void* arg) {
+	TCPListener* instance = (TCPListener*)arg;
+	instance->Listen();
 }

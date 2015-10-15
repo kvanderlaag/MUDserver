@@ -21,7 +21,8 @@ public:
 	void Start();
 	void Shutdown();
 
-	static DWORD WINAPI Server::CreateMessageQueueThread(void* arg);
+	static void CreateMessageQueueThread(void* arg);
+	static void CreateListenerThread(void* arg);
 	void HandleMessageQueue();
 	void ErrorHandler(const std::string arg);
 
