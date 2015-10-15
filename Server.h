@@ -3,6 +3,7 @@
 #include "TCPListener.h"
 #include "MessageBuffer.h"
 #include <map>
+#include <Windows.h>
 #include "GameWorld.hpp"
 
 class TCPListener;
@@ -20,9 +21,15 @@ public:
 	void Start();
 	void Shutdown();
 
+	static DWORD WINAPI Server::CreateMessageQueueThread(void* arg);
+	void HandleMessageQueue();
+	void ErrorHandler(const std::string arg);
+
 	void PutMessage(const Message& mess);
 
 private:
+	bool running;
+	
 	GameWorld* world;
 	TCPListener* listener;
 	std::map<int, TCPStream*> connections;

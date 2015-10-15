@@ -25,6 +25,7 @@ const int MAX_LINE = 16384;
 
 
 class TCPStream;
+class Server;
 
 class TCPListener
 {
@@ -38,6 +39,7 @@ public:
 	const Server& GetParent();
 	const event_base* GetBase();
 	static void do_accept(evutil_socket_t listener, short event, void* arg);
+	static DWORD WINAPI CreateListenerThread(void* arg);
 
 	void PutMessage(const Message& mess);
 

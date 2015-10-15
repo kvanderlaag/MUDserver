@@ -1,5 +1,6 @@
 #include "TCPListener.h"
 #include "TCPStream.h"
+#include <Windows.h>
 
 #include <iostream>
 
@@ -31,6 +32,13 @@ TCPListener::~TCPListener()
 // Shutdown. Kills parent server.
 void TCPListener::Shutdown() {
 	parent->Shutdown();
+}
+
+
+DWORD WINAPI TCPListener::CreateListenerThread(void* arg) {
+	TCPListener* instance = (TCPListener*)arg;
+	instance->Listen();
+	return 0;
 }
 
 // Accept callback - passes libevent accept event to TCPListener instance.

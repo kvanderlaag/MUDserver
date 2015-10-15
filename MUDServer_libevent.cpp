@@ -53,7 +53,7 @@ int main() {
 
 	Server* gameServer = new Server();
 	gameServer->Start();
-
+	
 	delete gameServer;
 	cout << "Server terminated. Any key to exit.";
 	fgetc(stdin);

@@ -54,8 +54,6 @@ void TCPStream::read_cb(struct bufferevent *bev) {
 		// This is where you would send the buffer back to the server/game engine
 		// for processing, but instead for now, we're just going to echo it to the console.
 
-		Message* mess = new Message(buffer, socketfd, Message::inputMessage);
-		parent->PutMessage(*mess);
 
 		if (buffer.compare("") != 0) {
 			std::cout << "Socket " << socketfd << ": " << buffer << '\n';
@@ -67,6 +65,9 @@ void TCPStream::read_cb(struct bufferevent *bev) {
 				parent->Shutdown();
 			}
 			else {
+				// Send the message to the buffer.
+				Message* mess = new Message(buffer, socketfd, Message::inputMessage);
+				parent->PutMessage(*mess);
 				buffer.clear();
 			}
 		}
