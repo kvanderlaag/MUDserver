@@ -1,0 +1,34 @@
+#include <iostream>
+
+using namespace std;
+
+int main(int argc, char** argv) {
+   
+   if (argc==1) {
+       cout<< "Not enough arguments";
+   }
+   //Can't use switches on strings
+   /*
+    switch (argv[1]) {
+        case look:
+            //Output all items in room
+            break;
+        case move:
+            //move to a room in direction argv[2]
+            break;
+        case get:
+            //get the item described in argv[2]
+            break;
+        case shout:
+            //send the message in argv[2] to other players
+            break;
+        case help:
+            //send the player a list of commands
+            break;
+        case logout:
+            //log the player out, if allowed
+            break;
+        
+   }
+   */
+}
