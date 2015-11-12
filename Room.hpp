@@ -10,6 +10,7 @@ class Room : public GameEntity {
 private:
 	EntityList* exits_;
 	EntityList* items_;
+	EntityList* players_;
 
 public:
 	Room(int id, std::string description);
@@ -17,11 +18,15 @@ public:
 
 	void AddItem(GameEntity* entity);
 	void AddExit(GameEntity* entity);
+	void AddPlayer(GameEntity* entity);
 
-	//Room *AddExit();
+	void RemoveItem(int id);
+	void RemoveExit(int id);
+	void RemovePlayer(int id);
+
 	GameEntity *GetExit(int id);
-	//Room *AddItem();
 	GameEntity *GetItem(int id);
+	GameEntity *GetPlayer(int id);
 };
 
 #endif // __ROOM_H__
