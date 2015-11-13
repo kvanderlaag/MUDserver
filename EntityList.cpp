@@ -11,7 +11,8 @@ EntityList::~EntityList(  ) {
 }
 
 void EntityList::AddEntity( GameEntity *game_entity ) {
-    if( map_.find( game_entity->GetId() ) != map_.end() ){
+
+	if( map_.find( game_entity->GetId() ) != map_.end() ){
         std::cout << "Duplicate id!!!" << std::endl;
     }
 
