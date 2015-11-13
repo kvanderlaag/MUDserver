@@ -17,7 +17,7 @@ public:
     void AddEntity( GameEntity* game_entity );
     void RemoveEntity( int id );
     GameEntity *GetEntity( int id );
-    int GetEntityCount(  );
+    int GetEntityCount();
 
 };
 

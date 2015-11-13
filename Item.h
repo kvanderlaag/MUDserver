@@ -7,13 +7,11 @@
 class Item : public GameEntity {
 
 private:
-	int id;
 
 public:
-	Item(int id, std::string description);
-	~Item(  );
-
-	void PrintItem(int id, std::string description);
+	Item( int id, std::string description );
+	Item( int id, std::string name, std::string description );
+	~Item();
 	
 };
 

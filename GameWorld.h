@@ -2,7 +2,9 @@
 #define __GAMEWORLD_H__
 
 #include "EntityList.h"
-#include "GameEntity.h"
+#include "Player.h"
+#include "Room.h"
+#include "Item.h"
 
 #include <map>
 
@@ -16,13 +18,13 @@ public:
     GameWorld(  );
     ~GameWorld(  );
 
-    void AddRoom( GameEntity* entity );
-    void AddPlayer( GameEntity* entity );
+    void AddRoom( Room* entity );
+    void AddPlayer( Player* entity );
 
     void RemoveRoom( int id );
     void RemovePlayer( int id );
 
-    GameEntity *GetRoom( int id );
+	GameEntity *GetRoom( int id );
     GameEntity *GetPlayer( int id );
 
 };

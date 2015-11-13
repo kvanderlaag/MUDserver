@@ -13,7 +13,8 @@ private:
 	EntityList* players_;
 
 public:
-	Room(int id, std::string description);
+	Room(int id, std::string name);
+	Room(int id, std::string name, std::string description);
 	~Room(  );
 
 	void AddItem(GameEntity* entity);

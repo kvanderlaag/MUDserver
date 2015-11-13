@@ -13,11 +13,12 @@ private:
 public:
     GameEntity( int id, std::string name );
     GameEntity( int id, std::string name, std::string description );
-    ~GameEntity(  );
-    void Print(  );
+    ~GameEntity();
+    void Print();
 
-    int GetId(  );
-    std::string GetDescription(  );
+    int GetId();
+	std::string GetName();
+    std::string GetDescription();
     void SetDescription( std::string description );
 
 };

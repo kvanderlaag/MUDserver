@@ -18,15 +18,19 @@ GameEntity::GameEntity( int id, std::string name, std::string description ) {
     std::cout << "Created an entity..." << std::endl;
 }
 
-GameEntity::~GameEntity(  ) {
+GameEntity::~GameEntity() {
     std::cout << "Destroyed an entity..." << std::endl;
 }
 
-int GameEntity::GetId(  ) {
+int GameEntity::GetId() {
     return id_;
 }
 
-std::string GameEntity::GetDescription(  ) {
+std::string GameEntity::GetName() {
+	return name_;
+}
+
+std::string GameEntity::GetDescription() {
     return description_;
 }
 
@@ -34,6 +38,6 @@ void GameEntity::SetDescription( std::string description ) {
     description_ = description;
 }
 
-void GameEntity::Print(  ) {
+void GameEntity::Print() {
     std::cout << id_ << " " << name_ << " " << description_ << std::endl;
 }
