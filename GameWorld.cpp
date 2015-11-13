@@ -40,3 +40,11 @@ GameEntity* GameWorld::GetRoom( int id ) {
 GameEntity* GameWorld::GetPlayer( int id ) {
     return players_->GetEntity( id );
 }
+
+std::string GameWorld::look() {
+	return "hey";
+}
+
+std::string GameWorld::look( std::string entity ) {
+	return "hey";
+}

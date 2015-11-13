@@ -2,6 +2,7 @@
 #define __GAMEWORLD_H__
 
 #include "EntityList.h"
+#include "ConnectionList.h"
 #include "Player.h"
 #include "Room.h"
 #include "Item.h"
@@ -11,12 +12,13 @@
 class GameWorld {
 
 private:
-    EntityList* rooms_;
-    EntityList* players_;
+    EntityList* rooms_; // room_id/room_object
+    EntityList* players_; // player_id/player_object
+	ConnectionList* current_players_; // connection_id/player_id
 
 public:
-    GameWorld(  );
-    ~GameWorld(  );
+    GameWorld();
+    ~GameWorld();
 
     void AddRoom( Room* entity );
     void AddPlayer( Player* entity );
@@ -26,6 +28,9 @@ public:
 
 	GameEntity *GetRoom( int id );
     GameEntity *GetPlayer( int id );
+
+	std::string look();
+	std::string look( std::string entity );
 
 };
 

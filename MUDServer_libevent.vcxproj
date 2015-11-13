@@ -148,6 +148,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ConnectionList.cpp" />
     <ClCompile Include="EntityList.cpp" />
     <ClCompile Include="GameEntity.cpp" />
     <ClCompile Include="GameWorld.cpp" />
@@ -165,6 +166,7 @@
     <ClInclude Include="EntityList.h" />
     <ClInclude Include="GameEntity.h" />
     <ClInclude Include="GameWorld.h" />
+    <ClInclude Include="ConnectionList.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="MessageBuffer.h" />
