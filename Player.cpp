@@ -1,26 +1,26 @@
-#include "Player.hpp"
+#include "Player.h"
 
 Player::Player( int id, std::string name ) : GameEntity(id, name){
     std::cout << "Created a player..." << std::endl;
 }
 
-Player::Player(  int id, std::string name, int connectionID) : GameEntity( id, name);{
+Player::Player(  int id, std::string name, int connectionID ) : GameEntity( id, name ) {
     connectionID_ = connectionID;
     std::cout << "Added a player with connection ID..." << std::endl;
 }
 
-Player::~Player(  ) : ~GameEntity(  ){
+Player::~Player(  ) {
     std::cout << "Removed a player..." << std::endl;
 }
 
-int Player::GetConnectionId(  ) {
-    return connectionID;
+int Player::GetConnectionID() {
+    return connectionID_;
 }
 
 std::string Player::GetName(  ) {
-    return name;
+    return name_;
 }
 
-void Player::PrintPlayer(  ) : Print(){
-    std::cout << id << " " << name << " " << connectionID << std::endl;
+void Player::PrintPlayer(  ){
+    std::cout << name_ << " " << connectionID_ << std::endl;
 }

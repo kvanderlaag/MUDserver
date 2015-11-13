@@ -1,4 +1,4 @@
-#include "Item.hpp"
+#include "Item.h"
 
 Item::Item(int id, std::string description) : GameEntity(id, description) {
 	std::cout <<"Created an item..." << std::endl;

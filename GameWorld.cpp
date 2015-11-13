@@ -1,4 +1,4 @@
-#include "GameWorld.hpp"
+#include "GameWorld.h"
 
 #include <iostream>
 

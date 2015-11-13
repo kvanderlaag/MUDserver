@@ -1,4 +1,4 @@
-#include "Room.hpp"
+#include "Room.h"
 
 
 Room::Room(int id, std::string description) : GameEntity(id, description) {
