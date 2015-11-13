@@ -151,19 +151,25 @@
     <ClCompile Include="EntityList.cpp" />
     <ClCompile Include="GameEntity.cpp" />
     <ClCompile Include="GameWorld.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="MessageBuffer.cpp" />
     <ClCompile Include="MUDServer_libevent.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Room.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="TCPListener.cpp" />
     <ClCompile Include="TCPStream.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="EntityList.hpp" />
-    <ClInclude Include="GameEntity.hpp" />
-    <ClInclude Include="GameWorld.hpp" />
+    <ClInclude Include="EntityList.h" />
+    <ClInclude Include="GameEntity.h" />
+    <ClInclude Include="GameWorld.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="MessageBuffer.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Room.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="TCPListener.h" />
     <ClInclude Include="TCPStream.h" />

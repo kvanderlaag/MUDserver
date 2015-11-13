@@ -4,7 +4,7 @@
 #include "MessageBuffer.h"
 #include <map>
 #include <Windows.h>
-#include "GameWorld.hpp"
+#include "GameWorld.h"
 
 class TCPListener;
 class TCPStream;
