@@ -1,34 +1,36 @@
 #include <iostream>
+#include <string.h>
+#include <sstream>
+#include <boost/tokenizer.hpp>
 
 using namespace std;
+using namespace boost;
 
-int main(int argc, char** argv) {
+int main()      //Should pass user command into main
+{
+   std::string command = "move north";          //hard coded. TODO: implement player command
+   string input[64];                           //Nothing should be longer than this
+   int counter = 0;
    
-   if (argc==1) {
-       cout<< "Not enough arguments";
+   char_separator<char> sep(", ");
+    tokenizer<char_separator<char>> tokens(command, sep);
+    for (const auto& t : tokens) {
+        input[counter]=t;
+        counter++;
+    }  
+   
+   //There will be more commands
+   if (input[0]=="look") {
+       //Look around room
+   } else if (input[0]=="move") {
+       //move to the room specified in input[1]. Check if a legitimate move
+   } else if (input[0]=="shout") {
+       //Output message to other players
+   } else if (input[0]=="help") {
+       //Give the player a list of commands
+   } else if (input[0]=="logout") {
+       //Log the player out, if possible
+   } else if (input[0]=="get") {
+       //get the item described in the next argument
    }
-   //Can't use switches on strings
-   /*
-    switch (argv[1]) {
-        case look:
-            //Output all items in room
-            break;
-        case move:
-            //move to a room in direction argv[2]
-            break;
-        case get:
-            //get the item described in argv[2]
-            break;
-        case shout:
-            //send the message in argv[2] to other players
-            break;
-        case help:
-            //send the player a list of commands
-            break;
-        case logout:
-            //log the player out, if allowed
-            break;
-        
-   }
-   */
 }

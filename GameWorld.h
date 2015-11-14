@@ -33,10 +33,10 @@ public:
 
 	std::vector<Message> *Look(int connection_id);
 	std::vector<Message> *Look(int connection_id, std::string entity);
-
 	std::vector<Message> *Move(int connection_id, std::string exit);
-
 	std::vector<Message> *Say(int connection_id, std::string words);
+    
+    Message *SignUp(int connection_id, std::string login_name, std::string password);
 
 };
 

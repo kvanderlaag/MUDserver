@@ -1,6 +1,7 @@
 #include "GameWorld.h"
 
 #include <iostream>
+#include <vector>
 
 GameWorld::GameWorld() {
     std::cout << "Created a world..." << std::endl;
@@ -9,7 +10,7 @@ GameWorld::GameWorld() {
 
 	Room *thera = new Room(rooms_->GetEntityCount(), "Thera", "South of Thera, Adventurers crowd the streets. Guards stand silent at the gates.");
 	AddRoom(thera);
-	
+
 }
 
 GameWorld::~GameWorld() {
@@ -73,5 +74,13 @@ std::vector<Message>* GameWorld::Say(int connection_id, std::string words) {
 	Message msg = Message(words, connection_id, Message::outputMessage);
 	std::vector<Message> out;
 	out.push_back(msg);
+	return &out;
+}
+
+Message* GameWorld::SignUp(int connection_id, std::string login_name, std::string password) {
+	Message msg = Message("hi", connection_id, Message::outputMessage);
+	std::vector<Message> out;
+	out.push_back(msg);
+
 	return &out;
 }
