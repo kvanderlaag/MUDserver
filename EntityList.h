@@ -11,12 +11,12 @@ private:
     std::map<int, GameEntity*> map_;
 
 public:
-    EntityList(  );
-    ~EntityList(  );
+    EntityList();
+    ~EntityList();
 
-    void AddEntity( GameEntity* game_entity );
-    void RemoveEntity( int id );
-    GameEntity *GetEntity( int id );
+    void AddEntity(GameEntity* game_entity);
+    void RemoveEntity(int id);
+    GameEntity *GetEntity( int id);
     int GetEntityCount();
 
 };

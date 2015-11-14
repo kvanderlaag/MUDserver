@@ -10,7 +10,7 @@ ConnectionList::~ConnectionList() {
 	std::cout << "Destroyed a connection list..." << std::endl;
 }
 
-void ConnectionList::AddConnection( int connection_id, int player_id ) {
+void ConnectionList::AddConnection(int connection_id, int player_id) {
 
 	if (map_.find(connection_id) != map_.end()) {
 		std::cout << "Duplicate id!!!" << std::endl;
@@ -19,14 +19,14 @@ void ConnectionList::AddConnection( int connection_id, int player_id ) {
 	map_.insert(std::pair<int, int>(connection_id, player_id));
 }
 
-int ConnectionList::GetPlayerId( int connection_id ) {
+int ConnectionList::GetPlayerId(int connection_id) {
 	if (!map_.empty()) {
 		return map_.find(connection_id)->second;
 	}
 	return NULL;
 }
 
-void ConnectionList::RemoveConnection( int connection_id ) {
+void ConnectionList::RemoveConnection(int connection_id) {
 	if (!map_.empty()) {
 		if (map_.find(connection_id) != map_.end())
 			map_.erase(connection_id);

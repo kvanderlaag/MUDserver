@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-GameEntity::GameEntity( int id, std::string name ) {
+GameEntity::GameEntity(int id, std::string name) {
     id_ = id;
     name_ = name;
     description_ = "";
@@ -10,7 +10,7 @@ GameEntity::GameEntity( int id, std::string name ) {
     std::cout << "Created an entity..." << std::endl;
 }
 
-GameEntity::GameEntity( int id, std::string name, std::string description ) {
+GameEntity::GameEntity(int id, std::string name, std::string description) {
     id_ = id;
     name_ = name;
     description_ = description;
@@ -34,7 +34,7 @@ std::string GameEntity::GetDescription() {
     return description_;
 }
 
-void GameEntity::SetDescription( std::string description ) {
+void GameEntity::SetDescription(std::string description) {
     description_ = description;
 }
 

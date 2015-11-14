@@ -6,8 +6,10 @@
 #include "Player.h"
 #include "Room.h"
 #include "Item.h"
+#include "Message.h"
 
 #include <map>
+#include <vector>
 
 class GameWorld {
 
@@ -20,17 +22,21 @@ public:
     GameWorld();
     ~GameWorld();
 
-    void AddRoom( Room* entity );
-    void AddPlayer( Player* entity );
+    void AddRoom(Room* entity);
+    void AddPlayer(Player* entity);
 
-    void RemoveRoom( int id );
-    void RemovePlayer( int id );
+    void RemoveRoom(int id);
+    void RemovePlayer(int id);
 
-	GameEntity *GetRoom( int id );
-    GameEntity *GetPlayer( int id );
+	GameEntity *GetRoom(int id);
+    GameEntity *GetPlayer(int id);
 
-	std::string look();
-	std::string look( std::string entity );
+	std::vector<Message> *Look(int connection_id);
+	std::vector<Message> *Look(int connection_id, std::string entity);
+
+	std::vector<Message> *Move(int connection_id, std::string exit);
+
+	std::vector<Message> *Say(int connection_id, std::string words);
 
 };
 

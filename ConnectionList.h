@@ -12,9 +12,9 @@ public:
 	ConnectionList();
 	~ConnectionList();
 
-	void AddConnection( int connection_id, int player_id );
-	void RemoveConnection( int connection_id );
-	int GetPlayerId( int connection_id );
+	void AddConnection(int connection_id, int player_id);
+	void RemoveConnection(int connection_id);
+	int GetPlayerId(int connection_id);
 	int GetConnectionCount();
 
 };

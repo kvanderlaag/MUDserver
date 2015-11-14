@@ -11,15 +11,15 @@ private:
     std::string description_;
 
 public:
-    GameEntity( int id, std::string name );
-    GameEntity( int id, std::string name, std::string description );
+    GameEntity(int id, std::string name);
+    GameEntity(int id, std::string name, std::string description);
     ~GameEntity();
     void Print();
 
     int GetId();
 	std::string GetName();
     std::string GetDescription();
-    void SetDescription( std::string description );
+    void SetDescription(std::string description);
 
 };
 
