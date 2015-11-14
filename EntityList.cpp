@@ -2,15 +2,15 @@
 
 #include <iostream>
 
-EntityList::EntityList(  ) {
+EntityList::EntityList() {
     std::cout << "Created a list..." << std::endl;
 }
 
-EntityList::~EntityList(  ) {
+EntityList::~EntityList() {
     std::cout << "Destroyed a list..." << std::endl;
 }
 
-void EntityList::AddEntity( GameEntity *game_entity ) {
+void EntityList::AddEntity(GameEntity *game_entity) {
 
 	if( map_.find( game_entity->GetId() ) != map_.end() ){
         std::cout << "Duplicate id!!!" << std::endl;
@@ -19,14 +19,14 @@ void EntityList::AddEntity( GameEntity *game_entity ) {
     map_.insert( std::pair<int,GameEntity*>( game_entity->GetId(), game_entity ) );
 }
 
-GameEntity* EntityList::GetEntity( int id ) {
+GameEntity* EntityList::GetEntity(int id) {
     if( !map_.empty() ) {
         return map_.find( id )->second;
     }
     return NULL;
 }
 
-void EntityList::RemoveEntity( int id ) {
+void EntityList::RemoveEntity(int id) {
     if( !map_.empty() ) {
         if( map_.find(id) != map_.end() )
             map_.erase(id);
@@ -35,6 +35,6 @@ void EntityList::RemoveEntity( int id ) {
     }
 }
 
-int EntityList::GetEntityCount(  ) {
+int EntityList::GetEntityCount() {
     return map_.size();
 }

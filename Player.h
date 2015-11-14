@@ -11,8 +11,8 @@ private:
     int connectionID_;
 
 public:
-    Player( int id, std::string name );
-	Player( int id, std::string name, int connectionID_ );
+    Player(int id, std::string name);
+	Player(int id, std::string name, int connectionID_);
     ~Player();
 	void PrintPlayer();
 
