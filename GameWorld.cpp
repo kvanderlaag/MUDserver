@@ -1,6 +1,7 @@
 #include "GameWorld.h"
 
 #include <iostream>
+#include <vector>
 
 GameWorld::GameWorld(  ) {
     std::cout << "Created a world..." << std::endl;
@@ -41,10 +42,11 @@ GameEntity* GameWorld::GetPlayer( int id ) {
     return players_->GetEntity( id );
 }
 
-std::string GameWorld::look() {
-	return "hey";
+Message* GameWorld::SignUp(int connection_id, std::string login_name, std::string password) {
+	Message msg = Message("hi", connection_id, Message::outputMessage);
+	std::vector<Message> out;
+	out.push_back(msg);
+
+	return &out; 
 }
 
-std::string GameWorld::look( std::string entity ) {
-	return "hey";
-}

@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "Room.h"
 #include "Item.h"
+#include "Message.h"
 
 #include <map>
 
@@ -29,8 +30,10 @@ public:
 	GameEntity *GetRoom( int id );
     GameEntity *GetPlayer( int id );
 
-	std::string look();
-	std::string look( std::string entity );
+	
+	
+    Message *SignUp(int connection_id, std::string login_name, std::string password);
+    
 
 };
 
