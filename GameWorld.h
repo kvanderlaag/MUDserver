@@ -36,7 +36,7 @@ public:
 	std::vector<Message> *Move(int connection_id, std::string exit);
 	std::vector<Message> *Say(int connection_id, std::string words);
     
-    Message *SignUp(int connection_id, std::string login_name, std::string password);
+    std::vector<Message> *SignUp(int connection_id, std::string login_name, std::string password);
 
 };
 

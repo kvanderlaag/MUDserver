@@ -77,7 +77,7 @@ std::vector<Message>* GameWorld::Say(int connection_id, std::string words) {
 	return &out;
 }
 
-Message* GameWorld::SignUp(int connection_id, std::string login_name, std::string password) {
+std::vector<Message>* GameWorld::SignUp(int connection_id, std::string login_name, std::string password) {
 	Message msg = Message("hi", connection_id, Message::outputMessage);
 	std::vector<Message> out;
 	out.push_back(msg);
