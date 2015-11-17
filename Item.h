@@ -1,10 +1,11 @@
+/*Header file for item*/
 #ifndef __ITEM_H__
 #define __ITEM_H__
 
 #include <iostream>
 #include "GameEntity.h"
 
-class Item : public GameEntity {				/*Header file for item*/
+class Item : public GameEntity {
 
 private:
 

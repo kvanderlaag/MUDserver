@@ -1,13 +1,17 @@
+/* Item.cpp implements the header file Item.h*/
 #include "Item.h"
 
-Item::Item(int id, std::string description) : GameEntity(id, description) {				/*Create an item with a description*/
+/*Create an item with ID and a description*/
+Item::Item(int id, std::string description) : GameEntity(id, description) {
 	std::cout <<"Created an item..." << std::endl;
 }
 
-Item::Item(int id, std::string name, std::string description) : GameEntity(id, name, description) {	/*Create an item with a name and description*/
+/*Create an item with an ID, a name and description*/
+Item::Item(int id, std::string name, std::string description) : GameEntity(id, name, description) {
 	std::cout << "Created an item..." << std::endl;
 }
 
-Item::~Item() {												/*Destroy an item*/
+/*A destructor that destorys an item*/
+Item::~Item() {
 	std::cout << "Destroyed an item..." << std::endl;
 }

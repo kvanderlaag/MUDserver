@@ -42,16 +42,12 @@ public:
     void AssignConnectionID(int* newConnectionID);
     int* GetConnectionID();
     int* GetRoomID();
-    bool CheckPassword(int inputPassword);
     void ChangeRoomID(int* newRoomID);
     void AddItem(GameEntity* entity);
 	void RemoveItem(int id);
 	GameEntity *GetItem(int id);
 
-/**
-* The protected function GetPassword() leaves a backdoor for other classes to get password from the player.
-*/  
-protected:
+/*The protected function GetPassword leaves a backdoor for other classes to get password from the player.*/  
     int GetPassword();
 };
 
