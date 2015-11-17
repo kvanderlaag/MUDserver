@@ -3,7 +3,7 @@
 
 #include <map>
 
-class ConnectionList {
+class ConnectionList {						/*Header file for ConnectionList*/
 
 private:
 	std::map<int, int> map_;
