@@ -28,16 +28,20 @@ public:
     void RemoveRoom(int id);
     void RemovePlayer(int id);
 
-	GameEntity *GetRoom(int id);
-    GameEntity *GetPlayer(int id);
+	GameEntity* GetRoom(int id);
+    GameEntity* GetPlayer(int id);
 
-	std::vector<Message> *Look(int connection_id);
-	std::vector<Message> *Look(int connection_id, std::string entity);
-	std::vector<Message> *Move(int connection_id, std::string exit);
-	std::vector<Message> *Say(int connection_id, std::string words);
+	std::vector<Message*>* Look(int connection_id);
+	std::vector<Message*>* Look(int connection_id, std::string entity);
+	std::vector<Message*>* Move(int connection_id, std::string exit);
+	std::vector<Message*>* Say(int connection_id, std::string words);
+	std::vector<Message*>* Take(int connection_id, std::string entity);
+
+	std::vector<Message*>* Help(int connection_id);
     
-    Message *SignUp(int connection_id, std::string login_name, std::string password);
-
+	std::vector<Message*>* SignUp(int connection_id, std::string login_name, std::string password);
+	std::vector<Message*>* LogIn(int connection_id, std::string login_name, std::string password);
+	std::vector<Message*>* LogOut(int connection_id);
 };
 
 #endif // __GAMEWORLD_H__

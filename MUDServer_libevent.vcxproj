@@ -156,6 +156,7 @@
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="MessageBuffer.cpp" />
     <ClCompile Include="MUDServer_libevent.cpp" />
+    <ClCompile Include="Parser.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="Server.cpp" />
@@ -167,6 +168,7 @@
     <ClInclude Include="GameEntity.h" />
     <ClInclude Include="GameWorld.h" />
     <ClInclude Include="ConnectionList.h" />
+    <ClInclude Include="Parser.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="MessageBuffer.h" />
