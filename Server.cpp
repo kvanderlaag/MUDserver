@@ -19,7 +19,6 @@ Server::Server(int port)
 	std::cout << "TCPListener creation successful." << '\n';
 }
 
-
 Server::~Server()
 {
 	if (listener) {

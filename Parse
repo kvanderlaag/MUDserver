@@ -1,0 +1,35 @@
+#include <iostream>
+#include <string.h>
+#include <sstream>
+#include <boost/tokenizer.hpp>
+
+using namespace std;
+using namespace boost;
+
+int main()      /*Should get passed user command*/
+{
+   std::string command = "move north";          /*TODO: implement player command*/
+   string input[64];                           /*Nothing should be longer than this*/
+   int counter = 0;
+   
+   char_separator<char> sep(", ");              /*Parses the string into arrays of chars, with space as delimeter"
+    tokenizer<char_separator<char>> tokens(command, sep);
+    for (const auto& t : tokens) {
+        input[counter]=t;
+        counter++;
+    }  
+   
+   if (input[0]=="look") {                      /*If the first word matches a command, do that action*/
+       //Look around room
+   } else if (input[0]=="move") {
+       //move to the room specified in input[1]. Check if a legitimate move
+   } else if (input[0]=="shout") {
+       //Output message to other players
+   } else if (input[0]=="help") {
+       //Give the player a list of commands
+   } else if (input[0]=="logout") {
+       //Log the player out, if possible
+   } else if (input[0]=="get") {
+       //get the item described in the next argument
+   }
+}
