@@ -3,13 +3,19 @@
 
 #include <string>
 
-class GameEntity {						/*Header file for GameEntity*/
+/*Header file for GameEntity*/
+class GameEntity {
 
+/*Private variables store a permanent ID for a game entity, a name, and a brief description for this entity*/
 private:
     int id_;
     std::string name_;
     std::string description_;
 
+/*The public functions have a default constructor, a standard constructor that can set description, a destructor that can remove the entity, and a print function
+ *that displays the ID, name and description for the entity.
+ *Other functions can get the ID of the entity, get the name of the entity, and get the description of the entity as well as set a new descroption to the entity.
+*/
 public:
     GameEntity(int id, std::string name);
     GameEntity(int id, std::string name, std::string description);
