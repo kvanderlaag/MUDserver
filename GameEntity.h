@@ -3,7 +3,7 @@
 
 #include <string>
 
-class GameEntity {
+class GameEntity {						/*Header file for GameEntity*/
 
 private:
     int id_;
