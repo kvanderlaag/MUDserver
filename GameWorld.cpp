@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 
-GameWorld::GameWorld() {
+GameWorld::GameWorld() {						/*Create a game world, with entity lists players and rooms*/
     std::cout << "Created a world..." << std::endl;
 	players_ = new EntityList();
 	rooms_ = new EntityList();
@@ -13,55 +13,50 @@ GameWorld::GameWorld() {
 
 }
 
-GameWorld::~GameWorld() {
+GameWorld::~GameWorld() {						/*Delete a game world*/
     std::cout << "Destroyed a world..." << std::endl;
 }
 
-void GameWorld::AddRoom(Room *room) {
+void GameWorld::AddRoom(Room *room) {					/*Add a room to the game world*/
 	std::cout << "adding room" << std::endl;
     rooms_->AddEntity(room);
 }
 
-void GameWorld::AddPlayer(Player *player) {
+void GameWorld::AddPlayer(Player *player) {				/*Add a player to the entity list*/
 	players_->AddEntity( player );
 }
 
-void GameWorld::RemoveRoom(int id) {
+void GameWorld::RemoveRoom(int id) {					/*Remove a room from the  game world's room entity list*/
     rooms_->RemoveEntity(id);
 }
 
-void GameWorld::RemovePlayer(int id) {
+void GameWorld::RemovePlayer(int id) {					/*Remove a player from the game world's player entity list*/
     players_->RemoveEntity(id);
 }
 
-GameEntity* GameWorld::GetRoom(int id) {
+GameEntity* GameWorld::GetRoom(int id) {				/*Get the ID of a given room*/
     return rooms_->GetEntity(id);
 }
 
-GameEntity* GameWorld::GetPlayer(int id) {
+GameEntity* GameWorld::GetPlayer(int id) {				/*Get the Id of a player*/
     return players_->GetEntity(id);
 }
 
 std::vector<Message*>* GameWorld::Look(int connection_id) {
 	std::vector<Message*>* out = new std::vector<Message*>();
 
-	/*// find player id
+	/* find player id*/
 	int pid = current_players_->GetPlayerId(connection_id);
-	// find player
-	GameEntity player = *players_->GetEntity(pid);
+	/*find player*/
+	//GameEntity player = *players_->GetEntity(pid);
 
-	// find room id
-	int rid = player->GetRoomId();
-	// find room
-	GameEntity room = *rooms_->GetEntity(rid);
-
-	// get description
-	std::string description = room->GetDescription();*/
-
-	Message* msg = new Message("hi", connection_id, Message::outputMessage);
-	out->push_back(msg);
-
-	return out;
+	/*find room*/
+	Room room = room->GetRoom(player);
+	/*get description*/
+	Message msg = Message("hi", connection_id, Message::outputMessage);
+	out.push_back(msg);
+    
+	return &out;
 }
 
 std::vector<Message*>* GameWorld::Look(int connection_id, std::string entity) {
@@ -77,7 +72,7 @@ std::vector<Message*>* GameWorld::Look(int connection_id, std::string entity) {
 	// find room
 	GameEntity room = *rooms_->GetEntity(rid);
 
-	// find entity id 
+	// find entity id
 
 	// find entity
 

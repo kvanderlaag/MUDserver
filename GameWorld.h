@@ -11,7 +11,7 @@
 #include <map>
 #include <vector>
 
-class GameWorld {
+class GameWorld {					/*Header file for game world*/
 
 private:
     EntityList* rooms_; // room_id/room_object
@@ -38,7 +38,7 @@ public:
 	std::vector<Message*>* Take(int connection_id, std::string entity);
 
 	std::vector<Message*>* Help(int connection_id);
-    
+
 	std::vector<Message*>* SignUp(int connection_id, std::string login_name, std::string password);
 	std::vector<Message*>* LogIn(int connection_id, std::string login_name, std::string password);
 	std::vector<Message*>* LogOut(int connection_id);

@@ -5,7 +5,7 @@
 
 #include <map>
 
-class EntityList {
+class EntityList {                          /*Header file for EntityList*/
 
 private:
     std::map<int, GameEntity*> map_;

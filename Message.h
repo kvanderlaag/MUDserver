@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-class Message
+class Message						/*Header file for message*/
 {
 public:
 	enum MessageType {
