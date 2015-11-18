@@ -3,19 +3,67 @@
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{class_entity_list_a40295dd300efcf67f02d7d19bdcb1171}{}void {\bfseries Add\+Entity} (\hyperlink{class_game_entity}{Game\+Entity} $\ast$game\+\_\+entity)\label{class_entity_list_a40295dd300efcf67f02d7d19bdcb1171}
-
+\hyperlink{class_entity_list_aed1600f0d729772c4b58f415f724a184}{Entity\+List} ()
 \item 
-\hypertarget{class_entity_list_a413f86f5709a11be52b75fb9c765cc90}{}void {\bfseries Remove\+Entity} (int id)\label{class_entity_list_a413f86f5709a11be52b75fb9c765cc90}
-
+\hyperlink{class_entity_list_a8725ad820c2bfb4fea8557c54d713b9b}{$\sim$\+Entity\+List} ()
 \item 
-\hypertarget{class_entity_list_a91aa2847a1b226bec483bb3c7453f89c}{}\hyperlink{class_game_entity}{Game\+Entity} $\ast$ {\bfseries Get\+Entity} (int id)\label{class_entity_list_a91aa2847a1b226bec483bb3c7453f89c}
-
+void \hyperlink{class_entity_list_a40295dd300efcf67f02d7d19bdcb1171}{Add\+Entity} (\hyperlink{class_game_entity}{Game\+Entity} $\ast$game\+\_\+entity)
 \item 
-\hypertarget{class_entity_list_a8f53dae433fa5b9c514a35157ad071b0}{}int {\bfseries Get\+Entity\+Count} ()\label{class_entity_list_a8f53dae433fa5b9c514a35157ad071b0}
-
+void \hyperlink{class_entity_list_a413f86f5709a11be52b75fb9c765cc90}{Remove\+Entity} (int id)
+\item 
+\hyperlink{class_game_entity}{Game\+Entity} $\ast$ \hyperlink{class_entity_list_a91aa2847a1b226bec483bb3c7453f89c}{Get\+Entity} (int id)
+\item 
+int \hyperlink{class_entity_list_a8f53dae433fa5b9c514a35157ad071b0}{Get\+Entity\+Count} ()
 \end{DoxyCompactItemize}
 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_entity_list_aed1600f0d729772c4b58f415f724a184}{}\index{Entity\+List@{Entity\+List}!Entity\+List@{Entity\+List}}
+\index{Entity\+List@{Entity\+List}!Entity\+List@{Entity\+List}}
+\subsubsection[{Entity\+List()}]{\setlength{\rightskip}{0pt plus 5cm}Entity\+List\+::\+Entity\+List (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_entity_list_aed1600f0d729772c4b58f415f724a184}
+Entity\+List.\+cpp implements the header file \hyperlink{_entity_list_8h_source}{Entity\+List.\+h} Default constructor that creates an entity list then prints out the information \hypertarget{class_entity_list_a8725ad820c2bfb4fea8557c54d713b9b}{}\index{Entity\+List@{Entity\+List}!````~Entity\+List@{$\sim$\+Entity\+List}}
+\index{````~Entity\+List@{$\sim$\+Entity\+List}!Entity\+List@{Entity\+List}}
+\subsubsection[{$\sim$\+Entity\+List()}]{\setlength{\rightskip}{0pt plus 5cm}Entity\+List\+::$\sim$\+Entity\+List (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_entity_list_a8725ad820c2bfb4fea8557c54d713b9b}
+Destructor that delete an entity list then prints out the information 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_entity_list_a40295dd300efcf67f02d7d19bdcb1171}{}\index{Entity\+List@{Entity\+List}!Add\+Entity@{Add\+Entity}}
+\index{Add\+Entity@{Add\+Entity}!Entity\+List@{Entity\+List}}
+\subsubsection[{Add\+Entity(\+Game\+Entity $\ast$game\+\_\+entity)}]{\setlength{\rightskip}{0pt plus 5cm}void Entity\+List\+::\+Add\+Entity (
+\begin{DoxyParamCaption}
+\item[{{\bf Game\+Entity} $\ast$}]{game\+\_\+entity}
+\end{DoxyParamCaption}
+)}\label{class_entity_list_a40295dd300efcf67f02d7d19bdcb1171}
+Takes the pointer of a game entity and adds the game entity to an existing list. It returns warning if the passed I\+Ds are duplicated. \hypertarget{class_entity_list_a91aa2847a1b226bec483bb3c7453f89c}{}\index{Entity\+List@{Entity\+List}!Get\+Entity@{Get\+Entity}}
+\index{Get\+Entity@{Get\+Entity}!Entity\+List@{Entity\+List}}
+\subsubsection[{Get\+Entity(int id)}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Game\+Entity} $\ast$ Entity\+List\+::\+Get\+Entity (
+\begin{DoxyParamCaption}
+\item[{int}]{id}
+\end{DoxyParamCaption}
+)}\label{class_entity_list_a91aa2847a1b226bec483bb3c7453f89c}
+Get the entity corresponding to an I\+D \hypertarget{class_entity_list_a8f53dae433fa5b9c514a35157ad071b0}{}\index{Entity\+List@{Entity\+List}!Get\+Entity\+Count@{Get\+Entity\+Count}}
+\index{Get\+Entity\+Count@{Get\+Entity\+Count}!Entity\+List@{Entity\+List}}
+\subsubsection[{Get\+Entity\+Count()}]{\setlength{\rightskip}{0pt plus 5cm}int Entity\+List\+::\+Get\+Entity\+Count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_entity_list_a8f53dae433fa5b9c514a35157ad071b0}
+Return how many entities are in the list \hypertarget{class_entity_list_a413f86f5709a11be52b75fb9c765cc90}{}\index{Entity\+List@{Entity\+List}!Remove\+Entity@{Remove\+Entity}}
+\index{Remove\+Entity@{Remove\+Entity}!Entity\+List@{Entity\+List}}
+\subsubsection[{Remove\+Entity(int id)}]{\setlength{\rightskip}{0pt plus 5cm}void Entity\+List\+::\+Remove\+Entity (
+\begin{DoxyParamCaption}
+\item[{int}]{id}
+\end{DoxyParamCaption}
+)}\label{class_entity_list_a413f86f5709a11be52b75fb9c765cc90}
+Remove an entity corresponding to an I\+D 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 

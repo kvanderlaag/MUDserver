@@ -88,33 +88,34 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">/*Header file for GameEntity*/</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="class_game_entity.html">    7</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_game_entity.html">GameEntity</a> {</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment">/*Private variables store a permanent ID for a game entity, a name, and a brief description for this entity*/</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">private</span>:</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keywordtype">int</span> id_;</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    std::string name_;</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    std::string description_;</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">/*The public functions have a default constructor, a standard constructor that can set description, a destructor that can remove the entity, and a print function</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> *that displays the ID, name and description for the entity.</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> *Other functions can get the ID of the entity, get the name of the entity, and get the description of the entity as well as set a new descroption to the entity.</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <a class="code" href="class_game_entity.html">GameEntity</a>(<span class="keywordtype">int</span> <span class="keywordtype">id</span>, std::string name);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <a class="code" href="class_game_entity.html">GameEntity</a>(<span class="keywordtype">int</span> <span class="keywordtype">id</span>, std::string name, std::string description);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    ~<a class="code" href="class_game_entity.html">GameEntity</a>();</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordtype">void</span> Print();</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <a class="code" href="class_game_entity.html#ac534073fe3e7b25d95029c8af622a88e">GameEntity</a>(<span class="keywordtype">int</span> <span class="keywordtype">id</span>, std::string name);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <a class="code" href="class_game_entity.html#ac534073fe3e7b25d95029c8af622a88e">GameEntity</a>(<span class="keywordtype">int</span> <span class="keywordtype">id</span>, std::string name, std::string description);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <a class="code" href="class_game_entity.html#a241238b29b5e440107a5b295edf24f9c">~GameEntity</a>();</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_game_entity.html#ac909a518389ee9bc92562b4166340766">Print</a>();</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordtype">int</span> GetId();</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    std::string GetName();</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    std::string GetDescription();</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordtype">void</span> SetDescription(std::string description);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="class_game_entity.html#ad20b660a4f851e9636fdfd15f0d44df0">GetId</a>();</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    std::string <a class="code" href="class_game_entity.html#ae45ee64de484dec1b16aea85171d9856">GetName</a>();</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    std::string <a class="code" href="class_game_entity.html#ac8da446a6c6990585b6581fe8537b7bf">GetDescription</a>();</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_game_entity.html#a163f5785614921a65aab161491d8c47c">SetDescription</a>(std::string description);</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;};</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#endif // __GAMEENTITY_H__</span></div>
+<div class="ttc" id="class_game_entity_html_a163f5785614921a65aab161491d8c47c"><div class="ttname"><a href="class_game_entity.html#a163f5785614921a65aab161491d8c47c">GameEntity::SetDescription</a></div><div class="ttdeci">void SetDescription(std::string description)</div><div class="ttdef"><b>Definition:</b> GameEntity.cpp:45</div></div>
+<div class="ttc" id="class_game_entity_html_ae45ee64de484dec1b16aea85171d9856"><div class="ttname"><a href="class_game_entity.html#ae45ee64de484dec1b16aea85171d9856">GameEntity::GetName</a></div><div class="ttdeci">std::string GetName()</div><div class="ttdef"><b>Definition:</b> GameEntity.cpp:35</div></div>
+<div class="ttc" id="class_game_entity_html_ac534073fe3e7b25d95029c8af622a88e"><div class="ttname"><a href="class_game_entity.html#ac534073fe3e7b25d95029c8af622a88e">GameEntity::GameEntity</a></div><div class="ttdeci">GameEntity(int id, std::string name)</div><div class="ttdef"><b>Definition:</b> GameEntity.cpp:7</div></div>
+<div class="ttc" id="class_game_entity_html_ac909a518389ee9bc92562b4166340766"><div class="ttname"><a href="class_game_entity.html#ac909a518389ee9bc92562b4166340766">GameEntity::Print</a></div><div class="ttdeci">void Print()</div><div class="ttdef"><b>Definition:</b> GameEntity.cpp:50</div></div>
+<div class="ttc" id="class_game_entity_html_ac8da446a6c6990585b6581fe8537b7bf"><div class="ttname"><a href="class_game_entity.html#ac8da446a6c6990585b6581fe8537b7bf">GameEntity::GetDescription</a></div><div class="ttdeci">std::string GetDescription()</div><div class="ttdef"><b>Definition:</b> GameEntity.cpp:40</div></div>
+<div class="ttc" id="class_game_entity_html_ad20b660a4f851e9636fdfd15f0d44df0"><div class="ttname"><a href="class_game_entity.html#ad20b660a4f851e9636fdfd15f0d44df0">GameEntity::GetId</a></div><div class="ttdeci">int GetId()</div><div class="ttdef"><b>Definition:</b> GameEntity.cpp:30</div></div>
+<div class="ttc" id="class_game_entity_html_a241238b29b5e440107a5b295edf24f9c"><div class="ttname"><a href="class_game_entity.html#a241238b29b5e440107a5b295edf24f9c">GameEntity::~GameEntity</a></div><div class="ttdeci">~GameEntity()</div><div class="ttdef"><b>Definition:</b> GameEntity.cpp:25</div></div>
 <div class="ttc" id="class_game_entity_html"><div class="ttname"><a href="class_game_entity.html">GameEntity</a></div><div class="ttdef"><b>Definition:</b> GameEntity.h:7</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

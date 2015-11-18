@@ -8,14 +8,16 @@
 /**
 * Default constructor that creates an entity list then prints out the information
 */
-EntityList::EntityList() {	
+EntityList::EntityList()
+{	
     std::cout << "Created a list..." << std::endl;
 }
 
 /**
 * Destructor that delete an entity list then prints out the information
 */
-EntityList::~EntityList() {	
+EntityList::~EntityList()
+{	
     std::cout << "Destroyed a list..." << std::endl;
 }
 
@@ -23,9 +25,11 @@ EntityList::~EntityList() {
 * Takes the pointer of a game entity and adds the game entity to an existing list.
 * It returns warning if the passed IDs are duplicated.
 */
-void EntityList::AddEntity(GameEntity *game_entity) {			
+void EntityList::AddEntity(GameEntity *game_entity)
+{			
 
-	if( map_.find( game_entity->GetId() ) != map_.end() ){
+	if( map_.find( game_entity->GetId() ) != map_.end() )
+	{
         std::cout << "Duplicate id!!!" << std::endl;
     }
 
@@ -33,30 +37,57 @@ void EntityList::AddEntity(GameEntity *game_entity) {
 }
 
 /**
+* Remove an entity corresponding to an ID
+*/
+void EntityList::RemoveEntity(int id)
+{
+	if (!map_.empty())
+	{
+		if (map_.find(id) != map_.end())
+			map_.erase(id);
+		else
+			std::cout << "Could not find the GameEntity to remove!!! ";
+	}
+}
+
+/**
 * Get the entity corresponding to an ID
 */
-GameEntity* EntityList::GetEntity(int id) {	
-    if( !map_.empty() ) {
-        return map_.find( id )->second;
+GameEntity* EntityList::GetEntity(int id)
+{	
+    if( !map_.empty() )
+	{
+        return map_.find(id)->second;
     }
     return NULL;
 }
 
 /**
- * Remove an entity corresponding to an ID
- */
-void EntityList::RemoveEntity(int id) {	
-    if( !map_.empty() ) {
-        if( map_.find(id) != map_.end() )
-            map_.erase(id);
-        else
-            std::cout << "Could not find the GameEntity to remove!!! ";
-    }
+* Get the entity corresponding to an String
+* Slow
+*/
+GameEntity* EntityList::FindEntity(std::string name)
+{
+	if (!map_.empty())
+	{
+		typedef std::map<int, GameEntity*>::iterator it_type;
+		for (it_type iterator = map_.begin(); iterator != map_.end(); iterator++)
+		{
+			// iterator->first = key
+			// iterator->second = value
+			if (iterator->second->GetName() == name)
+			{
+				return iterator->second;
+			}
+		}
+	}
+	return NULL;
 }
 
 /**
 * Return how many entities are in the list
 */
-int EntityList::GetEntityCount() {	
+int EntityList::GetEntityCount()
+{	
     return map_.size();
 }

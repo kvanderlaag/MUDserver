@@ -3,37 +3,104 @@
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{class_t_c_p_listener_a48b6153b937ca62a53e9c17e0b05b43d}{}{\bfseries T\+C\+P\+Listener} (\hyperlink{class_server}{Server} $\ast$par, int port=9500)\label{class_t_c_p_listener_a48b6153b937ca62a53e9c17e0b05b43d}
-
+\hyperlink{class_t_c_p_listener_a48b6153b937ca62a53e9c17e0b05b43d}{T\+C\+P\+Listener} (\hyperlink{class_server}{Server} $\ast$par, int port=9500)
 \item 
-\hypertarget{class_t_c_p_listener_a5174b5924d90192d653d80c8ba36bed6}{}void {\bfseries Listen} ()\label{class_t_c_p_listener_a5174b5924d90192d653d80c8ba36bed6}
-
+\hyperlink{class_t_c_p_listener_af7e560c0c6c0ea486113dc6eabc4226d}{$\sim$\+T\+C\+P\+Listener} ()
 \item 
-\hypertarget{class_t_c_p_listener_ae41a4b64b93ad9bf32ac393e274cd0a2}{}void {\bfseries Shutdown} ()\label{class_t_c_p_listener_ae41a4b64b93ad9bf32ac393e274cd0a2}
-
+void \hyperlink{class_t_c_p_listener_a5174b5924d90192d653d80c8ba36bed6}{Listen} ()
 \item 
-\hypertarget{class_t_c_p_listener_aa3635eb89ea270d5dbab3b9a8da07835}{}void {\bfseries accept\+\_\+cb} (evutil\+\_\+socket\+\_\+t listener, short event)\label{class_t_c_p_listener_aa3635eb89ea270d5dbab3b9a8da07835}
-
+void \hyperlink{class_t_c_p_listener_ae41a4b64b93ad9bf32ac393e274cd0a2}{Shutdown} ()
 \item 
-\hypertarget{class_t_c_p_listener_a9052d98857ad3909adb4245e3a53f17f}{}void {\bfseries Listener\+Close} ()\label{class_t_c_p_listener_a9052d98857ad3909adb4245e3a53f17f}
-
+void \hyperlink{class_t_c_p_listener_aa3635eb89ea270d5dbab3b9a8da07835}{accept\+\_\+cb} (evutil\+\_\+socket\+\_\+t listener, short event)
 \item 
-\hypertarget{class_t_c_p_listener_a2d5ef87aa89edb85a6e0a002ee560758}{}const \hyperlink{class_server}{Server} \& {\bfseries Get\+Parent} ()\label{class_t_c_p_listener_a2d5ef87aa89edb85a6e0a002ee560758}
-
+void \hyperlink{class_t_c_p_listener_a9052d98857ad3909adb4245e3a53f17f}{Listener\+Close} ()
+\item 
+const \hyperlink{class_server}{Server} \& \hyperlink{class_t_c_p_listener_a2d5ef87aa89edb85a6e0a002ee560758}{Get\+Parent} ()
 \item 
 \hypertarget{class_t_c_p_listener_a3ea7e57f298555e48962d97254595b37}{}const event\+\_\+base $\ast$ {\bfseries Get\+Base} ()\label{class_t_c_p_listener_a3ea7e57f298555e48962d97254595b37}
 
 \item 
-\hypertarget{class_t_c_p_listener_a630b07ccc756f5b302bb69c83b675872}{}void {\bfseries Put\+Message} (const \hyperlink{class_message}{Message} \&mess)\label{class_t_c_p_listener_a630b07ccc756f5b302bb69c83b675872}
-
+void \hyperlink{class_t_c_p_listener_a630b07ccc756f5b302bb69c83b675872}{Put\+Message} (const \hyperlink{class_message}{Message} \&mess)
 \end{DoxyCompactItemize}
 \subsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{class_t_c_p_listener_af39a0d5b95386644c7a22966301f4bc0}{}static void {\bfseries do\+\_\+accept} (evutil\+\_\+socket\+\_\+t listener, short event, void $\ast$arg)\label{class_t_c_p_listener_af39a0d5b95386644c7a22966301f4bc0}
-
+static void \hyperlink{class_t_c_p_listener_af39a0d5b95386644c7a22966301f4bc0}{do\+\_\+accept} (evutil\+\_\+socket\+\_\+t listener, short event, void $\ast$arg)
 \end{DoxyCompactItemize}
 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_t_c_p_listener_a48b6153b937ca62a53e9c17e0b05b43d}{}\index{T\+C\+P\+Listener@{T\+C\+P\+Listener}!T\+C\+P\+Listener@{T\+C\+P\+Listener}}
+\index{T\+C\+P\+Listener@{T\+C\+P\+Listener}!T\+C\+P\+Listener@{T\+C\+P\+Listener}}
+\subsubsection[{T\+C\+P\+Listener(\+Server $\ast$par, int port=9500)}]{\setlength{\rightskip}{0pt plus 5cm}T\+C\+P\+Listener\+::\+T\+C\+P\+Listener (
+\begin{DoxyParamCaption}
+\item[{{\bf Server} $\ast$}]{par, }
+\item[{int}]{port = {\ttfamily 9500}}
+\end{DoxyParamCaption}
+)}\label{class_t_c_p_listener_a48b6153b937ca62a53e9c17e0b05b43d}
+Constructor. Initializes parent \hyperlink{class_server}{Server} pointer, Creates new event\+\_\+base for libevent. \hypertarget{class_t_c_p_listener_af7e560c0c6c0ea486113dc6eabc4226d}{}\index{T\+C\+P\+Listener@{T\+C\+P\+Listener}!````~T\+C\+P\+Listener@{$\sim$\+T\+C\+P\+Listener}}
+\index{````~T\+C\+P\+Listener@{$\sim$\+T\+C\+P\+Listener}!T\+C\+P\+Listener@{T\+C\+P\+Listener}}
+\subsubsection[{$\sim$\+T\+C\+P\+Listener()}]{\setlength{\rightskip}{0pt plus 5cm}T\+C\+P\+Listener\+::$\sim$\+T\+C\+P\+Listener (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_t_c_p_listener_af7e560c0c6c0ea486113dc6eabc4226d}
+Destructor. Frees the created libevent event base. 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_t_c_p_listener_aa3635eb89ea270d5dbab3b9a8da07835}{}\index{T\+C\+P\+Listener@{T\+C\+P\+Listener}!accept\+\_\+cb@{accept\+\_\+cb}}
+\index{accept\+\_\+cb@{accept\+\_\+cb}!T\+C\+P\+Listener@{T\+C\+P\+Listener}}
+\subsubsection[{accept\+\_\+cb(evutil\+\_\+socket\+\_\+t listener, short event)}]{\setlength{\rightskip}{0pt plus 5cm}void T\+C\+P\+Listener\+::accept\+\_\+cb (
+\begin{DoxyParamCaption}
+\item[{evutil\+\_\+socket\+\_\+t}]{listener, }
+\item[{short}]{event}
+\end{DoxyParamCaption}
+)}\label{class_t_c_p_listener_aa3635eb89ea270d5dbab3b9a8da07835}
+accept\+\_\+cb. Callback function for accepting incoming connections. \hypertarget{class_t_c_p_listener_af39a0d5b95386644c7a22966301f4bc0}{}\index{T\+C\+P\+Listener@{T\+C\+P\+Listener}!do\+\_\+accept@{do\+\_\+accept}}
+\index{do\+\_\+accept@{do\+\_\+accept}!T\+C\+P\+Listener@{T\+C\+P\+Listener}}
+\subsubsection[{do\+\_\+accept(evutil\+\_\+socket\+\_\+t listener, short event, void $\ast$arg)}]{\setlength{\rightskip}{0pt plus 5cm}void T\+C\+P\+Listener\+::do\+\_\+accept (
+\begin{DoxyParamCaption}
+\item[{evutil\+\_\+socket\+\_\+t}]{listener, }
+\item[{short}]{event, }
+\item[{void $\ast$}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\label{class_t_c_p_listener_af39a0d5b95386644c7a22966301f4bc0}
+Accept callback -\/ passes libevent accept event to \hyperlink{class_t_c_p_listener}{T\+C\+P\+Listener} instance. \hypertarget{class_t_c_p_listener_a2d5ef87aa89edb85a6e0a002ee560758}{}\index{T\+C\+P\+Listener@{T\+C\+P\+Listener}!Get\+Parent@{Get\+Parent}}
+\index{Get\+Parent@{Get\+Parent}!T\+C\+P\+Listener@{T\+C\+P\+Listener}}
+\subsubsection[{Get\+Parent()}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf Server} \& T\+C\+P\+Listener\+::\+Get\+Parent (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_t_c_p_listener_a2d5ef87aa89edb85a6e0a002ee560758}
+Get\+Parent. Returns the parent server object of the listener. \hypertarget{class_t_c_p_listener_a5174b5924d90192d653d80c8ba36bed6}{}\index{T\+C\+P\+Listener@{T\+C\+P\+Listener}!Listen@{Listen}}
+\index{Listen@{Listen}!T\+C\+P\+Listener@{T\+C\+P\+Listener}}
+\subsubsection[{Listen()}]{\setlength{\rightskip}{0pt plus 5cm}void T\+C\+P\+Listener\+::\+Listen (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_t_c_p_listener_a5174b5924d90192d653d80c8ba36bed6}
+Listen. Initializes socket for listener, binds it, and listens on the specified port. Adds accept callback event to event base. \hypertarget{class_t_c_p_listener_a9052d98857ad3909adb4245e3a53f17f}{}\index{T\+C\+P\+Listener@{T\+C\+P\+Listener}!Listener\+Close@{Listener\+Close}}
+\index{Listener\+Close@{Listener\+Close}!T\+C\+P\+Listener@{T\+C\+P\+Listener}}
+\subsubsection[{Listener\+Close()}]{\setlength{\rightskip}{0pt plus 5cm}void T\+C\+P\+Listener\+::\+Listener\+Close (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_t_c_p_listener_a9052d98857ad3909adb4245e3a53f17f}
+Listener\+Close. Utility function for closing sockets. \hypertarget{class_t_c_p_listener_a630b07ccc756f5b302bb69c83b675872}{}\index{T\+C\+P\+Listener@{T\+C\+P\+Listener}!Put\+Message@{Put\+Message}}
+\index{Put\+Message@{Put\+Message}!T\+C\+P\+Listener@{T\+C\+P\+Listener}}
+\subsubsection[{Put\+Message(const Message \&mess)}]{\setlength{\rightskip}{0pt plus 5cm}void T\+C\+P\+Listener\+::\+Put\+Message (
+\begin{DoxyParamCaption}
+\item[{const {\bf Message} \&}]{mess}
+\end{DoxyParamCaption}
+)}\label{class_t_c_p_listener_a630b07ccc756f5b302bb69c83b675872}
+Put\+Message. Sends a message from a child stream to the parent server. \hypertarget{class_t_c_p_listener_ae41a4b64b93ad9bf32ac393e274cd0a2}{}\index{T\+C\+P\+Listener@{T\+C\+P\+Listener}!Shutdown@{Shutdown}}
+\index{Shutdown@{Shutdown}!T\+C\+P\+Listener@{T\+C\+P\+Listener}}
+\subsubsection[{Shutdown()}]{\setlength{\rightskip}{0pt plus 5cm}void T\+C\+P\+Listener\+::\+Shutdown (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_t_c_p_listener_ae41a4b64b93ad9bf32ac393e274cd0a2}
+Shutdown. Kills parent server. 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 

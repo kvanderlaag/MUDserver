@@ -5,7 +5,8 @@
 #include "EntityList.h"
 #include "GameEntity.h"
 
-class Room : public GameEntity {
+class Room : public GameEntity
+{
 
 private:
 	EntityList* exits_;
@@ -25,9 +26,11 @@ public:
 	void RemoveExit(int id);
 	void RemovePlayer(int id);
 
-	GameEntity *GetExit(int id);
-	GameEntity *GetItem(int id);
-	GameEntity *GetPlayer(int id);
+	GameEntity* GetExit(int id);
+	GameEntity* GetItem(int id);
+	GameEntity* GetPlayer(int id);
+
+	GameEntity* FindEntity(std::string name);
 };
 
 #endif // __ROOM_H__

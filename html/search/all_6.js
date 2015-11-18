@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['parser',['Parser',['../class_parser.html',1,'']]],
-  ['player',['Player',['../class_player.html',1,'Player'],['../class_player.html#a52b1205956ebebdf8fb8ed36cb96bb38',1,'Player::Player(int id, std::string name)'],['../class_player.html#a6b11a80e6a2fe00708bc7228c07e64bd',1,'Player::Player(int id, std::string name, int password)']]],
-  ['printplayer',['PrintPlayer',['../class_player.html#a3b6ec90fba692a26dd0b7a1152fdd81b',1,'Player']]]
+  ['isempty',['IsEmpty',['../class_message_buffer.html#adfe17df060b3be51759e76a9a6315718',1,'MessageBuffer']]],
+  ['item',['Item',['../class_item.html',1,'Item'],['../class_item.html#a1de089cb4e92ab58a297c442c69109be',1,'Item::Item(int id, std::string description)'],['../class_item.html#a7fc39ba8739faa4ea1bd60f1863f770b',1,'Item::Item(int id, std::string name, std::string description)']]]
 ];

@@ -89,13 +89,50 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">Parser Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="_parser_8h_source.html">Parser.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:afd1458368f2c5fe1f65ed6653e122def"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afd1458368f2c5fe1f65ed6653e122def"></a>
-std::vector&lt; <a class="el" href="class_message.html">Message</a> * &gt; *&#160;</td><td class="memItemRight" valign="bottom"><b>Parse</b> (<a class="el" href="class_game_world.html">GameWorld</a> *world, int connection_id, std::string str)</td></tr>
+<tr class="memitem:afd1458368f2c5fe1f65ed6653e122def"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="class_message.html">Message</a> * &gt; *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_parser.html#afd1458368f2c5fe1f65ed6653e122def">Parse</a> (<a class="el" href="class_game_world.html">GameWorld</a> *world, int connection_id, std::string str)</td></tr>
 <tr class="separator:afd1458368f2c5fe1f65ed6653e122def"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Header file for parser </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="afd1458368f2c5fe1f65ed6653e122def"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="class_message.html">Message</a> * &gt; * Parser::Parse </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_game_world.html">GameWorld</a> *&#160;</td>
+          <td class="paramname"><em>world</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>connectionId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>input</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Parses a message from a connection Sends the parsed message to the correct function in the game world with the conenction id Returns a vector of messages to send back out to connections </p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="_parser_8h_source.html">Parser.h</a></li>
 <li>Parser.cpp</li>

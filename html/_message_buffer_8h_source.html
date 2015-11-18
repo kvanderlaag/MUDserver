@@ -88,23 +88,25 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;Message.h&quot;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;queue&gt;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">* Header for message buffer class</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="class_message_buffer.html">    9</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_message_buffer.html">MessageBuffer</a></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;{</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <a class="code" href="class_message_buffer.html">MessageBuffer</a>();</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    ~<a class="code" href="class_message_buffer.html">MessageBuffer</a>();</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keywordtype">int</span> PutMessage(<span class="keyword">const</span> <a class="code" href="class_message.html">Message</a>&amp; mess);</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keyword">const</span> <a class="code" href="class_message.html">Message</a>* DequeueMessage();</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keywordtype">bool</span> IsEmpty();</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <a class="code" href="class_message_buffer.html#a92586fdeffb14738acbf8979b5974e6f">MessageBuffer</a>();</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <a class="code" href="class_message_buffer.html#a9b75bc9b932dd5ac39c35b35b4f18a80">~MessageBuffer</a>();</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="class_message_buffer.html#ac33a6159360e5c26ad3fb505dcbc1daa">PutMessage</a>(<span class="keyword">const</span> <a class="code" href="class_message.html">Message</a>&amp; mess);</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keyword">const</span> <a class="code" href="class_message.html">Message</a>* <a class="code" href="class_message_buffer.html#aa2e65f7885fab04a09a94f0b4341afc2">DequeueMessage</a>();</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_message_buffer.html#adfe17df060b3be51759e76a9a6315718">IsEmpty</a>();</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">private</span>:</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    std::queue&lt;Message*&gt; buffer;</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordtype">int</span> length;</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;};</div>
 <div class="ttc" id="class_message_buffer_html"><div class="ttname"><a href="class_message_buffer.html">MessageBuffer</a></div><div class="ttdef"><b>Definition:</b> MessageBuffer.h:9</div></div>
+<div class="ttc" id="class_message_buffer_html_a9b75bc9b932dd5ac39c35b35b4f18a80"><div class="ttname"><a href="class_message_buffer.html#a9b75bc9b932dd5ac39c35b35b4f18a80">MessageBuffer::~MessageBuffer</a></div><div class="ttdeci">~MessageBuffer()</div><div class="ttdef"><b>Definition:</b> MessageBuffer.cpp:17</div></div>
+<div class="ttc" id="class_message_buffer_html_aa2e65f7885fab04a09a94f0b4341afc2"><div class="ttname"><a href="class_message_buffer.html#aa2e65f7885fab04a09a94f0b4341afc2">MessageBuffer::DequeueMessage</a></div><div class="ttdeci">const Message * DequeueMessage()</div><div class="ttdef"><b>Definition:</b> MessageBuffer.cpp:34</div></div>
+<div class="ttc" id="class_message_buffer_html_ac33a6159360e5c26ad3fb505dcbc1daa"><div class="ttname"><a href="class_message_buffer.html#ac33a6159360e5c26ad3fb505dcbc1daa">MessageBuffer::PutMessage</a></div><div class="ttdeci">int PutMessage(const Message &amp;mess)</div><div class="ttdef"><b>Definition:</b> MessageBuffer.cpp:25</div></div>
+<div class="ttc" id="class_message_buffer_html_adfe17df060b3be51759e76a9a6315718"><div class="ttname"><a href="class_message_buffer.html#adfe17df060b3be51759e76a9a6315718">MessageBuffer::IsEmpty</a></div><div class="ttdeci">bool IsEmpty()</div><div class="ttdef"><b>Definition:</b> MessageBuffer.cpp:45</div></div>
+<div class="ttc" id="class_message_buffer_html_a92586fdeffb14738acbf8979b5974e6f"><div class="ttname"><a href="class_message_buffer.html#a92586fdeffb14738acbf8979b5974e6f">MessageBuffer::MessageBuffer</a></div><div class="ttdeci">MessageBuffer()</div><div class="ttdef"><b>Definition:</b> MessageBuffer.cpp:8</div></div>
 <div class="ttc" id="class_message_html"><div class="ttname"><a href="class_message.html">Message</a></div><div class="ttdef"><b>Definition:</b> Message.h:7</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

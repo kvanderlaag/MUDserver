@@ -86,9 +86,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">* Header file for message</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="class_message.html">    7</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_message.html">Message</a></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;{</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">public</span>:</div>
@@ -99,21 +96,28 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        gameActionMessage = 0x03</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    };</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <a class="code" href="class_message.html">Message</a>(<span class="keyword">const</span> std::string load, <span class="keywordtype">int</span> <span class="keywordtype">id</span>, MessageType mType);</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    ~<a class="code" href="class_message.html">Message</a>();</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <a class="code" href="class_message.html#a3af4af638e94512f9a54eaf2638af46e">Message</a>(<span class="keyword">const</span> std::string load, <span class="keywordtype">int</span> <span class="keywordtype">id</span>, MessageType mType);</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <a class="code" href="class_message.html#a3f7275462831f787a861271687bcad67">~Message</a>();</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keyword">const</span> std::string&amp; Read();</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordtype">int</span> Write(<span class="keyword">const</span> std::string load);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordtype">int</span> Append(<span class="keyword">const</span> std::string load);</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    MessageType GetType();</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordtype">int</span> GetSource();</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keyword">const</span> std::string&amp; <a class="code" href="class_message.html#a739b4aaa722ec1491b61c938d40faf6a">Read</a>();</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="class_message.html#af4d9dc3589639d8e0612d2077823883a">Write</a>(<span class="keyword">const</span> std::string load);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="class_message.html#a62cbff053193fdb05ac7492623a206b3">Append</a>(<span class="keyword">const</span> std::string load);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    MessageType <a class="code" href="class_message.html#a5b6472c4ac06222f8a71e6622ff4d8f1">GetType</a>();</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="class_message.html#a1fb677cce4e09b890eb06403c8afd757">GetSource</a>();</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">private</span>:</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    std::string payload;</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordtype">int</span> connectionID;</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    MessageType type;</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;};</div>
+<div class="ttc" id="class_message_html_a3af4af638e94512f9a54eaf2638af46e"><div class="ttname"><a href="class_message.html#a3af4af638e94512f9a54eaf2638af46e">Message::Message</a></div><div class="ttdeci">Message(const std::string load, int id, MessageType mType)</div><div class="ttdef"><b>Definition:</b> Message.cpp:6</div></div>
+<div class="ttc" id="class_message_html_a1fb677cce4e09b890eb06403c8afd757"><div class="ttname"><a href="class_message.html#a1fb677cce4e09b890eb06403c8afd757">Message::GetSource</a></div><div class="ttdeci">int GetSource()</div><div class="ttdef"><b>Definition:</b> Message.cpp:58</div></div>
+<div class="ttc" id="class_message_html_a5b6472c4ac06222f8a71e6622ff4d8f1"><div class="ttname"><a href="class_message.html#a5b6472c4ac06222f8a71e6622ff4d8f1">Message::GetType</a></div><div class="ttdeci">MessageType GetType()</div><div class="ttdef"><b>Definition:</b> Message.cpp:50</div></div>
+<div class="ttc" id="class_message_html_a3f7275462831f787a861271687bcad67"><div class="ttname"><a href="class_message.html#a3f7275462831f787a861271687bcad67">Message::~Message</a></div><div class="ttdeci">~Message()</div><div class="ttdef"><b>Definition:</b> Message.cpp:16</div></div>
+<div class="ttc" id="class_message_html_a62cbff053193fdb05ac7492623a206b3"><div class="ttname"><a href="class_message.html#a62cbff053193fdb05ac7492623a206b3">Message::Append</a></div><div class="ttdeci">int Append(const std::string load)</div><div class="ttdef"><b>Definition:</b> Message.cpp:41</div></div>
 <div class="ttc" id="class_message_html"><div class="ttname"><a href="class_message.html">Message</a></div><div class="ttdef"><b>Definition:</b> Message.h:7</div></div>
+<div class="ttc" id="class_message_html_a739b4aaa722ec1491b61c938d40faf6a"><div class="ttname"><a href="class_message.html#a739b4aaa722ec1491b61c938d40faf6a">Message::Read</a></div><div class="ttdeci">const std::string &amp; Read()</div><div class="ttdef"><b>Definition:</b> Message.cpp:24</div></div>
+<div class="ttc" id="class_message_html_af4d9dc3589639d8e0612d2077823883a"><div class="ttname"><a href="class_message.html#af4d9dc3589639d8e0612d2077823883a">Message::Write</a></div><div class="ttdeci">int Write(const std::string load)</div><div class="ttdef"><b>Definition:</b> Message.cpp:32</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

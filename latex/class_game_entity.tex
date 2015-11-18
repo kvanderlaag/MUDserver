@@ -1,5 +1,9 @@
 \hypertarget{class_game_entity}{}\section{Game\+Entity Class Reference}
 \label{class_game_entity}\index{Game\+Entity@{Game\+Entity}}
+
+
+{\ttfamily \#include $<$Game\+Entity.\+h$>$}
+
 Inheritance diagram for Game\+Entity\+:\begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -9,28 +13,93 @@ Inheritance diagram for Game\+Entity\+:\begin{figure}[H]
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{class_game_entity_ac534073fe3e7b25d95029c8af622a88e}{}{\bfseries Game\+Entity} (int id, std\+::string name)\label{class_game_entity_ac534073fe3e7b25d95029c8af622a88e}
-
+\hyperlink{class_game_entity_ac534073fe3e7b25d95029c8af622a88e}{Game\+Entity} (int id, std\+::string name)
 \item 
-\hypertarget{class_game_entity_a941b5c3c653f7526545bd81816e9531a}{}{\bfseries Game\+Entity} (int id, std\+::string name, std\+::string description)\label{class_game_entity_a941b5c3c653f7526545bd81816e9531a}
-
+\hyperlink{class_game_entity_a941b5c3c653f7526545bd81816e9531a}{Game\+Entity} (int id, std\+::string name, std\+::string description)
 \item 
-\hypertarget{class_game_entity_ac909a518389ee9bc92562b4166340766}{}void {\bfseries Print} ()\label{class_game_entity_ac909a518389ee9bc92562b4166340766}
-
+\hyperlink{class_game_entity_a241238b29b5e440107a5b295edf24f9c}{$\sim$\+Game\+Entity} ()
 \item 
-\hypertarget{class_game_entity_ad20b660a4f851e9636fdfd15f0d44df0}{}int {\bfseries Get\+Id} ()\label{class_game_entity_ad20b660a4f851e9636fdfd15f0d44df0}
-
+void \hyperlink{class_game_entity_ac909a518389ee9bc92562b4166340766}{Print} ()
 \item 
-\hypertarget{class_game_entity_ae45ee64de484dec1b16aea85171d9856}{}std\+::string {\bfseries Get\+Name} ()\label{class_game_entity_ae45ee64de484dec1b16aea85171d9856}
-
+int \hyperlink{class_game_entity_ad20b660a4f851e9636fdfd15f0d44df0}{Get\+Id} ()
 \item 
-\hypertarget{class_game_entity_ac8da446a6c6990585b6581fe8537b7bf}{}std\+::string {\bfseries Get\+Description} ()\label{class_game_entity_ac8da446a6c6990585b6581fe8537b7bf}
-
+std\+::string \hyperlink{class_game_entity_ae45ee64de484dec1b16aea85171d9856}{Get\+Name} ()
 \item 
-\hypertarget{class_game_entity_a163f5785614921a65aab161491d8c47c}{}void {\bfseries Set\+Description} (std\+::string description)\label{class_game_entity_a163f5785614921a65aab161491d8c47c}
-
+std\+::string \hyperlink{class_game_entity_ac8da446a6c6990585b6581fe8537b7bf}{Get\+Description} ()
+\item 
+void \hyperlink{class_game_entity_a163f5785614921a65aab161491d8c47c}{Set\+Description} (std\+::string description)
 \end{DoxyCompactItemize}
 
+
+\subsection{Detailed Description}
+Header file for \hyperlink{class_game_entity}{Game\+Entity} 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_game_entity_ac534073fe3e7b25d95029c8af622a88e}{}\index{Game\+Entity@{Game\+Entity}!Game\+Entity@{Game\+Entity}}
+\index{Game\+Entity@{Game\+Entity}!Game\+Entity@{Game\+Entity}}
+\subsubsection[{Game\+Entity(int id, std\+::string name)}]{\setlength{\rightskip}{0pt plus 5cm}Game\+Entity\+::\+Game\+Entity (
+\begin{DoxyParamCaption}
+\item[{int}]{id, }
+\item[{std\+::string}]{name}
+\end{DoxyParamCaption}
+)}\label{class_game_entity_ac534073fe3e7b25d95029c8af622a88e}
+The public functions have a default constructor, a standard constructor that can set description, a destructor that can remove the entity, and a print function that displays the I\+D, name and description for the entity. Other functions can get the I\+D of the entity, get the name of the entity, and get the description of the entity as well as set a new descroption to the entity.
+
+Game\+Entity.\+cpp implements the header file \hyperlink{_game_entity_8h_source}{Game\+Entity.\+h} Default constructor that creates a game entity by setting a permanent I\+D, name, and a blank description. \hypertarget{class_game_entity_a941b5c3c653f7526545bd81816e9531a}{}\index{Game\+Entity@{Game\+Entity}!Game\+Entity@{Game\+Entity}}
+\index{Game\+Entity@{Game\+Entity}!Game\+Entity@{Game\+Entity}}
+\subsubsection[{Game\+Entity(int id, std\+::string name, std\+::string description)}]{\setlength{\rightskip}{0pt plus 5cm}Game\+Entity\+::\+Game\+Entity (
+\begin{DoxyParamCaption}
+\item[{int}]{id, }
+\item[{std\+::string}]{name, }
+\item[{std\+::string}]{description}
+\end{DoxyParamCaption}
+)}\label{class_game_entity_a941b5c3c653f7526545bd81816e9531a}
+A standard constructor that creates a game entity with a description \hypertarget{class_game_entity_a241238b29b5e440107a5b295edf24f9c}{}\index{Game\+Entity@{Game\+Entity}!````~Game\+Entity@{$\sim$\+Game\+Entity}}
+\index{````~Game\+Entity@{$\sim$\+Game\+Entity}!Game\+Entity@{Game\+Entity}}
+\subsubsection[{$\sim$\+Game\+Entity()}]{\setlength{\rightskip}{0pt plus 5cm}Game\+Entity\+::$\sim$\+Game\+Entity (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_game_entity_a241238b29b5e440107a5b295edf24f9c}
+A destructor that removes an entity 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_game_entity_ac8da446a6c6990585b6581fe8537b7bf}{}\index{Game\+Entity@{Game\+Entity}!Get\+Description@{Get\+Description}}
+\index{Get\+Description@{Get\+Description}!Game\+Entity@{Game\+Entity}}
+\subsubsection[{Get\+Description()}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string Game\+Entity\+::\+Get\+Description (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_game_entity_ac8da446a6c6990585b6581fe8537b7bf}
+Get the description of an entity \hypertarget{class_game_entity_ad20b660a4f851e9636fdfd15f0d44df0}{}\index{Game\+Entity@{Game\+Entity}!Get\+Id@{Get\+Id}}
+\index{Get\+Id@{Get\+Id}!Game\+Entity@{Game\+Entity}}
+\subsubsection[{Get\+Id()}]{\setlength{\rightskip}{0pt plus 5cm}int Game\+Entity\+::\+Get\+Id (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_game_entity_ad20b660a4f851e9636fdfd15f0d44df0}
+Get the Id of an entity \hypertarget{class_game_entity_ae45ee64de484dec1b16aea85171d9856}{}\index{Game\+Entity@{Game\+Entity}!Get\+Name@{Get\+Name}}
+\index{Get\+Name@{Get\+Name}!Game\+Entity@{Game\+Entity}}
+\subsubsection[{Get\+Name()}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string Game\+Entity\+::\+Get\+Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_game_entity_ae45ee64de484dec1b16aea85171d9856}
+Get the name of an entity \hypertarget{class_game_entity_ac909a518389ee9bc92562b4166340766}{}\index{Game\+Entity@{Game\+Entity}!Print@{Print}}
+\index{Print@{Print}!Game\+Entity@{Game\+Entity}}
+\subsubsection[{Print()}]{\setlength{\rightskip}{0pt plus 5cm}void Game\+Entity\+::\+Print (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_game_entity_ac909a518389ee9bc92562b4166340766}
+Print the I\+D, name, and description of an entity \hypertarget{class_game_entity_a163f5785614921a65aab161491d8c47c}{}\index{Game\+Entity@{Game\+Entity}!Set\+Description@{Set\+Description}}
+\index{Set\+Description@{Set\+Description}!Game\+Entity@{Game\+Entity}}
+\subsubsection[{Set\+Description(std\+::string description)}]{\setlength{\rightskip}{0pt plus 5cm}void Game\+Entity\+::\+Set\+Description (
+\begin{DoxyParamCaption}
+\item[{std\+::string}]{description}
+\end{DoxyParamCaption}
+)}\label{class_game_entity_a163f5785614921a65aab161491d8c47c}
+Change or set the description of an entity 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 

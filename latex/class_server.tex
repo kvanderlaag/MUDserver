@@ -1,42 +1,124 @@
 \hypertarget{class_server}{}\section{Server Class Reference}
 \label{class_server}\index{Server@{Server}}
+
+
+{\ttfamily \#include $<$Server.\+h$>$}
+
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{class_server_a4657bcf0d9581bbfa0c9b2acd043a346}{}{\bfseries Server} (int port=9500)\label{class_server_a4657bcf0d9581bbfa0c9b2acd043a346}
-
+\hyperlink{class_server_a4657bcf0d9581bbfa0c9b2acd043a346}{Server} (int port=9500)
 \item 
-\hypertarget{class_server_a2090e5239076aa11734d768d99951c00}{}int {\bfseries Add\+Connection} (\hyperlink{class_t_c_p_stream}{T\+C\+P\+Stream} $\ast$stream)\label{class_server_a2090e5239076aa11734d768d99951c00}
-
+\hyperlink{class_server_a4b3aa2579cb1c8cd1d069582c14d0fa6}{$\sim$\+Server} ()
 \item 
-\hypertarget{class_server_a15a94eaa4ca5be5db9a65173b6532257}{}int {\bfseries Remove\+Connection} (\hyperlink{class_t_c_p_stream}{T\+C\+P\+Stream} $\ast$stream)\label{class_server_a15a94eaa4ca5be5db9a65173b6532257}
-
+int \hyperlink{class_server_a2090e5239076aa11734d768d99951c00}{Add\+Connection} (\hyperlink{class_t_c_p_stream}{T\+C\+P\+Stream} $\ast$stream)
 \item 
-\hypertarget{class_server_acaea883b722927c7d8299a74447c8d1b}{}void {\bfseries Start} ()\label{class_server_acaea883b722927c7d8299a74447c8d1b}
-
+int \hyperlink{class_server_a15a94eaa4ca5be5db9a65173b6532257}{Remove\+Connection} (\hyperlink{class_t_c_p_stream}{T\+C\+P\+Stream} $\ast$stream)
 \item 
-\hypertarget{class_server_a244a84a1e412dd7954ae874456536b39}{}void {\bfseries Shutdown} ()\label{class_server_a244a84a1e412dd7954ae874456536b39}
-
+void \hyperlink{class_server_acaea883b722927c7d8299a74447c8d1b}{Start} ()
 \item 
-\hypertarget{class_server_a5a1df33cb73f1b66e986ef477fe8c530}{}void {\bfseries Handle\+Message\+Queue} ()\label{class_server_a5a1df33cb73f1b66e986ef477fe8c530}
-
+void \hyperlink{class_server_a244a84a1e412dd7954ae874456536b39}{Shutdown} ()
 \item 
-\hypertarget{class_server_aeb68e272f180a531cb98eb0c6d5db368}{}void {\bfseries Error\+Handler} (const std\+::string arg)\label{class_server_aeb68e272f180a531cb98eb0c6d5db368}
-
+void \hyperlink{class_server_a5a1df33cb73f1b66e986ef477fe8c530}{Handle\+Message\+Queue} ()
 \item 
-\hypertarget{class_server_a8a0f5d1fcef3492463905f813b699574}{}void {\bfseries Put\+Message} (const \hyperlink{class_message}{Message} \&mess)\label{class_server_a8a0f5d1fcef3492463905f813b699574}
-
+void \hyperlink{class_server_aeb68e272f180a531cb98eb0c6d5db368}{Error\+Handler} (const std\+::string arg)
+\item 
+void \hyperlink{class_server_a8a0f5d1fcef3492463905f813b699574}{Put\+Message} (const \hyperlink{class_message}{Message} \&mess)
 \end{DoxyCompactItemize}
 \subsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{class_server_a460b55499056f7572fc854a2fa0cf4a7}{}static void {\bfseries Create\+Message\+Queue\+Thread} (void $\ast$arg)\label{class_server_a460b55499056f7572fc854a2fa0cf4a7}
-
+static void \hyperlink{class_server_a460b55499056f7572fc854a2fa0cf4a7}{Create\+Message\+Queue\+Thread} (void $\ast$arg)
 \item 
-\hypertarget{class_server_a5941f455c15a223cda5ab5f69fa79cf2}{}static void {\bfseries Create\+Listener\+Thread} (void $\ast$arg)\label{class_server_a5941f455c15a223cda5ab5f69fa79cf2}
-
+static void \hyperlink{class_server_a5941f455c15a223cda5ab5f69fa79cf2}{Create\+Listener\+Thread} (void $\ast$arg)
 \end{DoxyCompactItemize}
 
+
+\subsection{Detailed Description}
+Header file for server 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_server_a4657bcf0d9581bbfa0c9b2acd043a346}{}\index{Server@{Server}!Server@{Server}}
+\index{Server@{Server}!Server@{Server}}
+\subsubsection[{Server(int port=9500)}]{\setlength{\rightskip}{0pt plus 5cm}Server\+::\+Server (
+\begin{DoxyParamCaption}
+\item[{int}]{port = {\ttfamily 9500}}
+\end{DoxyParamCaption}
+)}\label{class_server_a4657bcf0d9581bbfa0c9b2acd043a346}
+Creates a server on a given port number Creates a listener on that port Creates a new game world Creates a message buffer for new messages to get read and written to \hypertarget{class_server_a4b3aa2579cb1c8cd1d069582c14d0fa6}{}\index{Server@{Server}!````~Server@{$\sim$\+Server}}
+\index{````~Server@{$\sim$\+Server}!Server@{Server}}
+\subsubsection[{$\sim$\+Server()}]{\setlength{\rightskip}{0pt plus 5cm}Server\+::$\sim$\+Server (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_server_a4b3aa2579cb1c8cd1d069582c14d0fa6}
+Destroys the server Destroy the listener Destroy the message buffer 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_server_a2090e5239076aa11734d768d99951c00}{}\index{Server@{Server}!Add\+Connection@{Add\+Connection}}
+\index{Add\+Connection@{Add\+Connection}!Server@{Server}}
+\subsubsection[{Add\+Connection(\+T\+C\+P\+Stream $\ast$stream)}]{\setlength{\rightskip}{0pt plus 5cm}int Server\+::\+Add\+Connection (
+\begin{DoxyParamCaption}
+\item[{{\bf T\+C\+P\+Stream} $\ast$}]{stream}
+\end{DoxyParamCaption}
+)}\label{class_server_a2090e5239076aa11734d768d99951c00}
+Add a new connection to the server when a user connects \hypertarget{class_server_a5941f455c15a223cda5ab5f69fa79cf2}{}\index{Server@{Server}!Create\+Listener\+Thread@{Create\+Listener\+Thread}}
+\index{Create\+Listener\+Thread@{Create\+Listener\+Thread}!Server@{Server}}
+\subsubsection[{Create\+Listener\+Thread(void $\ast$arg)}]{\setlength{\rightskip}{0pt plus 5cm}void Server\+::\+Create\+Listener\+Thread (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\label{class_server_a5941f455c15a223cda5ab5f69fa79cf2}
+Create a new listener thread Multithreads conencting users \hypertarget{class_server_a460b55499056f7572fc854a2fa0cf4a7}{}\index{Server@{Server}!Create\+Message\+Queue\+Thread@{Create\+Message\+Queue\+Thread}}
+\index{Create\+Message\+Queue\+Thread@{Create\+Message\+Queue\+Thread}!Server@{Server}}
+\subsubsection[{Create\+Message\+Queue\+Thread(void $\ast$arg)}]{\setlength{\rightskip}{0pt plus 5cm}void Server\+::\+Create\+Message\+Queue\+Thread (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\label{class_server_a460b55499056f7572fc854a2fa0cf4a7}
+Create a new message buffer thread Multithreads incoming messages \hypertarget{class_server_aeb68e272f180a531cb98eb0c6d5db368}{}\index{Server@{Server}!Error\+Handler@{Error\+Handler}}
+\index{Error\+Handler@{Error\+Handler}!Server@{Server}}
+\subsubsection[{Error\+Handler(const std\+::string arg)}]{\setlength{\rightskip}{0pt plus 5cm}void Server\+::\+Error\+Handler (
+\begin{DoxyParamCaption}
+\item[{const std\+::string}]{arg}
+\end{DoxyParamCaption}
+)}\label{class_server_aeb68e272f180a531cb98eb0c6d5db368}
+Prints out any errors \hypertarget{class_server_a5a1df33cb73f1b66e986ef477fe8c530}{}\index{Server@{Server}!Handle\+Message\+Queue@{Handle\+Message\+Queue}}
+\index{Handle\+Message\+Queue@{Handle\+Message\+Queue}!Server@{Server}}
+\subsubsection[{Handle\+Message\+Queue()}]{\setlength{\rightskip}{0pt plus 5cm}void Server\+::\+Handle\+Message\+Queue (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_server_a5a1df33cb73f1b66e986ef477fe8c530}
+Checks if therea is a message in the message buffer If so, removes the message and sends it to the parser \hypertarget{class_server_a8a0f5d1fcef3492463905f813b699574}{}\index{Server@{Server}!Put\+Message@{Put\+Message}}
+\index{Put\+Message@{Put\+Message}!Server@{Server}}
+\subsubsection[{Put\+Message(const Message \&mess)}]{\setlength{\rightskip}{0pt plus 5cm}void Server\+::\+Put\+Message (
+\begin{DoxyParamCaption}
+\item[{const {\bf Message} \&}]{mess}
+\end{DoxyParamCaption}
+)}\label{class_server_a8a0f5d1fcef3492463905f813b699574}
+Place a new message onto the message buffer \hypertarget{class_server_a15a94eaa4ca5be5db9a65173b6532257}{}\index{Server@{Server}!Remove\+Connection@{Remove\+Connection}}
+\index{Remove\+Connection@{Remove\+Connection}!Server@{Server}}
+\subsubsection[{Remove\+Connection(\+T\+C\+P\+Stream $\ast$stream)}]{\setlength{\rightskip}{0pt plus 5cm}int Server\+::\+Remove\+Connection (
+\begin{DoxyParamCaption}
+\item[{{\bf T\+C\+P\+Stream} $\ast$}]{stream}
+\end{DoxyParamCaption}
+)}\label{class_server_a15a94eaa4ca5be5db9a65173b6532257}
+Remove a connection from the connection list \hypertarget{class_server_a244a84a1e412dd7954ae874456536b39}{}\index{Server@{Server}!Shutdown@{Shutdown}}
+\index{Shutdown@{Shutdown}!Server@{Server}}
+\subsubsection[{Shutdown()}]{\setlength{\rightskip}{0pt plus 5cm}void Server\+::\+Shutdown (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_server_a244a84a1e412dd7954ae874456536b39}
+Stops the server Remove all connected users Destroy the listener \hypertarget{class_server_acaea883b722927c7d8299a74447c8d1b}{}\index{Server@{Server}!Start@{Start}}
+\index{Start@{Start}!Server@{Server}}
+\subsubsection[{Start()}]{\setlength{\rightskip}{0pt plus 5cm}void Server\+::\+Start (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_server_acaea883b722927c7d8299a74447c8d1b}
+Begin running the srever Create a thread for listeners and message buffer Will now listen for messages and connections from users 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
