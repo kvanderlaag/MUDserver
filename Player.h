@@ -21,7 +21,7 @@ class Player: public GameEntity{
 * The private variable roomID_ is a pointer variable points to a room ID passed by the server when the room where the player located at has changed.
 * The roomID_ shows the current room for the player.
 * The private variable items_ is a entity list pointer points to a list of items. Player can add, remove, and find the items within the object.
-*/    
+*/
 private:
     int* connectionID_;
     int password_;
@@ -38,7 +38,7 @@ public:
     Player( int id, std::string name, int password);
     ~Player();
     void PrintPlayer();
-    
+
     void AssignConnectionID(int* newConnectionID);
     int* GetConnectionID();
     int* GetRoomID();
@@ -47,8 +47,8 @@ public:
 	void RemoveItem(int id);
 	GameEntity *GetItem(int id);
 
-/*The function GetPassword returns the initial password of the player.*/  
+/**The function GetPassword returns the initial password of the player.*/  
     int GetPassword();
 };
 
-#endif 
+#endif

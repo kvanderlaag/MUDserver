@@ -3,7 +3,7 @@
 
 #include <sstream>
 
-/*
+/**
 * Parses a message from a connection
 * Sends the parsed message to the correct function in the game world with the conenction id
 * Returns a vector of messages to send back out to connections

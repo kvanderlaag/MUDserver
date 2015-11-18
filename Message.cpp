@@ -1,6 +1,6 @@
 #include "Message.h"
 
-/*
+/**
 * Create a message
 */
 Message::Message(const std::string load, int id, MessageType mType)
@@ -10,7 +10,7 @@ Message::Message(const std::string load, int id, MessageType mType)
 	type = mType;
 }
 
-/*
+/**
 * Destroys a message
 */
 Message::~Message()
@@ -18,7 +18,7 @@ Message::~Message()
 
 }
 
-/*
+/**
 * Returns the payload of a message
 */
 const std::string& Message::Read()
@@ -26,7 +26,7 @@ const std::string& Message::Read()
 	return payload;
 }
 
-/*
+/**
 * Changes the payload of a message
 */
 int Message::Write(const std::string load)
@@ -35,7 +35,7 @@ int Message::Write(const std::string load)
 	return 0;
 }
 
-/*
+/**
 * Adds more onto the end of an existing payload
 */
 int Message::Append(const std::string load)
@@ -44,7 +44,7 @@ int Message::Append(const std::string load)
 	return 0;
 }
 
-/*
+/**
 * Returns the type of the message
 */
 Message::MessageType Message::GetType()
@@ -52,7 +52,7 @@ Message::MessageType Message::GetType()
 	return type;
 }
 
-/*
+/**
 * Returns the connection ID of the player who sent the message
 */
 int Message::GetSource() {

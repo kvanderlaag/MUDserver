@@ -2,7 +2,7 @@
 
 #include <queue>
 
-/*
+/**
 * Create a message buffer
 */
 MessageBuffer::MessageBuffer()
@@ -11,7 +11,7 @@ MessageBuffer::MessageBuffer()
 
 }
 
-/*
+/**
 * Destroy the message buffer
 */
 MessageBuffer::~MessageBuffer()
@@ -19,7 +19,7 @@ MessageBuffer::~MessageBuffer()
 
 }
 
-/*
+/**
 * Place a message at the end of the message buffer
 */
 int MessageBuffer::PutMessage(const Message& mess)
@@ -28,7 +28,7 @@ int MessageBuffer::PutMessage(const Message& mess)
 	return ++length;
 }
 
-/*
+/**
 * Grab the next message in the message buffer
 */
 const Message* MessageBuffer::DequeueMessage()
@@ -39,7 +39,7 @@ const Message* MessageBuffer::DequeueMessage()
 	return ret;
 }
 
-/*
+/**
 * Checks if the message buffer is empty
 */
 bool MessageBuffer::IsEmpty()

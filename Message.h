@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-/*
+/**
 * Header file for message
 */
 class Message

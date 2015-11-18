@@ -1,0 +1,143 @@
+\hypertarget{class_player}{}\section{Player Class Reference}
+\label{class_player}\index{Player@{Player}}
+
+
+{\ttfamily \#include $<$Player.\+h$>$}
+
+Inheritance diagram for Player\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_player}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_player_a52b1205956ebebdf8fb8ed36cb96bb38}{Player} (int id, std\+::string name)
+\item 
+\hyperlink{class_player_a6b11a80e6a2fe00708bc7228c07e64bd}{Player} (int id, std\+::string name, int password)
+\item 
+\hyperlink{class_player_a749d2c00e1fe0f5c2746f7505a58c062}{$\sim$\+Player} ()
+\item 
+void \hyperlink{class_player_a3b6ec90fba692a26dd0b7a1152fdd81b}{Print\+Player} ()
+\item 
+void \hyperlink{class_player_ac053e1c2dc6f58dcb56549b55f84eefc}{Assign\+Connection\+I\+D} (int $\ast$new\+Connection\+I\+D)
+\item 
+int $\ast$ \hyperlink{class_player_aa8babf0a2414f0b1c8f3c869884ee1fb}{Get\+Connection\+I\+D} ()
+\item 
+int $\ast$ \hyperlink{class_player_accc15d0a218d831646ab120d0c3422ec}{Get\+Room\+I\+D} ()
+\item 
+void \hyperlink{class_player_af783946de60e739b40264e0dee2cf3fc}{Change\+Room\+I\+D} (int $\ast$new\+Room\+I\+D)
+\item 
+void \hyperlink{class_player_a8c3a7fe4d77f39dca16d9d1b820bd5b3}{Add\+Item} (\hyperlink{class_game_entity}{Game\+Entity} $\ast$entity)
+\item 
+void \hyperlink{class_player_aff31ee6916b9fbfeafeb6f6011a0818e}{Remove\+Item} (int id)
+\item 
+\hyperlink{class_game_entity}{Game\+Entity} $\ast$ \hyperlink{class_player_a503d12d7f5db24c19d53fa3db586ab54}{Get\+Item} (int id)
+\item 
+int \hyperlink{class_player_a69905a1f6b3e303f9faefc6158a14e55}{Get\+Password} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Header file \hyperlink{_player_8h_source}{Player.\+h} inherits \hyperlink{class_game_entity}{Game\+Entity}. \hyperlink{class_player}{Player} also includes an entity list for the item inventory. \hyperlink{class_player}{Player} extents \hyperlink{class_game_entity}{Game\+Entity}\textquotesingle{}s functionailty by adding connection I\+D, password, room I\+D, and an entity list for storing items. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_player_a52b1205956ebebdf8fb8ed36cb96bb38}{}\index{Player@{Player}!Player@{Player}}
+\index{Player@{Player}!Player@{Player}}
+\subsubsection[{Player(int id, std\+::string name)}]{\setlength{\rightskip}{0pt plus 5cm}Player\+::\+Player (
+\begin{DoxyParamCaption}
+\item[{int}]{id, }
+\item[{std\+::string}]{name}
+\end{DoxyParamCaption}
+)}\label{class_player_a52b1205956ebebdf8fb8ed36cb96bb38}
+Public functions have default constructor, a standard constructor, a destrutor, and a print out function. Other public functions for more functionailties for player object have get/assign connection I\+D, verify password, get/modify room I\+D where the player located, add/remove/find a item with an item list within player object.
+
+Player.\+cpp is included by header file \hyperlink{_player_8h_source}{Player.\+h} implementing the functionalities from \hyperlink{_player_8h_source}{Player.\+h} The default constructor create a naive object player by permanent player I\+D and initial name. \hypertarget{class_player_a6b11a80e6a2fe00708bc7228c07e64bd}{}\index{Player@{Player}!Player@{Player}}
+\index{Player@{Player}!Player@{Player}}
+\subsubsection[{Player(int id, std\+::string name, int password)}]{\setlength{\rightskip}{0pt plus 5cm}Player\+::\+Player (
+\begin{DoxyParamCaption}
+\item[{int}]{id, }
+\item[{std\+::string}]{name, }
+\item[{int}]{password}
+\end{DoxyParamCaption}
+)}\label{class_player_a6b11a80e6a2fe00708bc7228c07e64bd}
+A standard constructor create an object player by permanent player I\+D, initial name, and password. \hypertarget{class_player_a749d2c00e1fe0f5c2746f7505a58c062}{}\index{Player@{Player}!````~Player@{$\sim$\+Player}}
+\index{````~Player@{$\sim$\+Player}!Player@{Player}}
+\subsubsection[{$\sim$\+Player()}]{\setlength{\rightskip}{0pt plus 5cm}Player\+::$\sim$\+Player (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_player_a749d2c00e1fe0f5c2746f7505a58c062}
+The destructor \hyperlink{class_player_a749d2c00e1fe0f5c2746f7505a58c062}{$\sim$\+Player()} remove object player. 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_player_a8c3a7fe4d77f39dca16d9d1b820bd5b3}{}\index{Player@{Player}!Add\+Item@{Add\+Item}}
+\index{Add\+Item@{Add\+Item}!Player@{Player}}
+\subsubsection[{Add\+Item(\+Game\+Entity $\ast$entity)}]{\setlength{\rightskip}{0pt plus 5cm}void Player\+::\+Add\+Item (
+\begin{DoxyParamCaption}
+\item[{{\bf Game\+Entity} $\ast$}]{item}
+\end{DoxyParamCaption}
+)}\label{class_player_a8c3a7fe4d77f39dca16d9d1b820bd5b3}
+The function Add\+Item receives a pointer of type \hyperlink{class_game_entity}{Game\+Entity} and add item to the item list within player object. \hypertarget{class_player_ac053e1c2dc6f58dcb56549b55f84eefc}{}\index{Player@{Player}!Assign\+Connection\+I\+D@{Assign\+Connection\+I\+D}}
+\index{Assign\+Connection\+I\+D@{Assign\+Connection\+I\+D}!Player@{Player}}
+\subsubsection[{Assign\+Connection\+I\+D(int $\ast$new\+Connection\+I\+D)}]{\setlength{\rightskip}{0pt plus 5cm}void Player\+::\+Assign\+Connection\+I\+D (
+\begin{DoxyParamCaption}
+\item[{int $\ast$}]{new\+Connection\+I\+D}
+\end{DoxyParamCaption}
+)}\label{class_player_ac053e1c2dc6f58dcb56549b55f84eefc}
+This function takes a pointer variable passed by the server and changes the current connection I\+D to the new connection I\+D. \hypertarget{class_player_af783946de60e739b40264e0dee2cf3fc}{}\index{Player@{Player}!Change\+Room\+I\+D@{Change\+Room\+I\+D}}
+\index{Change\+Room\+I\+D@{Change\+Room\+I\+D}!Player@{Player}}
+\subsubsection[{Change\+Room\+I\+D(int $\ast$new\+Room\+I\+D)}]{\setlength{\rightskip}{0pt plus 5cm}void Player\+::\+Change\+Room\+I\+D (
+\begin{DoxyParamCaption}
+\item[{int $\ast$}]{new\+Room\+I\+D}
+\end{DoxyParamCaption}
+)}\label{class_player_af783946de60e739b40264e0dee2cf3fc}
+The Change\+Room\+I\+D function takes the pointer variable passed by the server and modifies the current player\textquotesingle{}s room I\+D (i.\+e. room location) to the new room I\+D. \hypertarget{class_player_aa8babf0a2414f0b1c8f3c869884ee1fb}{}\index{Player@{Player}!Get\+Connection\+I\+D@{Get\+Connection\+I\+D}}
+\index{Get\+Connection\+I\+D@{Get\+Connection\+I\+D}!Player@{Player}}
+\subsubsection[{Get\+Connection\+I\+D()}]{\setlength{\rightskip}{0pt plus 5cm}int $\ast$ Player\+::\+Get\+Connection\+I\+D (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_player_aa8babf0a2414f0b1c8f3c869884ee1fb}
+The Get\+Connection\+I\+D function returns the current connection I\+D. \hypertarget{class_player_a503d12d7f5db24c19d53fa3db586ab54}{}\index{Player@{Player}!Get\+Item@{Get\+Item}}
+\index{Get\+Item@{Get\+Item}!Player@{Player}}
+\subsubsection[{Get\+Item(int id)}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Game\+Entity} $\ast$ Player\+::\+Get\+Item (
+\begin{DoxyParamCaption}
+\item[{int}]{id}
+\end{DoxyParamCaption}
+)}\label{class_player_a503d12d7f5db24c19d53fa3db586ab54}
+The function Get\+Item receives the I\+D of an item and find the item to the item list within player object. \hypertarget{class_player_a69905a1f6b3e303f9faefc6158a14e55}{}\index{Player@{Player}!Get\+Password@{Get\+Password}}
+\index{Get\+Password@{Get\+Password}!Player@{Player}}
+\subsubsection[{Get\+Password()}]{\setlength{\rightskip}{0pt plus 5cm}int Player\+::\+Get\+Password (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_player_a69905a1f6b3e303f9faefc6158a14e55}
+The Get\+Password function returns the initial passoword. \hypertarget{class_player_accc15d0a218d831646ab120d0c3422ec}{}\index{Player@{Player}!Get\+Room\+I\+D@{Get\+Room\+I\+D}}
+\index{Get\+Room\+I\+D@{Get\+Room\+I\+D}!Player@{Player}}
+\subsubsection[{Get\+Room\+I\+D()}]{\setlength{\rightskip}{0pt plus 5cm}int $\ast$ Player\+::\+Get\+Room\+I\+D (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_player_accc15d0a218d831646ab120d0c3422ec}
+The destructor \hyperlink{class_player_a749d2c00e1fe0f5c2746f7505a58c062}{$\sim$\+Player()} remove object player. \hypertarget{class_player_a3b6ec90fba692a26dd0b7a1152fdd81b}{}\index{Player@{Player}!Print\+Player@{Print\+Player}}
+\index{Print\+Player@{Print\+Player}!Player@{Player}}
+\subsubsection[{Print\+Player()}]{\setlength{\rightskip}{0pt plus 5cm}void Player\+::\+Print\+Player (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_player_a3b6ec90fba692a26dd0b7a1152fdd81b}
+The Print\+Player function is called to print the basic information for the player. It prints out the current connection I\+D and the current room I\+D of the player. \hypertarget{class_player_aff31ee6916b9fbfeafeb6f6011a0818e}{}\index{Player@{Player}!Remove\+Item@{Remove\+Item}}
+\index{Remove\+Item@{Remove\+Item}!Player@{Player}}
+\subsubsection[{Remove\+Item(int id)}]{\setlength{\rightskip}{0pt plus 5cm}void Player\+::\+Remove\+Item (
+\begin{DoxyParamCaption}
+\item[{int}]{id}
+\end{DoxyParamCaption}
+)}\label{class_player_aff31ee6916b9fbfeafeb6f6011a0818e}
+The function Remove\+Item receives the I\+D of an item and remove this item from the item list within player object. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Player.\+h\item 
+Player.\+cpp\end{DoxyCompactItemize}

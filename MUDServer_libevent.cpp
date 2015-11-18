@@ -38,9 +38,9 @@ int WinsockStart()
 #endif
 
 
-/*
-main() function. Starts up Winsock if necessary, creates a new server,
-and starts it listening on the default port.
+/**
+* main() function. Starts up Winsock if necessary, creates a new server,
+* and starts it listening on the default port.
 */
 int main()
 {
