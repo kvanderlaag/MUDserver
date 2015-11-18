@@ -1,5 +1,5 @@
 /**
-* Header file Player is an entity inherent object GameEntity.
+* Header file Player.h inherits GameEntity.
 * Player also includes an entity list for the item inventory.
 */
 #ifndef __PLAYER_H__

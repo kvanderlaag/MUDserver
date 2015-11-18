@@ -1,4 +1,6 @@
-/*Header file for item*/
+/**Header file for item
+ *item inherits GameEntity
+*/
 #ifndef __ITEM_H__
 #define __ITEM_H__
 
