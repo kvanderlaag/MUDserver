@@ -1,10 +1,14 @@
 #pragma once
 #include <string>
 
-class Message						/*Header file for message*/
+/*
+* Header file for message
+*/
+class Message
 {
 public:
-	enum MessageType {
+	enum MessageType
+	{
 		outputMessage = 0x01,
 		inputMessage = 0x02,
 		gameActionMessage = 0x03
@@ -19,11 +23,8 @@ public:
 	MessageType GetType();
 	int GetSource();
 
-	
-
 private:
 	std::string payload;
 	int connectionID;
 	MessageType type;
 };
-

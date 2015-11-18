@@ -11,7 +11,11 @@
 #include <map>
 #include <vector>
 
-class GameWorld {					/*Header file for game world*/
+/*
+* Header file for game world
+*/
+class GameWorld
+{
 
 private:
     EntityList* rooms_; // room_id/room_object
