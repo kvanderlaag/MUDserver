@@ -3,46 +3,84 @@
 #include <iostream>
 #include <vector>
 
-GameWorld::GameWorld() {						/*Create a game world, with entity lists players and rooms*/
+/*
+* Create a game world, with entity lists for players and rooms
+*/
+GameWorld::GameWorld()
+{
     std::cout << "Created a world..." << std::endl;
 	players_ = new EntityList();
 	rooms_ = new EntityList();
 
-	Room *thera = new Room(rooms_->GetEntityCount(), "Thera", "South of Thera, Adventurers crowd the streets. Guards stand silent at the gates.");
+	Room *thera = new Room(rooms_->GetEntityCount(), "Thera", "South of Thera. Adventurers crowd the streets. Guards stand silent at the gates.");
 	AddRoom(thera);
 
 }
 
-GameWorld::~GameWorld() {						/*Delete a game world*/
+/*
+* Destroy a game world
+*/
+GameWorld::~GameWorld()
+{
     std::cout << "Destroyed a world..." << std::endl;
 }
 
-void GameWorld::AddRoom(Room *room) {					/*Add a room to the game world*/
+/*
+* Add a room to the room list in game world
+*/
+void GameWorld::AddRoom(Room *room)
+{
 	std::cout << "adding room" << std::endl;
     rooms_->AddEntity(room);
 }
 
-void GameWorld::AddPlayer(Player *player) {				/*Add a player to the entity list*/
+/*
+* Add a player to the player list in game world
+*/
+void GameWorld::AddPlayer(Player *player)
+{
 	players_->AddEntity( player );
 }
 
-void GameWorld::RemoveRoom(int id) {					/*Remove a room from the  game world's room entity list*/
+/*
+* Remove a room from the room list in game world
+*/
+void GameWorld::RemoveRoom(int id)
+{
     rooms_->RemoveEntity(id);
 }
 
-void GameWorld::RemovePlayer(int id) {					/*Remove a player from the game world's player entity list*/
+/*
+* Remove a player from the player list in game world
+*/
+void GameWorld::RemovePlayer(int id)
+{
     players_->RemoveEntity(id);
 }
 
-GameEntity* GameWorld::GetRoom(int id) {				/*Get the ID of a given room*/
+/*
+* Get the room object given the room id
+*/
+GameEntity* GameWorld::GetRoom(int id)
+{
     return rooms_->GetEntity(id);
 }
 
-GameEntity* GameWorld::GetPlayer(int id) {				/*Get the Id of a player*/
+/*
+* Get the player object given the player id
+*/
+GameEntity* GameWorld::GetPlayer(int id)
+{
     return players_->GetEntity(id);
 }
 
-std::vector<Message*>* GameWorld::Look(int connection_id) {
+/*
+* Player command
+* Default look command with no given entity
+* Returns the description of the room the player is standing in
+*/
+std::vector<Message*>* GameWorld::Look(int connection_id)
+{
 	std::vector<Message*>* out = new std::vector<Message*>();
 
 	/* find player id*/
@@ -55,11 +93,17 @@ std::vector<Message*>* GameWorld::Look(int connection_id) {
 	/*get description*/
 	Message msg = Message("hi", connection_id, Message::outputMessage);
 	out.push_back(msg);
-    
+
 	return &out;
 }
 
-std::vector<Message*>* GameWorld::Look(int connection_id, std::string entity) {
+/*
+* Player command
+* Look command with a given entity
+* Returns the description of the entity
+*/
+std::vector<Message*>* GameWorld::Look(int connection_id, std::string entity)
+{
 	std::vector<Message*>* out = new std::vector<Message*>();
 
 	/*// find player id
@@ -86,7 +130,13 @@ std::vector<Message*>* GameWorld::Look(int connection_id, std::string entity) {
 	return out;
 }
 
-std::vector<Message*>* GameWorld::Move(int connection_id, std::string exit) {
+/*
+* Player command
+* Move command with a given exit
+* Moves the player to the room that the exit is linked to
+*/
+std::vector<Message*>* GameWorld::Move(int connection_id, std::string exit)
+{
 	std::vector<Message*>* out;
 
 
@@ -97,7 +147,13 @@ std::vector<Message*>* GameWorld::Move(int connection_id, std::string exit) {
 	return out;
 }
 
-std::vector<Message*>* GameWorld::Say(int connection_id, std::string words) {
+/*
+* Player command
+* Say command with a given message
+* Forwards this message to all other players that are in the same room
+*/
+std::vector<Message*>* GameWorld::Say(int connection_id, std::string words)
+{
 	std::vector<Message*>* out = new std::vector<Message*>();
 
 
@@ -108,7 +164,13 @@ std::vector<Message*>* GameWorld::Say(int connection_id, std::string words) {
 	return out;
 }
 
-std::vector<Message*>* GameWorld::Take(int connection_id, std::string entity) {
+/*
+* Player command
+* Take command with a given entity
+* Removes the entity from the room and adds it to the players inventory
+*/
+std::vector<Message*>* GameWorld::Take(int connection_id, std::string entity)
+{
 	std::vector<Message*>* out = new std::vector<Message*>();
 
 
@@ -119,7 +181,13 @@ std::vector<Message*>* GameWorld::Take(int connection_id, std::string entity) {
 	return out;
 }
 
-std::vector<Message*>* GameWorld::Help(int connection_id) {
+/*
+* Player command
+* Help command
+* Returns a list of commands for the player
+*/
+std::vector<Message*>* GameWorld::Help(int connection_id)
+{
 	std::vector<Message*>* out = new std::vector<Message*>();
 
 
@@ -130,7 +198,13 @@ std::vector<Message*>* GameWorld::Help(int connection_id) {
 	return out;
 }
 
-std::vector<Message*>* GameWorld::SignUp(int connection_id, std::string login_name, std::string password) {
+/*
+* Player command
+* Signup command
+* Registers login name with password in the player list in game world
+*/
+std::vector<Message*>* GameWorld::SignUp(int connection_id, std::string login_name, std::string password)
+{
 	std::vector<Message*> *out = new std::vector<Message*>();
 
 
@@ -141,7 +215,15 @@ std::vector<Message*>* GameWorld::SignUp(int connection_id, std::string login_na
 	return out;
 }
 
-std::vector<Message*>* GameWorld::LogIn(int connection_id, std::string login_name, std::string password) {
+/*
+* Player command
+* Login command
+* Checks if the given login name and password match an entry in the player list in game world
+* Signs that player in if it matches
+* Adds player to the connection list
+*/
+std::vector<Message*>* GameWorld::LogIn(int connection_id, std::string login_name, std::string password)
+{
 	std::vector<Message*> *out = new std::vector<Message*>();
 
 
@@ -152,7 +234,14 @@ std::vector<Message*>* GameWorld::LogIn(int connection_id, std::string login_nam
 	return out;
 }
 
-std::vector<Message*>* GameWorld::LogOut(int connection_id) {
+/*
+* Player command
+* Logout command
+* Cleans up the players variables and logs the player out of the game world
+* Removes player from the connection list
+*/
+std::vector<Message*>* GameWorld::LogOut(int connection_id)
+{
 	std::vector<Message*> *out = new std::vector<Message*>();
 
 

@@ -2,32 +2,55 @@
 
 #include <iostream>
 
-ConnectionList::ConnectionList() {					/*Create a new connection list*/
+/*
+* Create a new connection list
+*/
+ConnectionList::ConnectionList()
+{
 	std::cout << "Created a connection list..." << std::endl;
 }
 
-ConnectionList::~ConnectionList() {					/*Remove a connection list*/
+/*
+* Destroy a connection list
+*/
+ConnectionList::~ConnectionList()
+{
 	std::cout << "Destroyed a connection list..." << std::endl;
 }
 
-void ConnectionList::AddConnection(int connection_id, int player_id) {	/*Add a connection to an existing connection list*/
+/*
+* Add a connection to an existing connection list
+*/
+void ConnectionList::AddConnection(int connection_id, int player_id)
+{
 
-	if (map_.find(connection_id) != map_.end()) {
+	if (map_.find(connection_id) != map_.end())
+	{
 		std::cout << "Duplicate id!!!" << std::endl;
 	}
 
 	map_.insert(std::pair<int, int>(connection_id, player_id));
 }
 
-int ConnectionList::GetPlayerId(int connection_id) {			/*From a connection ID, get the corresponding player ID*/
-	if (!map_.empty()) {
+/*
+* From a connection ID, get the corresponding player ID
+*/
+int ConnectionList::GetPlayerId(int connection_id)
+{
+	if (!map_.empty())
+	{
 		return map_.find(connection_id)->second;
 	}
 	return NULL;
 }
 
-void ConnectionList::RemoveConnection(int connection_id) {		/*Remove the connection ID from a list*/
-	if (!map_.empty()) {
+/*
+* Remove the connection ID and corresponding player ID from a list
+*/
+void ConnectionList::RemoveConnection(int connection_id)
+{
+	if (!map_.empty())
+	{
 		if (map_.find(connection_id) != map_.end())
 			map_.erase(connection_id);
 		else
@@ -35,6 +58,10 @@ void ConnectionList::RemoveConnection(int connection_id) {		/*Remove the connect
 	}
 }
 
-int ConnectionList::GetConnectionCount() {				/*Returns the number of connections currently active*/
+/*
+* Returns the number of connections currently active
+*/
+int ConnectionList::GetConnectionCount()
+{
 	return map_.size();
 }

@@ -3,6 +3,9 @@
 #include "Message.h"
 #include <queue>
 
+/*
+* Header for message buffer class
+*/
 class MessageBuffer
 {
 public:
@@ -16,4 +19,3 @@ private:
 	std::queue<Message*> buffer;
 	int length;
 };
-

@@ -1,37 +1,60 @@
 #include "Message.h"
 
-
-Message::Message(const std::string load, int id, MessageType mType)	/*Create a message*/
+/*
+* Create a message
+*/
+Message::Message(const std::string load, int id, MessageType mType)
 {
 	payload = load;
 	connectionID = id;
 	type = mType;
 }
 
-
+/*
+* Destroys a message
+*/
 Message::~Message()
 {
 
 }
 
-const std::string& Message::Read() {					/*Returns the payload of a message*/
+/*
+* Returns the payload of a message
+*/
+const std::string& Message::Read()
+{
 	return payload;
 }
 
-int Message::Write(const std::string load) {				/*Changes the payload of a message*/
+/*
+* Changes the payload of a message
+*/
+int Message::Write(const std::string load)
+{
 	payload = load;
 	return 0;
 }
 
-int Message::Append(const std::string load) {				/*Add load to the end of the message*/
+/*
+* Adds more onto the end of an existing payload
+*/
+int Message::Append(const std::string load)
+{
 	payload += load;
 	return 0;
 }
 
-Message::MessageType Message::GetType() {				/*Returns the typf oe message*/
+/*
+* Returns the type of the message
+*/
+Message::MessageType Message::GetType()
+{
 	return type;
 }
 
-int Message::GetSource() {						/*Returns the connection ID of the player who made the message*/
+/*
+* Returns the connection ID of the player who sent the message
+*/
+int Message::GetSource() {
 	return connectionID;
 }

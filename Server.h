@@ -9,6 +9,9 @@
 class TCPListener;
 class TCPStream;
 
+/*
+* Header file for server
+*/
 class Server
 {
 public:
@@ -30,7 +33,7 @@ public:
 
 private:
 	bool running;
-	
+
 	GameWorld* world;
 	TCPListener* listener;
 	std::map<int, TCPStream*> connections;
@@ -38,4 +41,3 @@ private:
 
 
 };
-

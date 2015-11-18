@@ -8,7 +8,12 @@
 #include <strsafe.h>
 #include <thread>
 
-
+/*
+* Creates a server on a given port number
+* Creates a listener on that port
+* Creates a new game world
+* Creates a message buffer for new messages to get read and written to
+*/
 Server::Server(int port)
 	: listener(new TCPListener(this))
 	, world(new GameWorld())
@@ -19,17 +24,30 @@ Server::Server(int port)
 	std::cout << "TCPListener creation successful." << '\n';
 }
 
+/*
+* Destroys the server
+* Destroy the listener
+* Destroy the message buffer
+*/
 Server::~Server()
 {
-	if (listener) {
+	if (listener)
+	{
 		delete listener;
 	}
-	if (mBuffer) {
+	if (mBuffer)
+	{
 		delete mBuffer;
 	}
 }
 
-void Server::Start() {
+/*
+* Begin running the srever
+* Create a thread for listeners and message buffer
+* Will now listen for messages and connections from users
+*/
+void Server::Start()
+{
 	running = true;
 
 	std::thread listenerThread (&CreateListenerThread, listener);
@@ -39,37 +57,64 @@ void Server::Start() {
 	messageQueueThread.join();
 }
 
-int Server::AddConnection(TCPStream* stream) {
+/*
+* Add a new connection to the server when a user connects
+*/
+int Server::AddConnection(TCPStream* stream)
+{
 	connections.insert(std::pair<int, TCPStream*>(stream->GetSocket(), stream));
 	std::cout << "Added socket " << stream->GetSocket() << " to the connection list." << '\n';
 	return 0;
 }
 
-int Server::RemoveConnection(TCPStream* stream) {
+/*
+* Remove a connection from the connection list
+*/
+int Server::RemoveConnection(TCPStream* stream)
+{
 	int status = connections.erase(stream->GetSocket());
-	if (status) {
+	if (status)
+	{
 		delete stream;
 	}
 	return status;
-	
+
 }
 
-void Server::Shutdown() {
+/*
+* Stops the server
+* Remove all connected users
+* Destroy the listener
+*/
+void Server::Shutdown()
+{
 	running = false;
-	for (int i = 0; i < connections.size(); ++i) {
+	for (int i = 0; i < connections.size(); ++i)
+	{
 		RemoveConnection(connections.begin()->second);
 	}
 	delete listener;
 	listener = nullptr;
 }
 
-void Server::PutMessage(const Message& mess) {
+/*
+* Place a new message onto the message buffer
+*/
+void Server::PutMessage(const Message& mess)
+{
 	mBuffer->PutMessage(mess);
 }
 
-void Server::HandleMessageQueue() {
-	while (running) {
-		if (!mBuffer->IsEmpty()) {
+/*
+* Checks if therea is a message in the message buffer
+* If so, removes the message and sends it to the parser
+*/
+void Server::HandleMessageQueue()
+{
+	while (running)
+	{
+		if (!mBuffer->IsEmpty())
+		{
 			Message* mess = (Message*) mBuffer->DequeueMessage();
 			std::cout << "Message type: " << mess->GetType() << ", Message: " << mess->Read() << '\n';
 		}
@@ -77,16 +122,30 @@ void Server::HandleMessageQueue() {
 	std::cout << "Message Queue handler terminated." << '\n';
 }
 
-void Server::ErrorHandler(const std::string arg) {
+/*
+* Prints out any errors
+*/
+void Server::ErrorHandler(const std::string arg)
+{
 	std::cout << arg << '\n';
 }
 
-void Server::CreateMessageQueueThread(void* arg) {
+/*
+* Create a new message buffer thread
+* Multithreads incoming messages
+*/
+void Server::CreateMessageQueueThread(void* arg)
+{
 	Server* instance = (Server*)arg;
 	instance->HandleMessageQueue();
 }
 
-void Server::CreateListenerThread(void* arg) {
+/*
+* Create a new listener thread
+* Multithreads conencting users
+*/
+void Server::CreateListenerThread(void* arg)
+{
 	TCPListener* instance = (TCPListener*)arg;
 	instance->Listen();
 }

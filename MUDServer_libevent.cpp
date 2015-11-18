@@ -24,11 +24,13 @@ using namespace std;
 	Utility function for initializing Winsock on Windows systems.
 
 */
-int WinsockStart() {
+int WinsockStart()
+{
 	WSADATA wsaData;
 	int iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
 
-	if (iResult != 0) {
+	if (iResult != 0)
+	{
 		std::cout << "Shitty WSAStartup. Exiting.";
 	}
 	return iResult;
@@ -40,12 +42,14 @@ int WinsockStart() {
 main() function. Starts up Winsock if necessary, creates a new server,
 and starts it listening on the default port.
 */
-int main() {
-	
+int main()
+{
+
 	setvbuf(stdout, NULL, _IONBF, 0);
 
 #ifdef _WIN32
-	if (WinsockStart() != 0) {
+	if (WinsockStart() != 0)
+	{
 		std::cout << "Could not initialize Winsock." << '\n';
 		return -1;
 	}
@@ -53,7 +57,7 @@ int main() {
 
 	Server* gameServer = new Server();
 	gameServer->Start();
-	
+
 	delete gameServer;
 	cout << "Server terminated. Any key to exit.";
 	fgetc(stdin);
