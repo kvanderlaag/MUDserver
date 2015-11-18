@@ -69,19 +69,6 @@ void Player::PrintPlayer(){
 }
 
 /**
-* The function CheckPassword takes the input password from users when they attempt to log-in to the player. The function verify the input password to the initial
-* password. By returning true or false, this function is a mechanism to tell whether the input password is correct or not.
-*/  
-bool Player::CheckPassword(int inputPassword) {
-	if(inputPassword == password_){
-        return true;
-        std::cout << "Password is correct..." << std::endl;
-    }
-    return false;
-    std::cout << "Incorrect password..." << std::endl; 
-}
-
-/**
 * The function AddItem receives a pointer of type GameEntity and add item to the item list within player object.
 */  
 void Player::AddItem(GameEntity *item) {
