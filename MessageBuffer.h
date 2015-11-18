@@ -3,7 +3,7 @@
 #include "Message.h"
 #include <queue>
 
-/*
+/**
 * Header for message buffer class
 */
 class MessageBuffer

@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 
-/*
+/**
 * Create a game world, with entity lists for players and rooms
 */
 GameWorld::GameWorld()
@@ -17,7 +17,7 @@ GameWorld::GameWorld()
 
 }
 
-/*
+/**
 * Destroy a game world
 */
 GameWorld::~GameWorld()
@@ -25,7 +25,7 @@ GameWorld::~GameWorld()
     std::cout << "Destroyed a world..." << std::endl;
 }
 
-/*
+/**
 * Add a room to the room list in game world
 */
 void GameWorld::AddRoom(Room *room)
@@ -34,7 +34,7 @@ void GameWorld::AddRoom(Room *room)
     rooms_->AddEntity(room);
 }
 
-/*
+/**
 * Add a player to the player list in game world
 */
 void GameWorld::AddPlayer(Player *player)
@@ -42,7 +42,7 @@ void GameWorld::AddPlayer(Player *player)
 	players_->AddEntity( player );
 }
 
-/*
+/**
 * Remove a room from the room list in game world
 */
 void GameWorld::RemoveRoom(int id)
@@ -50,7 +50,7 @@ void GameWorld::RemoveRoom(int id)
     rooms_->RemoveEntity(id);
 }
 
-/*
+/**
 * Remove a player from the player list in game world
 */
 void GameWorld::RemovePlayer(int id)
@@ -58,7 +58,7 @@ void GameWorld::RemovePlayer(int id)
     players_->RemoveEntity(id);
 }
 
-/*
+/**
 * Get the room object given the room id
 */
 GameEntity* GameWorld::GetRoom(int id)
@@ -66,7 +66,7 @@ GameEntity* GameWorld::GetRoom(int id)
     return rooms_->GetEntity(id);
 }
 
-/*
+/**
 * Get the player object given the player id
 */
 GameEntity* GameWorld::GetPlayer(int id)
@@ -74,7 +74,7 @@ GameEntity* GameWorld::GetPlayer(int id)
     return players_->GetEntity(id);
 }
 
-/*
+/**
 * Player command
 * Default look command with no given entity
 * Returns the description of the room the player is standing in
@@ -97,7 +97,7 @@ std::vector<Message*>* GameWorld::Look(int connection_id)
 	return &out;
 }
 
-/*
+/**
 * Player command
 * Look command with a given entity
 * Returns the description of the entity
@@ -130,7 +130,7 @@ std::vector<Message*>* GameWorld::Look(int connection_id, std::string entity)
 	return out;
 }
 
-/*
+/**
 * Player command
 * Move command with a given exit
 * Moves the player to the room that the exit is linked to
@@ -147,7 +147,7 @@ std::vector<Message*>* GameWorld::Move(int connection_id, std::string exit)
 	return out;
 }
 
-/*
+/**
 * Player command
 * Say command with a given message
 * Forwards this message to all other players that are in the same room
@@ -164,7 +164,7 @@ std::vector<Message*>* GameWorld::Say(int connection_id, std::string words)
 	return out;
 }
 
-/*
+/**
 * Player command
 * Take command with a given entity
 * Removes the entity from the room and adds it to the players inventory
@@ -181,7 +181,7 @@ std::vector<Message*>* GameWorld::Take(int connection_id, std::string entity)
 	return out;
 }
 
-/*
+/**
 * Player command
 * Help command
 * Returns a list of commands for the player
@@ -198,7 +198,7 @@ std::vector<Message*>* GameWorld::Help(int connection_id)
 	return out;
 }
 
-/*
+/**
 * Player command
 * Signup command
 * Registers login name with password in the player list in game world
@@ -215,7 +215,7 @@ std::vector<Message*>* GameWorld::SignUp(int connection_id, std::string login_na
 	return out;
 }
 
-/*
+/**
 * Player command
 * Login command
 * Checks if the given login name and password match an entry in the player list in game world
@@ -234,7 +234,7 @@ std::vector<Message*>* GameWorld::LogIn(int connection_id, std::string login_nam
 	return out;
 }
 
-/*
+/**
 * Player command
 * Logout command
 * Cleans up the players variables and logs the player out of the game world

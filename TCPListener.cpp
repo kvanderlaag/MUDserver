@@ -5,7 +5,7 @@
 
 #include <iostream>
 
-/* 
+/**
  * Constructor. Initializes parent Server pointer,
  * Creates new event_base for libevent.
  */
@@ -23,7 +23,7 @@ TCPListener::TCPListener(Server* par, int port)
 
 }
 
-/* Destructor. Frees the created libevent event base. */
+/** Destructor. Frees the created libevent event base. */
 TCPListener::~TCPListener()
 {
 	if (base) {
@@ -32,18 +32,18 @@ TCPListener::~TCPListener()
 	}
 }
 
-/* Shutdown. Kills parent server. */
+/** Shutdown. Kills parent server. */
 void TCPListener::Shutdown() {
 	parent->Shutdown();
 }
 
 
-/* Accept callback - passes libevent accept event to TCPListener instance. */
+/** Accept callback - passes libevent accept event to TCPListener instance. */
 void TCPListener::do_accept(evutil_socket_t listener, short event, void* arg) {
 	(static_cast<TCPListener*>(arg))->accept_cb(listener, event);
 }
 
-/*
+/**
  * Listen. Initializes socket for listener, binds it, and listens on the
  * specified port. Adds accept callback event to event base.
  */
@@ -107,7 +107,7 @@ void TCPListener::Listen() {
 	}
 }
 
-/* ListenerClose. Utility function for closing sockets. */
+/** ListenerClose. Utility function for closing sockets. */
 void TCPListener::ListenerClose() {
 #ifdef _WIN32
 	closesocket(listenerfd);
@@ -117,18 +117,18 @@ void TCPListener::ListenerClose() {
 	return;
 }
 
-/* GetParent. Returns the parent server object of the listener. */
+/** GetParent. Returns the parent server object of the listener. */
 const Server& TCPListener::GetParent() {
 	return *parent;
 }
 
-/* accept_cb. Callback function for accepting incoming connections. */
+/** accept_cb. Callback function for accepting incoming connections. */
 void TCPListener::accept_cb(evutil_socket_t listener, short event) {
 	sockaddr_storage ss;
 	socklen_t slen = sizeof(ss);
 
 	int fd = accept(listener, (sockaddr*)&ss, &slen);
-	
+
 	if (fd < 0) {
 		std::cout << "Error accepting connection." << '\n';
 	}
@@ -139,7 +139,7 @@ void TCPListener::accept_cb(evutil_socket_t listener, short event) {
 	}
 }
 
-/* PutMessage. Sends a message from a child stream to the parent server. */
+/** PutMessage. Sends a message from a child stream to the parent server. */
 void TCPListener::PutMessage(const Message& mess) {
 	parent->PutMessage(mess);
 }

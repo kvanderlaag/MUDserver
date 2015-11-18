@@ -1,0 +1,14 @@
+Tools Needed:
+- Visual Studio
+
+How to Build:
+- Open /MUDServer_libevent.sln with Visual Studio
+- Build the program in Visual Studio with ctrl+shift+b
+
+How to Run:
+- Run the program in Visual Studio with ctrl+f5
+
+
+To View the Doxygen:
+- Open /html/index.html
+- Sample pictures are provided in the root folder as doxygenscreen*.png

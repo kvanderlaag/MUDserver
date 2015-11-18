@@ -9,7 +9,7 @@
 class TCPListener;
 class TCPStream;
 
-/*
+/**
 * Header file for server
 */
 class Server

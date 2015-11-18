@@ -6,7 +6,7 @@
 
 #include "GameWorld.h"
 
-/*
+/**
 * Header file for parser
 */
 class Parser

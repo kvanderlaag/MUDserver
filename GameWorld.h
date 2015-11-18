@@ -11,7 +11,7 @@
 #include <map>
 #include <vector>
 
-/*
+/**
 * Header file for game world
 */
 class GameWorld

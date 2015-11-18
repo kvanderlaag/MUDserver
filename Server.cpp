@@ -8,7 +8,7 @@
 #include <strsafe.h>
 #include <thread>
 
-/*
+/**
 * Creates a server on a given port number
 * Creates a listener on that port
 * Creates a new game world
@@ -24,7 +24,7 @@ Server::Server(int port)
 	std::cout << "TCPListener creation successful." << '\n';
 }
 
-/*
+/**
 * Destroys the server
 * Destroy the listener
 * Destroy the message buffer
@@ -41,7 +41,7 @@ Server::~Server()
 	}
 }
 
-/*
+/**
 * Begin running the srever
 * Create a thread for listeners and message buffer
 * Will now listen for messages and connections from users
@@ -57,7 +57,7 @@ void Server::Start()
 	messageQueueThread.join();
 }
 
-/*
+/**
 * Add a new connection to the server when a user connects
 */
 int Server::AddConnection(TCPStream* stream)
@@ -67,7 +67,7 @@ int Server::AddConnection(TCPStream* stream)
 	return 0;
 }
 
-/*
+/**
 * Remove a connection from the connection list
 */
 int Server::RemoveConnection(TCPStream* stream)
@@ -81,7 +81,7 @@ int Server::RemoveConnection(TCPStream* stream)
 
 }
 
-/*
+/**
 * Stops the server
 * Remove all connected users
 * Destroy the listener
@@ -97,7 +97,7 @@ void Server::Shutdown()
 	listener = nullptr;
 }
 
-/*
+/**
 * Place a new message onto the message buffer
 */
 void Server::PutMessage(const Message& mess)
@@ -105,7 +105,7 @@ void Server::PutMessage(const Message& mess)
 	mBuffer->PutMessage(mess);
 }
 
-/*
+/**
 * Checks if therea is a message in the message buffer
 * If so, removes the message and sends it to the parser
 */
@@ -122,7 +122,7 @@ void Server::HandleMessageQueue()
 	std::cout << "Message Queue handler terminated." << '\n';
 }
 
-/*
+/**
 * Prints out any errors
 */
 void Server::ErrorHandler(const std::string arg)
@@ -130,7 +130,7 @@ void Server::ErrorHandler(const std::string arg)
 	std::cout << arg << '\n';
 }
 
-/*
+/**
 * Create a new message buffer thread
 * Multithreads incoming messages
 */
@@ -140,7 +140,7 @@ void Server::CreateMessageQueueThread(void* arg)
 	instance->HandleMessageQueue();
 }
 
-/*
+/**
 * Create a new listener thread
 * Multithreads conencting users
 */
