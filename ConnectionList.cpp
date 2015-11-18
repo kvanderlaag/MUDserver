@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-/*
+/**
 * Create a new connection list
 */
 ConnectionList::ConnectionList()
@@ -10,7 +10,7 @@ ConnectionList::ConnectionList()
 	std::cout << "Created a connection list..." << std::endl;
 }
 
-/*
+/**
 * Destroy a connection list
 */
 ConnectionList::~ConnectionList()
@@ -18,7 +18,7 @@ ConnectionList::~ConnectionList()
 	std::cout << "Destroyed a connection list..." << std::endl;
 }
 
-/*
+/**
 * Add a connection to an existing connection list
 */
 void ConnectionList::AddConnection(int connection_id, int player_id)
@@ -32,7 +32,7 @@ void ConnectionList::AddConnection(int connection_id, int player_id)
 	map_.insert(std::pair<int, int>(connection_id, player_id));
 }
 
-/*
+/**
 * From a connection ID, get the corresponding player ID
 */
 int ConnectionList::GetPlayerId(int connection_id)
@@ -44,7 +44,7 @@ int ConnectionList::GetPlayerId(int connection_id)
 	return NULL;
 }
 
-/*
+/**
 * Remove the connection ID and corresponding player ID from a list
 */
 void ConnectionList::RemoveConnection(int connection_id)
@@ -58,7 +58,7 @@ void ConnectionList::RemoveConnection(int connection_id)
 	}
 }
 
-/*
+/**
 * Returns the number of connections currently active
 */
 int ConnectionList::GetConnectionCount()
