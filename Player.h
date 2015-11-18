@@ -47,7 +47,7 @@ public:
 	void RemoveItem(int id);
 	GameEntity *GetItem(int id);
 
-/*The protected function GetPassword leaves a backdoor for other classes to get password from the player.*/  
+/*The function GetPassword returns the initial password of the player.*/  
     int GetPassword();
 };
 
