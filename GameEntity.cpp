@@ -1,8 +1,10 @@
+/*GameEntity.cpp implements the header file GameEntity.h*/
 #include "GameEntity.h"
 
 #include <iostream>
 
-GameEntity::GameEntity(int id, std::string name) {				/*Create a game entity*/
+/*Default constructor that creates a game entity by setting a permanent ID, name, and a blank description. */
+GameEntity::GameEntity(int id, std::string name) {
     id_ = id;
     name_ = name;
     description_ = "";
@@ -10,7 +12,8 @@ GameEntity::GameEntity(int id, std::string name) {				/*Create a game entity*/
     std::cout << "Created an entity..." << std::endl;
 }
 
-GameEntity::GameEntity(int id, std::string name, std::string description) {	/*Creates a game entity with a description*/
+/*A standard constructor that creates a game entity with a description*/
+GameEntity::GameEntity(int id, std::string name, std::string description) {
     id_ = id;
     name_ = name;
     description_ = description;
@@ -18,26 +21,32 @@ GameEntity::GameEntity(int id, std::string name, std::string description) {	/*Cr
     std::cout << "Created an entity..." << std::endl;
 }
 
-GameEntity::~GameEntity() {							/*Remove an entity*/
+/*A destructor that removes an entity*/
+GameEntity::~GameEntity() {
     std::cout << "Destroyed an entity..." << std::endl;
 }
 
-int GameEntity::GetId() {							/*Get the Id of an entity*/
+/*Get the Id of an entity*/
+int GameEntity::GetId() {
     return id_;
 }
 
-std::string GameEntity::GetName() {						/*Get the name of an entity*/
+/*Get the name of an entity*/
+std::string GameEntity::GetName() {
 	return name_;
 }
 
-std::string GameEntity::GetDescription() {					/*Get the description of an entity*/
+/*Get the description of an entity*/
+std::string GameEntity::GetDescription() {
     return description_;
 }
 
-void GameEntity::SetDescription(std::string description) {			/*Change or set the description of an entity*/
+/*Change or set the description of an entity*/
+void GameEntity::SetDescription(std::string description) {
     description_ = description;
 }
 
-void GameEntity::Print() {							/*Print the ID, name, and description of an entity*/
+/*Print the ID, name, and description of an entity*/
+void GameEntity::Print() {
     std::cout << id_ << " " << name_ << " " << description_ << std::endl;
 }
