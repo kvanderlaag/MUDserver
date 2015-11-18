@@ -86,15 +86,22 @@ std::vector<Message*>* GameWorld::Look(int connection_id)
 	/* find player id*/
 	int pid = current_players_->GetPlayerId(connection_id);
 	/*find player*/
-	//GameEntity player = *players_->GetEntity(pid);
+	GameEntity* pentity = players_->GetEntity(pid); 
+	Player* player = dynamic_cast<Player*>(pentity);
 
-	/*find room*/
-	Room room = room->GetRoom(player);
+	// find room id
+	int rid = player->GetRoomId();
+	// find room
+	GameEntity* rentity = rooms_->GetEntity(rid);
+	Room* room = dynamic_cast<Room*>(rentity);
+
 	/*get description*/
-	Message msg = Message("hi", connection_id, Message::outputMessage);
-	out.push_back(msg);
+	std::string description = room->GetDescription();
 
-	return &out;
+	Message* msg = new Message(description, connection_id, Message::outputMessage);
+	out->push_back(msg);
+
+	return out;
 }
 
 /**
@@ -102,29 +109,29 @@ std::vector<Message*>* GameWorld::Look(int connection_id)
 * Look command with a given entity
 * Returns the description of the entity
 */
-std::vector<Message*>* GameWorld::Look(int connection_id, std::string entity)
+std::vector<Message*>* GameWorld::Look(int connection_id, std::string entity_name)
 {
 	std::vector<Message*>* out = new std::vector<Message*>();
 
-	/*// find player id
+	/* find player id*/
 	int pid = current_players_->GetPlayerId(connection_id);
-	// find player
-	GameEntity player = *players_->GetEntity(pid);
+	/*find player*/
+	GameEntity* pentity = players_->GetEntity(pid);
+	Player* player = dynamic_cast<Player*>(pentity);
 
 	// find room id
 	int rid = player->GetRoomId();
 	// find room
-	GameEntity room = *rooms_->GetEntity(rid);
-
-	// find entity id
+	GameEntity* rentity = rooms_->GetEntity(rid);
+	Room* room = dynamic_cast<Room*>(rentity);
 
 	// find entity
+	GameEntity* entity = room->FindEntity(entity_name);
 
+	/*get description*/
+	std::string description = entity->GetDescription();
 
-	//get description*/
-
-
-	Message* msg = new Message("hi", connection_id, Message::outputMessage);
+	Message* msg = new Message(description, connection_id, Message::outputMessage);
 	out->push_back(msg);
 
 	return out;

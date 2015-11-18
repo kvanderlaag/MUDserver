@@ -4,7 +4,8 @@
 #include <iostream>
 
 /**Default constructor that creates a game entity by setting a permanent ID, name, and a blank description. */
-GameEntity::GameEntity(int id, std::string name) {
+GameEntity::GameEntity(int id, std::string name)
+{
     id_ = id;
     name_ = name;
     description_ = "";
@@ -13,7 +14,8 @@ GameEntity::GameEntity(int id, std::string name) {
 }
 
 /**A standard constructor that creates a game entity with a description*/
-GameEntity::GameEntity(int id, std::string name, std::string description) {
+GameEntity::GameEntity(int id, std::string name, std::string description)
+{
     id_ = id;
     name_ = name;
     description_ = description;
@@ -22,31 +24,49 @@ GameEntity::GameEntity(int id, std::string name, std::string description) {
 }
 
 /**A destructor that removes an entity*/
-GameEntity::~GameEntity() {
+GameEntity::~GameEntity()
+{
     std::cout << "Destroyed an entity..." << std::endl;
 }
 
 /**Get the Id of an entity*/
-int GameEntity::GetId() {
+int GameEntity::GetId()
+{
     return id_;
 }
 
 /**Get the name of an entity*/
-std::string GameEntity::GetName() {
+std::string GameEntity::GetName()
+{
 	return name_;
 }
 
 /**Get the description of an entity*/
-std::string GameEntity::GetDescription() {
+std::string GameEntity::GetDescription()
+{
     return description_;
 }
 
+/**Set the Id of an entity*/
+void GameEntity::SetId(int id)
+{
+	id_ = id;
+}
+
+/**Set the name of an entity*/
+void GameEntity::SetName(std::string name)
+{
+	name_ = name;
+}
+
 /**Change or set the description of an entity*/
-void GameEntity::SetDescription(std::string description) {
+void GameEntity::SetDescription(std::string description)
+{
     description_ = description;
 }
 
 /**Print the ID, name, and description of an entity*/
-void GameEntity::Print() {
+void GameEntity::Print()
+{
     std::cout << id_ << " " << name_ << " " << description_ << std::endl;
 }

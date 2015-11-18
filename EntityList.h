@@ -6,7 +6,8 @@
 #include <map>
 
 /*Header file for EntityList*/
-class EntityList {                          
+class EntityList
+{                          
 
 /* Private variable uses a map to implement the list of entities */
 private:
@@ -24,7 +25,8 @@ public:
 
     void AddEntity(GameEntity* game_entity);
     void RemoveEntity(int id);
-    GameEntity* GetEntity( int id);
+    GameEntity* GetEntity(int id);
+	GameEntity* FindEntity(std::string name);
     int GetEntityCount();
 
 };

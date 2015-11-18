@@ -7,7 +7,8 @@
 #include <iostream>
 #include "GameEntity.h"
 
-class Item : public GameEntity {
+class Item : public GameEntity
+{
 
 private:
 

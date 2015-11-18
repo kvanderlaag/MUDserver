@@ -1,54 +1,183 @@
 \hypertarget{class_game_world}{}\section{Game\+World Class Reference}
 \label{class_game_world}\index{Game\+World@{Game\+World}}
+
+
+{\ttfamily \#include $<$Game\+World.\+h$>$}
+
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{class_game_world_abb3bfb7dea57b36a579c9ad49eca4bd1}{}void {\bfseries Add\+Room} (\hyperlink{class_room}{Room} $\ast$entity)\label{class_game_world_abb3bfb7dea57b36a579c9ad49eca4bd1}
-
+\hyperlink{class_game_world_a681994123c12833d43c957d6cfb33765}{Game\+World} ()
 \item 
-\hypertarget{class_game_world_a79dd5e422a5cfab06c1a722ac3cbbd07}{}void {\bfseries Add\+Player} (\hyperlink{class_player}{Player} $\ast$entity)\label{class_game_world_a79dd5e422a5cfab06c1a722ac3cbbd07}
-
+\hyperlink{class_game_world_a522631cd4ab9534c5b09af09d8a82c9b}{$\sim$\+Game\+World} ()
 \item 
-\hypertarget{class_game_world_a0870be49ea4ccd0bba56bcbb8820b289}{}void {\bfseries Remove\+Room} (int id)\label{class_game_world_a0870be49ea4ccd0bba56bcbb8820b289}
-
+void \hyperlink{class_game_world_abb3bfb7dea57b36a579c9ad49eca4bd1}{Add\+Room} (\hyperlink{class_room}{Room} $\ast$entity)
 \item 
-\hypertarget{class_game_world_a40afc5ab96bde45ecaa4ca795978c9c8}{}void {\bfseries Remove\+Player} (int id)\label{class_game_world_a40afc5ab96bde45ecaa4ca795978c9c8}
-
+void \hyperlink{class_game_world_a79dd5e422a5cfab06c1a722ac3cbbd07}{Add\+Player} (\hyperlink{class_player}{Player} $\ast$entity)
 \item 
-\hypertarget{class_game_world_ad603f152db9f0de19418f1183ff02e25}{}\hyperlink{class_game_entity}{Game\+Entity} $\ast$ {\bfseries Get\+Room} (int id)\label{class_game_world_ad603f152db9f0de19418f1183ff02e25}
-
+void \hyperlink{class_game_world_a0870be49ea4ccd0bba56bcbb8820b289}{Remove\+Room} (int id)
 \item 
-\hypertarget{class_game_world_a0f59d9498e26ece0122c73e0dc563d91}{}\hyperlink{class_game_entity}{Game\+Entity} $\ast$ {\bfseries Get\+Player} (int id)\label{class_game_world_a0f59d9498e26ece0122c73e0dc563d91}
-
+void \hyperlink{class_game_world_a40afc5ab96bde45ecaa4ca795978c9c8}{Remove\+Player} (int id)
 \item 
-\hypertarget{class_game_world_ad6920d1ef791b83a80f4cfcfad9d6ffe}{}std\+::vector$<$ \hyperlink{class_message}{Message} $\ast$ $>$ $\ast$ {\bfseries Look} (int connection\+\_\+id)\label{class_game_world_ad6920d1ef791b83a80f4cfcfad9d6ffe}
-
+\hyperlink{class_game_entity}{Game\+Entity} $\ast$ \hyperlink{class_game_world_ad603f152db9f0de19418f1183ff02e25}{Get\+Room} (int id)
 \item 
-\hypertarget{class_game_world_aa3f98d0f2cc76db913129ea2d4442e3b}{}std\+::vector$<$ \hyperlink{class_message}{Message} $\ast$ $>$ $\ast$ {\bfseries Look} (int connection\+\_\+id, std\+::string entity)\label{class_game_world_aa3f98d0f2cc76db913129ea2d4442e3b}
-
+\hyperlink{class_game_entity}{Game\+Entity} $\ast$ \hyperlink{class_game_world_a0f59d9498e26ece0122c73e0dc563d91}{Get\+Player} (int id)
 \item 
-\hypertarget{class_game_world_a6c0faa19f014214487640a2cba5a42b3}{}std\+::vector$<$ \hyperlink{class_message}{Message} $\ast$ $>$ $\ast$ {\bfseries Move} (int connection\+\_\+id, std\+::string exit)\label{class_game_world_a6c0faa19f014214487640a2cba5a42b3}
-
+std\+::vector$<$ \hyperlink{class_message}{Message} $\ast$ $>$ $\ast$ \hyperlink{class_game_world_ad6920d1ef791b83a80f4cfcfad9d6ffe}{Look} (int connection\+\_\+id)
 \item 
-\hypertarget{class_game_world_a848640246968d179b8a21089c259691e}{}std\+::vector$<$ \hyperlink{class_message}{Message} $\ast$ $>$ $\ast$ {\bfseries Say} (int connection\+\_\+id, std\+::string words)\label{class_game_world_a848640246968d179b8a21089c259691e}
-
+std\+::vector$<$ \hyperlink{class_message}{Message} $\ast$ $>$ $\ast$ \hyperlink{class_game_world_aa3f98d0f2cc76db913129ea2d4442e3b}{Look} (int connection\+\_\+id, std\+::string entity)
 \item 
-\hypertarget{class_game_world_a053eeb4dc3326c35445cbead4bfb275b}{}std\+::vector$<$ \hyperlink{class_message}{Message} $\ast$ $>$ $\ast$ {\bfseries Take} (int connection\+\_\+id, std\+::string entity)\label{class_game_world_a053eeb4dc3326c35445cbead4bfb275b}
-
+std\+::vector$<$ \hyperlink{class_message}{Message} $\ast$ $>$ $\ast$ \hyperlink{class_game_world_a6c0faa19f014214487640a2cba5a42b3}{Move} (int connection\+\_\+id, std\+::string exit)
 \item 
-\hypertarget{class_game_world_a9a8e91e94d04a41cfe7e9c05dd443cfd}{}std\+::vector$<$ \hyperlink{class_message}{Message} $\ast$ $>$ $\ast$ {\bfseries Help} (int connection\+\_\+id)\label{class_game_world_a9a8e91e94d04a41cfe7e9c05dd443cfd}
-
+std\+::vector$<$ \hyperlink{class_message}{Message} $\ast$ $>$ $\ast$ \hyperlink{class_game_world_a848640246968d179b8a21089c259691e}{Say} (int connection\+\_\+id, std\+::string words)
 \item 
-\hypertarget{class_game_world_a8c85401293c2100ddfa809f8b9620f29}{}std\+::vector$<$ \hyperlink{class_message}{Message} $\ast$ $>$ $\ast$ {\bfseries Sign\+Up} (int connection\+\_\+id, std\+::string login\+\_\+name, std\+::string password)\label{class_game_world_a8c85401293c2100ddfa809f8b9620f29}
-
+std\+::vector$<$ \hyperlink{class_message}{Message} $\ast$ $>$ $\ast$ \hyperlink{class_game_world_a053eeb4dc3326c35445cbead4bfb275b}{Take} (int connection\+\_\+id, std\+::string entity)
 \item 
-\hypertarget{class_game_world_a6a37cb07099dcea1cf96225e6a77a2d9}{}std\+::vector$<$ \hyperlink{class_message}{Message} $\ast$ $>$ $\ast$ {\bfseries Log\+In} (int connection\+\_\+id, std\+::string login\+\_\+name, std\+::string password)\label{class_game_world_a6a37cb07099dcea1cf96225e6a77a2d9}
-
+std\+::vector$<$ \hyperlink{class_message}{Message} $\ast$ $>$ $\ast$ \hyperlink{class_game_world_a9a8e91e94d04a41cfe7e9c05dd443cfd}{Help} (int connection\+\_\+id)
 \item 
-\hypertarget{class_game_world_aa0290dad894b4f618fb016ea2d072def}{}std\+::vector$<$ \hyperlink{class_message}{Message} $\ast$ $>$ $\ast$ {\bfseries Log\+Out} (int connection\+\_\+id)\label{class_game_world_aa0290dad894b4f618fb016ea2d072def}
-
+std\+::vector$<$ \hyperlink{class_message}{Message} $\ast$ $>$ $\ast$ \hyperlink{class_game_world_a8c85401293c2100ddfa809f8b9620f29}{Sign\+Up} (int connection\+\_\+id, std\+::string login\+\_\+name, std\+::string password)
+\item 
+std\+::vector$<$ \hyperlink{class_message}{Message} $\ast$ $>$ $\ast$ \hyperlink{class_game_world_a6a37cb07099dcea1cf96225e6a77a2d9}{Log\+In} (int connection\+\_\+id, std\+::string login\+\_\+name, std\+::string password)
+\item 
+std\+::vector$<$ \hyperlink{class_message}{Message} $\ast$ $>$ $\ast$ \hyperlink{class_game_world_aa0290dad894b4f618fb016ea2d072def}{Log\+Out} (int connection\+\_\+id)
 \end{DoxyCompactItemize}
 
+
+\subsection{Detailed Description}
+Header file for game world 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_game_world_a681994123c12833d43c957d6cfb33765}{}\index{Game\+World@{Game\+World}!Game\+World@{Game\+World}}
+\index{Game\+World@{Game\+World}!Game\+World@{Game\+World}}
+\subsubsection[{Game\+World()}]{\setlength{\rightskip}{0pt plus 5cm}Game\+World\+::\+Game\+World (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_game_world_a681994123c12833d43c957d6cfb33765}
+Create a game world, with entity lists for players and rooms \hypertarget{class_game_world_a522631cd4ab9534c5b09af09d8a82c9b}{}\index{Game\+World@{Game\+World}!````~Game\+World@{$\sim$\+Game\+World}}
+\index{````~Game\+World@{$\sim$\+Game\+World}!Game\+World@{Game\+World}}
+\subsubsection[{$\sim$\+Game\+World()}]{\setlength{\rightskip}{0pt plus 5cm}Game\+World\+::$\sim$\+Game\+World (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_game_world_a522631cd4ab9534c5b09af09d8a82c9b}
+Destroy a game world 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_game_world_a79dd5e422a5cfab06c1a722ac3cbbd07}{}\index{Game\+World@{Game\+World}!Add\+Player@{Add\+Player}}
+\index{Add\+Player@{Add\+Player}!Game\+World@{Game\+World}}
+\subsubsection[{Add\+Player(\+Player $\ast$entity)}]{\setlength{\rightskip}{0pt plus 5cm}void Game\+World\+::\+Add\+Player (
+\begin{DoxyParamCaption}
+\item[{{\bf Player} $\ast$}]{player}
+\end{DoxyParamCaption}
+)}\label{class_game_world_a79dd5e422a5cfab06c1a722ac3cbbd07}
+Add a player to the player list in game world \hypertarget{class_game_world_abb3bfb7dea57b36a579c9ad49eca4bd1}{}\index{Game\+World@{Game\+World}!Add\+Room@{Add\+Room}}
+\index{Add\+Room@{Add\+Room}!Game\+World@{Game\+World}}
+\subsubsection[{Add\+Room(\+Room $\ast$entity)}]{\setlength{\rightskip}{0pt plus 5cm}void Game\+World\+::\+Add\+Room (
+\begin{DoxyParamCaption}
+\item[{{\bf Room} $\ast$}]{room}
+\end{DoxyParamCaption}
+)}\label{class_game_world_abb3bfb7dea57b36a579c9ad49eca4bd1}
+Add a room to the room list in game world \hypertarget{class_game_world_a0f59d9498e26ece0122c73e0dc563d91}{}\index{Game\+World@{Game\+World}!Get\+Player@{Get\+Player}}
+\index{Get\+Player@{Get\+Player}!Game\+World@{Game\+World}}
+\subsubsection[{Get\+Player(int id)}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Game\+Entity} $\ast$ Game\+World\+::\+Get\+Player (
+\begin{DoxyParamCaption}
+\item[{int}]{id}
+\end{DoxyParamCaption}
+)}\label{class_game_world_a0f59d9498e26ece0122c73e0dc563d91}
+Get the player object given the player id \hypertarget{class_game_world_ad603f152db9f0de19418f1183ff02e25}{}\index{Game\+World@{Game\+World}!Get\+Room@{Get\+Room}}
+\index{Get\+Room@{Get\+Room}!Game\+World@{Game\+World}}
+\subsubsection[{Get\+Room(int id)}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Game\+Entity} $\ast$ Game\+World\+::\+Get\+Room (
+\begin{DoxyParamCaption}
+\item[{int}]{id}
+\end{DoxyParamCaption}
+)}\label{class_game_world_ad603f152db9f0de19418f1183ff02e25}
+Get the room object given the room id \hypertarget{class_game_world_a9a8e91e94d04a41cfe7e9c05dd443cfd}{}\index{Game\+World@{Game\+World}!Help@{Help}}
+\index{Help@{Help}!Game\+World@{Game\+World}}
+\subsubsection[{Help(int connection\+\_\+id)}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$ {\bf Message} $\ast$ $>$ $\ast$ Game\+World\+::\+Help (
+\begin{DoxyParamCaption}
+\item[{int}]{connection\+\_\+id}
+\end{DoxyParamCaption}
+)}\label{class_game_world_a9a8e91e94d04a41cfe7e9c05dd443cfd}
+\hyperlink{class_player}{Player} command Help command Returns a list of commands for the player \hypertarget{class_game_world_a6a37cb07099dcea1cf96225e6a77a2d9}{}\index{Game\+World@{Game\+World}!Log\+In@{Log\+In}}
+\index{Log\+In@{Log\+In}!Game\+World@{Game\+World}}
+\subsubsection[{Log\+In(int connection\+\_\+id, std\+::string login\+\_\+name, std\+::string password)}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$ {\bf Message} $\ast$ $>$ $\ast$ Game\+World\+::\+Log\+In (
+\begin{DoxyParamCaption}
+\item[{int}]{connection\+\_\+id, }
+\item[{std\+::string}]{login\+\_\+name, }
+\item[{std\+::string}]{password}
+\end{DoxyParamCaption}
+)}\label{class_game_world_a6a37cb07099dcea1cf96225e6a77a2d9}
+\hyperlink{class_player}{Player} command Login command Checks if the given login name and password match an entry in the player list in game world Signs that player in if it matches Adds player to the connection list \hypertarget{class_game_world_aa0290dad894b4f618fb016ea2d072def}{}\index{Game\+World@{Game\+World}!Log\+Out@{Log\+Out}}
+\index{Log\+Out@{Log\+Out}!Game\+World@{Game\+World}}
+\subsubsection[{Log\+Out(int connection\+\_\+id)}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$ {\bf Message} $\ast$ $>$ $\ast$ Game\+World\+::\+Log\+Out (
+\begin{DoxyParamCaption}
+\item[{int}]{connection\+\_\+id}
+\end{DoxyParamCaption}
+)}\label{class_game_world_aa0290dad894b4f618fb016ea2d072def}
+\hyperlink{class_player}{Player} command Logout command Cleans up the players variables and logs the player out of the game world Removes player from the connection list \hypertarget{class_game_world_ad6920d1ef791b83a80f4cfcfad9d6ffe}{}\index{Game\+World@{Game\+World}!Look@{Look}}
+\index{Look@{Look}!Game\+World@{Game\+World}}
+\subsubsection[{Look(int connection\+\_\+id)}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$ {\bf Message} $\ast$ $>$ $\ast$ Game\+World\+::\+Look (
+\begin{DoxyParamCaption}
+\item[{int}]{connection\+\_\+id}
+\end{DoxyParamCaption}
+)}\label{class_game_world_ad6920d1ef791b83a80f4cfcfad9d6ffe}
+\hyperlink{class_player}{Player} command Default look command with no given entity Returns the description of the room the player is standing in \hypertarget{class_game_world_aa3f98d0f2cc76db913129ea2d4442e3b}{}\index{Game\+World@{Game\+World}!Look@{Look}}
+\index{Look@{Look}!Game\+World@{Game\+World}}
+\subsubsection[{Look(int connection\+\_\+id, std\+::string entity)}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$ {\bf Message} $\ast$ $>$ $\ast$ Game\+World\+::\+Look (
+\begin{DoxyParamCaption}
+\item[{int}]{connection\+\_\+id, }
+\item[{std\+::string}]{entity}
+\end{DoxyParamCaption}
+)}\label{class_game_world_aa3f98d0f2cc76db913129ea2d4442e3b}
+\hyperlink{class_player}{Player} command Look command with a given entity Returns the description of the entity \hypertarget{class_game_world_a6c0faa19f014214487640a2cba5a42b3}{}\index{Game\+World@{Game\+World}!Move@{Move}}
+\index{Move@{Move}!Game\+World@{Game\+World}}
+\subsubsection[{Move(int connection\+\_\+id, std\+::string exit)}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$ {\bf Message} $\ast$ $>$ $\ast$ Game\+World\+::\+Move (
+\begin{DoxyParamCaption}
+\item[{int}]{connection\+\_\+id, }
+\item[{std\+::string}]{exit}
+\end{DoxyParamCaption}
+)}\label{class_game_world_a6c0faa19f014214487640a2cba5a42b3}
+\hyperlink{class_player}{Player} command Move command with a given exit Moves the player to the room that the exit is linked to \hypertarget{class_game_world_a40afc5ab96bde45ecaa4ca795978c9c8}{}\index{Game\+World@{Game\+World}!Remove\+Player@{Remove\+Player}}
+\index{Remove\+Player@{Remove\+Player}!Game\+World@{Game\+World}}
+\subsubsection[{Remove\+Player(int id)}]{\setlength{\rightskip}{0pt plus 5cm}void Game\+World\+::\+Remove\+Player (
+\begin{DoxyParamCaption}
+\item[{int}]{id}
+\end{DoxyParamCaption}
+)}\label{class_game_world_a40afc5ab96bde45ecaa4ca795978c9c8}
+Remove a player from the player list in game world \hypertarget{class_game_world_a0870be49ea4ccd0bba56bcbb8820b289}{}\index{Game\+World@{Game\+World}!Remove\+Room@{Remove\+Room}}
+\index{Remove\+Room@{Remove\+Room}!Game\+World@{Game\+World}}
+\subsubsection[{Remove\+Room(int id)}]{\setlength{\rightskip}{0pt plus 5cm}void Game\+World\+::\+Remove\+Room (
+\begin{DoxyParamCaption}
+\item[{int}]{id}
+\end{DoxyParamCaption}
+)}\label{class_game_world_a0870be49ea4ccd0bba56bcbb8820b289}
+Remove a room from the room list in game world \hypertarget{class_game_world_a848640246968d179b8a21089c259691e}{}\index{Game\+World@{Game\+World}!Say@{Say}}
+\index{Say@{Say}!Game\+World@{Game\+World}}
+\subsubsection[{Say(int connection\+\_\+id, std\+::string words)}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$ {\bf Message} $\ast$ $>$ $\ast$ Game\+World\+::\+Say (
+\begin{DoxyParamCaption}
+\item[{int}]{connection\+\_\+id, }
+\item[{std\+::string}]{words}
+\end{DoxyParamCaption}
+)}\label{class_game_world_a848640246968d179b8a21089c259691e}
+\hyperlink{class_player}{Player} command Say command with a given message Forwards this message to all other players that are in the same room \hypertarget{class_game_world_a8c85401293c2100ddfa809f8b9620f29}{}\index{Game\+World@{Game\+World}!Sign\+Up@{Sign\+Up}}
+\index{Sign\+Up@{Sign\+Up}!Game\+World@{Game\+World}}
+\subsubsection[{Sign\+Up(int connection\+\_\+id, std\+::string login\+\_\+name, std\+::string password)}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$ {\bf Message} $\ast$ $>$ $\ast$ Game\+World\+::\+Sign\+Up (
+\begin{DoxyParamCaption}
+\item[{int}]{connection\+\_\+id, }
+\item[{std\+::string}]{login\+\_\+name, }
+\item[{std\+::string}]{password}
+\end{DoxyParamCaption}
+)}\label{class_game_world_a8c85401293c2100ddfa809f8b9620f29}
+\hyperlink{class_player}{Player} command Signup command Registers login name with password in the player list in game world \hypertarget{class_game_world_a053eeb4dc3326c35445cbead4bfb275b}{}\index{Game\+World@{Game\+World}!Take@{Take}}
+\index{Take@{Take}!Game\+World@{Game\+World}}
+\subsubsection[{Take(int connection\+\_\+id, std\+::string entity)}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$ {\bf Message} $\ast$ $>$ $\ast$ Game\+World\+::\+Take (
+\begin{DoxyParamCaption}
+\item[{int}]{connection\+\_\+id, }
+\item[{std\+::string}]{entity}
+\end{DoxyParamCaption}
+)}\label{class_game_world_a053eeb4dc3326c35445cbead4bfb275b}
+\hyperlink{class_player}{Player} command Take command with a given entity Removes the entity from the room and adds it to the players inventory 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 

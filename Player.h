@@ -13,7 +13,8 @@
 /**
 * Player extents GameEntity's functionailty by adding connection ID, password, room ID, and an entity list for storing items.
 */
-class Player: public GameEntity{
+class Player: public GameEntity
+{
 
 /**
 * The private variable connectionID_ is a pointer variable and is assigned by the server by passing a temporary integer. It points to the assigned integer.
@@ -23,9 +24,9 @@ class Player: public GameEntity{
 * The private variable items_ is a entity list pointer points to a list of items. Player can add, remove, and find the items within the object.
 */
 private:
-    int* connectionID_;
+    int connection_id_;
     int password_;
-    int* roomID_;
+    int room_id_;
     EntityList* items_;
 
 /**
@@ -34,18 +35,20 @@ private:
  *add/remove/find a item with an item list within player object.
  */
 public:
-    Player( int id, std::string name);
-    Player( int id, std::string name, int password);
+    Player(int id, std::string name);
+    Player(int id, std::string name, int password);
     ~Player();
     void PrintPlayer();
 
-    void AssignConnectionID(int* newConnectionID);
-    int* GetConnectionID();
-    int* GetRoomID();
-    void ChangeRoomID(int* newRoomID);
+    int GetConnectionId();
+    int GetRoomId();
+
+	void SetConnectionId(int connection_id);
+    void SetRoomId(int room_id);
+
     void AddItem(GameEntity* entity);
 	void RemoveItem(int id);
-	GameEntity *GetItem(int id);
+	GameEntity* GetItem(int id);
 
 /**The function GetPassword returns the initial password of the player.*/  
     int GetPassword();

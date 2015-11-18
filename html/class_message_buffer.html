@@ -89,19 +89,107 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">MessageBuffer Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="_message_buffer_8h_source.html">MessageBuffer.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ac33a6159360e5c26ad3fb505dcbc1daa"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac33a6159360e5c26ad3fb505dcbc1daa"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>PutMessage</b> (const <a class="el" href="class_message.html">Message</a> &amp;mess)</td></tr>
+<tr class="memitem:a92586fdeffb14738acbf8979b5974e6f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_message_buffer.html#a92586fdeffb14738acbf8979b5974e6f">MessageBuffer</a> ()</td></tr>
+<tr class="separator:a92586fdeffb14738acbf8979b5974e6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b75bc9b932dd5ac39c35b35b4f18a80"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_message_buffer.html#a9b75bc9b932dd5ac39c35b35b4f18a80">~MessageBuffer</a> ()</td></tr>
+<tr class="separator:a9b75bc9b932dd5ac39c35b35b4f18a80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac33a6159360e5c26ad3fb505dcbc1daa"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_message_buffer.html#ac33a6159360e5c26ad3fb505dcbc1daa">PutMessage</a> (const <a class="el" href="class_message.html">Message</a> &amp;mess)</td></tr>
 <tr class="separator:ac33a6159360e5c26ad3fb505dcbc1daa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa2e65f7885fab04a09a94f0b4341afc2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa2e65f7885fab04a09a94f0b4341afc2"></a>
-const <a class="el" href="class_message.html">Message</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>DequeueMessage</b> ()</td></tr>
+<tr class="memitem:aa2e65f7885fab04a09a94f0b4341afc2"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="class_message.html">Message</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_message_buffer.html#aa2e65f7885fab04a09a94f0b4341afc2">DequeueMessage</a> ()</td></tr>
 <tr class="separator:aa2e65f7885fab04a09a94f0b4341afc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adfe17df060b3be51759e76a9a6315718"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adfe17df060b3be51759e76a9a6315718"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsEmpty</b> ()</td></tr>
+<tr class="memitem:adfe17df060b3be51759e76a9a6315718"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_message_buffer.html#adfe17df060b3be51759e76a9a6315718">IsEmpty</a> ()</td></tr>
 <tr class="separator:adfe17df060b3be51759e76a9a6315718"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Header for message buffer class </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a92586fdeffb14738acbf8979b5974e6f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">MessageBuffer::MessageBuffer </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Create a message buffer </p>
+
+</div>
+</div>
+<a class="anchor" id="a9b75bc9b932dd5ac39c35b35b4f18a80"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">MessageBuffer::~MessageBuffer </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Destroy the message buffer </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="aa2e65f7885fab04a09a94f0b4341afc2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="class_message.html">Message</a> * MessageBuffer::DequeueMessage </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Grab the next message in the message buffer </p>
+
+</div>
+</div>
+<a class="anchor" id="adfe17df060b3be51759e76a9a6315718"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool MessageBuffer::IsEmpty </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Checks if the message buffer is empty </p>
+
+</div>
+</div>
+<a class="anchor" id="ac33a6159360e5c26ad3fb505dcbc1daa"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int MessageBuffer::PutMessage </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_message.html">Message</a> &amp;&#160;</td>
+          <td class="paramname"><em>mess</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Place a message at the end of the message buffer </p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="_message_buffer_8h_source.html">MessageBuffer.h</a></li>
 <li>MessageBuffer.cpp</li>

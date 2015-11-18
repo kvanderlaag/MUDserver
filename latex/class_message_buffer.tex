@@ -1,18 +1,67 @@
 \hypertarget{class_message_buffer}{}\section{Message\+Buffer Class Reference}
 \label{class_message_buffer}\index{Message\+Buffer@{Message\+Buffer}}
+
+
+{\ttfamily \#include $<$Message\+Buffer.\+h$>$}
+
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{class_message_buffer_ac33a6159360e5c26ad3fb505dcbc1daa}{}int {\bfseries Put\+Message} (const \hyperlink{class_message}{Message} \&mess)\label{class_message_buffer_ac33a6159360e5c26ad3fb505dcbc1daa}
-
+\hyperlink{class_message_buffer_a92586fdeffb14738acbf8979b5974e6f}{Message\+Buffer} ()
 \item 
-\hypertarget{class_message_buffer_aa2e65f7885fab04a09a94f0b4341afc2}{}const \hyperlink{class_message}{Message} $\ast$ {\bfseries Dequeue\+Message} ()\label{class_message_buffer_aa2e65f7885fab04a09a94f0b4341afc2}
-
+\hyperlink{class_message_buffer_a9b75bc9b932dd5ac39c35b35b4f18a80}{$\sim$\+Message\+Buffer} ()
 \item 
-\hypertarget{class_message_buffer_adfe17df060b3be51759e76a9a6315718}{}bool {\bfseries Is\+Empty} ()\label{class_message_buffer_adfe17df060b3be51759e76a9a6315718}
-
+int \hyperlink{class_message_buffer_ac33a6159360e5c26ad3fb505dcbc1daa}{Put\+Message} (const \hyperlink{class_message}{Message} \&mess)
+\item 
+const \hyperlink{class_message}{Message} $\ast$ \hyperlink{class_message_buffer_aa2e65f7885fab04a09a94f0b4341afc2}{Dequeue\+Message} ()
+\item 
+bool \hyperlink{class_message_buffer_adfe17df060b3be51759e76a9a6315718}{Is\+Empty} ()
 \end{DoxyCompactItemize}
 
+
+\subsection{Detailed Description}
+Header for message buffer class 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_message_buffer_a92586fdeffb14738acbf8979b5974e6f}{}\index{Message\+Buffer@{Message\+Buffer}!Message\+Buffer@{Message\+Buffer}}
+\index{Message\+Buffer@{Message\+Buffer}!Message\+Buffer@{Message\+Buffer}}
+\subsubsection[{Message\+Buffer()}]{\setlength{\rightskip}{0pt plus 5cm}Message\+Buffer\+::\+Message\+Buffer (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_message_buffer_a92586fdeffb14738acbf8979b5974e6f}
+Create a message buffer \hypertarget{class_message_buffer_a9b75bc9b932dd5ac39c35b35b4f18a80}{}\index{Message\+Buffer@{Message\+Buffer}!````~Message\+Buffer@{$\sim$\+Message\+Buffer}}
+\index{````~Message\+Buffer@{$\sim$\+Message\+Buffer}!Message\+Buffer@{Message\+Buffer}}
+\subsubsection[{$\sim$\+Message\+Buffer()}]{\setlength{\rightskip}{0pt plus 5cm}Message\+Buffer\+::$\sim$\+Message\+Buffer (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_message_buffer_a9b75bc9b932dd5ac39c35b35b4f18a80}
+Destroy the message buffer 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_message_buffer_aa2e65f7885fab04a09a94f0b4341afc2}{}\index{Message\+Buffer@{Message\+Buffer}!Dequeue\+Message@{Dequeue\+Message}}
+\index{Dequeue\+Message@{Dequeue\+Message}!Message\+Buffer@{Message\+Buffer}}
+\subsubsection[{Dequeue\+Message()}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf Message} $\ast$ Message\+Buffer\+::\+Dequeue\+Message (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_message_buffer_aa2e65f7885fab04a09a94f0b4341afc2}
+Grab the next message in the message buffer \hypertarget{class_message_buffer_adfe17df060b3be51759e76a9a6315718}{}\index{Message\+Buffer@{Message\+Buffer}!Is\+Empty@{Is\+Empty}}
+\index{Is\+Empty@{Is\+Empty}!Message\+Buffer@{Message\+Buffer}}
+\subsubsection[{Is\+Empty()}]{\setlength{\rightskip}{0pt plus 5cm}bool Message\+Buffer\+::\+Is\+Empty (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_message_buffer_adfe17df060b3be51759e76a9a6315718}
+Checks if the message buffer is empty \hypertarget{class_message_buffer_ac33a6159360e5c26ad3fb505dcbc1daa}{}\index{Message\+Buffer@{Message\+Buffer}!Put\+Message@{Put\+Message}}
+\index{Put\+Message@{Put\+Message}!Message\+Buffer@{Message\+Buffer}}
+\subsubsection[{Put\+Message(const Message \&mess)}]{\setlength{\rightskip}{0pt plus 5cm}int Message\+Buffer\+::\+Put\+Message (
+\begin{DoxyParamCaption}
+\item[{const {\bf Message} \&}]{mess}
+\end{DoxyParamCaption}
+)}\label{class_message_buffer_ac33a6159360e5c26ad3fb505dcbc1daa}
+Place a message at the end of the message buffer 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 

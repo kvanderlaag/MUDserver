@@ -15,8 +15,9 @@ Inheritance diagram for Item\+:\begin{figure}[H]
 \item 
 \hyperlink{class_item_a1de089cb4e92ab58a297c442c69109be}{Item} (int id, std\+::string description)
 \item 
-\hypertarget{class_item_a7fc39ba8739faa4ea1bd60f1863f770b}{}{\bfseries Item} (int id, std\+::string name, std\+::string description)\label{class_item_a7fc39ba8739faa4ea1bd60f1863f770b}
-
+\hyperlink{class_item_a7fc39ba8739faa4ea1bd60f1863f770b}{Item} (int id, std\+::string name, std\+::string description)
+\item 
+\hyperlink{class_item_a11663c84075b78c3ae5e30fdfcd7c458}{$\sim$\+Item} ()
 \end{DoxyCompactItemize}
 
 
@@ -32,7 +33,25 @@ Header file for item item inherits \hyperlink{class_game_entity}{Game\+Entity}
 \item[{std\+::string}]{description}
 \end{DoxyParamCaption}
 )}\label{class_item_a1de089cb4e92ab58a297c442c69109be}
-The public functions contain a default constructor and a standard constructor that takes an I\+D, a name, and a description for the item, and a destructor 
+The public functions contain a default constructor and a standard constructor that takes an I\+D, a name, and a description for the item, and a destructor
+
+Item.\+cpp implements the header file \hyperlink{_item_8h_source}{Item.\+h} Create an item with I\+D and a description \hypertarget{class_item_a7fc39ba8739faa4ea1bd60f1863f770b}{}\index{Item@{Item}!Item@{Item}}
+\index{Item@{Item}!Item@{Item}}
+\subsubsection[{Item(int id, std\+::string name, std\+::string description)}]{\setlength{\rightskip}{0pt plus 5cm}Item\+::\+Item (
+\begin{DoxyParamCaption}
+\item[{int}]{id, }
+\item[{std\+::string}]{name, }
+\item[{std\+::string}]{description}
+\end{DoxyParamCaption}
+)}\label{class_item_a7fc39ba8739faa4ea1bd60f1863f770b}
+Create an item with an I\+D, a name and description \hypertarget{class_item_a11663c84075b78c3ae5e30fdfcd7c458}{}\index{Item@{Item}!````~Item@{$\sim$\+Item}}
+\index{````~Item@{$\sim$\+Item}!Item@{Item}}
+\subsubsection[{$\sim$\+Item()}]{\setlength{\rightskip}{0pt plus 5cm}Item\+::$\sim$\+Item (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_item_a11663c84075b78c3ae5e30fdfcd7c458}
+A destructor that destorys an item 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 

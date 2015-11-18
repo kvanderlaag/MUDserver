@@ -1,12 +1,30 @@
 \hypertarget{class_parser}{}\section{Parser Class Reference}
 \label{class_parser}\index{Parser@{Parser}}
+
+
+{\ttfamily \#include $<$Parser.\+h$>$}
+
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{class_parser_afd1458368f2c5fe1f65ed6653e122def}{}std\+::vector$<$ \hyperlink{class_message}{Message} $\ast$ $>$ $\ast$ {\bfseries Parse} (\hyperlink{class_game_world}{Game\+World} $\ast$world, int connection\+\_\+id, std\+::string str)\label{class_parser_afd1458368f2c5fe1f65ed6653e122def}
-
+std\+::vector$<$ \hyperlink{class_message}{Message} $\ast$ $>$ $\ast$ \hyperlink{class_parser_afd1458368f2c5fe1f65ed6653e122def}{Parse} (\hyperlink{class_game_world}{Game\+World} $\ast$world, int connection\+\_\+id, std\+::string str)
 \end{DoxyCompactItemize}
 
+
+\subsection{Detailed Description}
+Header file for parser 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_parser_afd1458368f2c5fe1f65ed6653e122def}{}\index{Parser@{Parser}!Parse@{Parse}}
+\index{Parse@{Parse}!Parser@{Parser}}
+\subsubsection[{Parse(\+Game\+World $\ast$world, int connection\+\_\+id, std\+::string str)}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$ {\bf Message} $\ast$ $>$ $\ast$ Parser\+::\+Parse (
+\begin{DoxyParamCaption}
+\item[{{\bf Game\+World} $\ast$}]{world, }
+\item[{int}]{connection\+Id, }
+\item[{std\+::string}]{input}
+\end{DoxyParamCaption}
+)}\label{class_parser_afd1458368f2c5fe1f65ed6653e122def}
+Parses a message from a connection Sends the parsed message to the correct function in the game world with the conenction id Returns a vector of messages to send back out to connections 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 

@@ -6,14 +6,14 @@
 /**
 * The default constructor create a naive object player by permanent player ID and initial name.
 */  
-Player::Player( int id, std::string name ) : GameEntity(id, name){
+Player::Player(int id, std::string name) : GameEntity(id, name){
     std::cout << "Created a player..." << std::endl;
 }
 
 /**
 * A standard constructor create an object player by permanent player ID, initial name, and password.
 */  
-Player::Player(  int id, std::string name, int password ) : GameEntity( id, name ) {
+Player::Player(int id, std::string name, int password) : GameEntity(id, name) {
     password_ = password;
     std::cout << "Created a player with connection ID & password..." << std::endl;
 }
@@ -26,17 +26,10 @@ Player::~Player() {
 }
 
 /**
-* This function takes a pointer variable passed by the server and changes the current connection ID to the new connection ID.
-*/  
-void Player::AssignConnectionID(int* newConnectionID){
-    *connectionID_ = *newConnectionID;
-}
-
-/**
 * The GetConnectionID function returns the current connection ID.
 */ 
-int* Player::GetConnectionID() {
-    return connectionID_;
+int Player::GetConnectionId() {
+    return connection_id_;
 }
 
 /**
@@ -47,17 +40,24 @@ int Player::GetPassword() {
 }
 
 /**
+* This function takes a pointer variable passed by the server and changes the current connection ID to the new connection ID.
+*/
+void Player::SetConnectionId(int new_connection_id) {
+	connection_id_ = new_connection_id;
+}
+
+/**
 * The destructor ~Player() remove object player.
 */  
-int* Player::GetRoomID(){
-    return roomID_;
+int Player::GetRoomId(){
+    return room_id_;
 }
 
 /**
 * The ChangeRoomID function takes the pointer variable passed by the server and modifies the current player's room ID (i.e. room location) to the new room ID.
 */  
-void Player::ChangeRoomID(int* newRoomID){
-    *roomID_ = *newRoomID;
+void Player::SetRoomId(int room_id){
+    room_id_ = room_id;
 }
 
 /**
@@ -65,7 +65,7 @@ void Player::ChangeRoomID(int* newRoomID){
 */  
 void Player::PrintPlayer(){
     Print();
-    std::cout << connectionID_ << "is currently located at room:" << roomID_ << std::endl;
+    std::cout << connection_id_ << "is currently located at room:" << room_id_ << std::endl;
 }
 
 /**

@@ -3,19 +3,68 @@
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{class_connection_list_a70f15746760e5eaa95f8d6fc3a07fd87}{}void {\bfseries Add\+Connection} (int connection\+\_\+id, int player\+\_\+id)\label{class_connection_list_a70f15746760e5eaa95f8d6fc3a07fd87}
-
+\hyperlink{class_connection_list_a29fad0a481b8e85f66aeb965aa11f591}{Connection\+List} ()
 \item 
-\hypertarget{class_connection_list_ab489bd8f125718639c8d380313fc0119}{}void {\bfseries Remove\+Connection} (int connection\+\_\+id)\label{class_connection_list_ab489bd8f125718639c8d380313fc0119}
-
+\hyperlink{class_connection_list_a1adf23362a15e05db5874d38650c6309}{$\sim$\+Connection\+List} ()
 \item 
-\hypertarget{class_connection_list_acdcbe6b6e3230fbcaf7b2ca0ade6e262}{}int {\bfseries Get\+Player\+Id} (int connection\+\_\+id)\label{class_connection_list_acdcbe6b6e3230fbcaf7b2ca0ade6e262}
-
+void \hyperlink{class_connection_list_a70f15746760e5eaa95f8d6fc3a07fd87}{Add\+Connection} (int connection\+\_\+id, int player\+\_\+id)
 \item 
-\hypertarget{class_connection_list_a9401a5b5ff17d37ad078ac41ecbdb0cb}{}int {\bfseries Get\+Connection\+Count} ()\label{class_connection_list_a9401a5b5ff17d37ad078ac41ecbdb0cb}
-
+void \hyperlink{class_connection_list_ab489bd8f125718639c8d380313fc0119}{Remove\+Connection} (int connection\+\_\+id)
+\item 
+int \hyperlink{class_connection_list_acdcbe6b6e3230fbcaf7b2ca0ade6e262}{Get\+Player\+Id} (int connection\+\_\+id)
+\item 
+int \hyperlink{class_connection_list_a9401a5b5ff17d37ad078ac41ecbdb0cb}{Get\+Connection\+Count} ()
 \end{DoxyCompactItemize}
 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_connection_list_a29fad0a481b8e85f66aeb965aa11f591}{}\index{Connection\+List@{Connection\+List}!Connection\+List@{Connection\+List}}
+\index{Connection\+List@{Connection\+List}!Connection\+List@{Connection\+List}}
+\subsubsection[{Connection\+List()}]{\setlength{\rightskip}{0pt plus 5cm}Connection\+List\+::\+Connection\+List (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_connection_list_a29fad0a481b8e85f66aeb965aa11f591}
+Create a new connection list \hypertarget{class_connection_list_a1adf23362a15e05db5874d38650c6309}{}\index{Connection\+List@{Connection\+List}!````~Connection\+List@{$\sim$\+Connection\+List}}
+\index{````~Connection\+List@{$\sim$\+Connection\+List}!Connection\+List@{Connection\+List}}
+\subsubsection[{$\sim$\+Connection\+List()}]{\setlength{\rightskip}{0pt plus 5cm}Connection\+List\+::$\sim$\+Connection\+List (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_connection_list_a1adf23362a15e05db5874d38650c6309}
+Destroy a connection list 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_connection_list_a70f15746760e5eaa95f8d6fc3a07fd87}{}\index{Connection\+List@{Connection\+List}!Add\+Connection@{Add\+Connection}}
+\index{Add\+Connection@{Add\+Connection}!Connection\+List@{Connection\+List}}
+\subsubsection[{Add\+Connection(int connection\+\_\+id, int player\+\_\+id)}]{\setlength{\rightskip}{0pt plus 5cm}void Connection\+List\+::\+Add\+Connection (
+\begin{DoxyParamCaption}
+\item[{int}]{connection\+\_\+id, }
+\item[{int}]{player\+\_\+id}
+\end{DoxyParamCaption}
+)}\label{class_connection_list_a70f15746760e5eaa95f8d6fc3a07fd87}
+Add a connection to an existing connection list \hypertarget{class_connection_list_a9401a5b5ff17d37ad078ac41ecbdb0cb}{}\index{Connection\+List@{Connection\+List}!Get\+Connection\+Count@{Get\+Connection\+Count}}
+\index{Get\+Connection\+Count@{Get\+Connection\+Count}!Connection\+List@{Connection\+List}}
+\subsubsection[{Get\+Connection\+Count()}]{\setlength{\rightskip}{0pt plus 5cm}int Connection\+List\+::\+Get\+Connection\+Count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_connection_list_a9401a5b5ff17d37ad078ac41ecbdb0cb}
+Returns the number of connections currently active \hypertarget{class_connection_list_acdcbe6b6e3230fbcaf7b2ca0ade6e262}{}\index{Connection\+List@{Connection\+List}!Get\+Player\+Id@{Get\+Player\+Id}}
+\index{Get\+Player\+Id@{Get\+Player\+Id}!Connection\+List@{Connection\+List}}
+\subsubsection[{Get\+Player\+Id(int connection\+\_\+id)}]{\setlength{\rightskip}{0pt plus 5cm}int Connection\+List\+::\+Get\+Player\+Id (
+\begin{DoxyParamCaption}
+\item[{int}]{connection\+\_\+id}
+\end{DoxyParamCaption}
+)}\label{class_connection_list_acdcbe6b6e3230fbcaf7b2ca0ade6e262}
+From a connection I\+D, get the corresponding player I\+D \hypertarget{class_connection_list_ab489bd8f125718639c8d380313fc0119}{}\index{Connection\+List@{Connection\+List}!Remove\+Connection@{Remove\+Connection}}
+\index{Remove\+Connection@{Remove\+Connection}!Connection\+List@{Connection\+List}}
+\subsubsection[{Remove\+Connection(int connection\+\_\+id)}]{\setlength{\rightskip}{0pt plus 5cm}void Connection\+List\+::\+Remove\+Connection (
+\begin{DoxyParamCaption}
+\item[{int}]{connection\+\_\+id}
+\end{DoxyParamCaption}
+)}\label{class_connection_list_ab489bd8f125718639c8d380313fc0119}
+Remove the connection I\+D and corresponding player I\+D from a list 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 

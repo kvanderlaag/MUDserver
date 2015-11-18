@@ -4,7 +4,8 @@
 #include <string>
 
 /**Header file for GameEntity*/
-class GameEntity {
+class GameEntity
+{
 
 /**Private variables store a permanent ID for a game entity, a name, and a brief description for this entity*/
 private:
@@ -20,12 +21,15 @@ public:
     GameEntity(int id, std::string name);
     GameEntity(int id, std::string name, std::string description);
     ~GameEntity();
-    void Print();
 
-    int GetId();
-	std::string GetName();
-    std::string GetDescription();
-    void SetDescription(std::string description);
+    virtual void Print();
+
+    virtual int GetId();
+	virtual std::string GetName();
+    virtual std::string GetDescription();
+	virtual void SetId(int id);
+	virtual void SetName(std::string name);
+    virtual void SetDescription(std::string description);
 
 };
 

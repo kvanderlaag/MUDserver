@@ -1,5 +1,9 @@
 \hypertarget{class_message}{}\section{Message Class Reference}
 \label{class_message}\index{Message@{Message}}
+
+
+{\ttfamily \#include $<$Message.\+h$>$}
+
 \subsection*{Public Types}
 \begin{DoxyCompactItemize}
 \item 
@@ -12,25 +16,81 @@
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{class_message_a3af4af638e94512f9a54eaf2638af46e}{}{\bfseries Message} (const std\+::string load, int id, Message\+Type m\+Type)\label{class_message_a3af4af638e94512f9a54eaf2638af46e}
-
+\hyperlink{class_message_a3af4af638e94512f9a54eaf2638af46e}{Message} (const std\+::string load, int id, Message\+Type m\+Type)
 \item 
-\hypertarget{class_message_a739b4aaa722ec1491b61c938d40faf6a}{}const std\+::string \& {\bfseries Read} ()\label{class_message_a739b4aaa722ec1491b61c938d40faf6a}
-
+\hyperlink{class_message_a3f7275462831f787a861271687bcad67}{$\sim$\+Message} ()
 \item 
-\hypertarget{class_message_af4d9dc3589639d8e0612d2077823883a}{}int {\bfseries Write} (const std\+::string load)\label{class_message_af4d9dc3589639d8e0612d2077823883a}
-
+const std\+::string \& \hyperlink{class_message_a739b4aaa722ec1491b61c938d40faf6a}{Read} ()
 \item 
-\hypertarget{class_message_a62cbff053193fdb05ac7492623a206b3}{}int {\bfseries Append} (const std\+::string load)\label{class_message_a62cbff053193fdb05ac7492623a206b3}
-
+int \hyperlink{class_message_af4d9dc3589639d8e0612d2077823883a}{Write} (const std\+::string load)
 \item 
-\hypertarget{class_message_a5b6472c4ac06222f8a71e6622ff4d8f1}{}Message\+Type {\bfseries Get\+Type} ()\label{class_message_a5b6472c4ac06222f8a71e6622ff4d8f1}
-
+int \hyperlink{class_message_a62cbff053193fdb05ac7492623a206b3}{Append} (const std\+::string load)
 \item 
-\hypertarget{class_message_a1fb677cce4e09b890eb06403c8afd757}{}int {\bfseries Get\+Source} ()\label{class_message_a1fb677cce4e09b890eb06403c8afd757}
-
+Message\+Type \hyperlink{class_message_a5b6472c4ac06222f8a71e6622ff4d8f1}{Get\+Type} ()
+\item 
+int \hyperlink{class_message_a1fb677cce4e09b890eb06403c8afd757}{Get\+Source} ()
 \end{DoxyCompactItemize}
 
+
+\subsection{Detailed Description}
+Header file for message 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_message_a3af4af638e94512f9a54eaf2638af46e}{}\index{Message@{Message}!Message@{Message}}
+\index{Message@{Message}!Message@{Message}}
+\subsubsection[{Message(const std\+::string load, int id, Message\+Type m\+Type)}]{\setlength{\rightskip}{0pt plus 5cm}Message\+::\+Message (
+\begin{DoxyParamCaption}
+\item[{const std\+::string}]{load, }
+\item[{int}]{id, }
+\item[{Message\+Type}]{m\+Type}
+\end{DoxyParamCaption}
+)}\label{class_message_a3af4af638e94512f9a54eaf2638af46e}
+Create a message \hypertarget{class_message_a3f7275462831f787a861271687bcad67}{}\index{Message@{Message}!````~Message@{$\sim$\+Message}}
+\index{````~Message@{$\sim$\+Message}!Message@{Message}}
+\subsubsection[{$\sim$\+Message()}]{\setlength{\rightskip}{0pt plus 5cm}Message\+::$\sim$\+Message (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_message_a3f7275462831f787a861271687bcad67}
+Destroys a message 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_message_a62cbff053193fdb05ac7492623a206b3}{}\index{Message@{Message}!Append@{Append}}
+\index{Append@{Append}!Message@{Message}}
+\subsubsection[{Append(const std\+::string load)}]{\setlength{\rightskip}{0pt plus 5cm}int Message\+::\+Append (
+\begin{DoxyParamCaption}
+\item[{const std\+::string}]{load}
+\end{DoxyParamCaption}
+)}\label{class_message_a62cbff053193fdb05ac7492623a206b3}
+Adds more onto the end of an existing payload \hypertarget{class_message_a1fb677cce4e09b890eb06403c8afd757}{}\index{Message@{Message}!Get\+Source@{Get\+Source}}
+\index{Get\+Source@{Get\+Source}!Message@{Message}}
+\subsubsection[{Get\+Source()}]{\setlength{\rightskip}{0pt plus 5cm}int Message\+::\+Get\+Source (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_message_a1fb677cce4e09b890eb06403c8afd757}
+Returns the connection I\+D of the player who sent the message \hypertarget{class_message_a5b6472c4ac06222f8a71e6622ff4d8f1}{}\index{Message@{Message}!Get\+Type@{Get\+Type}}
+\index{Get\+Type@{Get\+Type}!Message@{Message}}
+\subsubsection[{Get\+Type()}]{\setlength{\rightskip}{0pt plus 5cm}Message\+::\+Message\+Type Message\+::\+Get\+Type (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_message_a5b6472c4ac06222f8a71e6622ff4d8f1}
+Returns the type of the message \hypertarget{class_message_a739b4aaa722ec1491b61c938d40faf6a}{}\index{Message@{Message}!Read@{Read}}
+\index{Read@{Read}!Message@{Message}}
+\subsubsection[{Read()}]{\setlength{\rightskip}{0pt plus 5cm}const std\+::string \& Message\+::\+Read (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_message_a739b4aaa722ec1491b61c938d40faf6a}
+Returns the payload of a message \hypertarget{class_message_af4d9dc3589639d8e0612d2077823883a}{}\index{Message@{Message}!Write@{Write}}
+\index{Write@{Write}!Message@{Message}}
+\subsubsection[{Write(const std\+::string load)}]{\setlength{\rightskip}{0pt plus 5cm}int Message\+::\+Write (
+\begin{DoxyParamCaption}
+\item[{const std\+::string}]{load}
+\end{DoxyParamCaption}
+)}\label{class_message_af4d9dc3589639d8e0612d2077823883a}
+Changes the payload of a message 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
