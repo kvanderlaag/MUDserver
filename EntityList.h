@@ -29,9 +29,12 @@ public:
     void RemoveEntity(int id);
     GameEntity* GetEntity(int id);
 	GameEntity* FindEntity(std::string name);
+
     int GetEntityCount();
+	std::vector<GameEntity*>* GetEntityVector();
 
 	int GetNextId();
+	void PutNextId(int id);
 
 };
 

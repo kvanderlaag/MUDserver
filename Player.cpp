@@ -7,6 +7,10 @@
 * The default constructor create a naive object player by permanent player ID and initial name.
 */  
 Player::Player(int id, std::string name) : GameEntity(id, name){
+	connection_id_ = -1;
+	password_ = "";
+	room_id_ = 0;
+
     std::cout << "Created a player..." << std::endl;
 }
 
@@ -14,7 +18,9 @@ Player::Player(int id, std::string name) : GameEntity(id, name){
 * A standard constructor create an object player by permanent player ID, initial name, and password.
 */  
 Player::Player(int id, std::string name, std::string password) : GameEntity(id, name) {
+	connection_id_ = -1;
     password_ = password;
+	room_id_ = 0;
     std::cout << "Created a player with connection ID & password..." << std::endl;
 }
 

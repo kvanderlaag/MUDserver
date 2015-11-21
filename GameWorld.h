@@ -27,7 +27,6 @@ private:
 	ConnectionList* current_players_; // connection_id/player_id
 	Server* parent;
 	
-
 public:
     GameWorld(Server* par);
     ~GameWorld();
@@ -42,7 +41,7 @@ public:
     GameEntity* GetPlayer(int id);
 
 	Player* FindPlayer(int connection_id);
-	Room* FindRoom(Player* player);
+	Room* FindPlayerRoom(Player* player);
 
 	void Look(int connection_id);
 	void Look(int connection_id, std::string entity);

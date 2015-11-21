@@ -28,20 +28,13 @@ EntityList::~EntityList()
 */
 void EntityList::AddEntity(GameEntity *game_entity)
 {			
-	if( map_.find( game_entity->GetId() ) != map_.end() )
+	if(map_.find(game_entity->GetId()) != map_.end())
 	{
-        std::cout << "Duplicate id!!!" << std::endl;
+        std::cout << "Duplicate id in entity list!!!" << std::endl;
 		return;
     }
-
-	next_ids_.pop_back;
-
-	// if its empty, push id+1 onto it
-	if (next_ids_.size == 0)
-	{
-		next_ids_.push_back(id + 1);
-	}
-    map_.insert( std::pair<int,GameEntity*>( game_entity->GetId(), game_entity ) );
+	
+    map_.insert(std::pair<int,GameEntity*>(game_entity->GetId(), game_entity));
 }
 
 /**
@@ -106,9 +99,47 @@ int EntityList::GetEntityCount()
 }
 
 /**
+* Return Entity vector for iteration
+*/
+std::vector<GameEntity*>* EntityList::GetEntityVector()
+{
+	std::vector<GameEntity*>* entity_vector;
+
+	if (!map_.empty())
+	{
+		typedef std::map<int, GameEntity*>::iterator it_type;
+		for (it_type iterator = map_.begin(); iterator != map_.end(); iterator++)
+		{
+			// iterator->first = key
+			// iterator->second = value
+			entity_vector->push_back(iterator->second);
+		}
+	}
+	return entity_vector;
+}
+
+/**
 * Return next id available in the list
 */
 int EntityList::GetNextId()
 {
-	return next_ids_.back;
+	int id = next_ids_.back();
+
+	next_ids_.pop_back();
+
+	// if its empty, push id+1 onto it
+	if (next_ids_.size() == 0)
+	{
+		next_ids_.push_back(id + 1);
+	}
+
+	return id;
+}
+
+/**
+* Make id available again
+*/
+void EntityList::PutNextId(int id)
+{
+	next_ids_.push_back(id);
 }
