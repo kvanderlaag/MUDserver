@@ -25,7 +25,8 @@ class Player: public GameEntity
 */
 private:
     int connection_id_;
-    int password_;
+    std::string password_;
+
     int room_id_;
     EntityList* items_;
 
@@ -36,22 +37,22 @@ private:
  */
 public:
     Player(int id, std::string name);
-    Player(int id, std::string name, int password);
+    Player(int id, std::string name, std::string password);
     ~Player();
     void PrintPlayer();
 
-    int GetConnectionId();
-    int GetRoomId();
-
 	void SetConnectionId(int connection_id);
+    int GetConnectionId();
+
     void SetRoomId(int room_id);
+	int GetRoomId();
 
     void AddItem(GameEntity* entity);
 	void RemoveItem(int id);
 	GameEntity* GetItem(int id);
 
-/**The function GetPassword returns the initial password of the player.*/  
-    int GetPassword();
+	/**The function GetPassword returns the initial password of the player.*/  
+    std::string GetPassword();
 };
 
 #endif

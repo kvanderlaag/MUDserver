@@ -121,9 +121,20 @@ GameEntity* Room::FindEntity(std::string name)
 	}
 
 	GameEntity* psearch = players_->FindEntity(name);
-	if (psearch != NULL) {
+	if (psearch != NULL)
+	{
 		return psearch;
 	}
 
 	return NULL;
+}
+
+void Room::MessageAll(std::string words)
+{
+	/*typedef std::map<int, GameEntity*>::iterator it_type;
+	for (it_type iterator = players_.begin(); iterator != players_.end(); iterator++) {
+		// iterator->first = key
+		// iterator->second = value
+		// Repeat if you also want to iterate through the second map.
+	}*/
 }

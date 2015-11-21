@@ -13,7 +13,7 @@ Player::Player(int id, std::string name) : GameEntity(id, name){
 /**
 * A standard constructor create an object player by permanent player ID, initial name, and password.
 */  
-Player::Player(int id, std::string name, int password) : GameEntity(id, name) {
+Player::Player(int id, std::string name, std::string password) : GameEntity(id, name) {
     password_ = password;
     std::cout << "Created a player with connection ID & password..." << std::endl;
 }
@@ -26,17 +26,11 @@ Player::~Player() {
 }
 
 /**
-* The GetConnectionID function returns the current connection ID.
-*/ 
-int Player::GetConnectionId() {
-    return connection_id_;
-}
-
-/**
-* The GetPassword function returns the initial passoword.
-*/ 
-int Player::GetPassword() {
-    return password_;
+* The PrintPlayer function is called to print the basic information for the player. It prints out the current connection ID and the current room ID of the player.
+*/
+void Player::PrintPlayer() {
+	Print();
+	std::cout << connection_id_ << "is currently located at room:" << room_id_ << std::endl;
 }
 
 /**
@@ -47,25 +41,31 @@ void Player::SetConnectionId(int new_connection_id) {
 }
 
 /**
-* The destructor ~Player() remove object player.
-*/  
-int Player::GetRoomId(){
-    return room_id_;
+* The GetConnectionID function returns the current connection ID.
+*/ 
+int Player::GetConnectionId() {
+    return connection_id_;
+}
+
+/**
+* The GetPassword function returns the initial passoword.
+*/ 
+std::string Player::GetPassword() {
+    return password_;
 }
 
 /**
 * The ChangeRoomID function takes the pointer variable passed by the server and modifies the current player's room ID (i.e. room location) to the new room ID.
-*/  
-void Player::SetRoomId(int room_id){
-    room_id_ = room_id;
+*/
+void Player::SetRoomId(int room_id) {
+	room_id_ = room_id;
 }
 
 /**
-* The PrintPlayer function is called to print the basic information for the player. It prints out the current connection ID and the current room ID of the player.
+* The destructor ~Player() remove object player.
 */  
-void Player::PrintPlayer(){
-    Print();
-    std::cout << connection_id_ << "is currently located at room:" << room_id_ << std::endl;
+int Player::GetRoomId(){
+    return room_id_;
 }
 
 /**
