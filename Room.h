@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "EntityList.h"
+#include "ConnectionList.h"
 #include "GameEntity.h"
 
 class Room : public GameEntity
@@ -31,6 +32,8 @@ public:
 	GameEntity* GetPlayer(int id);
 
 	GameEntity* FindEntity(std::string name);
+	
+	void MessageAll(std::string message)
 };
 
 #endif // __ROOM_H__

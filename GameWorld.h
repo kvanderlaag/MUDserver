@@ -35,17 +35,22 @@ public:
 	GameEntity* GetRoom(int id);
     GameEntity* GetPlayer(int id);
 
-	std::vector<Message*>* Look(int connection_id);
-	std::vector<Message*>* Look(int connection_id, std::string entity);
-	std::vector<Message*>* Move(int connection_id, std::string exit);
-	std::vector<Message*>* Say(int connection_id, std::string words);
-	std::vector<Message*>* Take(int connection_id, std::string entity);
+	Player* FindPlayer(int connection_id);
+	Room* FindRoom(Player* player);
 
-	std::vector<Message*>* Help(int connection_id);
+	void Look(int connection_id);
+	void Look(int connection_id, std::string entity);
+	void Move(int connection_id, std::string exit);
+	void Say(int connection_id, std::string words);
+	void Shout(int connection_id, std::string words);
+	void Whisper(int connection_id, std::string name, std::string words);
+	void Take(int connection_id, std::string entity);
 
-	std::vector<Message*>* SignUp(int connection_id, std::string login_name, std::string password);
-	std::vector<Message*>* LogIn(int connection_id, std::string login_name, std::string password);
-	std::vector<Message*>* LogOut(int connection_id);
+	void Help(int connection_id);
+
+	void SignUp(int connection_id, std::string login_name, std::string password);
+	void LogIn(int connection_id, std::string login_name, std::string password);
+	void LogOut(int connection_id);
 };
 
 #endif // __GAMEWORLD_H__
