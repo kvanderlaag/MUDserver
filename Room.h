@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "EntityList.h"
+#include "ConnectionList.h"
 #include "GameEntity.h"
 
 class Room : public GameEntity
@@ -26,11 +27,13 @@ public:
 	void RemoveExit(int id);
 	void RemovePlayer(int id);
 
-	GameEntity* GetExit(int id);
+	GameEntity* GetExit(std::string exit);
 	GameEntity* GetItem(int id);
 	GameEntity* GetPlayer(int id);
 
 	GameEntity* FindEntity(std::string name);
+	
+	std::vector<GameEntity*>* GetPlayerVector();
 };
 
 #endif // __ROOM_H__

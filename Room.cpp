@@ -79,9 +79,9 @@ void Room::RemovePlayer(int id)
  * Functions as a check made to see if a certain room exists in a room's exit list (using a room id)
  * Return the GameEntity(id) if it is found in the exit list, else return null if it is not
  */
-GameEntity* Room::GetExit(int id)
+GameEntity* Room::GetExit(std::string exit)
 {
-	return exits_->GetEntity(id);
+	return exits_->FindEntity(exit);
 }
 
 /**
@@ -121,9 +121,15 @@ GameEntity* Room::FindEntity(std::string name)
 	}
 
 	GameEntity* psearch = players_->FindEntity(name);
-	if (psearch != NULL) {
+	if (psearch != NULL)
+	{
 		return psearch;
 	}
 
 	return NULL;
+}
+
+std::vector<GameEntity*>* Room::GetPlayerVector()
+{
+	return players_->GetEntityVector();
 }

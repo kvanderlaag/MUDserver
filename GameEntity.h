@@ -27,6 +27,7 @@ public:
     virtual int GetId();
 	virtual std::string GetName();
     virtual std::string GetDescription();
+
 	virtual void SetId(int id);
 	virtual void SetName(std::string name);
     virtual void SetDescription(std::string description);

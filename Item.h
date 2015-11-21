@@ -20,7 +20,6 @@ public:
 	Item(int id, std::string description);
 	Item(int id, std::string name, std::string description);
 	~Item();
-	
 };
 
 #endif	// __ITEM_H__ 

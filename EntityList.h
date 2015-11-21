@@ -4,6 +4,7 @@
 #include "GameEntity.h"
 
 #include <map>
+#include <vector>
 
 /*Header file for EntityList*/
 class EntityList
@@ -12,6 +13,7 @@ class EntityList
 /* Private variable uses a map to implement the list of entities */
 private:
     std::map<int, GameEntity*> map_;
+	std::vector<int> next_ids_; // stack
 
 /* Public functions have a default constructor for the class, a destructor
  * Other functions include AddEntity which takes a pointer of game entity and adds the entity to the list
@@ -27,7 +29,12 @@ public:
     void RemoveEntity(int id);
     GameEntity* GetEntity(int id);
 	GameEntity* FindEntity(std::string name);
+
     int GetEntityCount();
+	std::vector<GameEntity*>* GetEntityVector();
+
+	int GetNextId();
+	void PutNextId(int id);
 
 };
 

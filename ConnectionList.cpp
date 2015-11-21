@@ -26,7 +26,7 @@ void ConnectionList::AddConnection(int connection_id, int player_id)
 
 	if (map_.find(connection_id) != map_.end())
 	{
-		std::cout << "Duplicate id!!!" << std::endl;
+		std::cout << "Duplicate id in connection list!!!" << std::endl;
 	}
 
 	map_.insert(std::pair<int, int>(connection_id, player_id));
@@ -64,4 +64,24 @@ void ConnectionList::RemoveConnection(int connection_id)
 int ConnectionList::GetConnectionCount()
 {
 	return map_.size();
+}
+
+/**
+* Return Connection vector for iteration
+*/
+std::vector<int>* ConnectionList::GetIdVector()
+{
+	std::vector<int>* id_vector;
+
+	if (!map_.empty())
+	{
+		typedef std::map<int, int>::iterator it_type;
+		for (it_type iterator = map_.begin(); iterator != map_.end(); iterator++)
+		{
+			// iterator->first = key
+			// iterator->second = value
+			id_vector->push_back(iterator->second);
+		}
+	}
+	return id_vector;
 }

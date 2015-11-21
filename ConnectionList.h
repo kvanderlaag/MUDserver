@@ -2,6 +2,7 @@
 #define __CONNECTIONLIST_H__
 
 #include <map>
+#include <vector>
 
 /*
 * Header file for ConnectionList
@@ -21,6 +22,7 @@ public:
 	int GetPlayerId(int connection_id);
 	int GetConnectionCount();
 
+	std::vector<int>* GetIdVector();
 };
 
 #endif // __CONNECTIONLIST_H__
