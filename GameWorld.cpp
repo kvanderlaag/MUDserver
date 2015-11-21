@@ -259,6 +259,7 @@ void GameWorld::Take(int connection_id, std::string entity)
 {
 	// find player
 	Player* player = FindPlayer(connection_id);
+<<<<<<< HEAD
 
 	// find room
 	Room* room = FindRoom(player);
@@ -275,6 +276,24 @@ void GameWorld::Take(int connection_id, std::string entity)
 	Message* msg = new Message(entity + " was added to your inventory", connection_id, Message::outputMessage);
 }
 
+=======
+
+	// find room
+	Room* room = FindRoom(player);
+
+	// find item
+	GameEntity* ientity = room->FindEntity(entity);
+
+	// try to cast to item type
+	Item* item = dynamic_cast<Item*>(ientity);
+
+	// add item to player item list
+	player->AddItem(item);
+
+	Message* msg = new Message(entity + " was added to your inventory", connection_id, Message::outputMessage);
+}
+
+>>>>>>> 959b59d1a4045a5d0be647b77c595beb4f1f0177
 /**
 * Player command
 * Help command
@@ -319,6 +338,7 @@ void GameWorld::LogIn(int connection_id, std::string login_name, std::string pas
 		Message* msg = new Message("Wrong username/password!", connection_id, Message::outputMessage);
 		return;
 	}
+<<<<<<< HEAD
 
 	Player* player = dynamic_cast<Player*>(pentity);
 
@@ -339,6 +359,28 @@ void GameWorld::LogIn(int connection_id, std::string login_name, std::string pas
 	// TODO message all players in room
 	Message* msg = new Message(player->GetName + " phased into reality.", connection_id, Message::outputMessage);
 
+=======
+
+	Player* player = dynamic_cast<Player*>(pentity);
+
+	// check password
+	if (player->GetPassword != password)
+	{
+		Message* msg = new Message("Wrong username/password!", connection_id, Message::outputMessage);
+		return;
+	}
+
+	// place into current players list
+	current_players_->AddConnection(connection_id, player->GetId);
+
+	// get player room, place into room player list
+	Room* room = FindRoom(player);
+	room->AddPlayer(player);
+
+	// TODO message all players in room
+	Message* msg = new Message(player->GetName + " phased into reality.", connection_id, Message::outputMessage);
+
+>>>>>>> 959b59d1a4045a5d0be647b77c595beb4f1f0177
 	// name and password are correct
 	Message* msg = new Message("You phased into reality", connection_id, Message::outputMessage);
 }
@@ -363,4 +405,8 @@ void GameWorld::LogOut(int connection_id)
 	Message* msg = new Message(player->GetName + " returned to the dream.", connection_id, Message::outputMessage);
 
 	Message* msg = new Message("You returned to the dream", connection_id, Message::outputMessage);
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 959b59d1a4045a5d0be647b77c595beb4f1f0177
