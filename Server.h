@@ -29,10 +29,13 @@ public:
 	void HandleMessageQueue();
 	void ErrorHandler(const std::string arg);
 
-	void PutMessage(const Message& mess);
+	void PutMessage(const Message* mess);
 
 private:
 	bool running;
+
+	Parser* parser;
+	Message* ParseMessage(const Message&);
 
 	GameWorld* world;
 	TCPListener* listener;

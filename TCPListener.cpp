@@ -140,7 +140,7 @@ void TCPListener::accept_cb(evutil_socket_t listener, short event) {
 }
 
 /** PutMessage. Sends a message from a child stream to the parent server. */
-void TCPListener::PutMessage(const Message& mess) {
+void TCPListener::PutMessage(const Message* mess) {
 	parent->PutMessage(mess);
 }
 

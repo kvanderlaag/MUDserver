@@ -40,7 +40,7 @@ public:
 	const event_base* GetBase();
 	static void do_accept(evutil_socket_t listener, short event, void* arg);
 
-	void PutMessage(const Message& mess);
+	void PutMessage(const Message* mess);
 
 private:
 	Server* parent;

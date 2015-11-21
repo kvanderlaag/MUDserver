@@ -8,18 +8,18 @@
 * Sends the parsed message to the correct function in the game world with the conenction id
 * Returns a vector of messages to send back out to connections
 */
-std::vector<Message*>* Parser::Parse(GameWorld* world, int connectionId, std::string input)
+Message* Parser::Parse(const Message* mess) const
 {
 
 	std::string buffer;
-	std::stringstream iss(input);
+	std::stringstream iss(mess->Read());
 
 	std::string command;
 	std::string words;
 	iss >> command;
 	std::getline(iss, words);
 
-	//MIGHT NEED TO GET MOVED TO SERVER IF SERVER CALLS FUNCTIONS IN GAMEWORLD
+	/*MIGHT NEED TO GET MOVED TO SERVER IF SERVER CALLS FUNCTIONS IN GAMEWORLD
 	std::vector<Message*>* msg;// = new Message("hi", connection_id, Message::outputMessage);
 
 	if (command == "look")
@@ -103,4 +103,6 @@ std::vector<Message*>* Parser::Parse(GameWorld* world, int connectionId, std::st
 
 
 	return msg;
+	*/
+	return (Message*) nullptr;
 }

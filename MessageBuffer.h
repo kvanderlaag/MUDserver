@@ -11,11 +11,11 @@ class MessageBuffer
 public:
 	MessageBuffer();
 	~MessageBuffer();
-	int PutMessage(const Message& mess);
+	int PutMessage(const Message* mess);
 	const Message* DequeueMessage();
 	bool IsEmpty();
 
 private:
-	std::queue<Message*> buffer;
+	std::queue<const Message*> buffer;
 	int length;
 };

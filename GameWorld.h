@@ -7,6 +7,7 @@
 #include "Room.h"
 #include "Item.h"
 #include "Message.h"
+#include "Parser.h"
 
 #include <map>
 #include <vector>
@@ -21,6 +22,7 @@ private:
     EntityList* rooms_; // room_id/room_object
     EntityList* players_; // player_id/player_object
 	ConnectionList* current_players_; // connection_id/player_id
+	
 
 public:
     GameWorld();

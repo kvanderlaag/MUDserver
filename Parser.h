@@ -15,7 +15,7 @@ class Parser
 private:
 
 public:
-	std::vector<Message*>* Parse(GameWorld* world, int connection_id, std::string str);
+	Message* Parse(const Message* mess) const;
 
 };
 

@@ -21,7 +21,7 @@ Message::~Message()
 /**
 * Returns the payload of a message
 */
-const std::string& Message::Read()
+const std::string& Message::Read() const
 {
 	return payload;
 }

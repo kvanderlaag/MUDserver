@@ -17,7 +17,7 @@ public:
 	Message(const std::string load, int id, MessageType mType);
 	~Message();
 
-	const std::string& Read();
+	const std::string& Read() const;
 	int Write(const std::string load);
 	int Append(const std::string load);
 	MessageType GetType();

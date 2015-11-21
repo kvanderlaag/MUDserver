@@ -22,9 +22,9 @@ MessageBuffer::~MessageBuffer()
 /**
 * Place a message at the end of the message buffer
 */
-int MessageBuffer::PutMessage(const Message& mess)
+int MessageBuffer::PutMessage(const Message* mess)
 {
-	buffer.push((Message*) &mess);
+	buffer.push(mess);
 	return ++length;
 }
 

@@ -19,6 +19,7 @@ Server::Server(int port)
 	, world(new GameWorld())
 	, mBuffer(new MessageBuffer())
 	, running(false)
+	, parser(new Parser())
 {
 	std::cout << "Creating new Server on port " << port << ".\n";
 	std::cout << "TCPListener creation successful." << '\n';
@@ -100,7 +101,7 @@ void Server::Shutdown()
 /**
 * Place a new message onto the message buffer
 */
-void Server::PutMessage(const Message& mess)
+void Server::PutMessage(const Message* mess)
 {
 	mBuffer->PutMessage(mess);
 }
@@ -120,6 +121,16 @@ void Server::HandleMessageQueue()
 		}
 	}
 	std::cout << "Message Queue handler terminated." << '\n';
+}
+
+/**
+* Parse a message from the server.
+*/
+Message* Server::ParseMessage(const Message& mess) {
+	Message* returnMessage = parser->Parse(&mess);
+	mBuffer->PutMessage(returnMessage);
+	return returnMessage;
+	
 }
 
 /**

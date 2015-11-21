@@ -67,7 +67,7 @@ void TCPStream::read_cb(struct bufferevent *bev) {
 			else {
 				// Send the message to the buffer.
 				Message* mess = new Message(buffer, socketfd, Message::inputMessage);
-				parent->PutMessage(*mess);
+				parent->PutMessage(mess);
 				buffer.clear();
 			}
 		}
