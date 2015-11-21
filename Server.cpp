@@ -16,7 +16,7 @@
 */
 Server::Server(int port)
 	: listener(new TCPListener(this))
-	, world(new GameWorld())
+	, world(new GameWorld(this))
 	, mBuffer(new MessageBuffer())
 	, running(false)
 	, parser(new Parser())

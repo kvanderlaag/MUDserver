@@ -6,11 +6,13 @@
 /**
 * Create a game world, with entity lists for players and rooms
 */
-GameWorld::GameWorld()
+GameWorld::GameWorld(Server* par) :
+	parent(par),
+	players_(new EntityList()),
+	rooms_(new EntityList())
+
 {
     std::cout << "Created a world..." << std::endl;
-	players_ = new EntityList();
-	rooms_ = new EntityList();
 	
 
 	Room *thera = new Room(rooms_->GetEntityCount(), "Thera", "South of Thera. Adventurers crowd the streets. Guards stand silent at the gates.");

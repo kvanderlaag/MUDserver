@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "GameWorld.h"
+#include "Message.h"
 
 /**
 * Header file for parser

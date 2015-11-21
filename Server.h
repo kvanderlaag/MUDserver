@@ -5,9 +5,11 @@
 #include <map>
 #include <Windows.h>
 #include "GameWorld.h"
+#include "Parser.h"
 
 class TCPListener;
 class TCPStream;
+class GameWorld;
 
 /**
 * Header file for server
