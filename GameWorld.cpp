@@ -1,7 +1,7 @@
 #include "GameWorld.h"
 
 #include <iostream>
-#include <vector>
+#include <sstream>
 
 /**
 * Create a game world, with entity lists for players and rooms
@@ -107,6 +107,83 @@ Room* GameWorld::FindPlayerRoom(Player* player)
 }
 
 /**
+* Receive a message and handle it
+*/
+void GameWorld::ReceiveMessage(Message* message)
+{
+	std::stringstream iss(message->Read());
+
+	std::string command;
+	std::string words;
+	iss >> command;
+	std::getline(iss, words);
+
+	if (command == "look")
+	{
+		std::stringstream wss(words);
+		std::string entity;
+		wss >> entity;
+
+		if (entity.length() > 0)
+			Look(message->GetSource(), entity);
+		else
+			Look(message->GetSource());
+	}
+	else if (command == "move")
+	{
+		std::stringstream wss(words);
+		std::string exit;
+		wss >> exit;
+
+		Move(message->GetSource(), exit);
+	}
+	else if (command == "say")
+	{
+		Say(message->GetSource(), words);
+	}
+	else if (command == "take")
+	{
+		std::stringstream wss(words);
+		std::string entity;
+		wss >> entity;
+
+		Take(message->GetSource(), entity);
+	}
+	else if (command == "help")
+	{
+		Help(message->GetSource());
+	}
+	else if (command == "signup")
+	{
+		std::stringstream wss(words);
+		std::string username;
+		std::string password;
+		wss >> username;
+		wss >> password;
+
+		SignUp(message->GetSource(), username, password);
+	}
+	else if (command == "login")
+	{
+		std::stringstream wss(words);
+		std::string username;
+		std::string password;
+		wss >> username;
+		wss >> password;
+
+		LogIn(message->GetSource(), username, password);
+	}
+	else if (command == "logout")
+	{
+		LogOut(message->GetSource());
+	}
+	else {
+		//Return invalid command
+	}
+}
+
+
+/**
 * Player command
 * Default look command with no given entity
 * Returns the description of the room the player is standing in
@@ -180,7 +257,7 @@ void GameWorld::Move(int connection_id, std::string exit)
 
 	// send exit to other players in room
 	std::vector<GameEntity*>* current_room_players = current_room->GetPlayerVector();
-	for (int i = 0; i < current_room_players->size(); i++)
+	for (std::size_t i = 0; i < current_room_players->size(); i++)
 	{
 		Player* room_player = dynamic_cast<Player*>(current_room_players->at(i));
 		Message* exit_msg = new Message(player->GetName() + " headed towards " + dest_room->GetName() + ".", room_player->GetConnectionId(), Message::outputMessage);
@@ -190,7 +267,7 @@ void GameWorld::Move(int connection_id, std::string exit)
 
 	// send entrance to other players in new room
 	std::vector<GameEntity*>* dest_room_players = dest_room->GetPlayerVector();
-	for (int i = 0; i < dest_room_players->size(); i++)
+	for (std::size_t i = 0; i < dest_room_players->size(); i++)
 	{
 		Player* room_player = dynamic_cast<Player*>(dest_room_players->at(i));
 		Message* entrance_msg = new Message(player->GetName() + " entered the area.", room_player->GetConnectionId(), Message::outputMessage);
@@ -226,7 +303,7 @@ void GameWorld::Say(int connection_id, std::string words)
 
 	// send exit to other players in room
 	std::vector<GameEntity*>* room_players = room->GetPlayerVector();
-	for (int i = 0; i < room_players->size(); i++)
+	for (std::size_t i = 0; i < room_players->size(); i++)
 	{
 		Player* room_player = dynamic_cast<Player*>(room_players->at(i));
 		Message* msg = new Message(player->GetName() + " said " + words, room_player->GetConnectionId(), Message::outputMessage);
@@ -246,7 +323,7 @@ void GameWorld::Shout(int connection_id, std::string words)
 
 	// send exit to other players in game
 	std::vector<int>* current_player_ids = current_players_->GetIdVector();
-	for (int i = 0; i < current_player_ids->size(); i++)
+	for (std::size_t i = 0; i < current_player_ids->size(); i++)
 	{
 		int id = current_player_ids->at(i);
 		Player* game_player = dynamic_cast<Player*>(players_->GetEntity(id));
@@ -389,7 +466,7 @@ void GameWorld::LogIn(int connection_id, std::string login_name, std::string pas
 
 	// send login to other players in room
 	std::vector<GameEntity*>* room_players = room->GetPlayerVector();
-	for (int i = 0; i < room_players->size(); i++)
+	for (std::size_t i = 0; i < room_players->size(); i++)
 	{
 		Player* room_player = dynamic_cast<Player*>(room_players->at(i));
 		Message* msg = new Message(player->GetName() + " phased into reality.", room_player->GetConnectionId(), Message::outputMessage);
@@ -416,7 +493,7 @@ void GameWorld::LogOut(int connection_id)
 
 	// send logout to players in room
 	std::vector<GameEntity*>* room_players = room->GetPlayerVector();
-	for (int i = 0; i < room_players->size(); i++)
+	for (std::size_t i = 0; i < room_players->size(); i++)
 	{
 		Player* room_player = dynamic_cast<Player*>(room_players->at(i));
 		Message* msg = new Message(player->GetName() + " returned to a dream.", room_player->GetConnectionId(), Message::outputMessage);

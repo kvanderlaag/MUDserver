@@ -43,6 +43,8 @@ public:
 	Player* FindPlayer(int connection_id);
 	Room* FindPlayerRoom(Player* player);
 
+	void ReceiveMessage(Message* message);
+
 	void Look(int connection_id);
 	void Look(int connection_id, std::string entity);
 	void Move(int connection_id, std::string exit);
