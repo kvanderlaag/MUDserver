@@ -117,7 +117,21 @@ void Server::HandleMessageQueue()
 		if (!mBuffer->IsEmpty())
 		{
 			Message* mess = (Message*) mBuffer->DequeueMessage();
-			std::cout << "Message type: " << mess->GetType() << ", Message: " << mess->Read() << '\n';
+			std::cout << "Message type: " << mess->GetType() << ", Message: " << mess->Read() << " - Connection ID: " << mess->GetSource() << '\n';
+			if (mess->GetType() == Message::MessageType::inputMessage) 
+				mBuffer->PutMessage(parser->Parse(mess));
+			else if (mess->GetType() == Message::MessageType::outputMessage) {
+				std::cout << "Writing message out to " << mess->GetSource() << std::endl;
+				std::map<int, TCPStream*>::iterator it;
+				it = connections.find(mess->GetSource());
+				if (it != connections.end()) {
+					it->second->Write(mess->Read());
+				}
+			}
+			else if (mess->GetType() == Message::MessageType::gameActionMessage) {
+				world->ReceiveMessage(mess);
+			}
+
 		}
 	}
 	std::cout << "Message Queue handler terminated." << '\n';

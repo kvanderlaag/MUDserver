@@ -47,7 +47,7 @@ int Message::Append(const std::string load)
 /**
 * Returns the type of the message
 */
-Message::MessageType Message::GetType()
+Message::MessageType Message::GetType() const
 {
 	return type;
 }
@@ -55,6 +55,6 @@ Message::MessageType Message::GetType()
 /**
 * Returns the connection ID of the player who sent the message
 */
-int Message::GetSource() {
+int Message::GetSource() const {
 	return connectionID;
 }

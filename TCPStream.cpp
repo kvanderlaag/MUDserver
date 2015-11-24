@@ -14,7 +14,7 @@ TCPStream::TCPStream(TCPListener* par, int socket)
 	std::cout << "Socket " << socketfd << " is nonblocking." << '\n';
 
 	std::cout << "Made new buffer event." << '\n';
-	bufferevent_setcb(bEvent, do_read, NULL, do_error, (void*)this);
+	bufferevent_setcb(bEvent, do_read, do_write, do_error, (void*)this);
 	std::cout << "Set read callback and error callback." << '\n';
 	bufferevent_setwatermark(bEvent, EV_READ, 0, MAX_LINE);
 	std::cout << "Set watermark." << '\n';
@@ -36,6 +36,10 @@ void TCPStream::do_error(struct bufferevent *bev, short error, void* arg) {
 
 void TCPStream::do_read(struct bufferevent *bev, void* arg) {
 	(static_cast<TCPStream*>(arg))->read_cb(bev);
+}
+
+void TCPStream::do_write(struct bufferevent *bev, void* arg) {
+	(static_cast<TCPStream*>(arg))->write_cb(bev);
 }
 
 void TCPStream::read_cb(struct bufferevent *bev) {
@@ -74,7 +78,7 @@ void TCPStream::read_cb(struct bufferevent *bev) {
 	}
 }
 
-void TCPStream::write_cb() {
+void TCPStream::write_cb(bufferevent *bev) {
 
 }
 
@@ -87,4 +91,11 @@ void TCPStream::error_cb(bufferevent *bev, short error) {
 
 const int TCPStream::GetSocket() {
 	return socketfd;
+}
+
+const int TCPStream::Write(std::string outputMessage) {
+	bufferevent_write(bEvent, outputMessage.c_str(), outputMessage.length() * sizeof(char));
+	bufferevent_write(bEvent, "\n", 1);
+	std::cout << "Sending message to " << socketfd << ": " << outputMessage << std::endl;
+	return 0;
 }
