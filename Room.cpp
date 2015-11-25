@@ -4,13 +4,21 @@
  * Create a new room with an id and name
  * Room inherits GameEntity
  */
-Room::Room(int id, std::string name) : GameEntity(id, name)
+Room::Room(int id, std::string name) : 
+	GameEntity(id, name),
+	exits_(new EntityList()),
+	items_(new EntityList()),
+	players_(new EntityList())
 {
 	std::cout << "Created a room..." << std::endl;
 }
 
 /** Create a new room with an id, name, and description */
-Room::Room(int id, std::string name, std::string description) : GameEntity(id, name, description)
+Room::Room(int id, std::string name, std::string description) : 
+	GameEntity(id, name, description),
+	exits_(new EntityList()),
+	items_(new EntityList()),
+	players_(new EntityList())
 {
 	std::cout << "Created a room..." << std::endl;
 }

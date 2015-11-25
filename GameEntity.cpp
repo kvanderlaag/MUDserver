@@ -10,7 +10,7 @@ GameEntity::GameEntity(int id, std::string name)
     name_ = name;
     description_ = "";
 
-    std::cout << "Created an entity..." << std::endl;
+    //std::cout << "Created an entity..." << std::endl;
 }
 
 /**A standard constructor that creates a game entity with a description*/
@@ -20,13 +20,13 @@ GameEntity::GameEntity(int id, std::string name, std::string description)
     name_ = name;
     description_ = description;
 
-    std::cout << "Created an entity..." << std::endl;
+    //std::cout << "Created an entity..." << std::endl;
 }
 
 /**A destructor that removes an entity*/
 GameEntity::~GameEntity()
 {
-    std::cout << "Destroyed an entity..." << std::endl;
+    //std::cout << "Destroyed an entity..." << std::endl;
 }
 
 /**Get the Id of an entity*/

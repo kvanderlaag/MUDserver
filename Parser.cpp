@@ -82,7 +82,8 @@ Message* Parser::Parse(const Message* mess) const
 
 		}
 
-		gameMessage->Write("Balls.");
+		//gameMessage->Write("Balls.");
+		gameMessage->Write(iss.str());
 
 		return gameMessage;
 	}
