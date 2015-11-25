@@ -228,7 +228,9 @@ void GameWorld::ReceiveMessage(Message* message)
 		Whisper(message->GetSource(), player, whisp);
 	}
 	else {
-		//Return invalid command
+		Message* msg = new Message("Invalid command. Type \"help\" for list of valid commands.", message->GetSource(), Message::outputMessage);
+		parent->PutMessage(msg);
+
 	}
 }
 
@@ -266,10 +268,19 @@ void GameWorld::Help(int connection_id)
 void GameWorld::LogIn(int connection_id, std::string login_name, std::string password)
 {
 	// find player
+
 	GameEntity* pentity = players_->FindEntity(login_name);
 	if (pentity == NULL)
 	{
 		Message* msg = new Message("Wrong username/password!", connection_id, Message::outputMessage);
+		parent->PutMessage(msg);
+		return;
+	}
+
+	int con = ( (Player*) pentity )->GetConnectionId();
+	if (con != -1) {
+		Message* msg = new Message("User is already logged in.", connection_id, Message::outputMessage);
+		parent->PutMessage(msg);
 		return;
 	}
 
@@ -280,6 +291,7 @@ void GameWorld::LogIn(int connection_id, std::string login_name, std::string pas
 	if (player->GetPassword() != password)
 	{
 		Message* msg = new Message("Wrong username/password!", connection_id, Message::outputMessage);
+		parent->PutMessage(msg);
 		return;
 	}
 
@@ -312,10 +324,11 @@ void GameWorld::LogIn(int connection_id, std::string login_name, std::string pas
 void GameWorld::LogOut(int connection_id)
 {
 	// remove player from connection list
-	current_players_->RemoveConnection(connection_id);
-
-	if (Player* player = FindPlayer(connection_id)) {
+	Player* player = FindPlayer(connection_id);
+	if (player != nullptr) {
 		player->SetConnectionId(-1);
+
+		current_players_->RemoveConnection(connection_id);
 
 		// remove player from room list
 		Room* room = FindPlayerRoom(player);
