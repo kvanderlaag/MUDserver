@@ -34,6 +34,7 @@ public:
 	GameEntity* FindEntity(std::string name);
 	
 	std::vector<GameEntity*>* GetPlayerVector();
+	std::vector<GameEntity*>* GetExitVector();
 };
 
 #endif // __ROOM_H__
