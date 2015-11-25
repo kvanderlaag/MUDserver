@@ -594,20 +594,21 @@ void GameWorld::LogOut(int connection_id)
 	// remove player from connection list
 	current_players_->RemoveConnection(connection_id);
 
-	Player* player = FindPlayer(connection_id);
-	player->SetConnectionId(-1);
+	if (Player* player = FindPlayer(connection_id)) {
+		player->SetConnectionId(-1);
 
-	// remove player from room list
-	Room* room = FindPlayerRoom(player);
+		// remove player from room list
+		Room* room = FindPlayerRoom(player);
 
-	// send logout to players in room
-	std::vector<GameEntity*>* room_players = room->GetPlayerVector();
-	for (std::size_t i = 0; i < room_players->size(); i++)
-	{
-		Player* room_player = dynamic_cast<Player*>(room_players->at(i));
-		Message* msg = new Message(player->GetName() + " returned to a dream.", room_player->GetConnectionId(), Message::outputMessage);
-		parent->PutMessage(msg);
+		// send logout to players in room
+		std::vector<GameEntity*>* room_players = room->GetPlayerVector();
+		for (std::size_t i = 0; i < room_players->size(); i++)
+		{
+			Player* room_player = dynamic_cast<Player*>(room_players->at(i));
+			Message* msg = new Message(player->GetName() + " returned to a dream.", room_player->GetConnectionId(), Message::outputMessage);
+			parent->PutMessage(msg);
+		}
+
+		room->RemovePlayer(player->GetId());
 	}
-
-	room->RemovePlayer(player->GetId());
 }

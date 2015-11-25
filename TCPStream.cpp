@@ -87,7 +87,7 @@ void TCPStream::write_cb(bufferevent *bev) {
 void TCPStream::error_cb(bufferevent *bev, short error) {
 	if (error & BEV_EVENT_EOF) {
 		std::cout << "Connection closed." << '\n';
-		delete this;
+		parent->GetParent().RemoveConnection(this);
 	}
 }
 

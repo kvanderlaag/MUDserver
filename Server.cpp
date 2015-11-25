@@ -78,6 +78,7 @@ int Server::RemoveConnection(TCPStream* stream)
 	int status = connections.erase(stream->GetSocket());
 	if (status)
 	{
+		world->LogOut(stream->GetSocket());
 		delete stream;
 	}
 	return status;
