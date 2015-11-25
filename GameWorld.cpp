@@ -299,6 +299,8 @@ void GameWorld::LogIn(int connection_id, std::string login_name, std::string pas
 		Message* msg = new Message(player->GetName() + " phased into reality.", room_player->GetConnectionId(), Message::outputMessage);
 		parent->PutMessage(msg);
 	}
+
+	Look(player->GetConnectionId());
 }
 
 /**
@@ -309,25 +311,26 @@ void GameWorld::LogIn(int connection_id, std::string login_name, std::string pas
 */
 void GameWorld::LogOut(int connection_id)
 {
-	Player* player = FindPlayer(connection_id);
-
-	// remove player from room list
-	Room* room = FindPlayerRoom(player);
-
-	// send logout to players in room
-	std::vector<GameEntity*>* room_players = room->GetPlayerVector();
-	for (std::size_t i = 0; i < room_players->size(); i++)
-	{
-		Player* room_player = dynamic_cast<Player*>(room_players->at(i));
-		Message* msg = new Message(player->GetName() + " returned to a dream.", room_player->GetConnectionId(), Message::outputMessage);
-		parent->PutMessage(msg);
-	}
-
 	// remove player from connection list
 	current_players_->RemoveConnection(connection_id);
 
-	player->SetConnectionId(-1);
-	room->RemovePlayer(player->GetId());
+	if (Player* player = FindPlayer(connection_id)) {
+		player->SetConnectionId(-1);
+
+		// remove player from room list
+		Room* room = FindPlayerRoom(player);
+
+		// send logout to players in room
+		std::vector<GameEntity*>* room_players = room->GetPlayerVector();
+		for (std::size_t i = 0; i < room_players->size(); i++)
+		{
+			Player* room_player = dynamic_cast<Player*>(room_players->at(i));
+			Message* msg = new Message(player->GetName() + " returned to a dream.", room_player->GetConnectionId(), Message::outputMessage);
+			parent->PutMessage(msg);
+		}
+
+		room->RemovePlayer(player->GetId());
+	}
 }
 
 /**
@@ -367,12 +370,8 @@ void GameWorld::Look(int connection_id)
 	}
 
 	// create message
-<<<<<<< HEAD
-	Message* msg = new Message(description, player->GetConnectionId(), Message::outputMessage);
-=======
 	std::string output = "\n---\n" + room->GetName() + "\n---\n" + description + "\n---\n" + exits + "\n---\n" + players + "\n";
-	Message* msg = new Message(output, connection_id, Message::outputMessage);
->>>>>>> refs/remotes/origin/master
+	Message* msg = new Message(output, player->GetConnectionId(), Message::outputMessage);
 
 	// place message on message buffer
 	parent->PutMessage(msg);
@@ -608,7 +607,6 @@ void GameWorld::Whisper(int connection_id, std::string player_name, std::string 
 	}
 	else
 	{
-<<<<<<< HEAD
 		// send no player message
 		Message* player_msg = new Message("There is no such person to whisper to...", player->GetConnectionId(), Message::outputMessage);
 
@@ -616,42 +614,3 @@ void GameWorld::Whisper(int connection_id, std::string player_name, std::string 
 		parent->PutMessage(player_msg);
 	}
 }
-=======
-		Player* room_player = dynamic_cast<Player*>(room_players->at(i));
-		Message* msg = new Message(player->GetName() + " phased into reality.", room_player->GetConnectionId(), Message::outputMessage);
-		parent->PutMessage(msg);
-	}
-
-	Look(player->GetConnectionId());
-}
-
-/**
-* Player command
-* Logout command
-* Cleans up the players variables and logs the player out of the game world
-* Removes player from the connection list
-*/
-void GameWorld::LogOut(int connection_id)
-{
-	// remove player from connection list
-	current_players_->RemoveConnection(connection_id);
-
-	if (Player* player = FindPlayer(connection_id)) {
-		player->SetConnectionId(-1);
-
-		// remove player from room list
-		Room* room = FindPlayerRoom(player);
-
-		// send logout to players in room
-		std::vector<GameEntity*>* room_players = room->GetPlayerVector();
-		for (std::size_t i = 0; i < room_players->size(); i++)
-		{
-			Player* room_player = dynamic_cast<Player*>(room_players->at(i));
-			Message* msg = new Message(player->GetName() + " returned to a dream.", room_player->GetConnectionId(), Message::outputMessage);
-			parent->PutMessage(msg);
-		}
-
-		room->RemovePlayer(player->GetId());
-	}
-}
->>>>>>> refs/remotes/origin/master
