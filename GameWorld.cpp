@@ -174,6 +174,9 @@ void GameWorld::ReceiveMessage(Message* message)
 
 		Move(message->GetSource(), exit);
 	}
+	else if (command == "shout") {
+		Shout(message->GetSource(), words);
+	}
 	else if (command == "say")
 	{
 		Say(message->GetSource(), words);
