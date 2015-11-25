@@ -4,6 +4,7 @@
 #include "EntityList.h"
 
 #include <iostream>
+#include <algorithm>
 
 /**
 * Default constructor that creates an entity list then prints out the information
@@ -81,7 +82,12 @@ GameEntity* EntityList::FindEntity(std::string name)
 		{
 			// iterator->first = key
 			// iterator->second = value
-			if (iterator->second->GetName() == name)
+			GameEntity* map_value = iterator->second;
+			std::string map_value_name = map_value->GetName();
+
+			std::transform(name.begin(), name.end(), name.begin(), ::tolower);
+			std::transform(map_value_name.begin(), map_value_name.end(), map_value_name.begin(), ::tolower);
+			if (map_value_name == name)
 			{
 				return iterator->second;
 			}

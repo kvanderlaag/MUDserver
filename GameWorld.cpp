@@ -249,7 +249,6 @@ void GameWorld::Look(int connection_id)
 
 	// place message on message buffer
 	parent->PutMessage(msg);
-
 }
 
 /**
@@ -268,15 +267,25 @@ void GameWorld::Look(int connection_id, std::string entity_name)
 	// find entity
 	GameEntity* entity = room->FindEntity(entity_name);
 
-	// get description
-	std::string description = entity->GetDescription();
+	if (entity != NULL)
+	{
+		// get description
+		std::string description = entity->GetDescription();
 
-	// create message
-	Message* msg = new Message(description, connection_id, Message::outputMessage);
+		// create message
+		Message* msg = new Message(description, connection_id, Message::outputMessage);
 
-	// place msg on message buffer
-	parent->PutMessage(msg);
+		// place msg on message buffer
+		parent->PutMessage(msg);
+	}
+	else
+	{
+		// send no entity message
+		Message* msg = new Message("There is no such thing to look at...", connection_id, Message::outputMessage);
 
+		// place msg on message buffer
+		parent->PutMessage(msg);
+	}
 }
 
 /**
@@ -296,41 +305,51 @@ void GameWorld::Move(int connection_id, std::string exit)
 	GameEntity* dest_rentity = current_room->GetExit(exit);
 	Room* dest_room = dynamic_cast<Room*>(dest_rentity);
 
-
-	// remove player from current room list
-	current_room->RemovePlayer(player->GetId());
-
-	// send exit to other players in room
-	std::vector<GameEntity*>* current_room_players = current_room->GetPlayerVector();
-	for (std::size_t i = 0; i < current_room_players->size(); i++)
+	if (dest_room != NULL)
 	{
-		Player* room_player = dynamic_cast<Player*>(current_room_players->at(i));
-		Message* exit_msg = new Message(player->GetName() + " headed towards " + dest_room->GetName() + ".", room_player->GetConnectionId(), Message::outputMessage);
-		parent->PutMessage(exit_msg);
+		// remove player from current room list
+		current_room->RemovePlayer(player->GetId());
+
+		// send exit to other players in room
+		std::vector<GameEntity*>* current_room_players = current_room->GetPlayerVector();
+		for (std::size_t i = 0; i < current_room_players->size(); i++)
+		{
+			Player* room_player = dynamic_cast<Player*>(current_room_players->at(i));
+			Message* exit_msg = new Message(player->GetName() + " headed towards " + dest_room->GetName() + ".", room_player->GetConnectionId(), Message::outputMessage);
+			parent->PutMessage(exit_msg);
+		}
+
+
+		// send entrance to other players in new room
+		std::vector<GameEntity*>* dest_room_players = dest_room->GetPlayerVector();
+		for (std::size_t i = 0; i < dest_room_players->size(); i++)
+		{
+			Player* room_player = dynamic_cast<Player*>(dest_room_players->at(i));
+			Message* entrance_msg = new Message(player->GetName() + " entered the area.", room_player->GetConnectionId(), Message::outputMessage);
+			parent->PutMessage(entrance_msg);
+		}
+
+		// add player to destination room list
+		dest_room->AddPlayer(player);
+
+
+		// send room description to player
+		std::string description = dest_room->GetDescription();
+
+		// create message
+		Message* player_msg = new Message(description, connection_id, Message::outputMessage);
+
+		// place message on message buffer
+		parent->PutMessage(player_msg);
 	}
-
-
-	// send entrance to other players in new room
-	std::vector<GameEntity*>* dest_room_players = dest_room->GetPlayerVector();
-	for (std::size_t i = 0; i < dest_room_players->size(); i++)
+	else
 	{
-		Player* room_player = dynamic_cast<Player*>(dest_room_players->at(i));
-		Message* entrance_msg = new Message(player->GetName() + " entered the area.", room_player->GetConnectionId(), Message::outputMessage);
-		parent->PutMessage(entrance_msg);
+		// send no room message
+		Message* player_msg = new Message("There is no such place to move to...", connection_id, Message::outputMessage);
+
+		// place message on message buffer
+		parent->PutMessage(player_msg);
 	}
-
-	// add player to destination room list
-	dest_room->AddPlayer(player);
-
-
-	// send room description to player
-	std::string description = dest_room->GetDescription();
-
-	// create message
-	Message* player_msg = new Message(description, connection_id, Message::outputMessage);
-
-	// place message on message buffer
-	parent->PutMessage(player_msg);
 }
 
 /**
@@ -396,13 +415,24 @@ void GameWorld::Whisper(int connection_id, std::string player_name, std::string 
 	// try to cast to item type
 	Player* other_player = dynamic_cast<Player*>(other_pentity);
 
-	// send you those words
-	Message* pmsg = new Message(player->GetName() + " whispered " + words, player->GetConnectionId(), Message::outputMessage);
-	parent->PutMessage(pmsg);
+	if (other_player != NULL)
+	{
+		// send you those words
+		Message* pmsg = new Message(player->GetName() + " whispered " + words, player->GetConnectionId(), Message::outputMessage);
+		parent->PutMessage(pmsg);
 
-	// send player those words
-	Message* omsg = new Message(player->GetName() + " whispered " + words, other_player->GetConnectionId(), Message::outputMessage);
-	parent->PutMessage(omsg);
+		// send player those words
+		Message* omsg = new Message(player->GetName() + " whispered " + words, other_player->GetConnectionId(), Message::outputMessage);
+		parent->PutMessage(omsg);
+	}
+	else
+	{
+		// send no player message
+		Message* player_msg = new Message("There is no such person to whisper to...", connection_id, Message::outputMessage);
+
+		// place message on message buffer
+		parent->PutMessage(player_msg);
+	}
 }
 
 /**
@@ -424,11 +454,21 @@ void GameWorld::Take(int connection_id, std::string entity)
 	// try to cast to item type
 	Item* item = dynamic_cast<Item*>(ientity);
 
-	// add item to player item list
-	player->AddItem(item);
+	if (item != NULL)
+	{
+		// add item to player item list
+		player->AddItem(item);
 
-	Message* msg = new Message(entity + " was added to your inventory", connection_id, Message::outputMessage);
-	parent->PutMessage(msg);
+		Message* msg = new Message(entity + " was added to your inventory", connection_id, Message::outputMessage);
+		parent->PutMessage(msg);
+	}
+	else
+	{
+		// no item message
+		Message* msg = new Message("There is no such thing to take...", connection_id, Message::outputMessage);
+		parent->PutMessage(msg);
+	}
+
 }
 
 /**
@@ -441,17 +481,15 @@ void GameWorld::Help(int connection_id)
 	std::string help = "Help is on its way!\n";
 	help += "\n";
 	help += "Commands are:\n";
-	help += "-look\n";
-	help += "-move\n";
-	help += "-say\n";
-	help += "-shout\n";
-	help += "-whisper\n";
-	help += "-take\n";
-	help += "-signup\n";
-	help += "-login\n";
-	help += "-logout\n";
+	help += "look <target>\n";
+	help += "move <exit>\n";
+	help += "say <message>\n";
+	help += "shout <message>\n";
+	help += "whisper <target> <message>\n";
+	help += "take <target>\n";
+	help += "logout\n";
 	help += "\n";
-	help += "Enjoy the game.\n";
+	help += "Enjoy the game. :D\n";
 	help += "Please, forget you saw this.\n";
 	Message* msg = new Message(help, connection_id, Message::outputMessage);
 	parent->PutMessage(msg);
