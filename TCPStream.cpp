@@ -20,6 +20,7 @@ TCPStream::TCPStream(TCPListener* par, int socket)
 	std::cout << "Set watermark." << '\n';
 	bufferevent_enable(bEvent, EV_READ | EV_WRITE);
 	std::cout << "Enabled buffer event." << '\n';
+	bufferevent_flush(bEvent, EV_READ, BEV_NORMAL);
 }
 
 
@@ -79,7 +80,7 @@ void TCPStream::read_cb(struct bufferevent *bev) {
 }
 
 void TCPStream::write_cb(bufferevent *bev) {
-
+	std::cout << "Buffer write callback." << std::endl;
 }
 
 void TCPStream::error_cb(bufferevent *bev, short error) {
