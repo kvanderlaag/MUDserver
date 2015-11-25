@@ -2,6 +2,12 @@
 #include "Message.h"
 
 #include <sstream>
+#include <iostream>
+#include <istream>
+#include <ostream>
+#include <algorithm>
+#include <iterator>
+#include <cctype>
 
 /**
 * Parses a message from a connection
@@ -10,99 +16,84 @@
 */
 Message* Parser::Parse(const Message* mess) const
 {
+	// Input message
+	if (mess->GetType() == 2) {
 
-	std::string buffer;
-	std::stringstream iss(mess->Read());
+		Message* gameMessage = new Message("", mess->GetSource(), Message::MessageType::gameActionMessage);
+		std::string buffer;
+		std::stringstream iss(mess->Read());
 
-	std::string command;
-	std::string words;
-	iss >> command;
-	std::getline(iss, words);
+		std::string command;
 
-	/*MIGHT NEED TO GET MOVED TO SERVER IF SERVER CALLS FUNCTIONS IN GAMEWORLD
-	std::vector<Message*>* msg;// = new Message("hi", connection_id, Message::outputMessage);
+		std::vector<std::string> tokens{ std::istream_iterator<std::string>{iss},
+			std::istream_iterator<std::string>{} };
 
-	if (command == "look")
-	{
-	//Look around room
+		command = tokens.front();
+		tokens.erase(tokens.begin(), tokens.begin() + 1);
+		std::cout << "Command: " << command << std::endl;
 
-		std::stringstream wss(words);
-		std::string entity;
-		wss >> entity;
+		for (int i = 0; i < command.length(); ++i) {
+			command.at(i) = std::tolower(command.at(i));
+		}
 
-		if( entity.length() > 0 )
-			msg = world->Look(connectionId, entity);
-		else
-			msg = world->Look(connectionId);
+		for each (std::string token in tokens) {
+			for (int i = 0; i < token.length(); ++i) {
+				token.at(i) = std::tolower(token.at(i));
+			}
+			std::cout << token << std::endl;
+		}
+
+
+		if (command == "look")
+		{
+			//Look around room
+
+		}
+		else if (command == "move")
+		{
+
+		}
+		else if (command == "say")
+		{
+
+		}
+		else if (command == "take")
+		{
+
+		}
+		else if (command == "help")
+		{
+
+		}
+		else if (command == "signup")
+		{
+
+		}
+		else if (command == "login")
+		{
+
+		}
+		else if (command == "logout")
+		{
+
+		}
+		else {
+			//Return invalid command
+
+		}
+
+		gameMessage->Write("Balls.");
+
+		return gameMessage;
 	}
-	else if (command == "move")
-	{
-	//move to the room specified in input[1]. Check if a legitimate move
-
-		std::stringstream wss(words);
-		std::string exit;
-		wss >> exit;
-
-		msg = world->Move(connectionId, exit);
+	// Game World Command Message
+	else if (mess->GetType() == 1) {
+		return nullptr;
 	}
-	else if (command == "say")
-	{
-	//Output message to other players
-
-		msg = world->Say(connectionId, words);
-	}
-	else if (command == "take")
-	{
-	//get the item described in the next argument
-
-		std::stringstream wss(words);
-		std::string entity;
-		wss >> entity;
-
-		msg = world->Take(connectionId, entity);
-	}
-	else if (command == "help")
-	{
-	//Give the player a list of commands
-		msg = world->Help(connectionId);
-	}
-	else if (command == "signup")
-	{
-	//Log the player out, if possible
-
-		std::stringstream wss(words);
-		std::string username;
-		std::string password;
-		wss >> username;
-		wss >> password;
-
-		msg = world->SignUp(connectionId, username, password);
-	}
-	else if (command == "login")
-	{
-	//Log the player out, if possible
-
-		std::stringstream wss(words);
-		std::string username;
-		std::string password;
-		wss >> username;
-		wss >> password;
-
-		msg = world->LogIn(connectionId, username, password);
-	}
-	else if (command == "logout")
-	{
-	//Log the player out, if possible
-
-		msg = world->LogOut(connectionId);
-	}
-	else {
-	//Return invalid command
-
+	// Output message
+	else if (mess->GetType() == 3) {
+		return nullptr;
 	}
 
-
-	return msg;
-	*/
-	return (Message*) nullptr;
+	return nullptr;
 }

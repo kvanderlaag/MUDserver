@@ -20,8 +20,8 @@ public:
 	const std::string& Read() const;
 	int Write(const std::string load);
 	int Append(const std::string load);
-	MessageType GetType();
-	int GetSource();
+	MessageType GetType() const;
+	int GetSource() const;
 
 private:
 	std::string payload;

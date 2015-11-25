@@ -19,14 +19,16 @@ public:
 	~TCPStream();
 
 	void read_cb(struct bufferevent *bev);
-	void write_cb();
+	void write_cb(struct bufferevent * bev);
 	void error_cb(bufferevent *bev, short error);
 
 	const int GetSocket();
+	const int Write(std::string outputMessage);
 
 	static void do_error(struct bufferevent *bev, short error, void* arg);
 
 	static void do_read(struct bufferevent *bev, void* arg);
+	static void do_write(struct bufferevent *bev, void* arg);
 
 private:
 	bufferevent* bEvent;
