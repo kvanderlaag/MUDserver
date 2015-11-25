@@ -71,7 +71,7 @@ int ConnectionList::GetConnectionCount()
 */
 std::vector<int>* ConnectionList::GetIdVector()
 {
-	std::vector<int>* id_vector;
+	std::vector<int>* id_vector = new std::vector<int>();
 
 	if (!map_.empty())
 	{

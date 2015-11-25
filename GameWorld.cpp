@@ -155,7 +155,21 @@ void GameWorld::ReceiveMessage(Message* message)
 	std::cout << "World receiving message." << std::endl;
 	std::cout << "command: " << command << std::endl;
 
-	if (command == "look")
+	if (command == "help")
+	{
+		Help(message->GetSource());
+	}
+	else if (command == "login")
+	{
+		std::stringstream wss(words);
+		std::string username;
+		std::string password;
+		wss >> username;
+		wss >> password;
+
+		LogIn(message->GetSource(), username, password);
+	}
+	else if (command == "look")
 	{
 		std::stringstream wss(words);
 		std::string entity;
@@ -178,18 +192,6 @@ void GameWorld::ReceiveMessage(Message* message)
 	{
 		Say(message->GetSource(), words);
 	}
-	else if (command == "take")
-	{
-		std::stringstream wss(words);
-		std::string entity;
-		wss >> entity;
-
-		Take(message->GetSource(), entity);
-	}
-	else if (command == "help")
-	{
-		Help(message->GetSource());
-	}
 	else if (command == "signup")
 	{
 
@@ -203,25 +205,126 @@ void GameWorld::ReceiveMessage(Message* message)
 
 		SignUp(message->GetSource(), username, password);
 	}
-	else if (command == "login")
+	/*else if (command == "take")
 	{
 		std::stringstream wss(words);
-		std::string username;
-		std::string password;
-		wss >> username;
-		wss >> password;
+		std::string entity;
+		wss >> entity;
 
-		LogIn(message->GetSource(), username, password);
-	}
-	else if (command == "logout")
+		Take(message->GetSource(), entity);
+	}*/
+	else if (command == "whisper")
 	{
-		LogOut(message->GetSource());
+		std::stringstream wss(words);
+		std::string player;
+		std::string whisp;
+		wss >> player;
+		wss >> whisp;
+
+		Whisper(message->GetSource(), player, whisp);
 	}
 	else {
 		//Return invalid command
 	}
 }
 
+/**
+* Player command
+* Help command
+* Returns a list of commands for the player
+*/
+void GameWorld::Help(int connection_id)
+{
+	std::string help = "Help is on its way!\n";
+	help += "\n";
+	help += "Commands are:\n";
+	help += "look <target>\n";
+	help += "move <exit>\n";
+	help += "say <message>\n";
+	help += "shout <message>\n";
+	help += "whisper <target> <message>\n";
+	help += "take <target>\n";
+	help += "quit\n";
+	help += "\n";
+	help += "Enjoy the game. :D\n";
+	help += "Please, forget you saw this.\n";
+	Message* msg = new Message(help, connection_id, Message::outputMessage);
+	parent->PutMessage(msg);
+}
+
+/**
+* Player command
+* Login command
+* Checks if the given login name and password match an entry in the player list in game world
+* Signs that player in if it matches
+* Adds player to the connection list
+*/
+void GameWorld::LogIn(int connection_id, std::string login_name, std::string password)
+{
+	// find player
+	GameEntity* pentity = players_->FindEntity(login_name);
+	if (pentity == NULL)
+	{
+		Message* msg = new Message("Wrong username/password!", connection_id, Message::outputMessage);
+		return;
+	}
+
+	Player* player = dynamic_cast<Player*>(pentity);
+	player->Print();
+
+	// check password
+	if (player->GetPassword() != password)
+	{
+		Message* msg = new Message("Wrong username/password!", connection_id, Message::outputMessage);
+		return;
+	}
+
+	// place into current players list
+	current_players_->AddConnection(connection_id, player->GetId());
+	player->SetConnectionId(connection_id);
+
+	// get player room, place into room player list
+	Room* room = FindPlayerRoom(player);
+	room->AddPlayer(player);
+
+	// send login to other players in room
+	std::vector<GameEntity*>* room_players = room->GetPlayerVector();
+	for (std::size_t i = 0; i < room_players->size(); i++)
+	{
+		Player* room_player = dynamic_cast<Player*>(room_players->at(i));
+		Message* msg = new Message(player->GetName() + " phased into reality.", room_player->GetConnectionId(), Message::outputMessage);
+		parent->PutMessage(msg);
+	}
+}
+
+/**
+* Player command
+* Logout command
+* Cleans up the players variables and logs the player out of the game world
+* Removes player from the connection list
+*/
+void GameWorld::LogOut(int connection_id)
+{
+	Player* player = FindPlayer(connection_id);
+
+	// remove player from room list
+	Room* room = FindPlayerRoom(player);
+
+	// send logout to players in room
+	std::vector<GameEntity*>* room_players = room->GetPlayerVector();
+	for (std::size_t i = 0; i < room_players->size(); i++)
+	{
+		Player* room_player = dynamic_cast<Player*>(room_players->at(i));
+		Message* msg = new Message(player->GetName() + " returned to a dream.", room_player->GetConnectionId(), Message::outputMessage);
+		parent->PutMessage(msg);
+	}
+
+	// remove player from connection list
+	current_players_->RemoveConnection(connection_id);
+
+	player->SetConnectionId(-1);
+	room->RemovePlayer(player->GetId());
+}
 
 /**
 * Player command
@@ -233,8 +336,6 @@ void GameWorld::Look(int connection_id)
 	// find player
 	Player* player = FindPlayer(connection_id);
 
-	player->Print();
-
 	// find room
 	Room* room = FindPlayerRoom(player);
 
@@ -242,7 +343,7 @@ void GameWorld::Look(int connection_id)
 	std::string description = room->GetDescription();
 
 	// create message
-	Message* msg = new Message(description, connection_id, Message::outputMessage);
+	Message* msg = new Message(description, player->GetConnectionId(), Message::outputMessage);
 
 	// place message on message buffer
 	parent->PutMessage(msg);
@@ -270,7 +371,7 @@ void GameWorld::Look(int connection_id, std::string entity_name)
 		std::string description = entity->GetDescription();
 
 		// create message
-		Message* msg = new Message(description, connection_id, Message::outputMessage);
+		Message* msg = new Message(description, player->GetConnectionId(), Message::outputMessage);
 
 		// place msg on message buffer
 		parent->PutMessage(msg);
@@ -278,7 +379,7 @@ void GameWorld::Look(int connection_id, std::string entity_name)
 	else
 	{
 		// send no entity message
-		Message* msg = new Message("There is no such thing to look at...", connection_id, Message::outputMessage);
+		Message* msg = new Message("There is no such thing to look at...", player->GetConnectionId(), Message::outputMessage);
 
 		// place msg on message buffer
 		parent->PutMessage(msg);
@@ -334,7 +435,7 @@ void GameWorld::Move(int connection_id, std::string exit)
 		std::string description = dest_room->GetDescription();
 
 		// create message
-		Message* player_msg = new Message(description, connection_id, Message::outputMessage);
+		Message* player_msg = new Message(description, player->GetConnectionId(), Message::outputMessage);
 
 		// place message on message buffer
 		parent->PutMessage(player_msg);
@@ -342,7 +443,7 @@ void GameWorld::Move(int connection_id, std::string exit)
 	else
 	{
 		// send no room message
-		Message* player_msg = new Message("There is no such place to move to...", connection_id, Message::outputMessage);
+		Message* player_msg = new Message("There is no such place to move to...", player->GetConnectionId(), Message::outputMessage);
 
 		// place message on message buffer
 		parent->PutMessage(player_msg);
@@ -367,7 +468,7 @@ void GameWorld::Say(int connection_id, std::string words)
 	for (std::size_t i = 0; i < room_players->size(); i++)
 	{
 		Player* room_player = dynamic_cast<Player*>(room_players->at(i));
-		Message* msg = new Message(player->GetName() + " said " + words, room_player->GetConnectionId(), Message::outputMessage);
+		Message* msg = new Message(player->GetName() + " said \"" + words + "\"", room_player->GetConnectionId(), Message::outputMessage);
 		parent->PutMessage(msg);
 	}
 }
@@ -382,7 +483,7 @@ void GameWorld::Shout(int connection_id, std::string words)
 	// find player
 	Player* player = FindPlayer(connection_id);
 
-	// send exit to other players in game
+	// send meesage to other players in game
 	std::vector<int>* current_player_ids = current_players_->GetIdVector();
 	for (std::size_t i = 0; i < current_player_ids->size(); i++)
 	{
@@ -391,6 +492,60 @@ void GameWorld::Shout(int connection_id, std::string words)
 		Message* msg = new Message(player->GetName() + " shouted " + words, game_player->GetConnectionId(), Message::outputMessage);
 		parent->PutMessage(msg);
 	}
+}
+
+/**
+* Player command
+* Signup command
+* Registers login name with password in the player list in game world
+*/
+void GameWorld::SignUp(int connection_id, std::string login_name, std::string password)
+{
+	// construct player
+	Player* player = new Player(players_->GetNextId(), login_name, password);
+
+	// add to player list
+	players_->AddEntity(player);
+
+	// message player
+	Message* msg = new Message("You created new life. Please login...", connection_id, Message::outputMessage);
+	parent->PutMessage(msg);
+}
+
+/**
+* Player command
+* Take command with a given entity
+* Adds room item to the players inventory
+*/
+void GameWorld::Take(int connection_id, std::string entity)
+{
+	// find player
+	Player* player = FindPlayer(connection_id);
+
+	// find room
+	Room* room = FindPlayerRoom(player);
+
+	// find item
+	GameEntity* ientity = room->FindEntity(entity);
+
+	// try to cast to item type
+	Item* item = dynamic_cast<Item*>(ientity);
+
+	if (item != NULL)
+	{
+		// add item to player item list
+		player->AddItem(item);
+
+		Message* msg = new Message(entity + " was added to your inventory", player->GetConnectionId(), Message::outputMessage);
+		parent->PutMessage(msg);
+	}
+	else
+	{
+		// no item message
+		Message* msg = new Message("There is no such thing to take...", player->GetConnectionId(), Message::outputMessage);
+		parent->PutMessage(msg);
+	}
+
 }
 
 /**
@@ -425,162 +580,9 @@ void GameWorld::Whisper(int connection_id, std::string player_name, std::string 
 	else
 	{
 		// send no player message
-		Message* player_msg = new Message("There is no such person to whisper to...", connection_id, Message::outputMessage);
+		Message* player_msg = new Message("There is no such person to whisper to...", player->GetConnectionId(), Message::outputMessage);
 
 		// place message on message buffer
 		parent->PutMessage(player_msg);
 	}
-}
-
-/**
-* Player command
-* Take command with a given entity
-* Adds room item to the players inventory
-*/
-void GameWorld::Take(int connection_id, std::string entity)
-{
-	// find player
-	Player* player = FindPlayer(connection_id);
-
-	// find room
-	Room* room = FindPlayerRoom(player);
-
-	// find item
-	GameEntity* ientity = room->FindEntity(entity);
-
-	// try to cast to item type
-	Item* item = dynamic_cast<Item*>(ientity);
-
-	if (item != NULL)
-	{
-		// add item to player item list
-		player->AddItem(item);
-
-		Message* msg = new Message(entity + " was added to your inventory", connection_id, Message::outputMessage);
-		parent->PutMessage(msg);
-	}
-	else
-	{
-		// no item message
-		Message* msg = new Message("There is no such thing to take...", connection_id, Message::outputMessage);
-		parent->PutMessage(msg);
-	}
-
-}
-
-/**
-* Player command
-* Help command
-* Returns a list of commands for the player
-*/
-void GameWorld::Help(int connection_id)
-{
-	std::string help = "Help is on its way!\n";
-	help += "\n";
-	help += "Commands are:\n";
-	help += "look <target>\n";
-	help += "move <exit>\n";
-	help += "say <message>\n";
-	help += "shout <message>\n";
-	help += "whisper <target> <message>\n";
-	help += "take <target>\n";
-	help += "logout\n";
-	help += "\n";
-	help += "Enjoy the game. :D\n";
-	help += "Please, forget you saw this.\n";
-	Message* msg = new Message(help, connection_id, Message::outputMessage);
-	parent->PutMessage(msg);
-}
-
-/**
-* Player command
-* Signup command
-* Registers login name with password in the player list in game world
-*/
-void GameWorld::SignUp(int connection_id, std::string login_name, std::string password)
-{
-	// construct player
-	Player* player = new Player(players_->GetNextId(), login_name, password);
-
-	// add to player list
-	players_->AddEntity(player);
-
-	// message player
-	Message* msg = new Message("You created new life. Please login...", connection_id, Message::outputMessage);
-	parent->PutMessage(msg);
-}
-
-/**
-* Player command
-* Login command
-* Checks if the given login name and password match an entry in the player list in game world
-* Signs that player in if it matches
-* Adds player to the connection list
-*/
-void GameWorld::LogIn(int connection_id, std::string login_name, std::string password)
-{
-	// find player
-	GameEntity* pentity = players_->FindEntity(login_name);
-	if (pentity == NULL)
-	{
-		Message* msg = new Message("Wrong username/password!", connection_id, Message::outputMessage);
-		return;
-	}
-
-	Player* player = dynamic_cast<Player*>(pentity);
-	player->Print();
-
-	// check password
-	if (player->GetPassword() != password)
-	{
-		Message* msg = new Message("Wrong username/password!", connection_id, Message::outputMessage);
-		return;
-	}
-
-	// place into current players list
-	current_players_->AddConnection(connection_id, player->GetId());
-	player->SetConnectionId(connection_id);
-
-	// get player room, place into room player list
-	Room* room = FindPlayerRoom(player);
-	room->Print();
-	room->AddPlayer(player);
-
-	// send login to other players in room
-	std::vector<GameEntity*>* room_players = room->GetPlayerVector();
-	for (std::size_t i = 0; i < room_players->size(); i++)
-	{
-		Player* room_player = dynamic_cast<Player*>(room_players->at(i));
-		Message* msg = new Message(player->GetName() + " phased into reality.", room_player->GetConnectionId(), Message::outputMessage);
-		parent->PutMessage(msg);
-	}
-}
-
-/**
-* Player command
-* Logout command
-* Cleans up the players variables and logs the player out of the game world
-* Removes player from the connection list
-*/
-void GameWorld::LogOut(int connection_id)
-{
-	// remove player from connection list
-	current_players_->RemoveConnection(connection_id);
-
-	Player* player = FindPlayer(connection_id);
-	player->SetConnectionId(-1);
-
-	// remove player from room list
-	Room* room = FindPlayerRoom(player);
-
-	// send logout to players in room
-	std::vector<GameEntity*>* room_players = room->GetPlayerVector();
-	for (std::size_t i = 0; i < room_players->size(); i++)
-	{
-		Player* room_player = dynamic_cast<Player*>(room_players->at(i));
-		Message* msg = new Message(player->GetName() + " returned to a dream.", room_player->GetConnectionId(), Message::outputMessage);
-		parent->PutMessage(msg);
-	}
-
-	room->RemovePlayer(player->GetId());
 }
