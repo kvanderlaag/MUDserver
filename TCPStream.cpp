@@ -44,7 +44,7 @@ void TCPStream::do_write(struct bufferevent *bev, void* arg) {
 }
 
 void TCPStream::read_cb(struct bufferevent *bev) {
-	evbuffer *input, *output;
+	evbuffer *input;
 	char* line;
 	size_t n;
 	input = bufferevent_get_input(bev);
@@ -96,7 +96,7 @@ const int TCPStream::GetSocket() {
 }
 
 const int TCPStream::Write(std::string outputMessage) {
-	outputMessage += "\n";
+	outputMessage += "\n> ";
 	//bufferevent_write(bEvent, outputMessage.c_str(), outputMessage.length() * sizeof(char));
 	send(socketfd, outputMessage.c_str(), outputMessage.length() * sizeof(char), 0);
 	std::cout << "Sending message to " << socketfd << ": " << outputMessage << std::endl;

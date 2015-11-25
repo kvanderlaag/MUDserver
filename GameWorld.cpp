@@ -149,6 +149,7 @@ void GameWorld::ReceiveMessage(Message* message)
 	std::string command;
 	std::string words;
 	iss >> command;
+	iss.get();
 	std::getline(iss, words);
 
 
@@ -244,8 +245,29 @@ void GameWorld::Look(int connection_id)
 	// find description
 	std::string description = room->GetDescription();
 
+	// Get exits
+	std::string exits;
+
+	exits = "Exits are:\n";
+	
+	// Get players
+	std::string players;
+	players = "The following people are here:\n";
+	std::vector<Player*>* vPlayers = (std::vector<Player*>*) room->GetPlayerVector();
+	if (vPlayers->size() > 1) {
+		for (size_t i = 0; i < vPlayers->size(); ++i) {
+			if (vPlayers->at(i)->GetName() != player->GetName()) {
+				players += vPlayers->at(i)->GetName() + "\n";
+			}
+		}
+	}
+	else {
+		players += "None.";
+	}
+
 	// create message
-	Message* msg = new Message(description, connection_id, Message::outputMessage);
+	std::string output = "\n---\n" + room->GetName() + "\n---\n" + description + "\n---\n" + exits + "\n---\n" + players + "\n";
+	Message* msg = new Message(output, connection_id, Message::outputMessage);
 
 	// place message on message buffer
 	parent->PutMessage(msg);
@@ -370,7 +392,7 @@ void GameWorld::Say(int connection_id, std::string words)
 	for (std::size_t i = 0; i < room_players->size(); i++)
 	{
 		Player* room_player = dynamic_cast<Player*>(room_players->at(i));
-		Message* msg = new Message(player->GetName() + " said " + words, room_player->GetConnectionId(), Message::outputMessage);
+		Message* msg = new Message(player->GetName() + " said \"" + words + "\"", room_player->GetConnectionId(), Message::outputMessage);
 		parent->PutMessage(msg);
 	}
 }
@@ -391,7 +413,7 @@ void GameWorld::Shout(int connection_id, std::string words)
 	{
 		int id = current_player_ids->at(i);
 		Player* game_player = dynamic_cast<Player*>(players_->GetEntity(id));
-		Message* msg = new Message(player->GetName() + " shouted " + words, game_player->GetConnectionId(), Message::outputMessage);
+		Message* msg = new Message(player->GetName() + " shouted \"" + words +"\"", game_player->GetConnectionId(), Message::outputMessage);
 		parent->PutMessage(msg);
 	}
 }
