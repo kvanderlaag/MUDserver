@@ -36,7 +36,7 @@ public:
 	void Shutdown();
 	void accept_cb(evutil_socket_t listener, short event);
 	void ListenerClose();
-	const Server& GetParent();
+	Server& GetParent();
 	const event_base* GetBase();
 	static void do_accept(evutil_socket_t listener, short event, void* arg);
 

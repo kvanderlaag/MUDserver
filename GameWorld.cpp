@@ -149,6 +149,7 @@ void GameWorld::ReceiveMessage(Message* message)
 	std::string command;
 	std::string words;
 	iss >> command;
+	iss.get();
 	std::getline(iss, words);
 
 
@@ -187,6 +188,9 @@ void GameWorld::ReceiveMessage(Message* message)
 		wss >> exit;
 
 		Move(message->GetSource(), exit);
+	}
+	else if (command == "shout") {
+		Shout(message->GetSource(), words);
 	}
 	else if (command == "say")
 	{
@@ -342,8 +346,33 @@ void GameWorld::Look(int connection_id)
 	// find description
 	std::string description = room->GetDescription();
 
+	// Get exits
+	std::string exits;
+
+	exits = "Exits are:\n";
+	
+	// Get players
+	std::string players;
+	players = "The following people are here:\n";
+	std::vector<Player*>* vPlayers = (std::vector<Player*>*) room->GetPlayerVector();
+	if (vPlayers->size() > 1) {
+		for (size_t i = 0; i < vPlayers->size(); ++i) {
+			if (vPlayers->at(i)->GetName() != player->GetName()) {
+				players += vPlayers->at(i)->GetName() + "\n";
+			}
+		}
+	}
+	else {
+		players += "None.";
+	}
+
 	// create message
+<<<<<<< HEAD
 	Message* msg = new Message(description, player->GetConnectionId(), Message::outputMessage);
+=======
+	std::string output = "\n---\n" + room->GetName() + "\n---\n" + description + "\n---\n" + exits + "\n---\n" + players + "\n";
+	Message* msg = new Message(output, connection_id, Message::outputMessage);
+>>>>>>> refs/remotes/origin/master
 
 	// place message on message buffer
 	parent->PutMessage(msg);
@@ -489,7 +518,7 @@ void GameWorld::Shout(int connection_id, std::string words)
 	{
 		int id = current_player_ids->at(i);
 		Player* game_player = dynamic_cast<Player*>(players_->GetEntity(id));
-		Message* msg = new Message(player->GetName() + " shouted " + words, game_player->GetConnectionId(), Message::outputMessage);
+		Message* msg = new Message(player->GetName() + " shouted \"" + words +"\"", game_player->GetConnectionId(), Message::outputMessage);
 		parent->PutMessage(msg);
 	}
 }
@@ -579,6 +608,7 @@ void GameWorld::Whisper(int connection_id, std::string player_name, std::string 
 	}
 	else
 	{
+<<<<<<< HEAD
 		// send no player message
 		Message* player_msg = new Message("There is no such person to whisper to...", player->GetConnectionId(), Message::outputMessage);
 
@@ -586,3 +616,42 @@ void GameWorld::Whisper(int connection_id, std::string player_name, std::string 
 		parent->PutMessage(player_msg);
 	}
 }
+=======
+		Player* room_player = dynamic_cast<Player*>(room_players->at(i));
+		Message* msg = new Message(player->GetName() + " phased into reality.", room_player->GetConnectionId(), Message::outputMessage);
+		parent->PutMessage(msg);
+	}
+
+	Look(player->GetConnectionId());
+}
+
+/**
+* Player command
+* Logout command
+* Cleans up the players variables and logs the player out of the game world
+* Removes player from the connection list
+*/
+void GameWorld::LogOut(int connection_id)
+{
+	// remove player from connection list
+	current_players_->RemoveConnection(connection_id);
+
+	if (Player* player = FindPlayer(connection_id)) {
+		player->SetConnectionId(-1);
+
+		// remove player from room list
+		Room* room = FindPlayerRoom(player);
+
+		// send logout to players in room
+		std::vector<GameEntity*>* room_players = room->GetPlayerVector();
+		for (std::size_t i = 0; i < room_players->size(); i++)
+		{
+			Player* room_player = dynamic_cast<Player*>(room_players->at(i));
+			Message* msg = new Message(player->GetName() + " returned to a dream.", room_player->GetConnectionId(), Message::outputMessage);
+			parent->PutMessage(msg);
+		}
+
+		room->RemovePlayer(player->GetId());
+	}
+}
+>>>>>>> refs/remotes/origin/master

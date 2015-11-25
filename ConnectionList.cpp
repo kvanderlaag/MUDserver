@@ -71,7 +71,11 @@ int ConnectionList::GetConnectionCount()
 */
 std::vector<int>* ConnectionList::GetIdVector()
 {
+<<<<<<< HEAD
 	std::vector<int>* id_vector = new std::vector<int>();
+=======
+	std::vector<int>* id_vector = new std::vector<int>;
+>>>>>>> refs/remotes/origin/master
 
 	if (!map_.empty())
 	{

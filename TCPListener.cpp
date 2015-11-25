@@ -118,7 +118,7 @@ void TCPListener::ListenerClose() {
 }
 
 /** GetParent. Returns the parent server object of the listener. */
-const Server& TCPListener::GetParent() {
+Server& TCPListener::GetParent() {
 	return *parent;
 }
 
