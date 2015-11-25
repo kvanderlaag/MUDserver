@@ -39,7 +39,11 @@ int ConnectionList::GetPlayerId(int connection_id)
 {
 	if (!map_.empty())
 	{
-		return map_.find(connection_id)->second;
+		std::map<int, int>::iterator it = map_.find(connection_id);
+		if (it != map_.end()) {
+			return map_.find(connection_id)->second;
+		}
+		
 	}
 	return NULL;
 }
