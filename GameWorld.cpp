@@ -1,7 +1,9 @@
 #include "GameWorld.h"
+#include "FileParser.h"
 
 #include <iostream>
 #include <sstream>
+#include <fstream>
 
 /**
 * Create a game world, with entity lists for players and rooms
@@ -14,10 +16,29 @@ GameWorld::GameWorld(Server* par) :
 {
     std::cout << "Created a world..." << std::endl;
 
-
 	//Room *thera = new Room(rooms_->GetNextId(), "Thera", "South of Thera. Adventurers crowd the streets. Guards stand silent at the gates.");
 	//AddRoom(thera);
 
+	std::vector<std::string>* lines = FileParser::ParseFile("rooms.tsv");
+	for (int i = 0; i != lines->size(); i++) {
+
+		std::vector<std::string>* room_values = FileParser::ParseTsv(lines->at(i));
+		std::string name = room_values->at(0);
+		std::string description = room_values->at(1);
+		std::vector<std::string>* items = FileParser::ParseCsv(room_values->at(2));
+		std::vector<std::string>* exits = FileParser::ParseCsv(room_values->at(3));
+
+		Room* room = new Room(rooms_->GetNextId(), name, description);
+		room->Print();
+		/*for (int j = 0; j != items->size(); j++) {
+			room->AddItem(items->at(j))
+		}*/
+		for (int j = 0; j != exits->size(); j++) {
+			std::string exit_name = exits->at(j);
+			Room* exit_room = dynamic_cast<Room*>(rooms_->FindEntity(exit_name));
+			room->AddExit(exit_room);
+		}
+	}
 }
 
 
