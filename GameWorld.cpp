@@ -183,11 +183,7 @@ void GameWorld::ReceiveMessage(Message* message)
 	}
 	else if (command == "move")
 	{
-		std::stringstream wss(words);
-		std::string exit;
-		wss >> exit;
-
-		Move(message->GetSource(), exit);
+		Move(message->GetSource(), words);
 	}
 	else if (command == "shout") {
 		Shout(message->GetSource(), words);
@@ -470,7 +466,7 @@ void GameWorld::Move(int connection_id, std::string exit)
 
 		// add player to destination room list
 		dest_room->AddPlayer(player);
-
+		player->SetRoomId(dest_room->GetId());
 
 		// send room description to player
 		std::string description = dest_room->GetDescription();

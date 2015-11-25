@@ -141,3 +141,8 @@ std::vector<GameEntity*>* Room::GetPlayerVector()
 {
 	return players_->GetEntityVector();
 }
+
+std::vector<GameEntity*>* Room::GetExitVector()
+{
+	return exits_->GetEntityVector();
+}

@@ -30,11 +30,15 @@ public:
     GameEntity* GetEntity(int id);
 	GameEntity* FindEntity(std::string name);
 
+	//GameEntity* FindEntityByName(std::string name);
+
     int GetEntityCount();
 	std::vector<GameEntity*>* GetEntityVector();
 
 	int GetNextId();
 	void PutNextId(int id);
+
+	void Print();
 
 };
 
