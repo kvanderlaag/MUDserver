@@ -84,6 +84,8 @@ GameEntity* EntityList::FindEntity(std::string name)
 			// iterator->second = value
 			GameEntity* map_value = iterator->second;
 			std::string map_value_name = map_value->GetName();
+
+			std::transform(name.begin(), name.end(), name.begin(), ::tolower);
 			std::transform(map_value_name.begin(), map_value_name.end(), map_value_name.begin(), ::tolower);
 			if (map_value_name == name)
 			{
