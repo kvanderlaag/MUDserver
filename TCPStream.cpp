@@ -8,7 +8,7 @@
 TCPStream::TCPStream(TCPListener* par, int socket)
 	: parent(par)
 	, socketfd(socket)
-	, bEvent(bufferevent_socket_new((event_base*) par->GetBase(), socket, BEV_OPT_CLOSE_ON_FREE))
+	, bEvent(bufferevent_socket_new((event_base*)par->GetBase(), socket, BEV_OPT_CLOSE_ON_FREE))
 {
 	evutil_make_socket_nonblocking(socketfd);
 	std::cout << "Socket " << socketfd << " is nonblocking." << '\n';
@@ -16,11 +16,11 @@ TCPStream::TCPStream(TCPListener* par, int socket)
 	std::cout << "Made new buffer event." << '\n';
 	bufferevent_setcb(bEvent, do_read, do_write, do_error, (void*)this);
 	std::cout << "Set read callback and error callback." << '\n';
-	bufferevent_setwatermark(bEvent, EV_READ, 0, MAX_LINE);
+	bufferevent_setwatermark(bEvent, EV_READ | EV_WRITE, 0, MAX_LINE);
 	std::cout << "Set watermark." << '\n';
 	bufferevent_enable(bEvent, EV_READ | EV_WRITE);
 	std::cout << "Enabled buffer event." << '\n';
-	bufferevent_flush(bEvent, EV_READ, BEV_NORMAL);
+	bufferevent_read(bEvent, NULL, -1);
 }
 
 
@@ -48,7 +48,7 @@ void TCPStream::read_cb(struct bufferevent *bev) {
 	char* line;
 	size_t n;
 	input = bufferevent_get_input(bev);
-	output = bufferevent_get_output(bev);
+	//output = bufferevent_get_output(bev);
 
 	line = evbuffer_readln(input, &n, EVBUFFER_EOL_CRLF);
 	if (line) {
@@ -81,6 +81,7 @@ void TCPStream::read_cb(struct bufferevent *bev) {
 
 void TCPStream::write_cb(bufferevent *bev) {
 	std::cout << "Buffer write callback." << std::endl;
+	
 }
 
 void TCPStream::error_cb(bufferevent *bev, short error) {
@@ -95,8 +96,9 @@ const int TCPStream::GetSocket() {
 }
 
 const int TCPStream::Write(std::string outputMessage) {
-	bufferevent_write(bEvent, outputMessage.c_str(), outputMessage.length() * sizeof(char));
-	bufferevent_write(bEvent, "\n", 1);
+	outputMessage += "\n";
+	//bufferevent_write(bEvent, outputMessage.c_str(), outputMessage.length() * sizeof(char));
+	send(socketfd, outputMessage.c_str(), outputMessage.length() * sizeof(char), 0);
 	std::cout << "Sending message to " << socketfd << ": " << outputMessage << std::endl;
 	return 0;
 }

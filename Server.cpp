@@ -20,6 +20,7 @@ Server::Server(int port)
 	, mBuffer(new MessageBuffer())
 	, running(false)
 	, parser(new Parser())
+	, mLoginMessage("Welcome to JakeMUD!\n\nCommands:\nlogin <username> <password>\nsignup <username> <password>\n")
 {
 	std::cout << "Creating new Server on port " << port << ".\n";
 	std::cout << "TCPListener creation successful." << '\n';
@@ -65,6 +66,7 @@ int Server::AddConnection(TCPStream* stream)
 {
 	connections.insert(std::pair<int, TCPStream*>(stream->GetSocket(), stream));
 	std::cout << "Added socket " << stream->GetSocket() << " to the connection list." << '\n';
+	SendLoginMessage(stream);
 	return 0;
 }
 
@@ -173,4 +175,8 @@ void Server::CreateListenerThread(void* arg)
 {
 	TCPListener* instance = (TCPListener*)arg;
 	instance->Listen();
+}
+
+void Server::SendLoginMessage(TCPStream* stream) {
+	stream->Write(mLoginMessage);
 }

@@ -516,6 +516,8 @@ void GameWorld::LogIn(int connection_id, std::string login_name, std::string pas
 		Message* msg = new Message(player->GetName() + " phased into reality.", room_player->GetConnectionId(), Message::outputMessage);
 		parent->PutMessage(msg);
 	}
+
+	Look(player->GetConnectionId());
 }
 
 /**

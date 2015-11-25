@@ -6,6 +6,7 @@
 #include <Windows.h>
 #include "GameWorld.h"
 #include "Parser.h"
+#include <string>
 
 class TCPListener;
 class TCPStream;
@@ -44,5 +45,7 @@ private:
 	std::map<int, TCPStream*> connections;
 	MessageBuffer* mBuffer;
 
+	void SendLoginMessage(TCPStream* stream);
 
+	std::string mLoginMessage;
 };
