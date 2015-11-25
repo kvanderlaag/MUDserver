@@ -11,34 +11,46 @@
 GameWorld::GameWorld(Server* par) :
 	parent(par),
 	players_(new EntityList()),
-	rooms_(new EntityList())
-
+	rooms_(new EntityList()),
+	current_players_(new ConnectionList())
 {
     std::cout << "Created a world..." << std::endl;
 
-	//Room *thera = new Room(rooms_->GetNextId(), "Thera", "South of Thera. Adventurers crowd the streets. Guards stand silent at the gates.");
-	//AddRoom(thera);
+	std::vector<std::string>* rooms = FileParser::ParseFile("rooms.tsv");
 
-	std::vector<std::string>* lines = FileParser::ParseFile("rooms.tsv");
-	for (int i = 0; i != lines->size(); i++) {
+	std::cout << "Loading Rooms...";
+	for (int i = 0; i != rooms->size(); i++) {
 
-		std::vector<std::string>* room_values = FileParser::ParseTsv(lines->at(i));
+		std::vector<std::string>* room_values = FileParser::ParseTsv(rooms->at(i));
 		std::string name = room_values->at(0);
 		std::string description = room_values->at(1);
-		std::vector<std::string>* items = FileParser::ParseCsv(room_values->at(2));
-		std::vector<std::string>* exits = FileParser::ParseCsv(room_values->at(3));
+		// std::vector<std::string>* items = FileParser::ParseCsv(room_values->at(2));
 
 		Room* room = new Room(rooms_->GetNextId(), name, description);
-		room->Print();
+		rooms_->AddEntity(room);
 		/*for (int j = 0; j != items->size(); j++) {
 			room->AddItem(items->at(j))
 		}*/
+	}
+	std::cout << "DONE" << std::endl;
+
+	std::cout << "Loading Exits...";
+	for (int i = 0; i != rooms->size(); i++) {
+
+		std::vector<std::string>* room_values = FileParser::ParseTsv(rooms->at(i));
+		std::string name = room_values->at(0);
+		std::vector<std::string>* exits = FileParser::ParseCsv(room_values->at(3));
+
+		Room* room = dynamic_cast<Room*>(rooms_->FindEntity(name));
+		//room->Print();
 		for (int j = 0; j != exits->size(); j++) {
 			std::string exit_name = exits->at(j);
 			Room* exit_room = dynamic_cast<Room*>(rooms_->FindEntity(exit_name));
+			
 			room->AddExit(exit_room);
 		}
 	}
+	std::cout << "DONE" << std::endl;
 }
 
 
@@ -139,6 +151,10 @@ void GameWorld::ReceiveMessage(Message* message)
 	iss >> command;
 	std::getline(iss, words);
 
+
+	std::cout << "World receiving message." << std::endl;
+	std::cout << "command: " << command << std::endl;
+
 	if (command == "look")
 	{
 		std::stringstream wss(words);
@@ -176,6 +192,9 @@ void GameWorld::ReceiveMessage(Message* message)
 	}
 	else if (command == "signup")
 	{
+
+		std::cout << "Signing Up";
+
 		std::stringstream wss(words);
 		std::string username;
 		std::string password;
@@ -213,6 +232,8 @@ void GameWorld::Look(int connection_id)
 {
 	// find player
 	Player* player = FindPlayer(connection_id);
+
+	player->Print();
 
 	// find room
 	Room* room = FindPlayerRoom(player);
@@ -469,6 +490,7 @@ void GameWorld::LogIn(int connection_id, std::string login_name, std::string pas
 	}
 
 	Player* player = dynamic_cast<Player*>(pentity);
+	player->Print();
 
 	// check password
 	if (player->GetPassword() != password)
@@ -483,6 +505,7 @@ void GameWorld::LogIn(int connection_id, std::string login_name, std::string pas
 
 	// get player room, place into room player list
 	Room* room = FindPlayerRoom(player);
+	room->Print();
 	room->AddPlayer(player);
 
 	// send login to other players in room
