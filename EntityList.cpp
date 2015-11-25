@@ -11,7 +11,7 @@
 EntityList::EntityList()
 {	
 	next_ids_.push_back(0);
-    std::cout << "Created a list..." << std::endl;
+    //std::cout << "Created a list..." << std::endl;
 }
 
 /**
@@ -19,14 +19,14 @@ EntityList::EntityList()
 */
 EntityList::~EntityList()
 {	
-    std::cout << "Destroyed a list..." << std::endl;
+    //std::cout << "Destroyed a list..." << std::endl;
 }
 
 /**
 * Takes the pointer of a game entity and adds the game entity to an existing list.
 * It returns warning if the passed IDs are duplicated.
 */
-void EntityList::AddEntity(GameEntity *game_entity)
+void EntityList::AddEntity(GameEntity* game_entity)
 {			
 	if(map_.find(game_entity->GetId()) != map_.end())
 	{
@@ -103,7 +103,7 @@ int EntityList::GetEntityCount()
 */
 std::vector<GameEntity*>* EntityList::GetEntityVector()
 {
-	std::vector<GameEntity*>* entity_vector;
+	std::vector<GameEntity*>* entity_vector = new std::vector<GameEntity*>();
 
 	if (!map_.empty())
 	{
