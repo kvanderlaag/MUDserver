@@ -269,7 +269,7 @@ void GameWorld::Help(int connection_id)
 	help += "say <message>\n";
 	help += "shout <message>\n";
 	help += "whisper <target> <message>\n";
-	help += "take <target>\n";
+	//help += "take <target>\n";
 	help += "quit\n";
 	help += "\n";
 	help += "Enjoy the game. :D\n";
