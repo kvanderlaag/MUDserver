@@ -44,11 +44,12 @@ Temporary Items
 
 
 # Conflict causing troublies
-.sdf
-.pdb
-.idb
-.ilk
-.exe
-.tlog
-.obj
-.suo
+*.sdf
+*.pdb
+*.idb
+*.ilk
+*.exe
+*.tlog
+*.obj
+*.suo
+*.tlog

@@ -93,7 +93,7 @@ int Server::RemoveConnection(TCPStream* stream)
 void Server::Shutdown()
 {
 	running = false;
-	for (int i = 0; i < connections.size(); ++i)
+	for (std::size_t i = 0; i < connections.size(); ++i)
 	{
 		RemoveConnection(connections.begin()->second);
 	}
