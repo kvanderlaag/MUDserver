@@ -240,6 +240,7 @@ void GameWorld::ReceiveMessage(Message* message)
 		std::string player;
 		std::string whisp;
 		wss >> player;
+		wss.get();
 		std::getline(wss, whisp);
 
 		Whisper(message->GetSource(), player, whisp);
@@ -504,7 +505,7 @@ void GameWorld::Move(int connection_id, std::string exit)
 		for (std::size_t i = 0; i < current_room_players->size(); i++)
 		{
 			Player* room_player = dynamic_cast<Player*>(current_room_players->at(i));
-			Message* exit_msg = new Message(player->GetName() + " headed towards " + dest_room->GetName() + ".", room_player->GetConnectionId(), Message::outputMessage);
+			Message* exit_msg = new Message(player->GetName() + " headed " + exit + " towards " + dest_room->GetName() + ".", room_player->GetConnectionId(), Message::outputMessage);
 			parent->PutMessage(exit_msg);
 		}
 
@@ -577,7 +578,7 @@ void GameWorld::Shout(int connection_id, std::string words)
 	{
 		int id = current_player_ids->at(i);
 		Player* game_player = dynamic_cast<Player*>(players_->GetEntity(id));
-		Message* msg = new Message(player->GetName() + " shouted \"" + words +"\"", game_player->GetConnectionId(), Message::outputMessage);
+		Message* msg = new Message(player->GetName() + " shouts \"" + words +"\"", game_player->GetConnectionId(), Message::outputMessage);
 		parent->PutMessage(msg);
 	}
 }
@@ -676,11 +677,11 @@ void GameWorld::Whisper(int connection_id, std::string player_name, std::string 
 	if (other_player != NULL)
 	{
 		// send you those words
-		Message* pmsg = new Message(player->GetName() + " whispered " + words, player->GetConnectionId(), Message::outputMessage);
+		Message* pmsg = new Message("You whisper \"" + words + "\" to " + other_player->GetName(), player->GetConnectionId(), Message::outputMessage);
 		parent->PutMessage(pmsg);
 
 		// send player those words
-		Message* omsg = new Message(player->GetName() + " whispered " + words, other_player->GetConnectionId(), Message::outputMessage);
+		Message* omsg = new Message(player->GetName() + " whispers \"" + words + "\"", other_player->GetConnectionId(), Message::outputMessage);
 		parent->PutMessage(omsg);
 	}
 	else
