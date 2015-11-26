@@ -53,12 +53,8 @@ GameWorld::GameWorld(Server* par) :
 			if (exit_room)
 			{
 				room->AddExit(exit_room);
-<<<<<<< HEAD
-			room->AddDirection(exit_room->GetId(), exit_dir);
-=======
-				room->AddDirection(exit_dir);
+				room->AddDirection(exit_room->GetId(), exit_dir);
 			}
->>>>>>> origin/master
 		}
 	}
 	std::cout << "DONE" << std::endl;
