@@ -94,7 +94,7 @@ GameEntity* Room::GetExit(std::string exit)
 			return exits_->GetEntityVector()->at(i);
 		}
 	}
-	return (GameEntity*) exits_->FindEntity(exit);
+	return nullptr;
 }
 
 /**
