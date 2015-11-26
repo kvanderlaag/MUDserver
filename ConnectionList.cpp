@@ -45,7 +45,7 @@ int ConnectionList::GetPlayerId(int connection_id)
 		}
 		
 	}
-	return NULL;
+	return -1;
 }
 
 /**

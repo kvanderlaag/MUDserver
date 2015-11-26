@@ -174,7 +174,7 @@ void GameWorld::ReceiveMessage(Message* message)
 	{
 		std::stringstream wss(words);
 		std::string entity;
-		wss >> entity;
+		std::getline(wss, words);
 
 		if (entity.length() > 0)
 			Look(message->GetSource(), entity);
@@ -219,7 +219,7 @@ void GameWorld::ReceiveMessage(Message* message)
 		std::string player;
 		std::string whisp;
 		wss >> player;
-		wss >> whisp;
+		std::getline(wss, whisp);
 
 		Whisper(message->GetSource(), player, whisp);
 	}
@@ -263,7 +263,14 @@ void GameWorld::Help(int connection_id)
 */
 void GameWorld::LogIn(int connection_id, std::string login_name, std::string password)
 {
-	// find player
+	// player is already logged in
+	if (current_players_->GetPlayerId(connection_id) != -1)
+	{
+		// message player
+		Message* msg = new Message("You're already logged in...", connection_id, Message::outputMessage);
+		parent->PutMessage(msg);
+		return;
+	}
 
 	GameEntity* pentity = players_->FindEntity(login_name);
 	if (pentity == NULL)
@@ -538,15 +545,33 @@ void GameWorld::Shout(int connection_id, std::string words)
 */
 void GameWorld::SignUp(int connection_id, std::string login_name, std::string password)
 {
-	// construct player
-	Player* player = new Player(players_->GetNextId(), login_name, password);
+	// player is already logged in
+	if (current_players_->GetPlayerId(connection_id) != -1)
+	{
+		// message player
+		Message* msg = new Message("You're already logged in...", connection_id, Message::outputMessage);
+		parent->PutMessage(msg);
+		return;
+	}
+	// find player
+	else if (players_->FindEntity(login_name))
+	{
+		// message player
+		Message* msg = new Message("That person already exists...", connection_id, Message::outputMessage);
+		parent->PutMessage(msg);
+	}
+	else
+	{
+		// construct player
+		Player* player = new Player(players_->GetNextId(), login_name, password);
 
-	// add to player list
-	players_->AddEntity(player);
+		// add to player list
+		players_->AddEntity(player);
 
-	// message player
-	Message* msg = new Message("You created new life. Please login...", connection_id, Message::outputMessage);
-	parent->PutMessage(msg);
+		// message player
+		Message* msg = new Message("You created new life. Please login...", connection_id, Message::outputMessage);
+		parent->PutMessage(msg);
+	}
 }
 
 /**
