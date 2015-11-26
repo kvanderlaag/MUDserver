@@ -32,12 +32,12 @@ Message* Parser::Parse(const Message* mess) const
 		tokens.erase(tokens.begin(), tokens.begin() + 1);
 		std::cout << "Command: " << command << std::endl;
 
-		for (int i = 0; i < command.length(); ++i) {
+		for (std::size_t i = 0; i < command.length(); ++i) {
 			command.at(i) = std::tolower(command.at(i));
 		}
 
 		for each (std::string token in tokens) {
-			for (int i = 0; i < token.length(); ++i) {
+			for (std::size_t i = 0; i < token.length(); ++i) {
 				token.at(i) = std::tolower(token.at(i));
 			}
 			std::cout << token << std::endl;
