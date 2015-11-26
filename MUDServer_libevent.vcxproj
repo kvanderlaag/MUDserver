@@ -150,6 +150,8 @@
   <ItemGroup>
     <ClCompile Include="ConnectionList.cpp" />
     <ClCompile Include="EntityList.cpp" />
+    <ClCompile Include="Exit.cpp" />
+    <ClCompile Include="ExitList.cpp" />
     <ClCompile Include="FileParser.cpp" />
     <ClCompile Include="GameEntity.cpp" />
     <ClCompile Include="GameWorld.cpp" />
@@ -166,6 +168,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EntityList.h" />
+    <ClInclude Include="Exit.h" />
+    <ClInclude Include="ExitList.h" />
     <ClInclude Include="FileParser.h" />
     <ClInclude Include="GameEntity.h" />
     <ClInclude Include="GameWorld.h" />
