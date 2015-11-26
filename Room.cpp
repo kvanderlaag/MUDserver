@@ -33,7 +33,7 @@ Room::~Room(  )
  * Each room will have a list of exits (denotes which rooms can be accessed from that room)
  * This function will add an exit to the existing exit list of a room
  */
-void Room::AddExit(GameEntity *roomexit)
+void Room::AddExit(GameEntity* roomexit)
 {
 	exits_->AddEntity(roomexit);
 }
@@ -89,7 +89,12 @@ void Room::RemovePlayer(int id)
  */
 GameEntity* Room::GetExit(std::string exit)
 {
-	return exits_->FindEntity(exit);
+	for (size_t i = 0; i < directions_.size(); ++i) {
+		if (directions_.at(i) == exit) {
+			return exits_->GetEntityVector()->at(i);
+		}
+	}
+	return (GameEntity*) exits_->FindEntity(exit);
 }
 
 /**
@@ -142,7 +147,11 @@ std::vector<GameEntity*>* Room::GetPlayerVector()
 	return players_->GetEntityVector();
 }
 
-std::vector<GameEntity*>* Room::GetExitVector()
+std::vector<std::string>* Room::GetExitVector()
 {
-	return exits_->GetEntityVector();
+	return new std::vector<std::string>(directions_);
+}
+
+void Room::AddDirection(std::string dir) {
+	directions_.push_back(dir);
 }

@@ -24,9 +24,9 @@ public:
 
     virtual void Print();
 
-    virtual int GetId();
-	virtual std::string GetName();
-    virtual std::string GetDescription();
+    virtual int GetId() const;
+	virtual std::string GetName() const;
+    virtual std::string GetDescription() const;
 
 	virtual void SetId(int id);
 	virtual void SetName(std::string name);

@@ -39,15 +39,18 @@ GameWorld::GameWorld(Server* par) :
 
 		std::vector<std::string>* room_values = FileParser::ParseTsv(rooms->at(i));
 		std::string name = room_values->at(0);
-		std::vector<std::string>* exits = FileParser::ParseCsv(room_values->at(3));
+		std::vector<std::string>* exits = FileParser::ParseCsv(room_values->at(2));
+		std::vector<std::string>* directions = FileParser::ParseCsv(room_values->at(3));
 
 		Room* room = dynamic_cast<Room*>(rooms_->FindEntity(name));
 		//room->Print();
 		for (int j = 0; j != exits->size(); j++) {
 			std::string exit_name = exits->at(j);
 			Room* exit_room = dynamic_cast<Room*>(rooms_->FindEntity(exit_name));
-			
-			room->AddExit(exit_room);
+			std::string exit_dir = directions->at(j);
+			if (exit_room)
+				room->AddExit(exit_room);
+			room->AddDirection(exit_dir);
 		}
 	}
 	std::cout << "DONE" << std::endl;
@@ -223,6 +226,9 @@ void GameWorld::ReceiveMessage(Message* message)
 
 		Whisper(message->GetSource(), player, whisp);
 	}
+	else if (command == "north" || command == "south" || command == "east" || command == "west") {
+		Move(message->GetSource(), command);
+	}
 	else {
 		Message* msg = new Message("Invalid command. Type \"help\" for list of valid commands.", message->GetSource(), Message::outputMessage);
 		parent->PutMessage(msg);
@@ -369,10 +375,10 @@ void GameWorld::Look(int connection_id)
 	std::string exits;
 
 	exits = "Exits are:\n";
-	std::vector<GameEntity*>* vExits = room->GetExitVector();
+	std::vector<std::string>* vExits = room->GetExitVector();
 	if (vExits->size() > 0) {
 		for (size_t i = 0; i < vExits->size(); ++i) {
-			exits += vExits->at(i)->GetName() + "\n";
+			exits += vExits->at(i) + "\n";
 		}
 	} else {
 		exits += "None.";

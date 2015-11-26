@@ -11,7 +11,7 @@ class EntityList
 {                          
 
 /* Private variable uses a map to implement the list of entities */
-private:
+protected:
     std::map<int, GameEntity*> map_;
 	std::vector<int> next_ids_; // stack
 
@@ -25,20 +25,19 @@ public:
     EntityList();
     ~EntityList();
 
-    void AddEntity(GameEntity* game_entity);
-    void RemoveEntity(int id);
-    GameEntity* GetEntity(int id);
-	GameEntity* FindEntity(std::string name);
+    virtual void AddEntity(GameEntity* game_entity);
+    virtual void RemoveEntity(int id);
+    virtual GameEntity* GetEntity(int id);
+	virtual GameEntity* FindEntity(std::string name);
 
 	//GameEntity* FindEntityByName(std::string name);
 
     int GetEntityCount();
-	std::vector<GameEntity*>* GetEntityVector();
+	virtual std::vector<GameEntity*>* GetEntityVector();
 
 	int GetNextId();
 	void PutNextId(int id);
-
-	void Print();
+	virtual void Print();
 
 };
 
