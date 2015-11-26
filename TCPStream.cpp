@@ -80,7 +80,7 @@ void TCPStream::read_cb(struct bufferevent *bev) {
 }
 
 void TCPStream::write_cb(bufferevent *bev) {
-	std::cout << "Buffer write callback." << std::endl;
+	//std::cout << "Buffer write callback." << std::endl;
 	
 }
 
@@ -99,6 +99,6 @@ const int TCPStream::Write(std::string outputMessage) {
 	outputMessage += "\n> ";
 	//bufferevent_write(bEvent, outputMessage.c_str(), outputMessage.length() * sizeof(char));
 	send(socketfd, outputMessage.c_str(), outputMessage.length() * sizeof(char), 0);
-	std::cout << "Sending message to " << socketfd << ": " << outputMessage << std::endl;
+	std::cout << "Sending message to " << socketfd << ": " << /*outputMessage <<*/ std::endl;
 	return 0;
 }

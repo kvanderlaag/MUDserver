@@ -16,6 +16,19 @@ GameWorld::GameWorld(Server* par) :
 {
     std::cout << "Created a world..." << std::endl;
 
+	std::vector<std::string>* players = FileParser::ParseFile("players.tsv");
+	std::cout << "Loading players..." << std::endl;
+	for (int i = 0; i < players->size(); ++i) {
+		std::vector<std::string>* player_values = FileParser::ParseTsv(players->at(i));
+		std::string name = player_values->at(0);
+		std::string password = player_values->at(1);
+		
+		Player* player = new Player(players_->GetNextId(), name, password);
+
+		// add to player list
+		players_->AddEntity(player);
+	}
+
 	std::vector<std::string>* rooms = FileParser::ParseFile("rooms.tsv");
 
 	std::cout << "Loading Rooms...";
@@ -66,6 +79,7 @@ GameWorld::GameWorld(Server* par) :
 */
 GameWorld::~GameWorld()
 {
+	FileParser::WritePlayers("players.tsv", players_->GetEntityVector());
     std::cout << "Destroyed a world..." << std::endl;
 }
 
@@ -255,7 +269,7 @@ void GameWorld::Help(int connection_id)
 	help += "say <message>\n";
 	help += "shout <message>\n";
 	help += "whisper <target> <message>\n";
-	help += "take <target>\n";
+	//help += "take <target>\n";
 	help += "quit\n";
 	help += "\n";
 	help += "Enjoy the game. :D\n";

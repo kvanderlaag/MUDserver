@@ -64,7 +64,11 @@ GameEntity* EntityList::GetEntity(int id)
 {	
     if( !map_.empty() )
 	{
-        return map_.find(id)->second;
+		std::map<int, GameEntity*>::iterator it = map_.find(id);
+		if (it != map_.end()) {
+			return it->second;
+		}
+        
     }
     return NULL;
 }

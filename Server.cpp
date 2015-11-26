@@ -99,6 +99,7 @@ void Server::Shutdown()
 	}
 	delete listener;
 	listener = nullptr;
+	delete world;
 }
 
 /**
