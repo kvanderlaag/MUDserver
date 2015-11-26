@@ -247,6 +247,19 @@ void GameWorld::ReceiveMessage(Message* message)
 	else if (command == "north" || command == "south" || command == "east" || command == "west") {
 		Move(message->GetSource(), command);
 	}
+	else if (command == "shutdown") {
+		Player* p = FindPlayer(message->GetSource());
+		if (p) {
+			if (p->GetName() == "Keegan") {
+				std::cout << "Do shutdown." << std::endl;
+				parent->GetListener()->Shutdown();
+			}
+		}
+		else {
+			Message* msg = new Message("Invalid command. Type \"help\" for list of valid commands.", message->GetSource(), Message::outputMessage);
+			parent->PutMessage(msg);
+		}
+	}
 	else {
 		Message* msg = new Message("Invalid command. Type \"help\" for list of valid commands.", message->GetSource(), Message::outputMessage);
 		parent->PutMessage(msg);

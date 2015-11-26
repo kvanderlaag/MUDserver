@@ -7,6 +7,7 @@
 #include "GameWorld.h"
 #include "Parser.h"
 #include <string>
+#include <thread>
 
 class TCPListener;
 class TCPStream;
@@ -34,6 +35,8 @@ public:
 
 	void PutMessage(const Message* mess);
 
+	TCPListener* GetListener();
+
 private:
 	bool running;
 
@@ -48,4 +51,7 @@ private:
 	void SendLoginMessage(TCPStream* stream);
 
 	std::string mLoginMessage;
+
+	std::thread* listenerThread;
+	std::thread* messageQueueThread;
 };

@@ -6,7 +6,6 @@
 #include <Windows.h>
 #include <tchar.h.>
 #include <strsafe.h>
-#include <thread>
 
 /**
 * Creates a server on a given port number
@@ -52,11 +51,15 @@ void Server::Start()
 {
 	running = true;
 
-	std::thread listenerThread (&CreateListenerThread, listener);
-	std::thread messageQueueThread (&CreateMessageQueueThread, this);
+	listenerThread = new std::thread(&CreateListenerThread, listener);
+	messageQueueThread = new std::thread(&CreateMessageQueueThread, this);
 
-	listenerThread.join();
-	messageQueueThread.join();
+	listenerThread->join();
+	messageQueueThread->join();
+}
+
+TCPListener* Server::GetListener() {
+	return listener;
 }
 
 /**
@@ -100,6 +103,9 @@ void Server::Shutdown()
 	delete listener;
 	listener = nullptr;
 	delete world;
+	world = nullptr;
+	
+	
 }
 
 /**
