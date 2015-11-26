@@ -369,6 +369,14 @@ void GameWorld::Look(int connection_id)
 	std::string exits;
 
 	exits = "Exits are:\n";
+	std::vector<GameEntity*>* vExits = room->GetExitVector();
+	if (vExits->size() > 0) {
+		for (size_t i = 0; i < vExits->size(); ++i) {
+			exits += vExits->at(i)->GetName() + "\n";
+		}
+	} else {
+		exits += "None.";
+	}
 	
 	// Get players
 	std::string players;
@@ -479,10 +487,7 @@ void GameWorld::Move(int connection_id, std::string exit)
 		std::string description = dest_room->GetDescription();
 
 		// create message
-		Message* player_msg = new Message(description, player->GetConnectionId(), Message::outputMessage);
-
-		// place message on message buffer
-		parent->PutMessage(player_msg);
+		Look(player->GetConnectionId());
 	}
 	else
 	{
