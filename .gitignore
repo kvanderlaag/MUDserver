@@ -52,3 +52,14 @@ Temporary Items
 *.tlog
 *.obj
 *.suo
+*.obj
+*.obj
+Debug/ConnectionList.obj
+*.tlog
+*.lastbuildstate
+Debug/MUDServer_libevent.exe
+*.ilk
+*.pdb
+Debug/vc140.idb
+*.idb
+MUDserver_libevent.sdf
