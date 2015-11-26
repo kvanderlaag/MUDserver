@@ -46,11 +46,19 @@ GameWorld::GameWorld(Server* par) :
 		//room->Print();
 		for (int j = 0; j != exits->size(); j++) {
 			std::string exit_name = exits->at(j);
-			Room* exit_room = dynamic_cast<Room*>(rooms_->FindEntity(exit_name));
 			std::string exit_dir = directions->at(j);
+
+			Room* exit_room = dynamic_cast<Room*>(rooms_->FindEntity(exit_name));
+
 			if (exit_room)
+			{
 				room->AddExit(exit_room);
+<<<<<<< HEAD
 			room->AddDirection(exit_room->GetId(), exit_dir);
+=======
+				room->AddDirection(exit_dir);
+			}
+>>>>>>> origin/master
 		}
 	}
 	std::cout << "DONE" << std::endl;
