@@ -53,8 +53,12 @@ GameWorld::GameWorld(Server* par) :
 			if (exit_room)
 			{
 				room->AddExit(exit_room);
+<<<<<<< HEAD
+			room->AddDirection(exit_room->GetId(), exit_dir);
+=======
 				room->AddDirection(exit_dir);
 			}
+>>>>>>> origin/master
 		}
 	}
 	std::cout << "DONE" << std::endl;
@@ -379,13 +383,15 @@ void GameWorld::Look(int connection_id)
 	std::string exits;
 
 	exits = "Exits are:\n";
-	std::vector<std::string>* vExits = room->GetExitVector();
-	if (vExits->size() > 0) {
-		for (size_t i = 0; i < vExits->size(); ++i) {
-			exits += vExits->at(i) + "\n";
-		}
-	} else {
+	std::map<int, std::string>* vExits = room->GetExitVector();
+	std::map<int, std::string>::iterator it = vExits->begin();
+	if (it == vExits->end()) {
 		exits += "None.";
+	}
+	else {
+		for (it; it != vExits->end(); it++) {
+			exits += it->second + "\n";
+		}
 	}
 	
 	// Get players

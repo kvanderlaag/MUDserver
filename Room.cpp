@@ -89,9 +89,10 @@ void Room::RemovePlayer(int id)
  */
 GameEntity* Room::GetExit(std::string exit)
 {
-	for (size_t i = 0; i < directions_.size(); ++i) {
-		if (directions_.at(i) == exit) {
-			return exits_->GetEntityVector()->at(i);
+	std::map<int, std::string>::iterator it = directions_.begin();
+	for (it; it != directions_.end(); it++) {
+		if (it->second == exit) {
+			return exits_->GetEntity(it->first);
 		}
 	}
 	return nullptr;
@@ -147,11 +148,11 @@ std::vector<GameEntity*>* Room::GetPlayerVector()
 	return players_->GetEntityVector();
 }
 
-std::vector<std::string>* Room::GetExitVector()
+std::map<int, std::string>* Room::GetExitVector()
 {
-	return new std::vector<std::string>(directions_);
+	return new std::map<int, std::string>(directions_);
 }
 
-void Room::AddDirection(std::string dir) {
-	directions_.push_back(dir);
+void Room::AddDirection(int id, std::string dir) {
+	directions_.insert(std::pair<int, std::string>(id, dir));
 }
