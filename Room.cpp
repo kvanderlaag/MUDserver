@@ -20,7 +20,7 @@ Room::Room(int id, std::string name, std::string description) :
 	items_(new EntityList()),
 	players_(new EntityList())
 {
-	std::cout << "Created a room..." << std::endl;
+	//std::cout << "Created a room..." << std::endl;
 }
 
 /** Remove a room */
