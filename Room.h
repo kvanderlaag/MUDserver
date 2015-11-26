@@ -11,6 +11,7 @@ class Room : public GameEntity
 
 private:
 	EntityList* exits_;
+	std::vector<std::string> directions_;
 	EntityList* items_;
 	EntityList* players_;
 
@@ -22,6 +23,7 @@ public:
 	void AddItem(GameEntity* entity);
 	void AddExit(GameEntity* entity);
 	void AddPlayer(GameEntity* entity);
+	void AddDirection(std::string dir);
 
 	void RemoveItem(int id);
 	void RemoveExit(int id);
@@ -34,7 +36,7 @@ public:
 	GameEntity* FindEntity(std::string name);
 	
 	std::vector<GameEntity*>* GetPlayerVector();
-	std::vector<GameEntity*>* GetExitVector();
+	std::vector<std::string>* GetExitVector();
 };
 
 #endif // __ROOM_H__

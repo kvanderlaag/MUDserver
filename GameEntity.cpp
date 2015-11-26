@@ -30,19 +30,19 @@ GameEntity::~GameEntity()
 }
 
 /**Get the Id of an entity*/
-int GameEntity::GetId()
+int GameEntity::GetId() const
 {
     return id_;
 }
 
 /**Get the name of an entity*/
-std::string GameEntity::GetName()
+std::string GameEntity::GetName() const
 {
 	return name_;
 }
 
 /**Get the description of an entity*/
-std::string GameEntity::GetDescription()
+std::string GameEntity::GetDescription() const
 {
     return description_;
 }

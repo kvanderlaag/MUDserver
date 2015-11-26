@@ -7,6 +7,11 @@ Exit::Exit(int id, std::string name, std::string direction) : GameEntity(id, nam
 {
 }
 
+Exit::Exit(const GameEntity& other) : GameEntity(other.GetId(), other.GetName() )
+{
+	
+}
+
 
 Exit::~Exit()
 {
