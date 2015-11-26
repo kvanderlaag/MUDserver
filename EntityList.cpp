@@ -88,9 +88,6 @@ GameEntity* EntityList::FindEntity(std::string name)
 			std::transform(name.begin(), name.end(), name.begin(), ::tolower);
 			std::transform(map_value_name.begin(), map_value_name.end(), map_value_name.begin(), ::tolower);
 
-			std::cout << name << std::endl;
-			std::cout << map_value_name << std::endl;
-
 			if (map_value_name == name)
 			{
 				return iterator->second;
@@ -99,33 +96,6 @@ GameEntity* EntityList::FindEntity(std::string name)
 	}
 	return NULL;
 }
-
-/**
-* Get the entity corresponding to an String
-* Slow
-*/
-/*GameEntity* EntityList::FindEntityByName(std::string name)
-{
-	if (!map_.empty())
-	{
-		typedef std::map<int, GameEntity*>::iterator it_type;
-		for (it_type iterator = map_.begin(); iterator != map_.end(); iterator++)
-		{
-			// iterator->first = key
-			// iterator->second = value
-			GameEntity* map_value = iterator->second;
-			std::string map_value_name = map_value->GetName();
-
-			std::transform(name.begin(), name.end(), name.begin(), ::tolower);
-			std::transform(map_value_name.begin(), map_value_name.end(), map_value_name.begin(), ::tolower);
-			if (map_value_name == name)
-			{
-				return iterator->second;
-			}
-		}
-	}
-	return NULL;
-}*/
 
 /**
 * Return how many entities are in the list
