@@ -19,7 +19,7 @@ Server::Server(int port)
 	, mBuffer(new MessageBuffer())
 	, running(false)
 	, parser(new Parser())
-	, mLoginMessage("Welcome to JakeMUD!\n\nCommands:\nlogin <username> <password>\nsignup <username> <password>\n")
+	, mLoginMessage("Welcome to JakeMUD!\n\r\n\rCommands:\n\rlogin <username> <password>\n\rsignup <username> <password>\n\r")
 {
 	std::cout << "Creating new Server on port " << port << ".\n";
 	std::cout << "TCPListener creation successful." << '\n';

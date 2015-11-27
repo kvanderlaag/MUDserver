@@ -11,6 +11,9 @@ TCPStream::TCPStream(TCPListener* par, int socket)
 	, bEvent(bufferevent_socket_new((event_base*)par->GetBase(), socket, BEV_OPT_CLOSE_ON_FREE))
 {
 	evutil_make_socket_nonblocking(socketfd);
+	// Pop the telnet protocol crap from the socket.
+	// TODO: Implement the telnet crap.
+	recv(socketfd, NULL, MAX_LINE, 0);
 	std::cout << "Socket " << socketfd << " is nonblocking." << '\n';
 
 	std::cout << "Made new buffer event." << '\n';
@@ -21,6 +24,7 @@ TCPStream::TCPStream(TCPListener* par, int socket)
 	bufferevent_enable(bEvent, EV_READ | EV_WRITE);
 	std::cout << "Enabled buffer event." << '\n';
 	bufferevent_read(bEvent, NULL, -1);
+	
 }
 
 
@@ -96,7 +100,7 @@ const int TCPStream::GetSocket() {
 }
 
 const int TCPStream::Write(std::string outputMessage) {
-	outputMessage += "\n> ";
+	outputMessage += "\n\r> ";
 	//bufferevent_write(bEvent, outputMessage.c_str(), outputMessage.length() * sizeof(char));
 	send(socketfd, outputMessage.c_str(), outputMessage.length() * sizeof(char), 0);
 	std::cout << "Sending message to " << socketfd << ": " << /*outputMessage <<*/ std::endl;
