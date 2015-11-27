@@ -37,6 +37,7 @@ public:
 	
 	std::vector<GameEntity*>* GetPlayerVector();
 	std::map<int, std::string>* GetExitVector();
+	std::vector<GameEntity*>* Room::GetItemVector();
 };
 
 #endif // __ROOM_H__

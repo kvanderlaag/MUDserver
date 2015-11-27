@@ -21,7 +21,9 @@ Player::Player(int id, std::string name, std::string password) : GameEntity(id, 
 	connection_id_ = -1;
     password_ = password;
 	room_id_ = 0;
+#ifdef _DEBUG_FLAG
     std::cout << "Created a player with connection ID & password..." << std::endl;
+#endif
 }
 
 /**

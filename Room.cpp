@@ -148,6 +148,11 @@ std::vector<GameEntity*>* Room::GetPlayerVector()
 	return players_->GetEntityVector();
 }
 
+std::vector<GameEntity*>* Room::GetItemVector()
+{
+	return items_->GetEntityVector();
+}
+
 std::map<int, std::string>* Room::GetExitVector()
 {
 	return new std::map<int, std::string>(directions_);

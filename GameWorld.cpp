@@ -12,6 +12,7 @@ GameWorld::GameWorld(Server* par) :
 	parent(par),
 	players_(new EntityList()),
 	rooms_(new EntityList()),
+	items_(new EntityList()),
 	current_players_(new ConnectionList())
 {
     std::cout << "Created a world..." << std::endl;
@@ -37,13 +38,10 @@ GameWorld::GameWorld(Server* par) :
 		std::vector<std::string>* room_values = FileParser::ParseTsv(rooms->at(i));
 		std::string name = room_values->at(0);
 		std::string description = room_values->at(1);
-		// std::vector<std::string>* items = FileParser::ParseCsv(room_values->at(2));
+		
 
 		Room* room = new Room(rooms_->GetNextId(), name, description);
 		rooms_->AddEntity(room);
-		/*for (int j = 0; j != items->size(); j++) {
-			room->AddItem(items->at(j))
-		}*/
 	}
 	std::cout << "DONE" << std::endl;
 
@@ -57,6 +55,16 @@ GameWorld::GameWorld(Server* par) :
 
 		Room* room = dynamic_cast<Room*>(rooms_->FindEntity(name));
 		//room->Print();
+
+		if (room_values->size() > 4) {
+			std::vector<std::string>* items = FileParser::ParseCsv(room_values->at(4));
+			for each (std::string item_desc in *items) {
+				Item* i = new Item(items_->GetNextId(), item_desc);
+				room->AddItem(i);
+			}
+		}
+
+
 		for (int j = 0; j != exits->size(); j++) {
 			std::string exit_name = exits->at(j);
 			std::string exit_dir = directions->at(j);
@@ -414,9 +422,25 @@ void GameWorld::Look(int connection_id)
 	}
 	else {
 		for (it; it != vExits->end(); it++) {
-			exits += it->second + "\n";
+			exits += it->second + " ";
+		}
+		exits += "\n";
+	}
+
+	// Get items
+	std::string items;
+
+	items = "Items here:\n";
+	std::vector<Item*>* vItems = (std::vector<Item*>*) room->GetItemVector();
+	if (vItems->empty()) {
+		items += "None.";
+	}
+	else {
+		for each (Item* i in *vItems) {
+			items += i->GetName() + "\n";
 		}
 	}
+
 	
 	// Get players
 	std::string players;
@@ -434,7 +458,7 @@ void GameWorld::Look(int connection_id)
 	}
 
 	// create message
-	std::string output = "\n---\n" + room->GetName() + "\n---\n" + description + "\n---\n" + exits + "\n---\n" + players + "\n";
+	std::string output = "\n---\n" + room->GetName() + "\n---\n" + description + "\n---\n" + exits + "---\n" + items + "---\n" + players + "\n";
 	Message* msg = new Message(output, player->GetConnectionId(), Message::outputMessage);
 
 	// place message on message buffer

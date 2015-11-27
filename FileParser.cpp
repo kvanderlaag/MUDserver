@@ -37,7 +37,10 @@ std::vector<std::string>* FileParser::ParseCsv(std::string csv) {
 		values->push_back(token);
 	}
 
-	return values;
+	if (!values->empty())
+		return values;
+	else
+		return nullptr;
 }
 
 void FileParser::WritePlayers(std::string filename, std::vector<GameEntity*>* players) {
