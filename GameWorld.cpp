@@ -430,54 +430,55 @@ void GameWorld::Look(int connection_id)
 	std::string description = room->GetDescription();
 
 	// Get exits
-	std::string exits;
+	std::ostringstream exits;
 
-	exits = cGreen + "Exits are:\n\r" + cDefault;
+	exits << cGreen << "Exits are:\n\r" << cDefault;
 	std::map<int, std::string>* vExits = room->GetExitVector();
 	std::map<int, std::string>::iterator it = vExits->begin();
 	if (it == vExits->end()) {
-		exits += "None.";
+		exits << "None.";
 	}
 	else {
 		for (it; it != vExits->end(); it++) {
-			exits += it->second + " ";
+			exits << it->second << " ";
 		}
-		exits += "\n\r";
+		exits << "\n\r";
 	}
 
 	// Get items
-	std::string items;
+	std::ostringstream items;
 
-	items = cGreen + "Items here:\n\r" + cDefault;
+	items << cGreen << "Items here:\n\r" << cDefault;
 	std::vector<Item*>* vItems = (std::vector<Item*>*) room->GetItemVector();
 	if (vItems->empty()) {
-		items += "None.\n\r";
+		items << "None.\n\r";
 	}
 	else {
 		for each (Item* i in *vItems) {
-			items += i->GetName() + "\n\r";
+			items << i->GetName() << "\n\r";
 		}
 	}
 
 	
 	// Get players
-	std::string players;
-	players = cGreen + "The following people are here:\n\r" + cDefault;
+	std::ostringstream players;
+	players << cGreen << "The following people are here:\n\r" << cDefault;
 	std::vector<Player*>* vPlayers = (std::vector<Player*>*) room->GetPlayerVector();
 	if (vPlayers->size() > 1) {
 		for (size_t i = 0; i < vPlayers->size(); ++i) {
 			if (vPlayers->at(i)->GetName() != player->GetName()) {
-				players += vPlayers->at(i)->GetName() + "\n\r";
+				players << vPlayers->at(i)->GetName() << "\n\r";
 			}
 		}
 	}
 	else {
-		players += "None.";
+		players << "None.";
 	}
 
 	// create message
-	std::string output = "\n\r" + cBlue + "---\n\r" + cYellow + room->GetName() + cBlue + "\n\r---\n\r" + cDefault + description + cBlue + "\n\r---\n\r" + cDefault + exits + cBlue + "---\n\r" + cDefault + items + cBlue + "---\n\r" + cDefault + players + "\n\r";
-	Message* msg = new Message(output, player->GetConnectionId(), Message::outputMessage);
+	std::ostringstream output;
+	output << "\n\r" << cBlue << "---\n\r" << cYellow << room->GetName() << cBlue << "\n\r---\n\r" << cDefault << description << cBlue << "\n\r---\n\r" << cDefault << exits.str() << cBlue << "---\n\r" << cDefault << items.str() << cBlue << "---\n\r" << cDefault << players.str() << "\n\r";
+	Message* msg = new Message(output.str(), player->GetConnectionId(), Message::outputMessage);
 
 	// place message on message buffer
 	parent->PutMessage(msg);
