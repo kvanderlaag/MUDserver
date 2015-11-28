@@ -30,7 +30,9 @@ Message* Parser::Parse(const Message* mess) const
 
 		command = tokens.front();
 		tokens.erase(tokens.begin(), tokens.begin() + 1);
+#ifdef _DEBUG_FLAG
 		std::cout << "Command: " << command << std::endl;
+#endif
 
 		for (std::size_t i = 0; i < command.length(); ++i) {
 			command.at(i) = std::tolower(command.at(i));
@@ -40,7 +42,9 @@ Message* Parser::Parse(const Message* mess) const
 			for (std::size_t i = 0; i < token.length(); ++i) {
 				token.at(i) = std::tolower(token.at(i));
 			}
+#ifdef _DEBUG_FLAG
 			std::cout << token << std::endl;
+#endif
 		}
 
 

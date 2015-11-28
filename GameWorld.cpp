@@ -15,10 +15,14 @@ GameWorld::GameWorld(Server* par) :
 	items_(new EntityList()),
 	current_players_(new ConnectionList())
 {
+#ifdef _DEBUG_FLAG
     std::cout << "Created a world..." << std::endl;
+#endif
 
 	std::vector<std::string>* players = FileParser::ParseFile("players.tsv");
+#ifdef _DEBUG_FLAG
 	std::cout << "Loading players..." << std::endl;
+#endif
 	for (int i = 0; i < players->size(); ++i) {
 		std::vector<std::string>* player_values = FileParser::ParseTsv(players->at(i));
 		std::string name = player_values->at(0);
@@ -32,7 +36,9 @@ GameWorld::GameWorld(Server* par) :
 
 	std::vector<std::string>* rooms = FileParser::ParseFile("rooms.tsv");
 
+#ifdef _DEBUG_FLAG
 	std::cout << "Loading Rooms...";
+#endif
 	for (int i = 0; i != rooms->size(); i++) {
 
 		std::vector<std::string>* room_values = FileParser::ParseTsv(rooms->at(i));
@@ -43,9 +49,12 @@ GameWorld::GameWorld(Server* par) :
 		Room* room = new Room(rooms_->GetNextId(), name, description);
 		rooms_->AddEntity(room);
 	}
+#ifdef _DEBUG_FLAG
 	std::cout << "DONE" << std::endl;
 
+
 	std::cout << "Loading Exits...";
+#endif
 	for (int i = 0; i != rooms->size(); i++) {
 
 		std::vector<std::string>* room_values = FileParser::ParseTsv(rooms->at(i));
@@ -78,7 +87,9 @@ GameWorld::GameWorld(Server* par) :
 			}
 		}
 	}
+#ifdef _DEBUG_FLAG
 	std::cout << "DONE" << std::endl;
+#endif
 }
 
 
@@ -88,7 +99,9 @@ GameWorld::GameWorld(Server* par) :
 GameWorld::~GameWorld()
 {
 	FileParser::WritePlayers("players.tsv", players_->GetEntityVector());
-    std::cout << "Destroyed a world..." << std::endl;
+#ifdef _DEBUG_FLAG
+	std::cout << "Destroyed a world..." << std::endl;
+#endif
 }
 
 /**
@@ -96,7 +109,9 @@ GameWorld::~GameWorld()
 */
 void GameWorld::AddRoom(Room *room)
 {
+#ifdef _DEBUG_FLAG
 	std::cout << "Added a room" << std::endl;
+#endif
     rooms_->AddEntity(room);
 }
 
@@ -181,9 +196,10 @@ void GameWorld::ReceiveMessage(Message* message)
 	iss.get();
 	std::getline(iss, words);
 
-
+#ifdef _DEBUG_FLAG
 	std::cout << "World receiving message." << std::endl;
 	std::cout << "command: " << command << std::endl;
+#endif
 
 	if (command == "help")
 	{
@@ -223,9 +239,9 @@ void GameWorld::ReceiveMessage(Message* message)
 	}
 	else if (command == "signup")
 	{
-
+#ifdef _DEBUG_FLAG
 		std::cout << "Signing Up";
-
+#endif
 		std::stringstream wss(words);
 		std::string username;
 		std::string password;
@@ -260,7 +276,9 @@ void GameWorld::ReceiveMessage(Message* message)
 		Player* p = FindPlayer(message->GetSource());
 		if (p) {
 			if (p->GetName() == "Keegan") {
+#ifdef _DEBUG_FLAG
 				std::cout << "Do shutdown." << std::endl;
+#endif
 				parent->GetListener()->Shutdown();
 			}
 		}
@@ -283,19 +301,19 @@ void GameWorld::ReceiveMessage(Message* message)
 */
 void GameWorld::Help(int connection_id)
 {
-	std::string help = "Help is on its way!\n";
-	help += "\n";
-	help += "Commands are:\n";
-	help += "look <target>\n";
-	help += "move <exit>\n";
-	help += "say <message>\n";
-	help += "shout <message>\n";
-	help += "whisper <target> <message>\n";
-	//help += "take <target>\n";
-	help += "quit\n";
-	help += "\n";
-	help += "Enjoy the game. :D\n";
-	help += "Please, forget you saw this.\n";
+	std::string help = "Help is on its way!\n\r";
+	help += "\n\r";
+	help += "Commands are:\n\r";
+	help += "look <target>\n\r";
+	help += "move <exit>\n\r";
+	help += "say <message>\n\r";
+	help += "shout <message>\n\r";
+	help += "whisper <target> <message>\n\r";
+	//help += "take <target>\n\r";
+	help += "quit\n\r";
+	help += "\n\r";
+	help += "Enjoy the game. :D\n\r";
+	help += "Please, forget you saw this.\n\r";
 	Message* msg = new Message(help, connection_id, Message::outputMessage);
 	parent->PutMessage(msg);
 }
@@ -414,7 +432,7 @@ void GameWorld::Look(int connection_id)
 	// Get exits
 	std::string exits;
 
-	exits = "Exits are:\n";
+	exits = "Exits are:\n\r";
 	std::map<int, std::string>* vExits = room->GetExitVector();
 	std::map<int, std::string>::iterator it = vExits->begin();
 	if (it == vExits->end()) {
@@ -424,32 +442,32 @@ void GameWorld::Look(int connection_id)
 		for (it; it != vExits->end(); it++) {
 			exits += it->second + " ";
 		}
-		exits += "\n";
+		exits += "\n\r";
 	}
 
 	// Get items
 	std::string items;
 
-	items = "Items here:\n";
+	items = "Items here:\n\r";
 	std::vector<Item*>* vItems = (std::vector<Item*>*) room->GetItemVector();
 	if (vItems->empty()) {
-		items += "None.";
+		items += "None.\n\r";
 	}
 	else {
 		for each (Item* i in *vItems) {
-			items += i->GetName() + "\n";
+			items += i->GetName() + "\n\r";
 		}
 	}
 
 	
 	// Get players
 	std::string players;
-	players = "The following people are here:\n";
+	players = "The following people are here:\n\r";
 	std::vector<Player*>* vPlayers = (std::vector<Player*>*) room->GetPlayerVector();
 	if (vPlayers->size() > 1) {
 		for (size_t i = 0; i < vPlayers->size(); ++i) {
 			if (vPlayers->at(i)->GetName() != player->GetName()) {
-				players += vPlayers->at(i)->GetName() + "\n";
+				players += vPlayers->at(i)->GetName() + "\n\r";
 			}
 		}
 	}
@@ -458,7 +476,7 @@ void GameWorld::Look(int connection_id)
 	}
 
 	// create message
-	std::string output = "\n---\n" + room->GetName() + "\n---\n" + description + "\n---\n" + exits + "---\n" + items + "---\n" + players + "\n";
+	std::string output = "\n\r---\n\r" + room->GetName() + "\n\r---\n\r" + description + "\n\r---\n\r" + exits + "---\n\r" + items + "---\n\r" + players + "\n\r";
 	Message* msg = new Message(output, player->GetConnectionId(), Message::outputMessage);
 
 	// place message on message buffer
