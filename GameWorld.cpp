@@ -250,14 +250,14 @@ void GameWorld::ReceiveMessage(Message* message)
 
 		SignUp(message->GetSource(), username, password);
 	}
-	/*else if (command == "take")
+	else if (command == "take" || command == "get")
 	{
 		std::stringstream wss(words);
 		std::string entity;
 		wss >> entity;
 
-		Take(message->GetSource(), entity);
-	}*/
+		Take(message->GetSource(), words);
+	}
 	else if (command == "whisper")
 	{
 		std::stringstream wss(words);
@@ -269,8 +269,24 @@ void GameWorld::ReceiveMessage(Message* message)
 
 		Whisper(message->GetSource(), player, whisp);
 	}
+	else if (command == "n" || command == "s" || command == "e" || command == "w") {
+		if (command == "n")
+			Move(message->GetSource(), "north");
+		if (command == "s")
+			Move(message->GetSource(), "south");
+		if (command == "e")
+			Move(message->GetSource(), "east");
+		if (command == "w")
+			Move(message->GetSource(), "west");
+	}
 	else if (command == "north" || command == "south" || command == "east" || command == "west") {
 		Move(message->GetSource(), command);
+	}
+	else if (command == "inventory" || command == "i" || command == "inv") {
+		DisplayInventory(message->GetSource());
+	}
+	else if (command == "drop" || command == "d") {
+		Drop(message->GetSource(), words);
 	}
 	else if (command == "shutdown") {
 		Player* p = FindPlayer(message->GetSource());
@@ -295,26 +311,97 @@ void GameWorld::ReceiveMessage(Message* message)
 }
 
 /**
+* Player Command
+* Shows current player's inventory
+*/
+void GameWorld::DisplayInventory(int connection_id) {
+	Player* p = FindPlayer(connection_id);
+	std::vector<GameEntity*> inv = p->GetItemVector();
+	std::ostringstream displayString;
+	displayString << "\n\r" << cGreen << "Current inventory:" << "\n\r" << cDefault;
+	if (inv.empty()) {
+		displayString << "Nothing.\n\r";
+	}
+	else {
+		for each (Item* item in inv) {
+			displayString << item->GetName() << "\n\r";
+		}
+	}
+
+	Message* outMessage = new Message(displayString.str(), connection_id, Message::MessageType::outputMessage);
+	parent->PutMessage(outMessage);
+}
+
+
+/**
+* Player Command
+* Drops specified item into room, if present in inventory.
+*/
+void GameWorld::Drop(int connection_id, std::string entity) {
+	Player* p = FindPlayer(connection_id);
+	Room* r = FindPlayerRoom(p);
+	Item* i = nullptr;
+
+	std::ostringstream playerOutputString;
+	std::ostringstream roomOutputString;
+
+	std::vector<GameEntity*> inv = p->GetItemVector();
+	for each (Item* item in inv) {
+		if (item->GetName() == entity) {
+			i = item;
+			break;
+		}
+	}
+	if (!i) {
+		playerOutputString << "You don't have " << entity << " in your inventory!\n\r";
+		Message* playerMessage = new Message(playerOutputString.str(), connection_id, Message::MessageType::outputMessage);
+		parent->PutMessage(playerMessage);
+		return;
+	}
+	p->RemoveItem(i->GetId());
+	r->AddItem(i);
+	playerOutputString << "You drop " << i->GetName() << ".\n\r";
+	roomOutputString << p->GetName() << " drops " << i->GetName() << ".\n\r";
+	Message* playerMessage = new Message(playerOutputString.str(), connection_id, Message::MessageType::outputMessage);
+	parent->PutMessage(playerMessage);
+	for each (Player* p in *(r->GetPlayerVector())) {
+		if (p->GetConnectionId() != connection_id) {
+			Message* playerMessage = new Message(playerOutputString.str(), p->GetConnectionId(), Message::MessageType::outputMessage);
+			parent->PutMessage(playerMessage);
+		}
+	}
+
+
+
+}
+
+
+/**
 * Player command
 * Help command
 * Returns a list of commands for the player
 */
 void GameWorld::Help(int connection_id)
 {
-	std::string help = "Help is on its way!\n\r";
-	help += "\n\r";
-	help += "Commands are:\n\r";
-	help += "look <target>\n\r";
-	help += "move <exit>\n\r";
-	help += "say <message>\n\r";
-	help += "shout <message>\n\r";
-	help += "whisper <target> <message>\n\r";
-	//help += "take <target>\n\r";
-	help += "quit\n\r";
-	help += "\n\r";
-	help += "Enjoy the game. :D\n\r";
-	help += "Please, forget you saw this.\n\r";
-	Message* msg = new Message(help, connection_id, Message::outputMessage);
+	std::ostringstream help;
+	help << "Help is on its way!\n\r";
+	help << "\n\r";
+	help << "Commands are:\n\r";
+	help << cGreen << "look" << cDefault << " <target>\n\r";
+	help << cGreen << "move" << cDefault << " <exit>\n\r";
+	help << cGreen << "say" << cDefault << " <message>\n\r";
+	help << cGreen << "shout" << cDefault << " <message>\n\r";
+	help << cGreen << "whisper" << cDefault << " <target> <message>\n\r";
+	help << cGreen << "inventory" << cDefault << " -or- " << cGreen << "inv" << cDefault << " -or- " << cGreen << "i" << cDefault << "\n\r";
+	help << cGreen << "take" << cDefault << " <target> -or- " << cGreen << "get" << cDefault << " <target>\n\r";
+	help << cGreen << "drop" << cDefault << " <target> -or- " << cGreen << "d" << cDefault << " <target>\n\r";
+	help << cGreen << "quit\n\r" << cDefault;
+	help << "\n\r";
+	help << "Compass directions north, south, east, and west can be used as commands,\n\rand shorten to n, s, e, and w.";
+	help << "\n\r";
+	help << "Enjoy the game. :D\n\r";
+	help << "Please, forget you saw this.\n\r";
+	Message* msg = new Message(help.str(), connection_id, Message::outputMessage);
 	parent->PutMessage(msg);
 }
 
@@ -685,7 +772,7 @@ void GameWorld::Take(int connection_id, std::string entity)
 	{
 		// add item to player item list
 		player->AddItem(item);
-
+		room->RemoveItem(item->GetId());
 		Message* msg = new Message(entity + " was added to your inventory", player->GetConnectionId(), Message::outputMessage);
 		parent->PutMessage(msg);
 	}

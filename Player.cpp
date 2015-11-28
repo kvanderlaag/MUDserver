@@ -17,7 +17,9 @@ Player::Player(int id, std::string name) : GameEntity(id, name){
 /**
 * A standard constructor create an object player by permanent player ID, initial name, and password.
 */  
-Player::Player(int id, std::string name, std::string password) : GameEntity(id, name) {
+Player::Player(int id, std::string name, std::string password) : GameEntity(id, name),
+	items_(new EntityList()) 
+{
 	connection_id_ = -1;
     password_ = password;
 	room_id_ = 0;
@@ -80,14 +82,22 @@ int Player::GetRoomId(){
 * The function AddItem receives a pointer of type GameEntity and add item to the item list within player object.
 */  
 void Player::AddItem(GameEntity *item) {
-	items_->AddEntity(item);
+	items_.get()->AddEntity(item);
 }
 
 /**
 * The function RemoveItem receives the ID of an item and remove this item from the item list within player object.
 */ 
 void Player::RemoveItem(int id) {
-	items_->RemoveEntity(id);
+	items_.get()->RemoveEntity(id);
+}
+
+/**
+* The function RemoveItem receives the name of an item and remove this item from the item list within player object.
+*/
+void Player::RemoveItem(std::string name) {
+	GameEntity* item = items_.get()->FindEntity(name);
+	items_.get()->RemoveEntity(item->GetId());
 }
 
 /**
@@ -95,4 +105,12 @@ void Player::RemoveItem(int id) {
 */ 
 GameEntity* Player::GetItem(int id) {
 	return items_->GetEntity(id);
+}
+
+/**
+* The function GetItemVector returns a vector containing pointers to the items in the current player's inventory.
+*/
+std::vector<GameEntity*> Player::GetItemVector() {
+	std::vector<GameEntity*>* inventory = items_.get()->GetEntityVector();
+	return *inventory;
 }

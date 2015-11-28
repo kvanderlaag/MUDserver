@@ -61,6 +61,8 @@ public:
 	void Shout(int connection_id, std::string words);
 	void Whisper(int connection_id, std::string name, std::string words);
 	void Take(int connection_id, std::string entity);
+	void DisplayInventory(int connection_id);
+	void Drop(int connection_id, std::string entity);
 
 	void Help(int connection_id);
 

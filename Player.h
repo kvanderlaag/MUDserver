@@ -9,6 +9,8 @@
 #include "EntityList.h"
 #include <iostream>
 #include <string>
+#include <memory>
+#include <vector>
 
 /**
 * Player extents GameEntity's functionailty by adding connection ID, password, room ID, and an entity list for storing items.
@@ -28,7 +30,7 @@ private:
     std::string password_;
 
     int room_id_;
-    EntityList* items_;
+    std::unique_ptr<EntityList> items_;
 
 /**
  *Public functions have default constructor, a standard constructor, a destrutor, and a print out function.
@@ -49,7 +51,9 @@ public:
 
     void AddItem(GameEntity* entity);
 	void RemoveItem(int id);
+	void RemoveItem(std::string name);
 	GameEntity* GetItem(int id);
+	std::vector<GameEntity*> GetItemVector();
 
 	/**The function GetPassword returns the initial password of the player.*/  
     std::string GetPassword();
