@@ -7,7 +7,9 @@
 */
 ConnectionList::ConnectionList()
 {
+#ifdef _DEBUG_FLAG
 	std::cout << "Created a connection list..." << std::endl;
+#endif
 }
 
 /**
@@ -15,7 +17,9 @@ ConnectionList::ConnectionList()
 */
 ConnectionList::~ConnectionList()
 {
+#ifdef _DEBUG_FLAG
 	std::cout << "Destroyed a connection list..." << std::endl;
+#endif
 }
 
 /**
@@ -26,7 +30,9 @@ void ConnectionList::AddConnection(int connection_id, int player_id)
 
 	if (map_.find(connection_id) != map_.end())
 	{
+#ifdef _DEBUG_FLAG
 		std::cout << "Duplicate id in connection list!!!" << std::endl;
+#endif
 	}
 
 	map_.insert(std::pair<int, int>(connection_id, player_id));
@@ -54,8 +60,10 @@ void ConnectionList::RemoveConnection(int connection_id)
 	{
 		if (map_.find(connection_id) != map_.end())
 			map_.erase(connection_id);
+#ifdef _DEBUG_FLAG
 		else
 			std::cout << "Could not find the Connection to remove!!! ";
+#endif
 	}
 }
 

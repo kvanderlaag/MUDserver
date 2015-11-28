@@ -21,8 +21,10 @@ Server::Server(int port)
 	, parser(new Parser())
 	, mLoginMessage("Welcome to JakeMUD!\n\r\n\rCommands:\n\rlogin <username> <password>\n\rsignup <username> <password>\n\r")
 {
-	std::cout << "Creating new Server on port " << port << ".\n";
-	std::cout << "TCPListener creation successful." << '\n';
+	std::cout << "Creating new Server on port " << port << ".\n\r";
+#ifdef _DEBUG_FLAG
+	std::cout << "TCPListener creation successful." << "\n\r";
+#endif
 }
 
 /**
@@ -68,7 +70,9 @@ TCPListener* Server::GetListener() {
 int Server::AddConnection(TCPStream* stream)
 {
 	connections.insert(std::pair<int, TCPStream*>(stream->GetSocket(), stream));
+#ifdef _DEBUG_FLAG
 	std::cout << "Added socket " << stream->GetSocket() << " to the connection list." << '\n';
+#endif
 	SendLoginMessage(stream);
 	return 0;
 }
@@ -127,11 +131,15 @@ void Server::HandleMessageQueue()
 		if (!mBuffer->IsEmpty())
 		{
 			Message* mess = (Message*) mBuffer->DequeueMessage();
-			std::cout << "Message type: " << mess->GetType() << ", Message: " << mess->Read() << " - Connection ID: " << mess->GetSource() << '\n';
+#ifdef _DEBUG_FLAG
+			std::cout << "Message type: " << mess->GetType() << /*", Message: " << mess->Read() <<*/ " - Connection ID: " << mess->GetSource() << '\n';
+#endif
 			if (mess->GetType() == Message::MessageType::inputMessage) 
 				mBuffer->PutMessage(parser->Parse(mess));
 			else if (mess->GetType() == Message::MessageType::outputMessage) {
+#ifdef _DEBUG_FLAG
 				std::cout << "Writing message out to " << mess->GetSource() << std::endl;
+#endif
 				std::map<int, TCPStream*>::iterator it;
 				it = connections.find(mess->GetSource());
 				if (it != connections.end()) {
@@ -144,7 +152,9 @@ void Server::HandleMessageQueue()
 
 		}
 	}
+#ifdef _DEBUG_FLAG
 	std::cout << "Message Queue handler terminated." << '\n';
+#endif
 }
 
 /**
@@ -162,7 +172,9 @@ Message* Server::ParseMessage(const Message& mess) {
 */
 void Server::ErrorHandler(const std::string arg)
 {
+#ifdef _DEBUG_FLAG
 	std::cout << arg << '\n';
+#endif
 }
 
 /**

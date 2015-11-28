@@ -68,5 +68,7 @@ void GameEntity::SetDescription(std::string description)
 /**Print the ID, name, and description of an entity*/
 void GameEntity::Print()
 {
+#ifdef _DEBUG_FLAG
     std::cout << id_ << " " << name_ << " " << description_ << std::endl;
+#endif
 }
