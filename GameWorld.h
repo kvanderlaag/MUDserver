@@ -16,6 +16,12 @@
 * Header file for game world
 */
 
+const std::string cDefault = "\x1b[0m";
+const std::string cBlue = "\x1b[34;1m";
+const std::string cRed = "\x1b[31;1m";
+const std::string cGreen = "\x1b[32;1m";
+const std::string cYellow = "\x1b[33;1m";
+
 class Server;
 
 class GameWorld

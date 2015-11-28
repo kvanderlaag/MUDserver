@@ -432,7 +432,7 @@ void GameWorld::Look(int connection_id)
 	// Get exits
 	std::string exits;
 
-	exits = "Exits are:\n\r";
+	exits = cGreen + "Exits are:\n\r" + cDefault;
 	std::map<int, std::string>* vExits = room->GetExitVector();
 	std::map<int, std::string>::iterator it = vExits->begin();
 	if (it == vExits->end()) {
@@ -448,7 +448,7 @@ void GameWorld::Look(int connection_id)
 	// Get items
 	std::string items;
 
-	items = "Items here:\n\r";
+	items = cGreen + "Items here:\n\r" + cDefault;
 	std::vector<Item*>* vItems = (std::vector<Item*>*) room->GetItemVector();
 	if (vItems->empty()) {
 		items += "None.\n\r";
@@ -462,7 +462,7 @@ void GameWorld::Look(int connection_id)
 	
 	// Get players
 	std::string players;
-	players = "The following people are here:\n\r";
+	players = cGreen + "The following people are here:\n\r" + cDefault;
 	std::vector<Player*>* vPlayers = (std::vector<Player*>*) room->GetPlayerVector();
 	if (vPlayers->size() > 1) {
 		for (size_t i = 0; i < vPlayers->size(); ++i) {
@@ -476,7 +476,7 @@ void GameWorld::Look(int connection_id)
 	}
 
 	// create message
-	std::string output = "\n\r---\n\r" + room->GetName() + "\n\r---\n\r" + description + "\n\r---\n\r" + exits + "---\n\r" + items + "---\n\r" + players + "\n\r";
+	std::string output = "\n\r" + cBlue + "---\n\r" + cYellow + room->GetName() + cBlue + "\n\r---\n\r" + cDefault + description + cBlue + "\n\r---\n\r" + cDefault + exits + cBlue + "---\n\r" + cDefault + items + cBlue + "---\n\r" + cDefault + players + "\n\r";
 	Message* msg = new Message(output, player->GetConnectionId(), Message::outputMessage);
 
 	// place message on message buffer
