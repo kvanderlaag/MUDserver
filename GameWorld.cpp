@@ -23,7 +23,7 @@ GameWorld::GameWorld(Server* par) :
 #ifdef _DEBUG_FLAG
 	std::cout << "Loading players..." << std::endl;
 #endif
-	for (int i = 0; i < players->size(); ++i) {
+	for (size_t i = 0; i < players->size(); ++i) {
 		std::vector<std::string>* player_values = FileParser::ParseTsv(players->at(i));
 		std::string name = player_values->at(0);
 		std::string password = player_values->at(1);

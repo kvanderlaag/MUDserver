@@ -15,6 +15,8 @@
 #include <cstdio>
 #include <iostream>
 
+#define _DEBUG_FLAG
+
 using namespace std;
 
 #ifdef _WIN32

@@ -9,15 +9,13 @@ TCPStream::TCPStream(TCPListener* par, int socket)
 	: parent(par)
 	, socketfd(socket)
 	, bEvent(bufferevent_socket_new((event_base*)par->GetBase(), socket, BEV_OPT_CLOSE_ON_FREE))
+	, mIdentified(false)
 {
 	evutil_make_socket_nonblocking(socketfd);
-<<<<<<< HEAD
 	// Pop the telnet protocol crap from the socket.
 	// TODO: Implement the telnet crap.
-	recv(socketfd, NULL, MAX_LINE, 0);
-=======
+	// recv(socketfd, NULL, MAX_LINE, 0);
 #ifdef _DEBUG_FLAG
->>>>>>> origin/master
 	std::cout << "Socket " << socketfd << " is nonblocking." << '\n';
 
 	std::cout << "Made new buffer event." << '\n';
@@ -78,6 +76,18 @@ void TCPStream::read_cb(struct bufferevent *bev) {
 
 
 		if (buffer.compare("") != 0) {
+			// If the client has not yet been identified, strip non-alphanumeric characters from the buffer.
+			if (!mIdentified) {
+				std::string copy = buffer;
+				buffer = "";
+				for (std::string::iterator it = copy.begin(); it != copy.end(); it++) {
+					if ((*it >= 'a' && *it <= 'z') || (*it >= '1' && *it >= '0') || (*it >= 'A' && *it <= 'Z') || (*it == ' ') || (*it == '_')) {
+						buffer += *it;
+					}
+				}
+				// Mark the client as identified.
+				mIdentified = true;
+			}
 #ifdef _DEBUG_FLAG
 			std::cout << "Socket " << socketfd << ": " << buffer << '\n';
 #endif
