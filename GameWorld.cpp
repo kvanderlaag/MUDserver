@@ -215,6 +215,9 @@ void GameWorld::ReceiveMessage(Message* message)
 
 			Whisper(message->GetSource(), player, whisp);
 		}
+		else if (command == "who") {
+			Who(message->GetSource());
+		}
 		else if (command == "n" || command == "s" || command == "e" || command == "w") {
 			if (command == "n")
 				Move(message->GetSource(), "north");
@@ -339,6 +342,7 @@ void GameWorld::Help(int connection_id)
 	help << cGreen << "inventory" << cDefault << " -or- " << cGreen << "inv" << cDefault << " -or- " << cGreen << "i" << cDefault << "\n";
 	help << cGreen << "take" << cDefault << " <target> -or- " << cGreen << "get" << cDefault << " <target>\n";
 	help << cGreen << "drop" << cDefault << " <target> -or- " << cGreen << "d" << cDefault << " <target>\n";
+	help << cGreen << "who" << cDefault << "\n";
 	help << cGreen << "quit\n" << cDefault;
 	help << "\n";
 	help << "Compass directions north, south, east, and west can be used as commands,\nand shorten to n, s, e, and w.";
@@ -358,14 +362,6 @@ void GameWorld::Help(int connection_id)
 */
 void GameWorld::LogIn(int connection_id, std::string login_name, std::string password)
 {
-	// player is already logged in
-	if (current_players_->GetPlayerId(connection_id) != -1)
-	{
-		// message player
-		Message* msg = new Message("You're already logged in...", connection_id, Message::outputMessage);
-		parent->PutMessage(msg);
-		return;
-	}
 
 	GameEntity* pentity = players_->FindEntity(login_name);
 	if (pentity == NULL)
@@ -406,7 +402,9 @@ void GameWorld::LogIn(int connection_id, std::string login_name, std::string pas
 	for (std::size_t i = 0; i < room_players->size(); i++)
 	{
 		Player* room_player = dynamic_cast<Player*>(room_players->at(i));
-		Message* msg = new Message(player->GetName() + " phased into reality.", room_player->GetConnectionId(), Message::outputMessage);
+		std::ostringstream outString;
+		outString << cGreen << player->GetName() << cDefault << " phased into reality.";
+		Message* msg = new Message(outString.str(), room_player->GetConnectionId(), Message::outputMessage);
 		parent->PutMessage(msg);
 	}
 
@@ -436,7 +434,9 @@ void GameWorld::LogOut(int connection_id)
 		for (std::size_t i = 0; i < room_players->size(); i++)
 		{
 			Player* room_player = dynamic_cast<Player*>(room_players->at(i));
-			Message* msg = new Message(player->GetName() + " returned to a dream.", room_player->GetConnectionId(), Message::outputMessage);
+			std::ostringstream outString;
+			outString << cGreen << player->GetName() << cDefault << " returned to a dream.";
+			Message* msg = new Message(outString.str(), room_player->GetConnectionId(), Message::outputMessage);
 			parent->PutMessage(msg);
 		}
 
@@ -701,22 +701,16 @@ void GameWorld::Shout(int connection_id, std::string words)
 */
 void GameWorld::SignUp(int connection_id, std::string login_name, std::string password)
 {
-	// player is already logged in
-	if (current_players_->GetPlayerId(connection_id) != -1)
-	{
-		// message player
-		Message* msg = new Message("You're already logged in...", connection_id, Message::outputMessage);
-		parent->PutMessage(msg);
-		return;
-	}
 	// find player
-	else if (players_->FindEntity(login_name))
+	if (players_->FindEntity(login_name))
 	{
 		// message player
-		Message* msg = new Message("That person already exists...", connection_id, Message::outputMessage);
+		std::ostringstream outString;
+		outString << "Character \"" << cGreen << login_name << cDefault << "\" already exists!";
+		Message* msg = new Message(outString.str(), connection_id, Message::outputMessage);
 		parent->PutMessage(msg);
 	}
-	else
+	else if (!login_name.empty() && !password.empty())
 	{
 		// construct player
 		Player* player = new Player(players_->GetNextId(), login_name, password);
@@ -725,9 +719,35 @@ void GameWorld::SignUp(int connection_id, std::string login_name, std::string pa
 		players_->AddEntity(player);
 
 		// message player
-		Message* msg = new Message("You created new life. Please login...", connection_id, Message::outputMessage);
+		std::ostringstream outString;
+		outString << "Created character \"" << cGreen << login_name << cDefault << ".\" You may now log in.";
+		Message* msg = new Message(outString.str(), connection_id, Message::outputMessage);
 		parent->PutMessage(msg);
 	}
+	else {
+		std::ostringstream outString;
+		outString << "Invalid username or password.";
+		Message* msg = new Message(outString.str(), connection_id, Message::outputMessage);
+		parent->PutMessage(msg);
+	}
+}
+
+/**
+* Player command
+* Shows currently logged in users.
+*/
+void GameWorld::Who(int connection_id) {
+	std::ostringstream outString;
+	outString << "\n" << cBlue << "---\n" << cGreen << "Players currently logged in:\n" << cBlue << "---" << cDefault;
+	std::vector<int>* players = current_players_->GetIdVector();
+	for each (int id in *players) {
+		Player* p = (Player*) GetPlayer(id);
+		outString << "\n" << p->GetName();
+	}
+	outString << cBlue << "\n---" << cDefault << "\n";
+
+	Message* msg = new Message(outString.str(), connection_id, Message::outputMessage);
+	parent->PutMessage(msg);
 }
 
 /**

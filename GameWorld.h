@@ -68,6 +68,7 @@ public:
 	void Take(int connection_id, std::string entity);
 	void DisplayInventory(int connection_id);
 	void Drop(int connection_id, std::string entity);
+	void Who(int connection_id);
 
 	void LoadPlayers(std::string filename);
 	void LoadItems(std::string filename);
