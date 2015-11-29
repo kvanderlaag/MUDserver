@@ -40,6 +40,7 @@ TCPStream::TCPStream(TCPListener* par, int socket)
 TCPStream::~TCPStream()
 {
 	bufferevent_free(bEvent);
+	closesocket(socketfd);
 #ifdef _DEBUG_FLAG
 	std::cout << "Closing socket " << socketfd << '\n';
 	std::cout << "Removed socket " << socketfd << " from connection list." << '\n';
@@ -94,10 +95,12 @@ void TCPStream::read_cb(struct bufferevent *bev) {
 			if (buffer.compare("quit") == 0) {
 				error_cb(bev, BEV_EVENT_EOF);
 			}
+			/*
 			else if (buffer.compare("shutdown") == 0) {
 				buffer.clear();
 				parent->Shutdown();
 			}
+			*/
 			else {
 				// Send the message to the buffer.
 				Message* mess = new Message(buffer, socketfd, Message::inputMessage);

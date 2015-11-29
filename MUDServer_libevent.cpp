@@ -14,6 +14,7 @@
 
 #include <cstdio>
 #include <iostream>
+#include <memory>
 
 using namespace std;
 
@@ -55,10 +56,10 @@ int main()
 	}
 #endif
 
-	Server* gameServer = new Server();
-	gameServer->Start();
+	std::unique_ptr<Server> gameServer = std::unique_ptr<Server>(new Server());
+	gameServer.get()->Start();
 
-	delete gameServer;
+	gameServer.release();
 	cout << "Server terminated. Any key to exit.";
 	fgetc(stdin);
 

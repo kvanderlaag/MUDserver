@@ -145,6 +145,11 @@ void TCPListener::ListenerClose() {
 	return;
 }
 
+void TCPListener::ShutdownListener() {
+	event_base_loopexit(base, NULL);
+	ListenerClose();
+}
+
 /** GetParent. Returns the parent server object of the listener. */
 Server& TCPListener::GetParent() {
 	return *parent;

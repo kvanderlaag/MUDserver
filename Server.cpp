@@ -34,14 +34,6 @@ Server::Server(int port)
 */
 Server::~Server()
 {
-	if (listener)
-	{
-		delete listener;
-	}
-	if (mBuffer)
-	{
-		delete mBuffer;
-	}
 }
 
 /**
@@ -53,15 +45,15 @@ void Server::Start()
 {
 	running = true;
 
-	listenerThread = new std::thread(&CreateListenerThread, listener);
-	messageQueueThread = new std::thread(&CreateMessageQueueThread, this);
+	listenerThread = std::unique_ptr<std::thread>(new std::thread(&CreateListenerThread, listener.get()));
+	messageQueueThread = std::unique_ptr<std::thread>(new std::thread(&CreateMessageQueueThread, this));
 
-	listenerThread->join();
-	messageQueueThread->join();
+	listenerThread.get()->join();
+	messageQueueThread.get()->join();
 }
 
 TCPListener* Server::GetListener() {
-	return listener;
+	return listener.get();
 }
 
 /**
@@ -104,12 +96,9 @@ void Server::Shutdown()
 	{
 		RemoveConnection(connections.begin()->second);
 	}
-	delete listener;
-	listener = nullptr;
-	delete world;
-	world = nullptr;
-	
-	
+	listener.get()->ShutdownListener();
+	listener.release();
+	world.release();
 }
 
 /**
@@ -152,9 +141,7 @@ void Server::HandleMessageQueue()
 
 		}
 	}
-#ifdef _DEBUG_FLAG
 	std::cout << "Message Queue handler terminated." << '\n';
-#endif
 }
 
 /**

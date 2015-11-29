@@ -40,18 +40,18 @@ public:
 private:
 	bool running;
 
-	Parser* parser;
-	Message* ParseMessage(const Message&);
+	std::unique_ptr<Parser> parser;
 
-	GameWorld* world;
-	TCPListener* listener;
+	std::unique_ptr<GameWorld> world;
+	std::unique_ptr<TCPListener> listener;
 	std::map<int, TCPStream*> connections;
-	MessageBuffer* mBuffer;
-
-	void SendLoginMessage(TCPStream* stream);
+	std::unique_ptr<MessageBuffer> mBuffer;
 
 	std::string mLoginMessage;
 
-	std::thread* listenerThread;
-	std::thread* messageQueueThread;
+	std::unique_ptr<std::thread> listenerThread;
+	std::unique_ptr<std::thread> messageQueueThread;
+
+	Message* ParseMessage(const Message&);
+	void SendLoginMessage(TCPStream* stream);
 };
