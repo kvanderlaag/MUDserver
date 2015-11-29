@@ -7,6 +7,7 @@
 #include "GameEntity.h"
 #include "Item.h"
 #include "Player.h"
+#include <cctype>
 
 class Room : public GameEntity
 {

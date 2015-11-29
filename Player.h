@@ -12,6 +12,7 @@
 #include <string>
 #include <memory>
 #include <vector>
+#include <cctype>
 
 /**
 * Player extents GameEntity's functionailty by adding connection ID, password, room ID, and an entity list for storing items.

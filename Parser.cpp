@@ -38,13 +38,15 @@ Message* Parser::Parse(const Message* mess) const
 			command.at(i) = std::tolower(command.at(i));
 		}
 
-		for (std::size_t j = 0; j < tokens.size(); ++j) {
-			for (std::size_t i = 0; i < tokens.at(j).length(); ++i) {
-				tokens.at(j).at(i) = std::tolower(tokens.at(j).at(i));
-			}
+		if (command != "say" && command != "shout" && command != "whisper") {
+			for (std::size_t j = 0; j < tokens.size(); ++j) {
+				for (std::size_t i = 0; i < tokens.at(j).length(); ++i) {
+					tokens.at(j).at(i) = std::tolower(tokens.at(j).at(i));
+				}
 #ifdef _DEBUG_FLAG
-			std::cout << token << std::endl;
+				std::cout << token << std::endl;
 #endif
+				}
 		}
 
 

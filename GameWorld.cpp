@@ -295,13 +295,7 @@ void GameWorld::Drop(int connection_id, std::string entity) {
 	std::ostringstream playerOutputString;
 	std::ostringstream roomOutputString;
 
-	std::vector<GameEntity*> inv = p->GetItemVector();
-	for each (Item* item in inv) {
-		if (item->GetName() == entity || item->FindShortName(entity)) {
-			i = item;
-			break;
-		}
-	}
+	i = (Item*) p->FindItem(entity);
 	if (!i) {
 		playerOutputString << "You don't have " << cGreen << entity << cDefault << " in your inventory!\n";
 		Message* playerMessage = new Message(playerOutputString.str(), connection_id, Message::MessageType::outputMessage);
@@ -672,7 +666,9 @@ void GameWorld::Say(int connection_id, std::string words)
 	for (std::size_t i = 0; i < room_players->size(); i++)
 	{
 		Player* room_player = dynamic_cast<Player*>(room_players->at(i));
-		Message* msg = new Message(player->GetName() + " said \"" + words + "\"", room_player->GetConnectionId(), Message::outputMessage);
+		std::ostringstream outString;
+		outString << cGreen << player->GetName() << cDefault << " says \"" << words << "\"";
+		Message* msg = new Message(outString.str(), room_player->GetConnectionId(), Message::outputMessage);
 		parent->PutMessage(msg);
 	}
 }
@@ -748,30 +744,7 @@ void GameWorld::Take(int connection_id, std::string entity)
 	Room* room = FindPlayerRoom(player);
 
 	// find item
-	std::vector<GameEntity*>* roomItems = room->GetItemVector();
-	Item* item = nullptr;
-	for each (Item* i in *roomItems) {
-		if (i->GetName() == entity) {
-			item = i;
-			break;
-		}
-		else {
-			if (i->FindShortName(entity)) {
-				item = i;
-				break;
-			}
-			/*
-			std::vector<std::string> shortNames = i->GetShortNameVector();
-			for each (std::string shortName in shortNames) {
-				std::cout << shortName << std::endl;
-				if (shortName == entity) {
-					item = i;
-					break;
-				}
-			}
-			*/
-		}
-	}
+	Item* item = (Item*) room->FindItem(entity);
 
 	if (item)
 	{
@@ -796,7 +769,7 @@ void GameWorld::Take(int connection_id, std::string entity)
 	{
 		// no item message
 		std::ostringstream outString;
-		outString << "There is no " << cGreen << item->GetName() << cDefault << " here.\n";
+		outString << "There is no " << cGreen << entity << cDefault << " here.\n";
 		Message* msg = new Message(outString.str(), player->GetConnectionId(), Message::outputMessage);
 		parent->PutMessage(msg);
 	}
@@ -942,7 +915,7 @@ void GameWorld::LoadItems(std::string filename) {
 		if (shortnames) {
 			for each (std::string shortName in *shortnames) {
 				if (!shortName.empty()) {
-					std::cout << shortName << std::endl;
+					//std::cout << shortName << std::endl;
 					item->AddShortName(shortName);
 				}
 			}

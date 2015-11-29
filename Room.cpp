@@ -136,7 +136,11 @@ GameEntity* Room::FindExit(std::string name) const {
 GameEntity* Room::FindItem(std::string name) const {
 	std::vector<GameEntity*>* items = items_->GetEntityVector();
 	for each (Item* i in *items) {
-		if (i->GetName() == name || i->FindShortName(name)) {
+		std::string lowername = i->GetName();
+		for (int j = 0; j < lowername.length(); ++j) {
+			lowername.at(j) = std::tolower(lowername.at(j));
+		}
+		if (lowername == name || i->FindShortName(name)) {
 			return i;
 		}
 	}

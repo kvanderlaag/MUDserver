@@ -134,6 +134,8 @@ const int TCPStream::Write(std::string outputMessage) {
 	std::string outString;
 	std::string::iterator it = outputMessage.begin();
 	int posCounter = 0;
+
+	outString += "\n\r";
 	
 	for (it; it != outputMessage.end(); it++) {
 		switch (*it) {

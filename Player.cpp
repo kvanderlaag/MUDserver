@@ -118,7 +118,11 @@ std::vector<GameEntity*> Player::GetItemVector() {
 GameEntity* Player::FindItem(std::string name) const {
 	std::vector<GameEntity*>* inventory = items_.get()->GetEntityVector();
 	for each (Item* i in *inventory) {
-		if (i->GetName() == name || i->FindShortName(name)) {
+		std::string lowername = i->GetName();
+		for (size_t j = 0; j < lowername.length(); ++j) {
+			lowername.at(j) = std::tolower(lowername.at(j));
+		}
+		if (lowername == name || i->FindShortName(name)) {
 			return i;
 		}
 	}
