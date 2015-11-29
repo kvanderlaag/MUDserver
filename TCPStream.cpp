@@ -136,38 +136,12 @@ const int TCPStream::Write(std::string outputMessage) {
 	int posCounter = 0;
 	
 	for (it; it != outputMessage.end(); it++) {
-		if (*it == '\n') {
-				outString += "\n\r";
-				posCounter = 0;
-		/*} else if (*it == '\x1b') {
-			std::string temp;
-			for (it; it != outputMessage.end() && *it != 'm'; it++) {
-				temp += *it;
-			}
-			temp += 'm';
-			outString += temp;
-		}
-		else if (*it >= ' ' && *it <= '~') {
-			if (posCounter == 79) {
-				posCounter = 0;
-				if (*it == ' ') {
-					outString += " ";
-				}
-				else if (*it == '-') {
-					outString += "-";
-				}
-				else if (*it == ',' || *it == '.') {
-					outString += *it;
-				}
-				else {
-					outString += "-" + *it;
-				}
-			}
-			else {
-				outString += *it;
-				posCounter++;
-			}*/
-		} else {
+		switch (*it) {
+		case '\n':
+			outString += "\n\r";
+			posCounter = 0;
+			break;
+		default:
 			outString += *it;
 		}
 

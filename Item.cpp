@@ -17,6 +17,36 @@ Item::Item(int id, std::string name, std::string description) : GameEntity(id, n
 #endif
 }
 
+/**Create an item with an ID and another item to copy from */
+Item::Item(int newId, const Item& other) : GameEntity(newId, other.GetName(), other.GetDescription()),
+	mShortNames(other.GetShortNameVector())
+{
+}
+
+void Item::AddShortName(std::string name) {
+	if (!name.empty()) {
+		for each (std::string shortname in mShortNames) {
+			if (shortname == name)
+				return;
+		}
+		mShortNames.push_back(name);
+	}
+}
+
+std::vector<std::string> Item::GetShortNameVector() const {
+	return mShortNames;
+}
+
+bool Item::FindShortName(std::string shortName) const {
+	if (!shortName.empty()) {
+		for each (std::string s in mShortNames) {
+			if (s == shortName)
+				return true;
+		}
+	}
+	return false;
+}
+
 /**A destructor that destorys an item*/
 Item::~Item()
 {

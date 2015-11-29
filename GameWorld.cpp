@@ -13,83 +13,17 @@ GameWorld::GameWorld(Server* par) :
 	players_(new EntityList()),
 	rooms_(new EntityList()),
 	items_(new EntityList()),
-	current_players_(new ConnectionList())
+	current_players_(new ConnectionList()),
+	master_items_(new EntityList())
 {
 #ifdef _DEBUG_FLAG
     std::cout << "Created a world..." << std::endl;
 #endif
 
-	std::vector<std::string>* players = FileParser::ParseFile("players.tsv");
-#ifdef _DEBUG_FLAG
-	std::cout << "Loading players..." << std::endl;
-#endif
-	for (size_t i = 0; i < players->size(); ++i) {
-		std::vector<std::string>* player_values = FileParser::ParseTsv(players->at(i));
-		std::string name = player_values->at(0);
-		std::string password = player_values->at(1);
-		
-		Player* player = new Player(players_->GetNextId(), name, password);
+	LoadPlayers("players.tsv");
+	LoadItems("items.tsv");
+	LoadRooms("rooms.tsv");
 
-		// add to player list
-		players_->AddEntity(player);
-	}
-
-	std::vector<std::string>* rooms = FileParser::ParseFile("rooms.tsv");
-
-#ifdef _DEBUG_FLAG
-	std::cout << "Loading Rooms...";
-#endif
-	for (int i = 0; i != rooms->size(); i++) {
-
-		std::vector<std::string>* room_values = FileParser::ParseTsv(rooms->at(i));
-		std::string name = room_values->at(0);
-		std::string description = room_values->at(1);
-		
-
-		Room* room = new Room(rooms_->GetNextId(), name, description);
-		rooms_->AddEntity(room);
-	}
-#ifdef _DEBUG_FLAG
-	std::cout << "DONE" << std::endl;
-
-
-	std::cout << "Loading Exits...";
-#endif
-	for (int i = 0; i != rooms->size(); i++) {
-
-		std::vector<std::string>* room_values = FileParser::ParseTsv(rooms->at(i));
-		std::string name = room_values->at(0);
-		std::vector<std::string>* exits = FileParser::ParseCsv(room_values->at(2));
-		std::vector<std::string>* directions = FileParser::ParseCsv(room_values->at(3));
-
-		Room* room = dynamic_cast<Room*>(rooms_->FindEntity(name));
-		//room->Print();
-
-		if (room_values->size() > 4) {
-			std::vector<std::string>* items = FileParser::ParseCsv(room_values->at(4));
-			for each (std::string item_desc in *items) {
-				Item* i = new Item(items_->GetNextId(), item_desc);
-				room->AddItem(i);
-			}
-		}
-
-
-		for (int j = 0; j != exits->size(); j++) {
-			std::string exit_name = exits->at(j);
-			std::string exit_dir = directions->at(j);
-
-			Room* exit_room = dynamic_cast<Room*>(rooms_->FindEntity(exit_name));
-
-			if (exit_room)
-			{
-				room->AddExit(exit_room);
-				room->AddDirection(exit_room->GetId(), exit_dir);
-			}
-		}
-	}
-#ifdef _DEBUG_FLAG
-	std::cout << "DONE" << std::endl;
-#endif
 }
 
 
@@ -763,17 +697,31 @@ void GameWorld::Take(int connection_id, std::string entity)
 	Room* room = FindPlayerRoom(player);
 
 	// find item
-	GameEntity* ientity = room->FindEntity(entity);
+	std::vector<GameEntity*>* roomItems = room->GetItemVector();
+	Item* item = nullptr;
+	for each (Item* i in *roomItems) {
+		if (i->GetName() == entity) {
+			item = i;
+			break;
+		}
+		else {
+			std::vector<std::string> shortNames = i->GetShortNameVector();
+			for each (std::string shortName in shortNames) {
+				std::cout << shortName << std::endl;
+				if (shortName == entity) {
+					item = i;
+					break;
+				}
+			}
+		}
+	}
 
-	// try to cast to item type
-	Item* item = dynamic_cast<Item*>(ientity);
-
-	if (item != NULL)
+	if (item)
 	{
 		// add item to player item list
 		player->AddItem(item);
 		room->RemoveItem(item->GetId());
-		Message* msg = new Message(entity + " was added to your inventory", player->GetConnectionId(), Message::outputMessage);
+		Message* msg = new Message(item->GetName() + " was added to your inventory", player->GetConnectionId(), Message::outputMessage);
 		parent->PutMessage(msg);
 	}
 	else
@@ -822,4 +770,119 @@ void GameWorld::Whisper(int connection_id, std::string player_name, std::string 
 		// place message on message buffer
 		parent->PutMessage(player_msg);
 	}
+}
+
+void GameWorld::LoadPlayers(std::string filename) {
+	std::vector<std::string>* players = FileParser::ParseFile("players.tsv");
+#ifdef _DEBUG_FLAG
+	std::cout << "Loading players..." << std::endl;
+#endif
+	for (size_t i = 0; i < players->size(); ++i) {
+		std::vector<std::string>* player_values = FileParser::ParseTsv(players->at(i));
+		std::string name = player_values->at(0);
+		std::string password = player_values->at(1);
+
+		Player* player = new Player(players_->GetNextId(), name, password);
+
+		// add to player list
+		players_->AddEntity(player);
+	}
+}
+
+void GameWorld::LoadRooms(std::string filename) {
+	std::vector<std::string>* rooms = FileParser::ParseFile("rooms.tsv");
+
+#ifdef _DEBUG_FLAG
+	std::cout << "Loading Rooms...";
+#endif
+	for (int i = 0; i != rooms->size(); i++) {
+
+		std::vector<std::string>* room_values = FileParser::ParseTsv(rooms->at(i));
+		std::string name = room_values->at(0);
+		std::string description = room_values->at(1);
+		Room* room = new Room(rooms_->GetNextId(), name, description);
+
+		if (room_values->size() > 4) {
+			std::vector<std::string>* items = FileParser::ParseCsv(room_values->at(4));
+			for each (std::string item_id in *items) {
+				std::stringstream buffer(item_id);
+				int intId;
+				if (buffer >> intId) {
+					if (master_items_->GetEntity(intId)) {
+						Item* item = new Item(items_->GetNextId(), (Item&) *(master_items_->GetEntity(intId)));
+						room->AddItem(item);
+					}
+				}
+				
+			}
+		}
+
+		rooms_->AddEntity(room);
+	}
+#ifdef _DEBUG_FLAG
+	std::cout << "Loading Exits...";
+#endif
+	for (int i = 0; i != rooms->size(); i++) {
+
+		std::vector<std::string>* room_values = FileParser::ParseTsv(rooms->at(i));
+		std::string name = room_values->at(0);
+		std::vector<std::string>* exits = FileParser::ParseCsv(room_values->at(2));
+		std::vector<std::string>* directions = FileParser::ParseCsv(room_values->at(3));
+
+		Room* room = dynamic_cast<Room*>(rooms_->FindEntity(name));
+		//room->Print();
+
+
+		for (int j = 0; j != exits->size(); j++) {
+			std::string exit_name = exits->at(j);
+			std::string exit_dir = directions->at(j);
+
+			Room* exit_room = dynamic_cast<Room*>(rooms_->FindEntity(exit_name));
+
+			if (exit_room)
+			{
+				room->AddExit(exit_room);
+				room->AddDirection(exit_room->GetId(), exit_dir);
+			}
+		}
+	}
+#ifdef _DEBUG_FLAG
+	std::cout << "DONE" << std::endl;
+#endif
+#ifdef _DEBUG_FLAG
+	std::cout << "DONE" << std::endl;
+#endif
+}
+
+void GameWorld::LoadItems(std::string filename) {
+	std::vector<std::string>* items = FileParser::ParseFile("items.tsv");
+
+	for (size_t i = 0; i < items->size(); ++i) {
+		std::vector<std::string>* item_values = FileParser::ParseTsv(items->at(i));
+		std::stringstream buffer(item_values->at(0));
+		int id;
+		if (!(buffer >> id)) {
+			id = -1;
+		}
+		std::string name = item_values->at(1);
+
+		Item* item = new Item(id, name);
+
+		std::vector<std::string>* shortnames = FileParser::ParseCsv(item_values->at(2));
+		if (shortnames) {
+			for each (std::string shortName in *shortnames) {
+				if (!shortName.empty()) {
+					std::cout << shortName << std::endl;
+					item->AddShortName(shortName);
+				}
+			}
+		}
+		std::string desc = item_values->at(3);
+		if (!desc.empty()) {
+			item->SetDescription(desc);
+		}
+
+		master_items_->AddEntity(item);
+	}
+
 }
