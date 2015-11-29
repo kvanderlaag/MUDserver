@@ -130,9 +130,50 @@ const int TCPStream::GetSocket() {
 }
 
 const int TCPStream::Write(std::string outputMessage) {
-	outputMessage += "\n\r> ";
+	outputMessage += "\n> ";
+	std::string outString;
+	std::string::iterator it = outputMessage.begin();
+	int posCounter = 0;
+	
+	for (it; it != outputMessage.end(); it++) {
+		if (*it == '\n') {
+				outString += "\n\r";
+				posCounter = 0;
+		/*} else if (*it == '\x1b') {
+			std::string temp;
+			for (it; it != outputMessage.end() && *it != 'm'; it++) {
+				temp += *it;
+			}
+			temp += 'm';
+			outString += temp;
+		}
+		else if (*it >= ' ' && *it <= '~') {
+			if (posCounter == 79) {
+				posCounter = 0;
+				if (*it == ' ') {
+					outString += " ";
+				}
+				else if (*it == '-') {
+					outString += "-";
+				}
+				else if (*it == ',' || *it == '.') {
+					outString += *it;
+				}
+				else {
+					outString += "-" + *it;
+				}
+			}
+			else {
+				outString += *it;
+				posCounter++;
+			}*/
+		} else {
+			outString += *it;
+		}
+
+	}
 	//bufferevent_write(bEvent, outputMessage.c_str(), outputMessage.length() * sizeof(char));
-	send(socketfd, outputMessage.c_str(), outputMessage.length() * sizeof(char), 0);
+	send(socketfd, outString.c_str(), outString.length() * sizeof(char), 0);
 #ifdef _DEBUG_FLAG	
 	std::cout << "Sending message to " << socketfd << ": " << /*outputMessage <<*/ std::endl;
 #endif

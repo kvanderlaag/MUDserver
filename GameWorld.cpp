@@ -318,13 +318,13 @@ void GameWorld::DisplayInventory(int connection_id) {
 	Player* p = FindPlayer(connection_id);
 	std::vector<GameEntity*> inv = p->GetItemVector();
 	std::ostringstream displayString;
-	displayString << "\n\r" << cGreen << "Current inventory:" << "\n\r" << cDefault;
+	displayString << "\n" << cGreen << "Current inventory:" << "\n" << cDefault;
 	if (inv.empty()) {
-		displayString << "Nothing.\n\r";
+		displayString << "Nothing.\n";
 	}
 	else {
 		for each (Item* item in inv) {
-			displayString << item->GetName() << "\n\r";
+			displayString << item->GetName() << "\n";
 		}
 	}
 
@@ -353,15 +353,15 @@ void GameWorld::Drop(int connection_id, std::string entity) {
 		}
 	}
 	if (!i) {
-		playerOutputString << "You don't have " << entity << " in your inventory!\n\r";
+		playerOutputString << "You don't have " << entity << " in your inventory!\n";
 		Message* playerMessage = new Message(playerOutputString.str(), connection_id, Message::MessageType::outputMessage);
 		parent->PutMessage(playerMessage);
 		return;
 	}
 	p->RemoveItem(i->GetId());
 	r->AddItem(i);
-	playerOutputString << "You drop " << i->GetName() << ".\n\r";
-	roomOutputString << p->GetName() << " drops " << i->GetName() << ".\n\r";
+	playerOutputString << "You drop " << i->GetName() << ".\n";
+	roomOutputString << p->GetName() << " drops " << i->GetName() << ".\n";
 	Message* playerMessage = new Message(playerOutputString.str(), connection_id, Message::MessageType::outputMessage);
 	parent->PutMessage(playerMessage);
 	for each (Player* p in *(r->GetPlayerVector())) {
@@ -384,23 +384,23 @@ void GameWorld::Drop(int connection_id, std::string entity) {
 void GameWorld::Help(int connection_id)
 {
 	std::ostringstream help;
-	help << "Help is on its way!\n\r";
-	help << "\n\r";
-	help << "Commands are:\n\r";
-	help << cGreen << "look" << cDefault << " <target>\n\r";
-	help << cGreen << "move" << cDefault << " <exit>\n\r";
-	help << cGreen << "say" << cDefault << " <message>\n\r";
-	help << cGreen << "shout" << cDefault << " <message>\n\r";
-	help << cGreen << "whisper" << cDefault << " <target> <message>\n\r";
-	help << cGreen << "inventory" << cDefault << " -or- " << cGreen << "inv" << cDefault << " -or- " << cGreen << "i" << cDefault << "\n\r";
-	help << cGreen << "take" << cDefault << " <target> -or- " << cGreen << "get" << cDefault << " <target>\n\r";
-	help << cGreen << "drop" << cDefault << " <target> -or- " << cGreen << "d" << cDefault << " <target>\n\r";
-	help << cGreen << "quit\n\r" << cDefault;
-	help << "\n\r";
-	help << "Compass directions north, south, east, and west can be used as commands,\n\rand shorten to n, s, e, and w.";
-	help << "\n\r";
-	help << "Enjoy the game. :D\n\r";
-	help << "Please, forget you saw this.\n\r";
+	help << "Help is on its way!\n";
+	help << "\n";
+	help << "Commands are:\n";
+	help << cGreen << "look" << cDefault << " <target>\n";
+	help << cGreen << "move" << cDefault << " <exit>\n";
+	help << cGreen << "say" << cDefault << " <message>\n";
+	help << cGreen << "shout" << cDefault << " <message>\n";
+	help << cGreen << "whisper" << cDefault << " <target> <message>\n";
+	help << cGreen << "inventory" << cDefault << " -or- " << cGreen << "inv" << cDefault << " -or- " << cGreen << "i" << cDefault << "\n";
+	help << cGreen << "take" << cDefault << " <target> -or- " << cGreen << "get" << cDefault << " <target>\n";
+	help << cGreen << "drop" << cDefault << " <target> -or- " << cGreen << "d" << cDefault << " <target>\n";
+	help << cGreen << "quit\n" << cDefault;
+	help << "\n";
+	help << "Compass directions north, south, east, and west can be used as commands,\nand shorten to n, s, e, and w.";
+	help << "\n";
+	help << "Enjoy the game. :D\n";
+	help << "Please, forget you saw this.\n";
 	Message* msg = new Message(help.str(), connection_id, Message::outputMessage);
 	parent->PutMessage(msg);
 }
@@ -519,7 +519,7 @@ void GameWorld::Look(int connection_id)
 	// Get exits
 	std::ostringstream exits;
 
-	exits << cGreen << "Exits are:\n\r" << cDefault;
+	exits << cGreen << "Exits are:\n" << cDefault;
 	std::map<int, std::string>* vExits = room->GetExitVector();
 	std::map<int, std::string>::iterator it = vExits->begin();
 	if (it == vExits->end()) {
@@ -529,32 +529,32 @@ void GameWorld::Look(int connection_id)
 		for (it; it != vExits->end(); it++) {
 			exits << it->second << " ";
 		}
-		exits << "\n\r";
+		exits << "\n";
 	}
 
 	// Get items
 	std::ostringstream items;
 
-	items << cGreen << "Items here:\n\r" << cDefault;
+	items << cGreen << "Items here:\n" << cDefault;
 	std::vector<Item*>* vItems = (std::vector<Item*>*) room->GetItemVector();
 	if (vItems->empty()) {
-		items << "None.\n\r";
+		items << "None.\n";
 	}
 	else {
 		for each (Item* i in *vItems) {
-			items << i->GetName() << "\n\r";
+			items << i->GetName() << "\n";
 		}
 	}
 
 	
 	// Get players
 	std::ostringstream players;
-	players << cGreen << "The following people are here:\n\r" << cDefault;
+	players << cGreen << "The following people are here:\n" << cDefault;
 	std::vector<Player*>* vPlayers = (std::vector<Player*>*) room->GetPlayerVector();
 	if (vPlayers->size() > 1) {
 		for (size_t i = 0; i < vPlayers->size(); ++i) {
 			if (vPlayers->at(i)->GetName() != player->GetName()) {
-				players << vPlayers->at(i)->GetName() << "\n\r";
+				players << vPlayers->at(i)->GetName() << "\n";
 			}
 		}
 	}
@@ -564,7 +564,7 @@ void GameWorld::Look(int connection_id)
 
 	// create message
 	std::ostringstream output;
-	output << "\n\r" << cBlue << "---\n\r" << cYellow << room->GetName() << cBlue << "\n\r---\n\r" << cDefault << description << cBlue << "\n\r---\n\r" << cDefault << exits.str() << cBlue << "---\n\r" << cDefault << items.str() << cBlue << "---\n\r" << cDefault << players.str() << "\n\r";
+	output << "\n" << cBlue << "---\n" << cYellow << room->GetName() << cBlue << "\n---\n" << cDefault << description << cBlue << "\n---\n" << cDefault << exits.str() << cBlue << "---\n" << cDefault << items.str() << cBlue << "---\n" << cDefault << players.str() << "\n";
 	Message* msg = new Message(output.str(), player->GetConnectionId(), Message::outputMessage);
 
 	// place message on message buffer
