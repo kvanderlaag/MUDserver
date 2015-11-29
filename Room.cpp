@@ -89,6 +89,14 @@ void Room::RemovePlayer(int id)
  */
 GameEntity* Room::GetExit(std::string exit)
 {
+	if (exit == "e")
+		exit = "east";
+	else if (exit == "w")
+		exit = "west";
+	else if (exit == "n")
+		exit = "north";
+	else if (exit == "s")
+		exit = "south";
 	std::map<int, std::string>::iterator it = directions_.begin();
 	for (it; it != directions_.end(); it++) {
 		if (it->second == exit) {
@@ -116,11 +124,42 @@ GameEntity* Room::GetPlayer(int id)
 	return players_->GetEntity(id);
 }
 
+GameEntity* Room::FindExit(std::string name) const {
+	GameEntity* exit = exits_->FindEntity(name);
+	if (exit) {
+		return exit;
+	}
+	return nullptr;
+}
+
+
+GameEntity* Room::FindItem(std::string name) const {
+	std::vector<GameEntity*>* items = items_->GetEntityVector();
+	for each (Item* i in *items) {
+		if (i->GetName() == name || i->FindShortName(name)) {
+			return i;
+		}
+	}
+	return nullptr;
+}
+
+
+GameEntity* Room::FindPlayer(std::string name) const {
+	std::vector<GameEntity*>* players = players_->GetEntityVector();
+	for each (Player* p in *players) {
+		if (p->GetName() == name) {
+			return p;
+		}
+	}
+	return nullptr;
+}
+
+
 /**
 * Looks through all the lists ands finds the entity with the matching name
 * TODO this is slooow, make a map with name -> entity
 */
-GameEntity* Room::FindEntity(std::string name)
+GameEntity* Room::FindEntity(std::string name) const
 {
 	GameEntity* esearch = exits_->FindEntity(name);
 	if (esearch != NULL)
@@ -140,7 +179,7 @@ GameEntity* Room::FindEntity(std::string name)
 		return psearch;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 std::vector<GameEntity*>* Room::GetPlayerVector()

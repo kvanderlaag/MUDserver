@@ -13,6 +13,7 @@
 #include <map>
 #include <vector>
 #include <sstream>
+#include <cctype>
 
 /**
 * Header file for game world

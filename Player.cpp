@@ -114,3 +114,13 @@ std::vector<GameEntity*> Player::GetItemVector() {
 	std::vector<GameEntity*>* inventory = items_.get()->GetEntityVector();
 	return *inventory;
 }
+
+GameEntity* Player::FindItem(std::string name) const {
+	std::vector<GameEntity*>* inventory = items_.get()->GetEntityVector();
+	for each (Item* i in *inventory) {
+		if (i->GetName() == name || i->FindShortName(name)) {
+			return i;
+		}
+	}
+	return nullptr;
+}

@@ -5,6 +5,8 @@
 #include "EntityList.h"
 #include "ConnectionList.h"
 #include "GameEntity.h"
+#include "Item.h"
+#include "Player.h"
 
 class Room : public GameEntity
 {
@@ -33,7 +35,11 @@ public:
 	GameEntity* GetItem(int id);
 	GameEntity* GetPlayer(int id);
 
-	GameEntity* FindEntity(std::string name);
+	GameEntity* FindEntity(std::string name) const;
+	GameEntity* FindExit(std::string name) const;
+	GameEntity* FindItem(std::string name) const;
+	GameEntity* FindPlayer(std::string name) const;
+
 	
 	std::vector<GameEntity*>* GetPlayerVector();
 	std::map<int, std::string>* GetExitVector();

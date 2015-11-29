@@ -7,6 +7,7 @@
 
 #include "GameEntity.h"
 #include "EntityList.h"
+#include "Item.h"
 #include <iostream>
 #include <string>
 #include <memory>
@@ -54,6 +55,7 @@ public:
 	void RemoveItem(std::string name);
 	GameEntity* GetItem(int id);
 	std::vector<GameEntity*> GetItemVector();
+	GameEntity* FindItem(std::string name) const;
 
 	/**The function GetPassword returns the initial password of the player.*/  
     std::string GetPassword();

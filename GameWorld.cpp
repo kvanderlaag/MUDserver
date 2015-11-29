@@ -122,6 +122,7 @@ Room* GameWorld::FindPlayerRoom(Player* player)
 */
 void GameWorld::ReceiveMessage(Message* message)
 {
+	Player* player = FindPlayer(message->GetSource());
 	std::stringstream iss(message->Read());
 
 	std::string command;
@@ -135,112 +136,127 @@ void GameWorld::ReceiveMessage(Message* message)
 	std::cout << "command: " << command << std::endl;
 #endif
 
-	if (command == "help")
-	{
-		Help(message->GetSource());
-	}
-	else if (command == "login")
-	{
-		std::stringstream wss(words);
-		std::string username;
-		std::string password;
-		wss >> username;
-		wss >> password;
+	if (!player) {
+		if (command == "login")
+		{
+			std::stringstream wss(words);
+			std::string username;
+			std::string password;
+			wss >> username;
+			wss >> password;
 
-		LogIn(message->GetSource(), username, password);
-	}
-	else if (command == "look")
-	{
-		std::stringstream wss(words);
-		std::string entity;
-		std::getline(wss, words);
-
-		if (entity.length() > 0)
-			Look(message->GetSource(), entity);
-		else
-			Look(message->GetSource());
-	}
-	else if (command == "move")
-	{
-		Move(message->GetSource(), words);
-	}
-	else if (command == "shout") {
-		Shout(message->GetSource(), words);
-	}
-	else if (command == "say")
-	{
-		Say(message->GetSource(), words);
-	}
-	else if (command == "signup")
-	{
+			LogIn(message->GetSource(), username, password);
+		}
+		else if (command == "signup")
+		{
 #ifdef _DEBUG_FLAG
-		std::cout << "Signing Up";
+			std::cout << "Signing Up";
 #endif
-		std::stringstream wss(words);
-		std::string username;
-		std::string password;
-		wss >> username;
-		wss >> password;
+			std::stringstream wss(words);
+			std::string username;
+			std::string password;
+			wss >> username;
+			wss >> password;
 
-		SignUp(message->GetSource(), username, password);
-	}
-	else if (command == "take" || command == "get")
-	{
-		std::stringstream wss(words);
-		std::string entity;
-		wss >> entity;
-
-		Take(message->GetSource(), words);
-	}
-	else if (command == "whisper")
-	{
-		std::stringstream wss(words);
-		std::string player;
-		std::string whisp;
-		wss >> player;
-		wss.get();
-		std::getline(wss, whisp);
-
-		Whisper(message->GetSource(), player, whisp);
-	}
-	else if (command == "n" || command == "s" || command == "e" || command == "w") {
-		if (command == "n")
-			Move(message->GetSource(), "north");
-		if (command == "s")
-			Move(message->GetSource(), "south");
-		if (command == "e")
-			Move(message->GetSource(), "east");
-		if (command == "w")
-			Move(message->GetSource(), "west");
-	}
-	else if (command == "north" || command == "south" || command == "east" || command == "west") {
-		Move(message->GetSource(), command);
-	}
-	else if (command == "inventory" || command == "i" || command == "inv") {
-		DisplayInventory(message->GetSource());
-	}
-	else if (command == "drop" || command == "d") {
-		Drop(message->GetSource(), words);
-	}
-	else if (command == "shutdown") {
-		Player* p = FindPlayer(message->GetSource());
-		if (p) {
-			if (p->GetName() == "Keegan") {
-#ifdef _DEBUG_FLAG
-				std::cout << "Do shutdown." << std::endl;
-#endif
-				parent->GetListener()->Shutdown();
-			}
+			SignUp(message->GetSource(), username, password);
 		}
 		else {
-			Message* msg = new Message("Invalid command. Type \"help\" for list of valid commands.", message->GetSource(), Message::outputMessage);
+			std::ostringstream outString;
+			outString << "Invalid command. Either\n" << cGreen << "login" << cDefault << " <username> <password>\n-or-\n" << cGreen << "signup" << cDefault << " <username> <password>\n";
+			Message* msg = new Message(outString.str(), message->GetSource(), Message::outputMessage);
 			parent->PutMessage(msg);
 		}
 	}
 	else {
-		Message* msg = new Message("Invalid command. Type \"help\" for list of valid commands.", message->GetSource(), Message::outputMessage);
-		parent->PutMessage(msg);
 
+
+		if (command == "help")
+		{
+			Help(message->GetSource());
+		}
+		else if (command == "look")
+		{
+			std::stringstream wss(words);
+			std::string entity;
+			std::getline(wss, words);
+
+			if (!words.empty())
+				Look(message->GetSource(), words);
+			else
+				Look(message->GetSource());
+		}
+		else if (command == "move")
+		{
+			Move(message->GetSource(), words);
+		}
+		else if (command == "shout") {
+			Shout(message->GetSource(), words);
+		}
+		else if (command == "say")
+		{
+			Say(message->GetSource(), words);
+		}
+		else if (command == "take" || command == "get")
+		{
+			std::stringstream wss(words);
+			std::string entity;
+			wss >> entity;
+
+			Take(message->GetSource(), words);
+		}
+		else if (command == "whisper")
+		{
+			std::stringstream wss(words);
+			std::string player;
+			std::string whisp;
+			wss >> player;
+			wss.get();
+			std::getline(wss, whisp);
+
+			Whisper(message->GetSource(), player, whisp);
+		}
+		else if (command == "n" || command == "s" || command == "e" || command == "w") {
+			if (command == "n")
+				Move(message->GetSource(), "north");
+			if (command == "s")
+				Move(message->GetSource(), "south");
+			if (command == "e")
+				Move(message->GetSource(), "east");
+			if (command == "w")
+				Move(message->GetSource(), "west");
+		}
+		else if (command == "north" || command == "south" || command == "east" || command == "west") {
+			Move(message->GetSource(), command);
+		}
+		else if (command == "inventory" || command == "i" || command == "inv") {
+			DisplayInventory(message->GetSource());
+		}
+		else if (command == "drop" || command == "d") {
+			Drop(message->GetSource(), words);
+		}
+		else if (command == "shutdown") {
+			Player* p = FindPlayer(message->GetSource());
+			if (p) {
+				if (p->GetName() == "Keegan") {
+#ifdef _DEBUG_FLAG
+					std::cout << "Do shutdown." << std::endl;
+#endif
+					parent->GetListener()->Shutdown();
+				}
+				else {
+					std::ostringstream outString;
+					outString << "Invalid command. Type \"" << cGreen << "help" << cDefault << "\" for a list of valid commands.";
+					Message* msg = new Message(outString.str(), message->GetSource(), Message::outputMessage);
+					parent->PutMessage(msg);
+				}
+			}
+		}
+		else {
+			std::ostringstream outString;
+			outString << "Invalid command. Type \"" << cGreen << "help" << cDefault << "\" for a list of valid commands.";
+			Message* msg = new Message(outString.str(), message->GetSource(), Message::outputMessage);
+			parent->PutMessage(msg);
+		}
 	}
 }
 
@@ -281,27 +297,27 @@ void GameWorld::Drop(int connection_id, std::string entity) {
 
 	std::vector<GameEntity*> inv = p->GetItemVector();
 	for each (Item* item in inv) {
-		if (item->GetName() == entity) {
+		if (item->GetName() == entity || item->FindShortName(entity)) {
 			i = item;
 			break;
 		}
 	}
 	if (!i) {
-		playerOutputString << "You don't have " << entity << " in your inventory!\n";
+		playerOutputString << "You don't have " << cGreen << entity << cDefault << " in your inventory!\n";
 		Message* playerMessage = new Message(playerOutputString.str(), connection_id, Message::MessageType::outputMessage);
 		parent->PutMessage(playerMessage);
 		return;
 	}
 	p->RemoveItem(i->GetId());
 	r->AddItem(i);
-	playerOutputString << "You drop " << i->GetName() << ".\n";
-	roomOutputString << p->GetName() << " drops " << i->GetName() << ".\n";
+	playerOutputString << "You drop " << cGreen << i->GetName() << cDefault << ".\n";
+	roomOutputString << cYellow << p->GetName() << cDefault << " drops " << cGreen << i->GetName() << cDefault << ".\n";
 	Message* playerMessage = new Message(playerOutputString.str(), connection_id, Message::MessageType::outputMessage);
 	parent->PutMessage(playerMessage);
 	for each (Player* p in *(r->GetPlayerVector())) {
 		if (p->GetConnectionId() != connection_id) {
-			Message* playerMessage = new Message(playerOutputString.str(), p->GetConnectionId(), Message::MessageType::outputMessage);
-			parent->PutMessage(playerMessage);
+			Message* roomMessage = new Message(roomOutputString.str(), p->GetConnectionId(), Message::MessageType::outputMessage);
+			parent->PutMessage(roomMessage);
 		}
 	}
 
@@ -512,34 +528,69 @@ void GameWorld::Look(int connection_id)
 */
 void GameWorld::Look(int connection_id, std::string entity_name)
 {
+
 	// find player
 	Player* player = FindPlayer(connection_id);
 
 	// find room
 	Room* room = FindPlayerRoom(player);
 
-	// find entity
-	GameEntity* entity = room->FindEntity(entity_name);
+	// first check room exits
+	GameEntity* entity = room->GetExit(entity_name);
 
-	if (entity != NULL)
-	{
-		// get description
-		std::string description = entity->GetDescription();
-
-		// create message
-		Message* msg = new Message(description, player->GetConnectionId(), Message::outputMessage);
-
-		// place msg on message buffer
+	if (entity) {
+		std::ostringstream outputString;
+		outputString << "You see " << cYellow << entity->GetName() << cDefault << ".\n";
+		Message* msg = new Message(outputString.str(), connection_id, Message::outputMessage);
 		parent->PutMessage(msg);
+		return;
 	}
-	else
-	{
-		// send no entity message
-		Message* msg = new Message("There is no such thing to look at...", player->GetConnectionId(), Message::outputMessage);
 
-		// place msg on message buffer
+	// otherwise, check items
+	entity = room->FindItem(entity_name);
+
+	if (entity) {
+		std::ostringstream outputString;
+		outputString << "You see " << cGreen << entity->GetName() << cDefault << " in " << cYellow << room->GetName() << cDefault << ".\n";
+		outputString << "Description:\n" << entity->GetDescription() << "\n";
+		Message* msg = new Message(outputString.str(), connection_id, Message::outputMessage);
 		parent->PutMessage(msg);
+		return;
 	}
+
+
+	// otherwise, check players
+	entity = room->FindPlayer(entity_name);
+
+	if (entity) {
+		std::ostringstream outputString;
+		outputString << "You see " << cGreen << entity->GetName() << cDefault << " here with you.\n";
+		outputString << "Description:\n" << entity->GetDescription() << "\n";
+		Message* msg = new Message(outputString.str(), connection_id, Message::outputMessage);
+		parent->PutMessage(msg);
+		return;
+	}
+
+	// otherwise, check the player's inventory for items.
+	entity = player->FindItem(entity_name);
+
+	if (entity) {
+		std::ostringstream outputString;
+		outputString << "You see " << cGreen << entity->GetName() << cDefault << " in your inventory.\n";
+		outputString << "Description:\n" << entity->GetDescription() << "\n";
+		Message* msg = new Message(outputString.str(), connection_id, Message::outputMessage);
+		parent->PutMessage(msg);
+		return;
+	}
+
+	// otherwise, send no entity message
+	std::ostringstream outputString;
+	outputString << "You don't see " << cGreen << entity_name << cDefault << " here.\n";
+	Message* msg = new Message(outputString.str(), player->GetConnectionId(), Message::outputMessage);
+
+	// place msg on message buffer
+	parent->PutMessage(msg);
+	
 }
 
 /**
@@ -705,6 +756,11 @@ void GameWorld::Take(int connection_id, std::string entity)
 			break;
 		}
 		else {
+			if (i->FindShortName(entity)) {
+				item = i;
+				break;
+			}
+			/*
 			std::vector<std::string> shortNames = i->GetShortNameVector();
 			for each (std::string shortName in shortNames) {
 				std::cout << shortName << std::endl;
@@ -713,6 +769,7 @@ void GameWorld::Take(int connection_id, std::string entity)
 					break;
 				}
 			}
+			*/
 		}
 	}
 
@@ -721,13 +778,26 @@ void GameWorld::Take(int connection_id, std::string entity)
 		// add item to player item list
 		player->AddItem(item);
 		room->RemoveItem(item->GetId());
-		Message* msg = new Message(item->GetName() + " was added to your inventory", player->GetConnectionId(), Message::outputMessage);
+		std::ostringstream outString, roomString;
+		outString << "You take " << cGreen << item->GetName() << cDefault << ".\n";
+		roomString << cYellow << player->GetName() << cDefault << " takes " << cGreen << item->GetName() << cDefault << ".\n";
+		Message* msg = new Message(outString.str(), player->GetConnectionId(), Message::outputMessage);
 		parent->PutMessage(msg);
+		std::vector<GameEntity*>* otherPlayers = room->GetPlayerVector();
+		for each (Player* p in *otherPlayers) {
+			if (p != player) {
+
+				Message* roomMsg = new Message(roomString.str(), p->GetConnectionId(), Message::outputMessage);
+				parent->PutMessage(roomMsg);
+			}
+		}
 	}
 	else
 	{
 		// no item message
-		Message* msg = new Message("There is no such thing to take...", player->GetConnectionId(), Message::outputMessage);
+		std::ostringstream outString;
+		outString << "There is no " << cGreen << item->GetName() << cDefault << " here.\n";
+		Message* msg = new Message(outString.str(), player->GetConnectionId(), Message::outputMessage);
 		parent->PutMessage(msg);
 	}
 

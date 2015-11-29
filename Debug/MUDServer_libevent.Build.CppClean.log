@@ -4,6 +4,7 @@ d:\users\kvand_000\documents\github\mudserver\debug\connectionlist.obj
 d:\users\kvand_000\documents\github\mudserver\debug\entitylist.obj
 d:\users\kvand_000\documents\github\mudserver\debug\fileparser.obj
 d:\users\kvand_000\documents\github\mudserver\debug\gameentity.obj
+d:\users\kvand_000\documents\github\mudserver\debug\gameworld.obj
 d:\users\kvand_000\documents\github\mudserver\debug\item.obj
 d:\users\kvand_000\documents\github\mudserver\debug\message.obj
 d:\users\kvand_000\documents\github\mudserver\debug\messagebuffer.obj
@@ -15,7 +16,6 @@ d:\users\kvand_000\documents\github\mudserver\debug\server.obj
 d:\users\kvand_000\documents\github\mudserver\debug\tcplistener.obj
 d:\users\kvand_000\documents\github\mudserver\debug\tcpstream.obj
 d:\users\kvand_000\documents\github\mudserver\debug\utility.obj
-d:\users\kvand_000\documents\github\mudserver\debug\gameworld.obj
 d:\users\kvand_000\documents\github\mudserver\debug\mudserver_libevent.ilk
 d:\users\kvand_000\documents\github\mudserver\debug\mudserver_libevent.exe
 d:\users\kvand_000\documents\github\mudserver\debug\mudserver_libevent.pdb
