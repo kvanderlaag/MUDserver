@@ -1,11 +1,11 @@
 /**
 * Player.cpp is included by header file Player.h implementing the functionalities from Player.h
-*/  
+*/
 #include "Player.h"
 
 /**
 * The default constructor create a naive object player by permanent player ID and initial name.
-*/  
+*/
 Player::Player(int id, std::string name) : GameEntity(id, name){
 	connection_id_ = -1;
 	password_ = "";
@@ -16,9 +16,9 @@ Player::Player(int id, std::string name) : GameEntity(id, name){
 
 /**
 * A standard constructor create an object player by permanent player ID, initial name, and password.
-*/  
+*/
 Player::Player(int id, std::string name, std::string password) : GameEntity(id, name),
-	items_(new EntityList()) 
+	items_(new EntityList())
 {
 	connection_id_ = -1;
     password_ = password;
@@ -30,7 +30,7 @@ Player::Player(int id, std::string name, std::string password) : GameEntity(id, 
 
 /**
 * The destructor ~Player() remove object player.
-*/  
+*/
 Player::~Player() {
     std::cout << "Removed a player..." << std::endl;
 }
@@ -52,14 +52,14 @@ void Player::SetConnectionId(int new_connection_id) {
 
 /**
 * The GetConnectionID function returns the current connection ID.
-*/ 
+*/
 int Player::GetConnectionId() {
     return connection_id_;
 }
 
 /**
 * The GetPassword function returns the initial passoword.
-*/ 
+*/
 std::string Player::GetPassword() {
     return password_;
 }
@@ -73,21 +73,21 @@ void Player::SetRoomId(int room_id) {
 
 /**
 * The destructor ~Player() remove object player.
-*/  
+*/
 int Player::GetRoomId(){
     return room_id_;
 }
 
 /**
 * The function AddItem receives a pointer of type GameEntity and add item to the item list within player object.
-*/  
+*/
 void Player::AddItem(GameEntity *item) {
 	items_.get()->AddEntity(item);
 }
 
 /**
 * The function RemoveItem receives the ID of an item and remove this item from the item list within player object.
-*/ 
+*/
 void Player::RemoveItem(int id) {
 	items_.get()->RemoveEntity(id);
 }
@@ -102,7 +102,7 @@ void Player::RemoveItem(std::string name) {
 
 /**
 * The function GetItem receives the ID of an item and find the item to the item list within player object.
-*/ 
+*/
 GameEntity* Player::GetItem(int id) {
 	return items_->GetEntity(id);
 }
@@ -117,7 +117,7 @@ std::vector<GameEntity*> Player::GetItemVector() {
 
 GameEntity* Player::FindItem(std::string name) const {
 	std::vector<GameEntity*>* inventory = items_.get()->GetEntityVector();
-	for each (Item* i in *inventory) {
+	for (Item* i : *((std::vector<Item*>*) inventory)) {
 		std::string lowername = i->GetName();
 		for (size_t j = 0; j < lowername.length(); ++j) {
 			lowername.at(j) = std::tolower(lowername.at(j));

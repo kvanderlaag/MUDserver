@@ -31,16 +31,20 @@ TCPStream::TCPStream(TCPListener* par, int socket)
 	bufferevent_enable(bEvent, EV_READ | EV_WRITE);
 #ifdef _DEBUG_FLAG
 	std::cout << "Enabled buffer event." << '\n';
-#endif	
+#endif
 	bufferevent_read(bEvent, NULL, -1);
-	
+
 }
 
 
 TCPStream::~TCPStream()
 {
 	bufferevent_free(bEvent);
+#ifdef _WIN32
 	closesocket(socketfd);
+#else
+    close(socketfd);
+#endif // _WIN32
 #ifdef _DEBUG_FLAG
 	std::cout << "Closing socket " << socketfd << '\n';
 	std::cout << "Removed socket " << socketfd << " from connection list." << '\n';
@@ -113,7 +117,7 @@ void TCPStream::read_cb(struct bufferevent *bev) {
 
 void TCPStream::write_cb(bufferevent *bev) {
 	//std::cout << "Buffer write callback." << std::endl;
-	
+
 }
 
 void TCPStream::error_cb(bufferevent *bev, short error) {
@@ -136,7 +140,7 @@ const int TCPStream::Write(std::string outputMessage) {
 	int posCounter = 0;
 
 	outString += "\n\r";
-	
+
 	for (it; it != outputMessage.end(); it++) {
 		switch (*it) {
 		case '\n':
@@ -150,7 +154,7 @@ const int TCPStream::Write(std::string outputMessage) {
 	}
 	//bufferevent_write(bEvent, outputMessage.c_str(), outputMessage.length() * sizeof(char));
 	send(socketfd, outString.c_str(), outString.length() * sizeof(char), 0);
-#ifdef _DEBUG_FLAG	
+#ifdef _DEBUG_FLAG
 	std::cout << "Sending message to " << socketfd << ": " << /*outputMessage <<*/ std::endl;
 #endif
 	return 0;

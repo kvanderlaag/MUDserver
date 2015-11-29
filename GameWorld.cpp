@@ -276,7 +276,7 @@ void GameWorld::DisplayInventory(int connection_id) {
 		displayString << "Nothing.\n";
 	}
 	else {
-		for each (Item* item in inv) {
+		for (GameEntity* item : inv) {
 			displayString << item->GetName() << "\n";
 		}
 	}
@@ -311,7 +311,7 @@ void GameWorld::Drop(int connection_id, std::string entity) {
 	roomOutputString << cYellow << p->GetName() << cDefault << " drops " << cGreen << i->GetName() << cDefault << ".\n";
 	Message* playerMessage = new Message(playerOutputString.str(), connection_id, Message::MessageType::outputMessage);
 	parent->PutMessage(playerMessage);
-	for each (Player* p in *(r->GetPlayerVector())) {
+	for (Player* p : *( (std::vector<Player*>*) (r->GetPlayerVector()))) {
 		if (p->GetConnectionId() != connection_id) {
 			Message* roomMessage = new Message(roomOutputString.str(), p->GetConnectionId(), Message::MessageType::outputMessage);
 			parent->PutMessage(roomMessage);
@@ -485,12 +485,12 @@ void GameWorld::Look(int connection_id)
 		items << "None.\n";
 	}
 	else {
-		for each (Item* i in *vItems) {
+		for (Item* i : *vItems) {
 			items << i->GetName() << "\n";
 		}
 	}
 
-	
+
 	// Get players
 	std::ostringstream players;
 	players << cGreen << "The following people are here:\n" << cDefault;
@@ -584,7 +584,7 @@ void GameWorld::Look(int connection_id, std::string entity_name)
 
 	// place msg on message buffer
 	parent->PutMessage(msg);
-	
+
 }
 
 /**
@@ -740,7 +740,7 @@ void GameWorld::Who(int connection_id) {
 	std::ostringstream outString;
 	outString << "\n" << cBlue << "---\n" << cGreen << "Players currently logged in:\n" << cBlue << "---" << cDefault;
 	std::vector<int>* players = current_players_->GetIdVector();
-	for each (int id in *players) {
+	for (int id : *players) {
 		Player* p = (Player*) GetPlayer(id);
 		outString << "\n" << p->GetName();
 	}
@@ -777,7 +777,7 @@ void GameWorld::Take(int connection_id, std::string entity)
 		Message* msg = new Message(outString.str(), player->GetConnectionId(), Message::outputMessage);
 		parent->PutMessage(msg);
 		std::vector<GameEntity*>* otherPlayers = room->GetPlayerVector();
-		for each (Player* p in *otherPlayers) {
+		for (Player* p : *((std::vector<Player*>*) otherPlayers)) {
 			if (p != player) {
 
 				Message* roomMsg = new Message(roomString.str(), p->GetConnectionId(), Message::outputMessage);
@@ -867,7 +867,7 @@ void GameWorld::LoadRooms(std::string filename) {
 
 		if (room_values->size() > 4) {
 			std::vector<std::string>* items = FileParser::ParseCsv(room_values->at(4));
-			for each (std::string item_id in *items) {
+			for (std::string item_id : *items) {
 				std::stringstream buffer(item_id);
 				int intId;
 				if (buffer >> intId) {
@@ -876,7 +876,7 @@ void GameWorld::LoadRooms(std::string filename) {
 						room->AddItem(item);
 					}
 				}
-				
+
 			}
 		}
 
@@ -933,7 +933,7 @@ void GameWorld::LoadItems(std::string filename) {
 
 		std::vector<std::string>* shortnames = FileParser::ParseCsv(item_values->at(2));
 		if (shortnames) {
-			for each (std::string shortName in *shortnames) {
+			for (std::string shortName : *shortnames) {
 				if (!shortName.empty()) {
 					//std::cout << shortName << std::endl;
 					item->AddShortName(shortName);

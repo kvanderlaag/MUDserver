@@ -45,8 +45,8 @@ std::vector<std::string>* FileParser::ParseCsv(std::string csv) {
 
 void FileParser::WritePlayers(std::string filename, std::vector<GameEntity*>* players) {
 	std::ofstream file(filename);
-	
-	for each (Player* p in *players) {
+
+	for (Player* p : *((std::vector<Player*>*) players)) {
 		file << p->GetName() + "\t" + p->GetPassword() + "\n";
 	}
 }

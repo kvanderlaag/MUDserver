@@ -41,10 +41,10 @@ public:
 	GameEntity* FindItem(std::string name) const;
 	GameEntity* FindPlayer(std::string name) const;
 
-	
+
 	std::vector<GameEntity*>* GetPlayerVector();
 	std::map<int, std::string>* GetExitVector();
-	std::vector<GameEntity*>* Room::GetItemVector();
+	std::vector<GameEntity*>* GetItemVector();
 };
 
 #endif // __ROOM_H__

@@ -3,7 +3,9 @@
 #include "TCPListener.h"
 #include "MessageBuffer.h"
 #include <map>
+#ifdef _WIN32
 #include <Windows.h>
+#endif
 #include "GameWorld.h"
 #include "Parser.h"
 #include <string>

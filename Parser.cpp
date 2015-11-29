@@ -90,7 +90,7 @@ Message* Parser::Parse(const Message* mess) const
 
 		//gameMessage->Write("Balls.");
 		gameMessage->Write(command);
-		for each (std::string token in tokens) {
+		for (std::string token : tokens) {
 			gameMessage->Append(" " + token);
 		}
 

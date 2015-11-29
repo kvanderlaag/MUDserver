@@ -1,7 +1,5 @@
 #include "TCPListener.h"
 #include "TCPStream.h"
-#include <Windows.h>
-
 
 #include <iostream>
 

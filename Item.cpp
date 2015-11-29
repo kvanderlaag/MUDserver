@@ -25,7 +25,7 @@ Item::Item(int newId, const Item& other) : GameEntity(newId, other.GetName(), ot
 
 void Item::AddShortName(std::string name) {
 	if (!name.empty()) {
-		for each (std::string shortname in mShortNames) {
+		for (std::string shortname : mShortNames) {
 			if (shortname == name)
 				return;
 		}
@@ -39,7 +39,7 @@ std::vector<std::string> Item::GetShortNameVector() const {
 
 bool Item::FindShortName(std::string shortName) const {
 	if (!shortName.empty()) {
-		for each (std::string s in mShortNames) {
+		for (std::string s : mShortNames) {
 			if (s == shortName)
 				return true;
 		}

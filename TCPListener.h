@@ -3,8 +3,10 @@
 #ifdef _WIN32
 #include <WinSock2.h>
 #include <WS2tcpip.h>
-#else 
+#include <Windows.h>
+#else
 #include <sys/socket.h>
+#include <unistd.h>
 #endif
 
 #include <sys/types.h>

@@ -4,7 +4,7 @@
  * Create a new room with an id and name
  * Room inherits GameEntity
  */
-Room::Room(int id, std::string name) : 
+Room::Room(int id, std::string name) :
 	GameEntity(id, name),
 	exits_(new EntityList()),
 	items_(new EntityList()),
@@ -14,7 +14,7 @@ Room::Room(int id, std::string name) :
 }
 
 /** Create a new room with an id, name, and description */
-Room::Room(int id, std::string name, std::string description) : 
+Room::Room(int id, std::string name, std::string description) :
 	GameEntity(id, name, description),
 	exits_(new EntityList()),
 	items_(new EntityList()),
@@ -135,7 +135,7 @@ GameEntity* Room::FindExit(std::string name) const {
 
 GameEntity* Room::FindItem(std::string name) const {
 	std::vector<GameEntity*>* items = items_->GetEntityVector();
-	for each (Item* i in *items) {
+	for (Item* i : *((std::vector<Item*>*)items)) {
 		std::string lowername = i->GetName();
 		for (int j = 0; j < lowername.length(); ++j) {
 			lowername.at(j) = std::tolower(lowername.at(j));
@@ -150,7 +150,7 @@ GameEntity* Room::FindItem(std::string name) const {
 
 GameEntity* Room::FindPlayer(std::string name) const {
 	std::vector<GameEntity*>* players = players_->GetEntityVector();
-	for each (Player* p in *players) {
+	for (Player* p : *((std::vector<Player*>*)players)) {
 		if (p->GetName() == name) {
 			return p;
 		}

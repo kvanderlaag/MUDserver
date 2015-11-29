@@ -3,9 +3,14 @@
 #include <map>
 #include <iostream>
 
+#ifdef _WIN32
 #include <Windows.h>
 #include <tchar.h.>
 #include <strsafe.h>
+#endif
+
+
+
 
 /**
 * Creates a server on a given port number
@@ -123,7 +128,7 @@ void Server::HandleMessageQueue()
 #ifdef _DEBUG_FLAG
 			std::cout << "Message type: " << mess->GetType() << /*", Message: " << mess->Read() <<*/ " - Connection ID: " << mess->GetSource() << '\n';
 #endif
-			if (mess->GetType() == Message::MessageType::inputMessage) 
+			if (mess->GetType() == Message::MessageType::inputMessage)
 				mBuffer->PutMessage(parser->Parse(mess));
 			else if (mess->GetType() == Message::MessageType::outputMessage) {
 #ifdef _DEBUG_FLAG
@@ -151,7 +156,7 @@ Message* Server::ParseMessage(const Message& mess) {
 	Message* returnMessage = parser->Parse(&mess);
 	mBuffer->PutMessage(returnMessage);
 	return returnMessage;
-	
+
 }
 
 /**
