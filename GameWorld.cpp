@@ -949,3 +949,23 @@ void GameWorld::LoadItems(std::string filename) {
 	}
 
 }
+
+/**
+* Create a new update processing thread
+*/
+void GameWorld::CreateUpdateThread(void* arg)
+{
+	GameWorld* instance = (GameWorld*) arg;
+	instance->DoUpdate();
+}
+
+
+/**
+* Updates game world on interval
+*/
+void GameWorld::DoUpdate() {
+
+    while (parent->IsRunning()) {
+
+    }
+}

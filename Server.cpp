@@ -39,6 +39,7 @@ Server::Server(int port)
 */
 Server::~Server()
 {
+    std::cout << "Destroying server.\n";
 }
 
 /**
@@ -53,11 +54,11 @@ void Server::Start()
 	listenerThread = std::unique_ptr<std::thread>(new std::thread(&CreateListenerThread, listener.get()));
 	messageQueueThread = std::unique_ptr<std::thread>(new std::thread(&CreateMessageQueueThread, this));
 
-	listenerThread.get()->join();
+	//listenerThread.get()->join();
 	messageQueueThread.get()->join();
 }
 
-TCPListener* Server::GetListener() {
+TCPListener* Server::GetListener() const {
 	return listener.get();
 }
 
@@ -191,4 +192,8 @@ void Server::CreateListenerThread(void* arg)
 
 void Server::SendLoginMessage(TCPStream* stream) {
 	stream->Write(mLoginMessage);
+}
+
+bool Server::IsRunning() const {
+    return running;
 }

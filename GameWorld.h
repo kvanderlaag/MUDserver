@@ -14,6 +14,8 @@
 #include <vector>
 #include <sstream>
 #include <cctype>
+#include <memory>
+#include <thread>
 
 /**
 * Header file for game world
@@ -40,7 +42,7 @@ private:
 	EntityList* items_; // item_id/item_object
 	ConnectionList* current_players_; // connection_id/player_id
 	Server* parent;
-	
+
 public:
     GameWorld(Server* par);
     ~GameWorld();
@@ -56,6 +58,8 @@ public:
 
 	Player* FindPlayer(int connection_id);
 	Room* FindPlayerRoom(Player* player);
+
+	std::unique_ptr<std::thread> updateThread;
 
 	void ReceiveMessage(Message* message);
 
@@ -79,6 +83,9 @@ public:
 	void SignUp(int connection_id, std::string login_name, std::string password);
 	void LogIn(int connection_id, std::string login_name, std::string password);
 	void LogOut(int connection_id);
+
+	static void CreateUpdateThread(void* arg);
+	void DoUpdate();
 };
 
 #endif // __GAMEWORLD_H__

@@ -37,7 +37,8 @@ public:
 
 	void PutMessage(const Message* mess);
 
-	TCPListener* GetListener();
+	TCPListener* GetListener() const;
+    bool IsRunning() const;
 
 private:
 	bool running;
