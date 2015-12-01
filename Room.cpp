@@ -47,6 +47,14 @@ void Room::AddItem(GameEntity *item)
 	items_->AddEntity(item);
 }
 
+void Room::AddMasterItem(GameEntity* item) {
+	original_items_.push_back(item->GetId());
+}
+
+void Room::SpawnItem(GameEntity* item) {
+	AddItem(item);
+}
+
 /**
  * Each room will have a list of players (denotes what players are currently in the room at the time)
  * This function will add a player to the existing player list of a room
@@ -137,7 +145,7 @@ GameEntity* Room::FindItem(std::string name) const {
 	std::vector<GameEntity*>* items = items_->GetEntityVector();
 	for (Item* i : *((std::vector<Item*>*)items)) {
 		std::string lowername = i->GetName();
-		for (int j = 0; j < lowername.length(); ++j) {
+		for (size_t j = 0; j < lowername.length(); ++j) {
 			lowername.at(j) = std::tolower(lowername.at(j));
 		}
 		if (lowername == name || i->FindShortName(name)) {
@@ -150,8 +158,18 @@ GameEntity* Room::FindItem(std::string name) const {
 
 GameEntity* Room::FindPlayer(std::string name) const {
 	std::vector<GameEntity*>* players = players_->GetEntityVector();
-	for (Player* p : *((std::vector<Player*>*)players)) {
-		if (p->GetName() == name) {
+	
+	std::string lowername(name);
+	for (size_t i = 0; i < lowername.length(); ++i) {
+		lowername.at(i) = std::tolower(lowername.at(i));
+	}
+
+	for (Player* p : *((std::vector<Player*>*)players)) {	
+		std::string pName(p->GetName());
+		for (size_t i = 0; i < pName.length(); ++i) {
+			pName.at(i) = std::tolower(pName.at(i));
+		}
+		if (pName == lowername) {
 			return p;
 		}
 	}

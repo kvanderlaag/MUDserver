@@ -21,12 +21,6 @@
 * Header file for game world
 */
 
-#define cDefault Utility::Color()
-#define cBlue Utility::Color(4, 0, Utility::BOLD)
-#define cRed Utility::Color(1, 0, Utility::BOLD)
-#define cGreen Utility::Color(2, 0, Utility::BOLD)
-#define cYellow Utility::Color(3, 0, Utility::BOLD)
-
 class Server;
 
 class GameWorld
@@ -41,10 +35,10 @@ private:
 
 	EntityList* items_; // item_id/item_object
 	ConnectionList* current_players_; // connection_id/player_id
-	Server* parent;
+	Server& parent;
 
 public:
-    GameWorld(Server* par);
+    GameWorld(Server& par);
     ~GameWorld();
 
     void AddRoom(Room* entity);
@@ -68,11 +62,13 @@ public:
 	void Move(int connection_id, std::string exit);
 	void Say(int connection_id, std::string words);
 	void Shout(int connection_id, std::string words);
+	void Stats(int connection_id);
 	void Whisper(int connection_id, std::string name, std::string words);
 	void Take(int connection_id, std::string entity);
 	void DisplayInventory(int connection_id);
 	void Drop(int connection_id, std::string entity);
 	void Who(int connection_id);
+	void Description(int connection_id, std::string words);
 
 	void LoadPlayers(std::string filename);
 	void LoadItems(std::string filename);

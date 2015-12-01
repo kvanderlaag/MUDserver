@@ -7,6 +7,7 @@
 #include <Windows.h>
 #endif
 #include "GameWorld.h"
+#include "FileParser.h"
 #include "Parser.h"
 #include <string>
 #include <thread>

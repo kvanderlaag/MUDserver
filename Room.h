@@ -16,6 +16,7 @@ private:
 	EntityList* exits_;
 	std::map<int, std::string> directions_;
 	EntityList* items_;
+	std::vector<int> original_items_;
 	EntityList* players_;
 
 public:
@@ -24,6 +25,8 @@ public:
 	~Room(  );
 
 	void AddItem(GameEntity* entity);
+	void AddMasterItem(GameEntity* entity);
+	void SpawnItem(GameEntity* item);
 	void AddExit(GameEntity* entity);
 	void AddPlayer(GameEntity* entity);
 	void AddDirection(int id, std::string dir);

@@ -20,7 +20,7 @@
 */
 Server::Server(int port)
 	: listener(new TCPListener(this))
-	, world(new GameWorld(this))
+	, world(new GameWorld(*this))
 	, mBuffer(new MessageBuffer())
 	, running(false)
 	, parser(new Parser())
@@ -39,7 +39,13 @@ Server::Server(int port)
 */
 Server::~Server()
 {
-    std::cout << "Destroying server.\n";
+//    std::cout << "Destroying server.\n";
+//	world.reset();
+//	listener.reset();
+//	parser.reset();
+//	mBuffer.reset();
+//	listenerThread.reset();
+//	messageQueueThread.reset();
 }
 
 /**
@@ -103,8 +109,10 @@ void Server::Shutdown()
 		RemoveConnection(connections.begin()->second);
 	}
 	listener.get()->ShutdownListener();
-	listener.release();
-	world.release();
+	listenerThread.release();
+	messageQueueThread.release();
+	//listener.release();
+	//world.release();
 }
 
 /**

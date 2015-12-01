@@ -7,6 +7,7 @@
 
 #include "GameEntity.h"
 #include "EntityList.h"
+#include "PlayerStats.h"
 #include "Item.h"
 #include <iostream>
 #include <string>
@@ -34,6 +35,8 @@ private:
     int room_id_;
     std::unique_ptr<EntityList> items_;
 
+	std::unique_ptr<PlayerStats> stats_;
+
 /**
  *Public functions have default constructor, a standard constructor, a destrutor, and a print out function.
  *Other public functions for more functionailties for player object have get/assign connection ID, verify password, get/modify room ID where the player located,
@@ -57,6 +60,8 @@ public:
 	GameEntity* GetItem(int id);
 	std::vector<GameEntity*> GetItemVector();
 	GameEntity* FindItem(std::string name) const;
+
+	PlayerStats& GetStats();
 
 	/**The function GetPassword returns the initial password of the player.*/  
     std::string GetPassword();

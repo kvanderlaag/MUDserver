@@ -45,8 +45,23 @@ std::vector<std::string>* FileParser::ParseCsv(std::string csv) {
 
 void FileParser::WritePlayers(std::string filename, std::vector<GameEntity*>* players) {
 	std::ofstream file(filename);
-
+	
 	for (Player* p : *((std::vector<Player*>*) players)) {
-		file << p->GetName() + "\t" + p->GetPassword() + "\n";
+		std::stringstream playerOut;
+		playerOut << p->GetName() << "\t";
+		playerOut << p->GetPassword() << "\t";
+		playerOut << p->GetRoomId() << "\t";
+
+		playerOut << p->GetStats().GetMaxHealth() << ",";
+		playerOut << p->GetStats().GetMaxMana() << ",";
+		playerOut << p->GetStats().GetMaxStrength() << ",";
+		playerOut << p->GetStats().GetMaxDexterity() << ",";
+		playerOut << p->GetStats().GetMaxConstitution() << ",";
+		playerOut << p->GetStats().GetMaxIntelligence() << ",";
+		playerOut << p->GetStats().GetMaxCharisma() << "";
+
+		playerOut << "\n";
+
+		file << playerOut.str();
 	}
 }

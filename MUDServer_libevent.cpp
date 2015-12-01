@@ -57,7 +57,7 @@ int main(int argc, char** argv)
 	std::unique_ptr<Server> gameServer = std::unique_ptr<Server>(new Server());
 	gameServer.get()->Start();
 
-	gameServer.release();
+	gameServer.reset();
 	cout << "Server terminated. Any key to exit.";
 	fgetc(stdin);
 

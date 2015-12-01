@@ -2,6 +2,16 @@
 
 #include <string>
 
+#define cDefault Utility::Color()
+#define cBlue Utility::Color(4, 0, Utility::BOLD)
+#define cRed Utility::Color(1, 0, Utility::BOLD)
+#define cGreen Utility::Color(2, 0, Utility::BOLD)
+#define cYellow Utility::Color(3, 0, Utility::BOLD)
+#define cDarkGreen Utility::Color(2, 0)
+#define cDarkRed Utility::Color(1, 0)
+#define CDarkBlue Utility::Color(4, 0)
+#define cDarkYellow Utility::Color(3, 0)
+
 class Utility
 {
 public:

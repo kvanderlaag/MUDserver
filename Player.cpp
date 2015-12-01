@@ -6,7 +6,10 @@
 /**
 * The default constructor create a naive object player by permanent player ID and initial name.
 */
-Player::Player(int id, std::string name) : GameEntity(id, name){
+Player::Player(int id, std::string name) : GameEntity(id, name),
+	items_(new EntityList()),
+	stats_(std::unique_ptr<PlayerStats>(new PlayerStats()))
+{
 	connection_id_ = -1;
 	password_ = "";
 	room_id_ = 0;
@@ -18,7 +21,8 @@ Player::Player(int id, std::string name) : GameEntity(id, name){
 * A standard constructor create an object player by permanent player ID, initial name, and password.
 */
 Player::Player(int id, std::string name, std::string password) : GameEntity(id, name),
-	items_(new EntityList())
+	items_(new EntityList()),
+	stats_(std::unique_ptr<PlayerStats>(new PlayerStats()))
 {
 	connection_id_ = -1;
     password_ = password;
@@ -127,4 +131,8 @@ GameEntity* Player::FindItem(std::string name) const {
 		}
 	}
 	return nullptr;
+}
+
+PlayerStats& Player::GetStats() {
+	return *(stats_.get());
 }
