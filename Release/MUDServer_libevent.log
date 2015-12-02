@@ -1,10 +1,10 @@
-﻿Build started 12/2/2015 12:36:01 AM.
-     1>Project "D:\Users\kvand_000\Documents\GitHub\MUDserver\MUDServer_libevent.vcxproj" on node 2 (Build target(s)).
+﻿Build started 2015-12-02 10:16:54 AM.
+     1>Project "C:\Users\Jacob\Documents\GitHub\MUDserver\MUDServer_libevent.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /Iinclude /I"WIN32-Code" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Release\\" /Fd"Release\vc140.pdb" /FR"Release\\" /Gd /TP /analyze- /errorReport:prompt GameWorld.cpp
          GameWorld.cpp
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Users\kvand_000\Documents\GitHub\MUDserver\Release\MUDServer_libevent.exe" /INCREMENTAL /NOLOGO /LIBPATH:lib libevent.lib libevent_core.lib ws2_32.lib libevent_extras.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"D:\Users\kvand_000\Documents\GitHub\MUDserver\Release\MUDServer_libevent.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG:incremental /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Users\kvand_000\Documents\GitHub\MUDserver\Release\MUDServer_libevent.lib" /MACHINE:X86 /SAFESEH Release\ConnectionList.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Jacob\Documents\GitHub\MUDserver\Release\MUDServer_libevent.exe" /INCREMENTAL /NOLOGO /LIBPATH:lib libevent.lib libevent_core.lib ws2_32.lib libevent_extras.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"C:\Users\Jacob\Documents\GitHub\MUDserver\Release\MUDServer_libevent.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG:incremental /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Jacob\Documents\GitHub\MUDserver\Release\MUDServer_libevent.lib" /MACHINE:X86 /SAFESEH Release\ConnectionList.obj
          Release\EntityList.obj
          Release\FileParser.obj
          Release\GameEntity.obj
@@ -24,15 +24,15 @@
      1>LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/LTCG' specification
      1>LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
          Generating code
-         1 of 1799 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
-           0 functions were new in current compilation
-           1 functions had inline decision re-evaluated but remain unchanged
+         1802 of 1810 functions (99.6%) were compiled, the rest were copied from previous compilation.
+           12 functions were new in current compilation
+           0 functions had inline decision re-evaluated but remain unchanged
          Finished generating code
-         MUDServer_libevent.vcxproj -> D:\Users\kvand_000\Documents\GitHub\MUDserver\Release\MUDServer_libevent.exe
+         MUDServer_libevent.vcxproj -> C:\Users\Jacob\Documents\GitHub\MUDserver\Release\MUDServer_libevent.exe
        BscMake:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\bscmake.exe /nologo /o"D:\Users\kvand_000\Documents\GitHub\MUDserver\Release\MUDServer_libevent.bsc" /n Release\ConnectionList.sbr Release\EntityList.sbr Release\FileParser.sbr Release\GameEntity.sbr Release\GameWorld.sbr Release\Item.sbr Release\Message.sbr Release\MessageBuffer.sbr Release\MUDServer_libevent.sbr Release\Parser.sbr Release\Player.sbr Release\PlayerStats.sbr Release\Room.sbr Release\Server.sbr Release\TCPListener.sbr Release\TCPStream.sbr Release\Utility.sbr
-     1>Done Building Project "D:\Users\kvand_000\Documents\GitHub\MUDserver\MUDServer_libevent.vcxproj" (Build target(s)).
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\bscmake.exe /nologo /o"C:\Users\Jacob\Documents\GitHub\MUDserver\Release\MUDServer_libevent.bsc" /n Release\ConnectionList.sbr Release\EntityList.sbr Release\FileParser.sbr Release\GameEntity.sbr Release\GameWorld.sbr Release\Item.sbr Release\Message.sbr Release\MessageBuffer.sbr Release\MUDServer_libevent.sbr Release\Parser.sbr Release\Player.sbr Release\PlayerStats.sbr Release\Room.sbr Release\Server.sbr Release\TCPListener.sbr Release\TCPStream.sbr Release\Utility.sbr
+     1>Done Building Project "C:\Users\Jacob\Documents\GitHub\MUDserver\MUDServer_libevent.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:09.71
+Time Elapsed 00:00:13.97
