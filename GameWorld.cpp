@@ -811,7 +811,7 @@ void GameWorld::Take(int connection_id, std::string entity)
 		room->RemoveItem(item->GetId());
 		std::ostringstream outString, roomString;
 		outString << "You take " << cGreen << item->GetName() << cDefault << ".\n";
-		roomString << cYellow << player->GetName() << cDefault << " takes " << cGreen << item->GetName() << cDefault << ".\n";
+		roomString << cGreen << player->GetName() << cDefault << " takes " << cGreen << item->GetName() << cDefault << ".\n";
 		Message* msg = new Message(outString.str(), player->GetConnectionId(), Message::outputMessage);
 		parent.PutMessage(msg);
 		std::vector<GameEntity*>* otherPlayers = room->GetPlayerVector();
@@ -1203,6 +1203,7 @@ EntityList& GameWorld::GetItems() const {
 
 Server& GameWorld::GetParent() const {
 	return parent;
+
 }
 
 void GameWorld::ReleaseThreads() {
