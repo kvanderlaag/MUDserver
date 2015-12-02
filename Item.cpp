@@ -2,7 +2,7 @@
 #include "Item.h"
 
 /**Create an item with ID and a description*/
-Item::Item(int id, std::string description) : GameEntity(id, description)
+Item::Item(int id, std::string description, GameWorld* world) : GameEntity(id, description, world)
 {
 #ifdef _DEBUG_FLAG
 	std::cout <<"Created an item..." << std::endl;
@@ -10,7 +10,7 @@ Item::Item(int id, std::string description) : GameEntity(id, description)
 }
 
 /**Create an item with an ID, a name and description*/
-Item::Item(int id, std::string name, std::string description) : GameEntity(id, name, description)
+Item::Item(int id, std::string name, std::string description, GameWorld* world) : GameEntity(id, name, description, world)
 {
 #ifdef _DEBUG_FLAG
 	std::cout << "Created an item..." << std::endl;
@@ -18,7 +18,7 @@ Item::Item(int id, std::string name, std::string description) : GameEntity(id, n
 }
 
 /**Create an item with an ID and another item to copy from */
-Item::Item(int newId, const Item& other) : GameEntity(newId, other.GetName(), other.GetDescription()),
+Item::Item(int newId, const Item& other) : GameEntity(newId, other.GetName(), other.GetDescription(), &(other.GetWorld())),
 	mShortNames(other.GetShortNameVector())
 {
 }

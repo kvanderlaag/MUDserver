@@ -1,3 +1,4 @@
+#pragma once
 #ifndef __GAMEWORLD_H__
 #define __GAMEWORLD_H__
 
@@ -9,6 +10,7 @@
 #include "Message.h"
 #include "Server.h"
 #include "Utility.h"
+#include "FileParser.h"
 
 #include <map>
 #include <vector>
@@ -21,6 +23,9 @@
 * Header file for game world
 */
 
+class Player;
+class Room;
+class Item;
 class Server;
 
 class GameWorld
@@ -37,6 +42,8 @@ private:
 	ConnectionList* current_players_; // connection_id/player_id
 	Server& parent;
 
+	std::unique_ptr<std::thread> updateThread;
+
 public:
     GameWorld(Server& par);
     ~GameWorld();
@@ -52,8 +59,6 @@ public:
 
 	Player* FindPlayer(int connection_id);
 	Room* FindPlayerRoom(Player* player);
-
-	std::unique_ptr<std::thread> updateThread;
 
 	void ReceiveMessage(Message* message);
 
@@ -80,6 +85,7 @@ public:
 	void LogIn(int connection_id, std::string login_name, std::string password);
 	void LogOut(int connection_id);
 
+	void StartUpdate();
 	static void CreateUpdateThread(void* arg);
 	void DoUpdate();
 };

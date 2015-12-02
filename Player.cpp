@@ -6,7 +6,7 @@
 /**
 * The default constructor create a naive object player by permanent player ID and initial name.
 */
-Player::Player(int id, std::string name) : GameEntity(id, name),
+Player::Player(int id, std::string name, GameWorld* world) : GameEntity(id, name, world),
 	items_(new EntityList()),
 	stats_(std::unique_ptr<PlayerStats>(new PlayerStats()))
 {
@@ -20,7 +20,7 @@ Player::Player(int id, std::string name) : GameEntity(id, name),
 /**
 * A standard constructor create an object player by permanent player ID, initial name, and password.
 */
-Player::Player(int id, std::string name, std::string password) : GameEntity(id, name),
+Player::Player(int id, std::string name, std::string password, GameWorld* world) : GameEntity(id, name, world),
 	items_(new EntityList()),
 	stats_(std::unique_ptr<PlayerStats>(new PlayerStats()))
 {

@@ -1,9 +1,9 @@
 #include "GameWorld.h"
-#include "FileParser.h"
 
 #include <iostream>
 #include <sstream>
 #include <fstream>
+#include <ctime>
 
 /**
 * Create a game world, with entity lists for players and rooms
@@ -20,9 +20,10 @@ GameWorld::GameWorld(Server& par) :
     std::cout << "Created a world..." << std::endl;
 #endif
 
-	LoadPlayers("players.tsv");
 	LoadItems("items.tsv");
 	LoadRooms("rooms.tsv");
+	LoadPlayers("players.tsv");
+	
 
 }
 
@@ -734,7 +735,7 @@ void GameWorld::SignUp(int connection_id, std::string login_name, std::string pa
 	else if (!login_name.empty() && !password.empty())
 	{
 		// construct player
-		Player* player = new Player(players_->GetNextId(), login_name, password);
+		Player* player = new Player(players_->GetNextId(), login_name, password, this);
 
 		// add to player list
 		players_->AddEntity(player);
@@ -886,7 +887,7 @@ void GameWorld::LoadPlayers(std::string filename) {
 		std::string name = player_values->at(0);
 		std::string password = player_values->at(1);
 
-		Player* player = new Player(players_->GetNextId(), name, password);
+		Player* player = new Player(players_->GetNextId(), name, password, this);
 		
 		if (player_values->size() > 2) {
 			std::stringstream s_current_room(player_values->at(2));
@@ -923,6 +924,10 @@ void GameWorld::LoadPlayers(std::string filename) {
 				player->GetStats().SetStats(health, mana, strength, dexterity, constitution, intelligence, charisma);
 			}
 		}
+
+		if (player_values->size() > 4) {
+			player->SetDescription(player_values->at(4));
+		}
 		// add to player list
 		players_->AddEntity(player);
 	}
@@ -942,7 +947,7 @@ void GameWorld::LoadRooms(std::string filename) {
 		std::vector<std::string>* room_values = FileParser::ParseTsv(rooms->at(i));
 		std::string name = room_values->at(0);
 		std::string description = room_values->at(1);
-		Room* room = new Room(rooms_->GetNextId(), name, description);
+		Room* room = new Room(rooms_->GetNextId(), name, description, this);
 
 		if (room_values->size() > 4) {
 			std::vector<std::string>* items = FileParser::ParseCsv(room_values->at(4));
@@ -1008,7 +1013,7 @@ void GameWorld::LoadItems(std::string filename) {
 		}
 		std::string name = item_values->at(1);
 
-		Item* item = new Item(id, name);
+		Item* item = new Item(id, name, this);
 
 		std::vector<std::string>* shortnames = FileParser::ParseCsv(item_values->at(2));
 		if (shortnames) {
@@ -1038,13 +1043,20 @@ void GameWorld::CreateUpdateThread(void* arg)
 	instance->DoUpdate();
 }
 
+void GameWorld::StartUpdate() {
+	updateThread = std::unique_ptr<std::thread>(new std::thread(&CreateUpdateThread, this));
+}
 
 /**
 * Updates game world on interval
 */
 void GameWorld::DoUpdate() {
-
-    while (parent.IsRunning()) {
+	const double updateInterval = 5000;
+    
+	while (parent.IsRunning()) {
+		using namespace std::literals;
+		std::cout << "Updating game world." << std::endl;
+		std::this_thread::sleep_for(10s);
 
     }
 }

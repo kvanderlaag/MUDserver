@@ -2,10 +2,12 @@
 * Header file Player.h inherits GameEntity.
 * Player also includes an entity list for the item inventory.
 */
+#pragma once
 #ifndef __PLAYER_H__
 #define __PLAYER_H__
 
 #include "GameEntity.h"
+#include "GameWorld.h"
 #include "EntityList.h"
 #include "PlayerStats.h"
 #include "Item.h"
@@ -15,8 +17,9 @@
 #include <vector>
 #include <cctype>
 
+
 /**
-* Player extents GameEntity's functionailty by adding connection ID, password, room ID, and an entity list for storing items.
+* Player extends GameEntity's functionailty by adding connection ID, password, room ID, and an entity list for storing items.
 */
 class Player: public GameEntity
 {
@@ -43,8 +46,8 @@ private:
  *add/remove/find a item with an item list within player object.
  */
 public:
-    Player(int id, std::string name);
-    Player(int id, std::string name, std::string password);
+    Player(int id, std::string name, GameWorld* world);
+    Player(int id, std::string name, std::string password, GameWorld* world);
     ~Player();
     void PrintPlayer();
 

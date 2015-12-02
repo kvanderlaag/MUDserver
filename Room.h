@@ -1,3 +1,4 @@
+#pragma once
 #ifndef __ROOM_H__
 #define __ROOM_H__
 
@@ -20,8 +21,8 @@ private:
 	EntityList* players_;
 
 public:
-	Room(int id, std::string name);
-	Room(int id, std::string name, std::string description);
+	Room(int id, std::string name, GameWorld* world);
+	Room(int id, std::string name, std::string description, GameWorld* world);
 	~Room(  );
 
 	void AddItem(GameEntity* entity);

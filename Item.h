@@ -1,3 +1,4 @@
+#pragma once
 /**Header file for item
  *item inherits GameEntity
 */
@@ -5,10 +6,12 @@
 #define __ITEM_H__
 
 #include "GameEntity.h"
+#include "GameWorld.h"
 
 #include <iostream>
 #include <vector>
 
+class GameWorld;
 
 class Item : public GameEntity
 {
@@ -21,8 +24,8 @@ private:
  * and a destructor
 */
 public:
-	Item(int id, std::string description);
-	Item(int id, std::string name, std::string description);
+	Item(int id, std::string description, GameWorld* world);
+	Item(int id, std::string name, std::string description, GameWorld* world);
 	Item(int newId, const Item& other);
 	void AddShortName(std::string name);
 	std::vector<std::string> GetShortNameVector() const;

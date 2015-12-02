@@ -60,6 +60,9 @@ void FileParser::WritePlayers(std::string filename, std::vector<GameEntity*>* pl
 		playerOut << p->GetStats().GetMaxIntelligence() << ",";
 		playerOut << p->GetStats().GetMaxCharisma() << "";
 
+		playerOut << "\t";
+
+		playerOut << p->GetDescription();
 		playerOut << "\n";
 
 		file << playerOut.str();

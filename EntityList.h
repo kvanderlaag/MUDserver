@@ -1,3 +1,4 @@
+#pragma once
 #ifndef __ENTITYLIST_H__
 #define __ENTITYLIST_H__
 
