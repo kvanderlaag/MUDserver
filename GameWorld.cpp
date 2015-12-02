@@ -1092,11 +1092,11 @@ void GameWorld::DoUpdate() {
 
 	while (parent.IsRunning()) {
 
-		std::cout << "Updating game world." << std::endl;
+		//std::cout << "Updating game world." << std::endl;
 		// Respawn room items
 		std::vector<GameEntity*>* rooms = rooms_->GetEntityVector();
 		for (Room* r : *((std::vector<Room*>*) rooms)) {
-			std::cout << "Respawning items in." << r->GetName() << std::endl;
+			//std::cout << "Respawning items in." << r->GetName() << std::endl;
 			r->RespawnItems();
 		}
 		std::this_thread::sleep_for(10s);

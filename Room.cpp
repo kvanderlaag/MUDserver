@@ -57,7 +57,7 @@ void Room::SpawnItem(int masterId) {
 
 	GetWorld().GetItems().AddEntity(spawnItem);
 	AddItem(spawnItem);
-	std::cout << "Spawning " << spawnItem->GetName() << " in " << GetName() << " (Master ID: " << spawnItem->GetMasterId() << ")" << std::endl;
+	//std::cout << "Spawning " << spawnItem->GetName() << " in " << GetName() << " (Master ID: " << spawnItem->GetMasterId() << ")" << std::endl;
 
 	std::ostringstream outString;
 	outString << "\n" << cGreen << spawnItem->GetName() << cDefault << " popped into existence.\n";
