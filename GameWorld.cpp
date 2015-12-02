@@ -887,7 +887,7 @@ void GameWorld::Whisper(int connection_id, std::string player_name, std::string 
 	{
 		// send no player message
 		std::stringstream errorString;
-		errorString << cGreen << other_player->GetName() << cDefault << " is not here.";
+		errorString << cGreen << player_name << cDefault << " is not here.";
 		Message* player_msg = new Message(errorString.str(), player->GetConnectionId(), Message::outputMessage);
 
 		// place message on message buffer
