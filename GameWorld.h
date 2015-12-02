@@ -75,6 +75,8 @@ public:
 	void Drop(int connection_id, std::string entity);
 	void Who(int connection_id);
 	void Description(int connection_id, std::string words);
+	void Tell(int connection_id, std::string name, std::string words);
+	void Password(int connection_id, std::string words);
 
 	void LoadPlayers(std::string filename);
 	void LoadItems(std::string filename);

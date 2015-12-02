@@ -64,7 +64,7 @@ int Player::GetConnectionId() {
 /**
 * The GetPassword function returns the initial passoword.
 */
-std::string Player::GetPassword() {
+std::string Player::GetPassword() const {
     return password_;
 }
 
@@ -135,4 +135,8 @@ GameEntity* Player::FindItem(std::string name) const {
 
 PlayerStats& Player::GetStats() {
 	return *(stats_.get());
+}
+
+void Player::SetPassword(std::string password) {
+	password_ = password;
 }

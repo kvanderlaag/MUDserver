@@ -169,7 +169,7 @@ void GameWorld::ReceiveMessage(Message* message)
 	else {
 
 
-		if (command == "help")
+		if (command == "help" || command == "h") 
 		{
 			Help(message->GetSource());
 		}
@@ -203,6 +203,16 @@ void GameWorld::ReceiveMessage(Message* message)
 
 			Take(message->GetSource(), words);
 		}
+		else if (command == "tell" || command == "t") {
+			std::stringstream wss(words);
+			std::string player;
+			std::string tell;
+			wss >> player;
+			wss.get();
+			std::getline(wss, tell);
+
+			Tell(message->GetSource(), player, tell);
+		}
 		else if (command == "whisper")
 		{
 			std::stringstream wss(words);
@@ -235,6 +245,9 @@ void GameWorld::ReceiveMessage(Message* message)
 		}
 		else if (command == "drop" || command == "d") {
 			Drop(message->GetSource(), words);
+		}
+		else if (command == "password") {
+			Password(message->GetSource(), words);
 		}
 		else if (command == "shutdown") {
 			Player* p = FindPlayer(message->GetSource());
@@ -339,21 +352,24 @@ void GameWorld::Help(int connection_id)
 	help << "Help is on its way!\n";
 	help << "\n";
 	help << "Commands are:\n";
+	help << cGreen << "drop" << cDefault << " <target> -or- " << cGreen << "d" << cDefault << " <target>\n";
+	help << cGreen << "inventory" << cDefault << " -or- " << cGreen << "inv" << cDefault << " -or- " << cGreen << "i" << cDefault << "\n";
 	help << cGreen << "look" << cDefault << " <target>\n";
 	help << cGreen << "move" << cDefault << " <exit>\n";
-	help << cGreen << "say" << cDefault << " <message>\n";
-	help << cGreen << "shout" << cDefault << " <message>\n";
-	help << cGreen << "whisper" << cDefault << " <target> <message>\n";
-	help << cGreen << "inventory" << cDefault << " -or- " << cGreen << "inv" << cDefault << " -or- " << cGreen << "i" << cDefault << "\n";
-	help << cGreen << "take" << cDefault << " <target> -or- " << cGreen << "get" << cDefault << " <target>\n";
-	help << cGreen << "drop" << cDefault << " <target> -or- " << cGreen << "d" << cDefault << " <target>\n";
-	help << cGreen << "who" << cDefault << "\n";
+	help << cGreen << "password" << cDefault << " <new password>\n";
 	help << cGreen << "quit\n" << cDefault;
+	help << cGreen << "say" << cDefault << " <message>\n";
+	help << cGreen << "stats" << cDefault << " -or - " << cGreen << "score\n";
+	help << cGreen << "shout" << cDefault << " <message>\n";
+	help << cGreen << "tell" << cDefault << "<target>\n";
+	help << cGreen << "take" << cDefault << " <target> -or- " << cGreen << "get" << cDefault << " <target>\n";
+	help << cGreen << "whisper" << cDefault << " <target> <message>\n";
+	help << cGreen << "who" << cDefault << "\n";
+	
 	help << "\n";
 	help << "Compass directions north, south, east, and west can be used as commands,\nand shorten to n, s, e, and w.";
-	help << "\n";
+	help << "\n\n";
 	help << "Enjoy the game. :D\n";
-	help << "Please, forget you saw this.\n";
 	Message* msg = new Message(help.str(), connection_id, Message::outputMessage);
 	parent.PutMessage(msg);
 }
@@ -856,18 +872,90 @@ void GameWorld::Whisper(int connection_id, std::string player_name, std::string 
 
 	if (other_player != NULL)
 	{
+		std::stringstream playerString, targetString;
+		playerString << "You whisper \"" << words << "\" to " << cGreen << other_player->GetName() << cDefault << ".";
 		// send you those words
-		Message* pmsg = new Message("You whisper \"" + words + "\" to " + other_player->GetName(), player->GetConnectionId(), Message::outputMessage);
+		Message* pmsg = new Message(playerString.str(), player->GetConnectionId(), Message::outputMessage);
 		parent.PutMessage(pmsg);
 
 		// send player those words
-		Message* omsg = new Message(player->GetName() + " whispers \"" + words + "\"", other_player->GetConnectionId(), Message::outputMessage);
+		targetString << cGreen << other_player->GetName() << cDefault << "whispers \"" << words << "\" to you.";
+		Message* omsg = new Message(targetString.str(), other_player->GetConnectionId(), Message::outputMessage);
 		parent.PutMessage(omsg);
 	}
 	else
 	{
 		// send no player message
-		Message* player_msg = new Message("There is no such person to whisper to...", player->GetConnectionId(), Message::outputMessage);
+		std::stringstream errorString;
+		errorString << cGreen << other_player->GetName() << cDefault << " is not here.";
+		Message* player_msg = new Message(errorString.str(), player->GetConnectionId(), Message::outputMessage);
+
+		// place message on message buffer
+		parent.PutMessage(player_msg);
+	}
+}
+
+/**
+* Player Command
+* Changes the specified player's password.
+*/
+void GameWorld::Password(int connection_id, std::string words) {
+	Player* p = FindPlayer(connection_id);
+
+	if (p && !words.empty()) {
+		p->SetPassword(words);
+
+		std::ostringstream outString;
+		outString << "Your password has been changed.";
+		Message* msg = new Message(outString.str(), connection_id, Message::outputMessage);
+		parent.PutMessage(msg);
+	}
+
+	FileParser::WritePlayers("players.tsv", players_->GetEntityVector());
+	
+}
+
+/**
+* Player command
+* Tell command with a given string and player name
+* Forwards this message to the specified player, if they are logged in.
+*/
+void GameWorld::Tell(int connection_id, std::string player_name, std::string words)
+{
+	// find player
+	Player* player = FindPlayer(connection_id);
+
+	// find other player
+	Player* otherPlayer = (Player*)players_->FindEntity(player_name);
+	if (otherPlayer) {
+		if (current_players_->GetPlayerId(otherPlayer->GetConnectionId()) != -1) {
+			std::stringstream playerString, targetString;
+			playerString << "You tell " << cGreen << otherPlayer->GetName() << cDefault << " \"" << cYellow << words << cDefault << "\"";
+			// send you those words
+			Message* pmsg = new Message(playerString.str(), player->GetConnectionId(), Message::outputMessage);
+			parent.PutMessage(pmsg);
+
+			// send player those words
+			targetString << cGreen << player->GetName() << cDefault << " tells you \"" << cYellow << words << cDefault << "\"";
+			Message* omsg = new Message(targetString.str(), otherPlayer->GetConnectionId(), Message::outputMessage);
+			parent.PutMessage(omsg);
+		}
+		else
+		{
+			// send no player message
+			std::stringstream errorString;
+			errorString << cGreen << otherPlayer->GetName() << cDefault << " is not there.";
+			Message* player_msg = new Message(errorString.str(), player->GetConnectionId(), Message::outputMessage);
+
+			// place message on message buffer
+			parent.PutMessage(player_msg);
+		}
+	}
+	else {
+		// send no player message
+		std::stringstream errorString;
+		errorString << cGreen << player_name << cDefault << " does not exist.";
+		Message* player_msg = new Message(errorString.str(), player->GetConnectionId(), Message::outputMessage);
 
 		// place message on message buffer
 		parent.PutMessage(player_msg);

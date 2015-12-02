@@ -60,7 +60,7 @@ void Room::SpawnItem(int masterId) {
 	//std::cout << "Spawning " << spawnItem->GetName() << " in " << GetName() << " (Master ID: " << spawnItem->GetMasterId() << ")" << std::endl;
 
 	std::ostringstream outString;
-	outString << "\n" << cGreen << spawnItem->GetName() << cDefault << " popped into existence.\n";
+	outString << "\n" << cGreen << spawnItem->GetName() << cDefault << " pops into existence.\n";
 
 	std::vector<Player*>* roomPlayers = (std::vector<Player*>*) players_->GetEntityVector();
 	for (Player* p : *roomPlayers) {
