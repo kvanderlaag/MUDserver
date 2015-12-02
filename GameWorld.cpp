@@ -1072,7 +1072,7 @@ void GameWorld::StartUpdate() {
 * Saves game world on interval
 */
 void GameWorld::DoSave() {
-	using namespace std::literals;
+	using namespace std::chrono_literals;
 
 	while (parent.IsRunning()) {
 		
@@ -1088,7 +1088,7 @@ void GameWorld::DoSave() {
 * Updates game world on interval
 */
 void GameWorld::DoUpdate() {
-	using namespace std::literals;
+	using namespace std::chrono_literals;
 
 	while (parent.IsRunning()) {
 
