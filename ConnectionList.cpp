@@ -25,7 +25,7 @@ ConnectionList::~ConnectionList()
 /**
 * Add a connection to an existing connection list
 */
-void ConnectionList::AddConnection(int connection_id, int player_id)
+void ConnectionList::AddConnection(const int connection_id, const int player_id)
 {
 
 	if (map_.find(connection_id) != map_.end())
@@ -41,7 +41,7 @@ void ConnectionList::AddConnection(int connection_id, int player_id)
 /**
 * From a connection ID, get the corresponding player ID
 */
-int ConnectionList::GetPlayerId(int connection_id)
+int ConnectionList::GetPlayerId(const int connection_id)
 {
 		std::map<int, int>::iterator it = map_.find(connection_id);
 		if (it != map_.end()) {
@@ -54,7 +54,7 @@ int ConnectionList::GetPlayerId(int connection_id)
 /**
 * Remove the connection ID and corresponding player ID from a list
 */
-void ConnectionList::RemoveConnection(int connection_id)
+void ConnectionList::RemoveConnection(const int connection_id)
 {
 	if (!map_.empty())
 	{
@@ -78,9 +78,9 @@ int ConnectionList::GetConnectionCount()
 /**
 * Return Connection vector for iteration
 */
-std::vector<int>* ConnectionList::GetIdVector()
+std::vector<int> ConnectionList::GetIdVector()
 {
-	std::vector<int>* id_vector = new std::vector<int>();
+	std::vector<int> id_vector = std::vector<int>();
 
 	if (!map_.empty())
 	{
@@ -89,7 +89,7 @@ std::vector<int>* ConnectionList::GetIdVector()
 		{
 			// iterator->first = key
 			// iterator->second = value
-			id_vector->push_back(iterator->second);
+			id_vector.push_back(iterator->second);
 		}
 	}
 	return id_vector;

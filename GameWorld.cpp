@@ -705,10 +705,10 @@ void GameWorld::Shout(int connection_id, std::string words)
 	Player* player = FindPlayer(connection_id);
 
 	// send meesage to other players in game
-	std::vector<int>* current_player_ids = current_players_->GetIdVector();
-	for (std::size_t i = 0; i < current_player_ids->size(); i++)
+	std::vector<int> current_player_ids = current_players_->GetIdVector();
+	for (std::size_t i = 0; i < current_player_ids.size(); i++)
 	{
-		int id = current_player_ids->at(i);
+		int id = current_player_ids.at(i);
 		Player* game_player = dynamic_cast<Player*>(players_->GetEntity(id));
 		Message* msg = new Message(player->GetName() + " shouts \"" + words +"\"", game_player->GetConnectionId(), Message::outputMessage);
 		parent.PutMessage(msg);
@@ -777,8 +777,8 @@ void GameWorld::SignUp(int connection_id, std::string login_name, std::string pa
 void GameWorld::Who(int connection_id) {
 	std::ostringstream outString;
 	outString << "\n" << cBlue << "---\n" << cGreen << "Players currently logged in:\n" << cBlue << "---" << cDefault;
-	std::vector<int>* players = current_players_->GetIdVector();
-	for (int id : *players) {
+	std::vector<int> players = current_players_->GetIdVector();
+	for (int id : players) {
 		Player* p = (Player*) GetPlayer(id);
 		outString << "\n" << p->GetName();
 	}
