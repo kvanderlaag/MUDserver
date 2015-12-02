@@ -26,8 +26,9 @@ public:
 	~Room(  );
 
 	void AddItem(GameEntity* entity);
-	void AddMasterItem(GameEntity* entity);
-	void SpawnItem(GameEntity* item);
+	void AddMasterItem(int id);
+	void SpawnItem(int masterId);
+	void RespawnItems();
 	void AddExit(GameEntity* entity);
 	void AddPlayer(GameEntity* entity);
 	void AddDirection(int id, std::string dir);

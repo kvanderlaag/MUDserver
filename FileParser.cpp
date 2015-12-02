@@ -63,6 +63,24 @@ void FileParser::WritePlayers(std::string filename, std::vector<GameEntity*>* pl
 		playerOut << "\t";
 
 		playerOut << p->GetDescription();
+		
+		playerOut << "\t";
+
+		std::vector<GameEntity*> inventory = p->GetItemVector();
+		if (!inventory.empty()) {
+			if (inventory.size() == 1) {
+				playerOut << ((Item*)inventory.at(0))->GetMasterId();
+			}
+			else {
+				for (int i = 0; i < inventory.size() - 2; ++i) {
+					playerOut << ((Item*)inventory.at(i))->GetMasterId() << ",";
+				}
+				playerOut << ((Item*)inventory.at(inventory.size() - 1))->GetMasterId();
+			}
+			
+		}
+		
+
 		playerOut << "\n";
 
 		file << playerOut.str();

@@ -43,6 +43,7 @@ private:
 	Server& parent;
 
 	std::unique_ptr<std::thread> updateThread;
+	std::unique_ptr<std::thread> saveThread;
 
 public:
     GameWorld(Server& par);
@@ -86,8 +87,16 @@ public:
 	void LogOut(int connection_id);
 
 	void StartUpdate();
+	static void CreateSaveThread(void* arg);
 	static void CreateUpdateThread(void* arg);
 	void DoUpdate();
+	void DoSave();
+
+	void ReleaseThreads();
+
+	Server& GetParent() const;
+	EntityList& GetMasterItems() const;
+	EntityList& GetItems() const;
 };
 
 #endif // __GAMEWORLD_H__

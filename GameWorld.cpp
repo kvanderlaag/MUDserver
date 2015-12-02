@@ -928,6 +928,19 @@ void GameWorld::LoadPlayers(std::string filename) {
 		if (player_values->size() > 4) {
 			player->SetDescription(player_values->at(4));
 		}
+
+		if (player_values->size() > 5) {
+			std::vector<std::string>* playerInventory = FileParser::ParseCsv(player_values->at(5));
+			for (std::string sItemId : *playerInventory) {
+				std::stringstream sId(sItemId);
+				int itemId;
+				if (sId >> itemId) {
+					Item* i = new Item(items_->GetNextId(), *((Item*) master_items_->GetEntity(itemId)));
+					items_->AddEntity(i);
+					player->AddItem(i);
+				}
+			}
+		}
 		// add to player list
 		players_->AddEntity(player);
 	}
@@ -958,6 +971,7 @@ void GameWorld::LoadRooms(std::string filename) {
 					if (master_items_->GetEntity(intId)) {
 						Item* item = new Item(items_->GetNextId(), (Item&) *(master_items_->GetEntity(intId)));
 						room->AddItem(item);
+						room->AddMasterItem(intId);
 					}
 				}
 
@@ -1013,7 +1027,7 @@ void GameWorld::LoadItems(std::string filename) {
 		}
 		std::string name = item_values->at(1);
 
-		Item* item = new Item(id, name, this);
+		Item* item = new Item(id, name, this, id);
 
 		std::vector<std::string>* shortnames = FileParser::ParseCsv(item_values->at(2));
 		if (shortnames) {
@@ -1043,20 +1057,67 @@ void GameWorld::CreateUpdateThread(void* arg)
 	instance->DoUpdate();
 }
 
+void GameWorld::CreateSaveThread(void* arg)
+{
+	GameWorld* instance = (GameWorld*)arg;
+	instance->DoSave();
+}
+
 void GameWorld::StartUpdate() {
 	updateThread = std::unique_ptr<std::thread>(new std::thread(&CreateUpdateThread, this));
+	saveThread = std::unique_ptr<std::thread>(new std::thread(&CreateSaveThread, this));
+}
+
+/**
+* Saves game world on interval
+*/
+void GameWorld::DoSave() {
+	using namespace std::literals;
+
+	while (parent.IsRunning()) {
+		
+		std::cout << "Saving player list" << std::endl;
+		FileParser::WritePlayers("players.tsv", players_->GetEntityVector());
+		std::this_thread::sleep_for(5min);
+
+    }
+
 }
 
 /**
 * Updates game world on interval
 */
 void GameWorld::DoUpdate() {
-	const double updateInterval = 5000;
-    
+	using namespace std::literals;
+
 	while (parent.IsRunning()) {
-		using namespace std::literals;
+
 		std::cout << "Updating game world." << std::endl;
+		// Respawn room items
+		std::vector<GameEntity*>* rooms = rooms_->GetEntityVector();
+		for (Room* r : *((std::vector<Room*>*) rooms)) {
+			std::cout << "Respawning items in." << r->GetName() << std::endl;
+			r->RespawnItems();
+		}
 		std::this_thread::sleep_for(10s);
 
-    }
+	}
+	
+}
+
+EntityList& GameWorld::GetMasterItems() const {
+	return *master_items_;
+}
+
+EntityList& GameWorld::GetItems() const {
+	return *items_;
+}
+
+Server& GameWorld::GetParent() const {
+	return parent;
+}
+
+void GameWorld::ReleaseThreads() {
+	updateThread.release();
+	saveThread.release();
 }

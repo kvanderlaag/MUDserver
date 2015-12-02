@@ -60,7 +60,6 @@ void Server::Start()
 	listenerThread = std::unique_ptr<std::thread>(new std::thread(&CreateListenerThread, listener.get()));
 	messageQueueThread = std::unique_ptr<std::thread>(new std::thread(&CreateMessageQueueThread, this));
 	world.get()->StartUpdate();
-
 	//listenerThread.get()->join();
 	messageQueueThread.get()->join();
 }
@@ -112,6 +111,7 @@ void Server::Shutdown()
 	listener.get()->ShutdownListener();
 	listenerThread.release();
 	messageQueueThread.release();
+	world.get()->ReleaseThreads();
 	//listener.release();
 	//world.release();
 }
