@@ -2,16 +2,24 @@
 * Header file Player.h inherits GameEntity.
 * Player also includes an entity list for the item inventory.
 */
+#pragma once
 #ifndef __PLAYER_H__
 #define __PLAYER_H__
 
 #include "GameEntity.h"
+#include "GameWorld.h"
 #include "EntityList.h"
+#include "PlayerStats.h"
+#include "Item.h"
 #include <iostream>
 #include <string>
+#include <memory>
+#include <vector>
+#include <cctype>
+
 
 /**
-* Player extents GameEntity's functionailty by adding connection ID, password, room ID, and an entity list for storing items.
+* Player extends GameEntity's functionailty by adding connection ID, password, room ID, and an entity list for storing items.
 */
 class Player: public GameEntity
 {
@@ -28,7 +36,9 @@ private:
     std::string password_;
 
     int room_id_;
-    EntityList* items_;
+    std::unique_ptr<EntityList> items_;
+
+	std::unique_ptr<PlayerStats> stats_;
 
 /**
  *Public functions have default constructor, a standard constructor, a destrutor, and a print out function.
@@ -36,8 +46,8 @@ private:
  *add/remove/find a item with an item list within player object.
  */
 public:
-    Player(int id, std::string name);
-    Player(int id, std::string name, std::string password);
+    Player(int id, std::string name, GameWorld* world);
+    Player(int id, std::string name, std::string password, GameWorld* world);
     ~Player();
     void PrintPlayer();
 
@@ -49,7 +59,12 @@ public:
 
     void AddItem(GameEntity* entity);
 	void RemoveItem(int id);
+	void RemoveItem(std::string name);
 	GameEntity* GetItem(int id);
+	std::vector<GameEntity*> GetItemVector();
+	GameEntity* FindItem(std::string name) const;
+
+	PlayerStats& GetStats();
 
 	/**The function GetPassword returns the initial password of the player.*/  
     std::string GetPassword();

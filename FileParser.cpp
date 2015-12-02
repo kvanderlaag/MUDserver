@@ -37,13 +37,34 @@ std::vector<std::string>* FileParser::ParseCsv(std::string csv) {
 		values->push_back(token);
 	}
 
-	return values;
+	if (!values->empty())
+		return values;
+	else
+		return nullptr;
 }
 
 void FileParser::WritePlayers(std::string filename, std::vector<GameEntity*>* players) {
 	std::ofstream file(filename);
 	
-	for each (Player* p in *players) {
-		file << p->GetName() + "\t" + p->GetPassword() + "\n";
+	for (Player* p : *((std::vector<Player*>*) players)) {
+		std::stringstream playerOut;
+		playerOut << p->GetName() << "\t";
+		playerOut << p->GetPassword() << "\t";
+		playerOut << p->GetRoomId() << "\t";
+
+		playerOut << p->GetStats().GetMaxHealth() << ",";
+		playerOut << p->GetStats().GetMaxMana() << ",";
+		playerOut << p->GetStats().GetMaxStrength() << ",";
+		playerOut << p->GetStats().GetMaxDexterity() << ",";
+		playerOut << p->GetStats().GetMaxConstitution() << ",";
+		playerOut << p->GetStats().GetMaxIntelligence() << ",";
+		playerOut << p->GetStats().GetMaxCharisma() << "";
+
+		playerOut << "\t";
+
+		playerOut << p->GetDescription();
+		playerOut << "\n";
+
+		file << playerOut.str();
 	}
 }

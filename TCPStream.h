@@ -31,6 +31,7 @@ public:
 	static void do_write(struct bufferevent *bev, void* arg);
 
 private:
+	bool mIdentified;
 	bufferevent* bEvent;
 	TCPListener* parent;
 	int socketfd;

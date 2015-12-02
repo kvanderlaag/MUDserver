@@ -3,10 +3,14 @@
 #include <map>
 #include <iostream>
 
+#ifdef _WIN32
 #include <Windows.h>
 #include <tchar.h.>
 #include <strsafe.h>
-#include <thread>
+#endif
+
+
+
 
 /**
 * Creates a server on a given port number
@@ -16,14 +20,16 @@
 */
 Server::Server(int port)
 	: listener(new TCPListener(this))
-	, world(new GameWorld(this))
+	, world(new GameWorld(*this))
 	, mBuffer(new MessageBuffer())
 	, running(false)
 	, parser(new Parser())
-	, mLoginMessage("Welcome to JakeMUD!\n\nCommands:\nlogin <username> <password>\nsignup <username> <password>\n")
+	, mLoginMessage("Welcome to JakeMUD!\n\r\n\rCommands:\n\rlogin <username> <password>\n\rsignup <username> <password>\n\r")
 {
-	std::cout << "Creating new Server on port " << port << ".\n";
-	std::cout << "TCPListener creation successful." << '\n';
+	std::cout << "Creating new Server on port " << port << ".\n\r";
+#ifdef _DEBUG_FLAG
+	std::cout << "TCPListener creation successful." << "\n\r";
+#endif
 }
 
 /**
@@ -33,14 +39,13 @@ Server::Server(int port)
 */
 Server::~Server()
 {
-	if (listener)
-	{
-		delete listener;
-	}
-	if (mBuffer)
-	{
-		delete mBuffer;
-	}
+//    std::cout << "Destroying server.\n";
+//	world.reset();
+//	listener.reset();
+//	parser.reset();
+//	mBuffer.reset();
+//	listenerThread.reset();
+//	messageQueueThread.reset();
 }
 
 /**
@@ -52,11 +57,16 @@ void Server::Start()
 {
 	running = true;
 
-	std::thread listenerThread (&CreateListenerThread, listener);
-	std::thread messageQueueThread (&CreateMessageQueueThread, this);
+	listenerThread = std::unique_ptr<std::thread>(new std::thread(&CreateListenerThread, listener.get()));
+	messageQueueThread = std::unique_ptr<std::thread>(new std::thread(&CreateMessageQueueThread, this));
+	world.get()->StartUpdate();
 
-	listenerThread.join();
-	messageQueueThread.join();
+	//listenerThread.get()->join();
+	messageQueueThread.get()->join();
+}
+
+TCPListener* Server::GetListener() const {
+	return listener.get();
 }
 
 /**
@@ -65,7 +75,9 @@ void Server::Start()
 int Server::AddConnection(TCPStream* stream)
 {
 	connections.insert(std::pair<int, TCPStream*>(stream->GetSocket(), stream));
+#ifdef _DEBUG_FLAG
 	std::cout << "Added socket " << stream->GetSocket() << " to the connection list." << '\n';
+#endif
 	SendLoginMessage(stream);
 	return 0;
 }
@@ -97,9 +109,11 @@ void Server::Shutdown()
 	{
 		RemoveConnection(connections.begin()->second);
 	}
-	delete listener;
-	listener = nullptr;
-	delete world;
+	listener.get()->ShutdownListener();
+	listenerThread.release();
+	messageQueueThread.release();
+	//listener.release();
+	//world.release();
 }
 
 /**
@@ -121,11 +135,15 @@ void Server::HandleMessageQueue()
 		if (!mBuffer->IsEmpty())
 		{
 			Message* mess = (Message*) mBuffer->DequeueMessage();
-			std::cout << "Message type: " << mess->GetType() << ", Message: " << mess->Read() << " - Connection ID: " << mess->GetSource() << '\n';
-			if (mess->GetType() == Message::MessageType::inputMessage) 
+#ifdef _DEBUG_FLAG
+			std::cout << "Message type: " << mess->GetType() << /*", Message: " << mess->Read() <<*/ " - Connection ID: " << mess->GetSource() << '\n';
+#endif
+			if (mess->GetType() == Message::MessageType::inputMessage)
 				mBuffer->PutMessage(parser->Parse(mess));
 			else if (mess->GetType() == Message::MessageType::outputMessage) {
+#ifdef _DEBUG_FLAG
 				std::cout << "Writing message out to " << mess->GetSource() << std::endl;
+#endif
 				std::map<int, TCPStream*>::iterator it;
 				it = connections.find(mess->GetSource());
 				if (it != connections.end()) {
@@ -148,7 +166,7 @@ Message* Server::ParseMessage(const Message& mess) {
 	Message* returnMessage = parser->Parse(&mess);
 	mBuffer->PutMessage(returnMessage);
 	return returnMessage;
-	
+
 }
 
 /**
@@ -156,7 +174,9 @@ Message* Server::ParseMessage(const Message& mess) {
 */
 void Server::ErrorHandler(const std::string arg)
 {
+#ifdef _DEBUG_FLAG
 	std::cout << arg << '\n';
+#endif
 }
 
 /**
@@ -181,4 +201,8 @@ void Server::CreateListenerThread(void* arg)
 
 void Server::SendLoginMessage(TCPStream* stream) {
 	stream->Write(mLoginMessage);
+}
+
+bool Server::IsRunning() const {
+    return running;
 }

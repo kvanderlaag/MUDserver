@@ -1,8 +1,6 @@
 // MUDServer_libevent.cpp : Defines the entry point for the console application.
 //
 
-//#include "stdafx.h"
-
 #include "Server.h"
 
 #ifdef _WIN32
@@ -14,6 +12,7 @@
 
 #include <cstdio>
 #include <iostream>
+#include <memory>
 
 using namespace std;
 
@@ -42,7 +41,7 @@ int WinsockStart()
 * main() function. Starts up Winsock if necessary, creates a new server,
 * and starts it listening on the default port.
 */
-int main()
+int main(int argc, char** argv)
 {
 
 	setvbuf(stdout, NULL, _IONBF, 0);
@@ -55,10 +54,10 @@ int main()
 	}
 #endif
 
-	Server* gameServer = new Server();
-	gameServer->Start();
+	std::unique_ptr<Server> gameServer = std::unique_ptr<Server>(new Server());
+	gameServer.get()->Start();
 
-	delete gameServer;
+	gameServer.reset();
 	cout << "Server terminated. Any key to exit.";
 	fgetc(stdin);
 

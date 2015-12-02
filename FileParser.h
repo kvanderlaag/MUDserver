@@ -1,3 +1,4 @@
+#pragma once
 #ifndef __FILEPARSER_H__
 #define __FILEPARSER_H__
 

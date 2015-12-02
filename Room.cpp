@@ -4,8 +4,8 @@
  * Create a new room with an id and name
  * Room inherits GameEntity
  */
-Room::Room(int id, std::string name) : 
-	GameEntity(id, name),
+Room::Room(int id, std::string name, GameWorld* world) :
+	GameEntity(id, name, world),
 	exits_(new EntityList()),
 	items_(new EntityList()),
 	players_(new EntityList())
@@ -14,8 +14,8 @@ Room::Room(int id, std::string name) :
 }
 
 /** Create a new room with an id, name, and description */
-Room::Room(int id, std::string name, std::string description) : 
-	GameEntity(id, name, description),
+Room::Room(int id, std::string name, std::string description, GameWorld* world) :
+	GameEntity(id, name, description, world),
 	exits_(new EntityList()),
 	items_(new EntityList()),
 	players_(new EntityList())
@@ -45,6 +45,14 @@ void Room::AddExit(GameEntity* roomexit)
 void Room::AddItem(GameEntity *item)
 {
 	items_->AddEntity(item);
+}
+
+void Room::AddMasterItem(GameEntity* item) {
+	original_items_.push_back(item->GetId());
+}
+
+void Room::SpawnItem(GameEntity* item) {
+	AddItem(item);
 }
 
 /**
@@ -89,6 +97,14 @@ void Room::RemovePlayer(int id)
  */
 GameEntity* Room::GetExit(std::string exit)
 {
+	if (exit == "e")
+		exit = "east";
+	else if (exit == "w")
+		exit = "west";
+	else if (exit == "n")
+		exit = "north";
+	else if (exit == "s")
+		exit = "south";
 	std::map<int, std::string>::iterator it = directions_.begin();
 	for (it; it != directions_.end(); it++) {
 		if (it->second == exit) {
@@ -116,11 +132,56 @@ GameEntity* Room::GetPlayer(int id)
 	return players_->GetEntity(id);
 }
 
+GameEntity* Room::FindExit(std::string name) const {
+	GameEntity* exit = exits_->FindEntity(name);
+	if (exit) {
+		return exit;
+	}
+	return nullptr;
+}
+
+
+GameEntity* Room::FindItem(std::string name) const {
+	std::vector<GameEntity*>* items = items_->GetEntityVector();
+	for (Item* i : *((std::vector<Item*>*)items)) {
+		std::string lowername = i->GetName();
+		for (size_t j = 0; j < lowername.length(); ++j) {
+			lowername.at(j) = std::tolower(lowername.at(j));
+		}
+		if (lowername == name || i->FindShortName(name)) {
+			return i;
+		}
+	}
+	return nullptr;
+}
+
+
+GameEntity* Room::FindPlayer(std::string name) const {
+	std::vector<GameEntity*>* players = players_->GetEntityVector();
+	
+	std::string lowername(name);
+	for (size_t i = 0; i < lowername.length(); ++i) {
+		lowername.at(i) = std::tolower(lowername.at(i));
+	}
+
+	for (Player* p : *((std::vector<Player*>*)players)) {	
+		std::string pName(p->GetName());
+		for (size_t i = 0; i < pName.length(); ++i) {
+			pName.at(i) = std::tolower(pName.at(i));
+		}
+		if (pName == lowername) {
+			return p;
+		}
+	}
+	return nullptr;
+}
+
+
 /**
 * Looks through all the lists ands finds the entity with the matching name
 * TODO this is slooow, make a map with name -> entity
 */
-GameEntity* Room::FindEntity(std::string name)
+GameEntity* Room::FindEntity(std::string name) const
 {
 	GameEntity* esearch = exits_->FindEntity(name);
 	if (esearch != NULL)
@@ -140,12 +201,17 @@ GameEntity* Room::FindEntity(std::string name)
 		return psearch;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 std::vector<GameEntity*>* Room::GetPlayerVector()
 {
 	return players_->GetEntityVector();
+}
+
+std::vector<GameEntity*>* Room::GetItemVector()
+{
+	return items_->GetEntityVector();
 }
 
 std::map<int, std::string>* Room::GetExitVector()

@@ -3,8 +3,10 @@
 #ifdef _WIN32
 #include <WinSock2.h>
 #include <WS2tcpip.h>
-#else 
+#include <Windows.h>
+#else
 #include <sys/socket.h>
+#include <unistd.h>
 #endif
 
 #include <sys/types.h>
@@ -39,6 +41,7 @@ public:
 	Server& GetParent();
 	const event_base* GetBase();
 	static void do_accept(evutil_socket_t listener, short event, void* arg);
+	void ShutdownListener();
 
 	void PutMessage(const Message* mess);
 

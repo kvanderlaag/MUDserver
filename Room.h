@@ -1,3 +1,4 @@
+#pragma once
 #ifndef __ROOM_H__
 #define __ROOM_H__
 
@@ -5,6 +6,9 @@
 #include "EntityList.h"
 #include "ConnectionList.h"
 #include "GameEntity.h"
+#include "Item.h"
+#include "Player.h"
+#include <cctype>
 
 class Room : public GameEntity
 {
@@ -13,14 +17,17 @@ private:
 	EntityList* exits_;
 	std::map<int, std::string> directions_;
 	EntityList* items_;
+	std::vector<int> original_items_;
 	EntityList* players_;
 
 public:
-	Room(int id, std::string name);
-	Room(int id, std::string name, std::string description);
+	Room(int id, std::string name, GameWorld* world);
+	Room(int id, std::string name, std::string description, GameWorld* world);
 	~Room(  );
 
 	void AddItem(GameEntity* entity);
+	void AddMasterItem(GameEntity* entity);
+	void SpawnItem(GameEntity* item);
 	void AddExit(GameEntity* entity);
 	void AddPlayer(GameEntity* entity);
 	void AddDirection(int id, std::string dir);
@@ -33,10 +40,15 @@ public:
 	GameEntity* GetItem(int id);
 	GameEntity* GetPlayer(int id);
 
-	GameEntity* FindEntity(std::string name);
-	
+	GameEntity* FindEntity(std::string name) const;
+	GameEntity* FindExit(std::string name) const;
+	GameEntity* FindItem(std::string name) const;
+	GameEntity* FindPlayer(std::string name) const;
+
+
 	std::vector<GameEntity*>* GetPlayerVector();
 	std::map<int, std::string>* GetExitVector();
+	std::vector<GameEntity*>* GetItemVector();
 };
 
 #endif // __ROOM_H__

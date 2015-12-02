@@ -30,17 +30,23 @@ Message* Parser::Parse(const Message* mess) const
 
 		command = tokens.front();
 		tokens.erase(tokens.begin(), tokens.begin() + 1);
+#ifdef _DEBUG_FLAG
 		std::cout << "Command: " << command << std::endl;
+#endif
 
 		for (std::size_t i = 0; i < command.length(); ++i) {
 			command.at(i) = std::tolower(command.at(i));
 		}
 
-		for each (std::string token in tokens) {
-			for (std::size_t i = 0; i < token.length(); ++i) {
-				token.at(i) = std::tolower(token.at(i));
-			}
-			std::cout << token << std::endl;
+		if (command != "say" && command != "shout" && command != "whisper" && command != "signup" && command != "desc") {
+			for (std::size_t j = 0; j < tokens.size(); ++j) {
+				for (std::size_t i = 0; i < tokens.at(j).length(); ++i) {
+					tokens.at(j).at(i) = std::tolower(tokens.at(j).at(i));
+				}
+#ifdef _DEBUG_FLAG
+				std::cout << token << std::endl;
+#endif
+				}
 		}
 
 
@@ -83,7 +89,10 @@ Message* Parser::Parse(const Message* mess) const
 		}
 
 		//gameMessage->Write("Balls.");
-		gameMessage->Write(iss.str());
+		gameMessage->Write(command);
+		for (std::string token : tokens) {
+			gameMessage->Append(" " + token);
+		}
 
 		return gameMessage;
 	}

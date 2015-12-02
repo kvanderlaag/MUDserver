@@ -1,3 +1,4 @@
+#pragma once
 #ifndef __GAMEWORLD_H__
 #define __GAMEWORLD_H__
 
@@ -8,14 +9,23 @@
 #include "Item.h"
 #include "Message.h"
 #include "Server.h"
+#include "Utility.h"
+#include "FileParser.h"
 
 #include <map>
 #include <vector>
+#include <sstream>
+#include <cctype>
+#include <memory>
+#include <thread>
 
 /**
 * Header file for game world
 */
 
+class Player;
+class Room;
+class Item;
 class Server;
 
 class GameWorld
@@ -24,11 +34,18 @@ class GameWorld
 private:
     EntityList* rooms_; // room_id/room_object
     EntityList* players_; // player_id/player_object
+
+	// the master item list would be a good place for the Prototype design pattern.
+	EntityList*  master_items_; // item_index/item_object
+
+	EntityList* items_; // item_id/item_object
 	ConnectionList* current_players_; // connection_id/player_id
-	Server* parent;
-	
+	Server& parent;
+
+	std::unique_ptr<std::thread> updateThread;
+
 public:
-    GameWorld(Server* par);
+    GameWorld(Server& par);
     ~GameWorld();
 
     void AddRoom(Room* entity);
@@ -50,14 +67,27 @@ public:
 	void Move(int connection_id, std::string exit);
 	void Say(int connection_id, std::string words);
 	void Shout(int connection_id, std::string words);
+	void Stats(int connection_id);
 	void Whisper(int connection_id, std::string name, std::string words);
 	void Take(int connection_id, std::string entity);
+	void DisplayInventory(int connection_id);
+	void Drop(int connection_id, std::string entity);
+	void Who(int connection_id);
+	void Description(int connection_id, std::string words);
+
+	void LoadPlayers(std::string filename);
+	void LoadItems(std::string filename);
+	void LoadRooms(std::string filename);
 
 	void Help(int connection_id);
 
 	void SignUp(int connection_id, std::string login_name, std::string password);
 	void LogIn(int connection_id, std::string login_name, std::string password);
 	void LogOut(int connection_id);
+
+	void StartUpdate();
+	static void CreateUpdateThread(void* arg);
+	void DoUpdate();
 };
 
 #endif // __GAMEWORLD_H__
