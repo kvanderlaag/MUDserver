@@ -47,12 +47,26 @@ void Room::AddItem(GameEntity *item)
 	items_->AddEntity(item);
 }
 
-void Room::AddMasterItem(GameEntity* item) {
-	original_items_.push_back(item->GetId());
+void Room::AddMasterItem(int id) {
+	original_items_.push_back(id);
 }
 
-void Room::SpawnItem(GameEntity* item) {
-	AddItem(item);
+void Room::SpawnItem(int masterId) {
+	Item* copyFrom = (Item*) GetWorld().GetMasterItems().GetEntity(masterId);
+	Item* spawnItem = new Item(GetWorld().GetItems().GetNextId(), *copyFrom);
+
+	GetWorld().GetItems().AddEntity(spawnItem);
+	AddItem(spawnItem);
+	//std::cout << "Spawning " << spawnItem->GetName() << " in " << GetName() << " (Master ID: " << spawnItem->GetMasterId() << ")" << std::endl;
+
+	std::ostringstream outString;
+	outString << "\n" << cGreen << spawnItem->GetName() << cDefault << " pops into existence.\n";
+
+	std::vector<Player*>* roomPlayers = (std::vector<Player*>*) players_->GetEntityVector();
+	for (Player* p : *roomPlayers) {
+		Message* msg = new Message(outString.str(), p->GetConnectionId(), Message::outputMessage);
+		GetWorld().GetParent().PutMessage(msg);
+	}
 }
 
 /**
@@ -158,13 +172,13 @@ GameEntity* Room::FindItem(std::string name) const {
 
 GameEntity* Room::FindPlayer(std::string name) const {
 	std::vector<GameEntity*>* players = players_->GetEntityVector();
-	
+
 	std::string lowername(name);
 	for (size_t i = 0; i < lowername.length(); ++i) {
 		lowername.at(i) = std::tolower(lowername.at(i));
 	}
 
-	for (Player* p : *((std::vector<Player*>*)players)) {	
+	for (Player* p : *((std::vector<Player*>*)players)) {
 		std::string pName(p->GetName());
 		for (size_t i = 0; i < pName.length(); ++i) {
 			pName.at(i) = std::tolower(pName.at(i));
@@ -221,4 +235,21 @@ std::map<int, std::string>* Room::GetExitVector()
 
 void Room::AddDirection(int id, std::string dir) {
 	directions_.insert(std::pair<int, std::string>(id, dir));
+}
+
+void Room::RespawnItems() {
+	std::vector<Item*>* currentItems = (std::vector<Item*>*) items_->GetEntityVector();
+	std::map<int, int> items_to_add;
+	for (int i : original_items_) {
+		items_to_add.insert(std::pair<int, int>(i, i));
+
+	}
+
+	for (Item* i : *currentItems) {
+		items_to_add.erase(i->GetMasterId());
+	}
+
+	for (std::pair<int, int> i : items_to_add) {
+		SpawnItem(i.second);
+	}
 }

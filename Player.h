@@ -67,7 +67,8 @@ public:
 	PlayerStats& GetStats();
 
 	/**The function GetPassword returns the initial password of the player.*/  
-    std::string GetPassword();
+    std::string GetPassword() const;
+	void SetPassword(std::string password);
 };
 
 #endif

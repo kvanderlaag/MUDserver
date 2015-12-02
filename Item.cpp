@@ -2,7 +2,8 @@
 #include "Item.h"
 
 /**Create an item with ID and a description*/
-Item::Item(int id, std::string description, GameWorld* world) : GameEntity(id, description, world)
+Item::Item(int id, std::string description, GameWorld* world, int master) : GameEntity(id, description, world),
+	masterId(master)
 {
 #ifdef _DEBUG_FLAG
 	std::cout <<"Created an item..." << std::endl;
@@ -10,7 +11,8 @@ Item::Item(int id, std::string description, GameWorld* world) : GameEntity(id, d
 }
 
 /**Create an item with an ID, a name and description*/
-Item::Item(int id, std::string name, std::string description, GameWorld* world) : GameEntity(id, name, description, world)
+Item::Item(int id, std::string name, std::string description, GameWorld* world, int master) : GameEntity(id, name, description, world),
+	masterId(master)
 {
 #ifdef _DEBUG_FLAG
 	std::cout << "Created an item..." << std::endl;
@@ -19,7 +21,8 @@ Item::Item(int id, std::string name, std::string description, GameWorld* world) 
 
 /**Create an item with an ID and another item to copy from */
 Item::Item(int newId, const Item& other) : GameEntity(newId, other.GetName(), other.GetDescription(), &(other.GetWorld())),
-	mShortNames(other.GetShortNameVector())
+	mShortNames(other.GetShortNameVector()),
+	masterId(other.GetMasterId())
 {
 }
 
@@ -45,6 +48,10 @@ bool Item::FindShortName(std::string shortName) const {
 		}
 	}
 	return false;
+}
+
+int Item::GetMasterId() const {
+	return masterId;
 }
 
 /**A destructor that destorys an item*/

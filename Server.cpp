@@ -24,9 +24,9 @@ Server::Server(int port)
 	, mBuffer(new MessageBuffer())
 	, running(false)
 	, parser(new Parser())
-	, mLoginMessage("Welcome to JakeMUD!\n\r\n\rCommands:\n\rlogin <username> <password>\n\rsignup <username> <password>\n\r")
+	, mLoginMessage("Welcome to JakeMUD!\n\nCommands:\nlogin <username> <password>\nsignup <username> <password>\n\n(Passwords are stored plaintext; please use caution.)\n")
 {
-	std::cout << "Creating new Server on port " << port << ".\n\r";
+	std::cout << "Creating new Server on port " << port << ".\n";
 #ifdef _DEBUG_FLAG
 	std::cout << "TCPListener creation successful." << "\n\r";
 #endif
@@ -60,7 +60,6 @@ void Server::Start()
 	listenerThread = std::unique_ptr<std::thread>(new std::thread(&CreateListenerThread, listener.get()));
 	messageQueueThread = std::unique_ptr<std::thread>(new std::thread(&CreateMessageQueueThread, this));
 	world.get()->StartUpdate();
-
 	//listenerThread.get()->join();
 	messageQueueThread.get()->join();
 }
@@ -112,6 +111,7 @@ void Server::Shutdown()
 	listener.get()->ShutdownListener();
 	listenerThread.release();
 	messageQueueThread.release();
+	world.get()->ReleaseThreads();
 	//listener.release();
 	//world.release();
 }
