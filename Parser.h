@@ -15,7 +15,7 @@ class Parser
 private:
 
 public:
-	Message* Parse(const Message* mess) const;
+	Message* Parse(Message* mess) const;
 
 };
 

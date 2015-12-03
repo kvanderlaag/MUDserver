@@ -40,7 +40,7 @@ GameWorld::~GameWorld()
 /**
 * Add a room to the room list in game world
 */
-void GameWorld::AddRoom(Room *room)
+void GameWorld::AddRoom(Room& room)
 {
 #ifdef _DEBUG_FLAG
 	std::cout << "Added a room" << std::endl;
@@ -51,7 +51,7 @@ void GameWorld::AddRoom(Room *room)
 /**
 * Add a player to the player list in game world
 */
-void GameWorld::AddPlayer(Player *player)
+void GameWorld::AddPlayer(Player& player)
 {
 	players_->AddEntity(player);
 }
@@ -97,18 +97,21 @@ Player* GameWorld::FindPlayer(int connection_id)
 	int pid = current_players_->GetPlayerId(connection_id);
 	// find player
 	GameEntity* pentity = players_->GetEntity(pid);
-	Player* player = dynamic_cast<Player*>(pentity);
+	if (pentity) {
+		Player* player = dynamic_cast<Player*>(pentity);
 
-	return player;
+		return player;
+	}
+	return nullptr;
 }
 
 /**
 * Get the room object given the player object
 */
-Room* GameWorld::FindPlayerRoom(Player* player)
+Room* GameWorld::FindPlayerRoom(Player& player)
 {
 	// find room id
-	int rid = player->GetRoomId();
+	int rid = player.GetRoomId();
 	// find room
 	GameEntity* rentity = rooms_->GetEntity(rid);
 	Room* room = dynamic_cast<Room*>(rentity);
@@ -250,9 +253,7 @@ void GameWorld::ReceiveMessage(Message* message)
 			Password(message->GetSource(), words);
 		}
 		else if (command == "shutdown") {
-			Player* p = FindPlayer(message->GetSource());
-			if (p) {
-				if (p->GetName() == "Keegan") {
+				if (player->GetName() == "Keegan") {
 #ifdef _DEBUG_FLAG
 					std::cout << "Do shutdown." << std::endl;
 #endif
@@ -264,7 +265,6 @@ void GameWorld::ReceiveMessage(Message* message)
 					Message* msg = new Message(outString.str(), message->GetSource(), Message::outputMessage);
 					parent.PutMessage(msg);
 				}
-			}
 		}
 		else if (command == "desc" || command == "description") {
 			Description(message->GetSource(), words);
@@ -310,13 +310,12 @@ void GameWorld::DisplayInventory(int connection_id) {
 */
 void GameWorld::Drop(int connection_id, std::string entity) {
 	Player* p = FindPlayer(connection_id);
-	Room* r = FindPlayerRoom(p);
-	Item* i = nullptr;
+	Room* r = FindPlayerRoom(*p);
 
 	std::ostringstream playerOutputString;
 	std::ostringstream roomOutputString;
 
-	i = (Item*) p->FindItem(entity);
+	Item* i = (Item*) p->FindItem(entity);
 	if (!i) {
 		playerOutputString << "You don't have " << cGreen << entity << cDefault << " in your inventory!\n";
 		Message* playerMessage = new Message(playerOutputString.str(), connection_id, Message::MessageType::outputMessage);
@@ -324,12 +323,13 @@ void GameWorld::Drop(int connection_id, std::string entity) {
 		return;
 	}
 	p->RemoveItem(i->GetId());
-	r->AddItem(i);
+	r->AddItem(*i);
 	playerOutputString << "You drop " << cGreen << i->GetName() << cDefault << ".\n";
 	roomOutputString << cYellow << p->GetName() << cDefault << " drops " << cGreen << i->GetName() << cDefault << ".\n";
 	Message* playerMessage = new Message(playerOutputString.str(), connection_id, Message::MessageType::outputMessage);
 	parent.PutMessage(playerMessage);
-	for (Player* p : *( (std::vector<Player*>*) (r->GetPlayerVector()))) {
+	std::vector<Player*> roomPlayers = (std::vector<Player*>&) r->GetPlayerVector();
+	for (Player* p : roomPlayers) {
 		if (p->GetConnectionId() != connection_id) {
 			Message* roomMessage = new Message(roomOutputString.str(), p->GetConnectionId(), Message::MessageType::outputMessage);
 			parent.PutMessage(roomMessage);
@@ -385,7 +385,7 @@ void GameWorld::LogIn(int connection_id, std::string login_name, std::string pas
 {
 
 	GameEntity* pentity = players_->FindEntity(login_name);
-	if (pentity == NULL)
+	if (!pentity)
 	{
 		Message* msg = new Message("Wrong username/password!", connection_id, Message::outputMessage);
 		parent.PutMessage(msg);
@@ -400,7 +400,7 @@ void GameWorld::LogIn(int connection_id, std::string login_name, std::string pas
 	}
 
 	Player* player = dynamic_cast<Player*>(pentity);
-	player->Print();
+	//player->Print();
 
 	// check password
 	if (player->GetPassword() != password)
@@ -415,14 +415,14 @@ void GameWorld::LogIn(int connection_id, std::string login_name, std::string pas
 	player->SetConnectionId(connection_id);
 
 	// get player room, place into room player list
-	Room* room = FindPlayerRoom(player);
-	room->AddPlayer(player);
+	Room* room = FindPlayerRoom(*player);
+	room->AddPlayer(*player);
 
 	// send login to other players in room
-	std::vector<GameEntity*>* room_players = room->GetPlayerVector();
-	for (std::size_t i = 0; i < room_players->size(); i++)
+	std::vector<GameEntity*> room_players = room->GetPlayerVector();
+	for (std::size_t i = 0; i < room_players.size(); i++)
 	{
-		Player* room_player = dynamic_cast<Player*>(room_players->at(i));
+		Player* room_player = dynamic_cast<Player*>(room_players.at(i));
 		std::ostringstream outString;
 		outString << cGreen << player->GetName() << cDefault << " phased into reality.";
 		Message* msg = new Message(outString.str(), room_player->GetConnectionId(), Message::outputMessage);
@@ -442,19 +442,19 @@ void GameWorld::LogOut(int connection_id)
 {
 	// remove player from connection list
 	Player* player = FindPlayer(connection_id);
-	if (player != nullptr) {
+	if (player) {
 		player->SetConnectionId(-1);
 
 		current_players_->RemoveConnection(connection_id);
 
 		// remove player from room list
-		Room* room = FindPlayerRoom(player);
+		Room* room = FindPlayerRoom(*player);
 
 		// send logout to players in room
-		std::vector<GameEntity*>* room_players = room->GetPlayerVector();
-		for (std::size_t i = 0; i < room_players->size(); i++)
+		std::vector<GameEntity*> room_players = room->GetPlayerVector();
+		for (std::size_t i = 0; i < room_players.size(); i++)
 		{
-			Player* room_player = dynamic_cast<Player*>(room_players->at(i));
+			Player* room_player = dynamic_cast<Player*>(room_players.at(i));
 			std::ostringstream outString;
 			outString << cGreen << player->GetName() << cDefault << " returned to a dream.";
 			Message* msg = new Message(outString.str(), room_player->GetConnectionId(), Message::outputMessage);
@@ -476,7 +476,7 @@ void GameWorld::Look(int connection_id)
 	Player* player = FindPlayer(connection_id);
 
 	// find room
-	Room* room = FindPlayerRoom(player);
+	Room* room = FindPlayerRoom(*player);
 
 	// find description
 	std::string description = room->GetDescription();
@@ -485,13 +485,13 @@ void GameWorld::Look(int connection_id)
 	std::ostringstream exits;
 
 	exits << cGreen << "Exits are:\n" << cDefault;
-	std::map<int, std::string>* vExits = room->GetExitVector();
-	std::map<int, std::string>::iterator it = vExits->begin();
-	if (it == vExits->end()) {
+	std::map<int, std::string> vExits = room->GetExitVector();
+	std::map<int, std::string>::iterator it = vExits.begin();
+	if (it == vExits.end()) {
 		exits << "None.";
 	}
 	else {
-		for (it; it != vExits->end(); it++) {
+		for (it; it != vExits.end(); it++) {
 			exits << it->second << " ";
 		}
 		exits << "\n";
@@ -501,12 +501,12 @@ void GameWorld::Look(int connection_id)
 	std::ostringstream items;
 
 	items << cGreen << "Items here:\n" << cDefault;
-	std::vector<Item*>* vItems = (std::vector<Item*>*) room->GetItemVector();
-	if (vItems->empty()) {
+	std::vector<GameEntity*> vItems = room->GetItemVector();
+	if (vItems.empty()) {
 		items << "None.\n";
 	}
 	else {
-		for (Item* i : *vItems) {
+		for (GameEntity* i : vItems) {
 			items << i->GetName() << "\n";
 		}
 	}
@@ -515,11 +515,11 @@ void GameWorld::Look(int connection_id)
 	// Get players
 	std::ostringstream players;
 	players << cGreen << "The following people are here:\n" << cDefault;
-	std::vector<Player*>* vPlayers = (std::vector<Player*>*) room->GetPlayerVector();
-	if (vPlayers->size() > 1) {
-		for (size_t i = 0; i < vPlayers->size(); ++i) {
-			if (vPlayers->at(i)->GetName() != player->GetName()) {
-				players << vPlayers->at(i)->GetName() << "\n";
+	std::vector<GameEntity*> vPlayers = room->GetPlayerVector();
+	if (vPlayers.size() > 1) {
+		for (size_t i = 0; i < vPlayers.size(); ++i) {
+			if (vPlayers.at(i)->GetName() != player->GetName()) {
+				players << vPlayers.at(i)->GetName() << "\n";
 			}
 		}
 	}
@@ -529,7 +529,9 @@ void GameWorld::Look(int connection_id)
 
 	// create message
 	std::ostringstream output;
-	output << "\n" << cBlue << "---\n" << cYellow << room->GetName() << cBlue << "\n---\n" << cDefault << description << cBlue << "\n---\n" << cDefault << exits.str() << cBlue << "---\n" << cDefault << items.str() << cBlue << "---\n" << cDefault << players.str() << "\n";
+	output << "\n" << cBlue << "---\n" << cYellow << room->GetName() << cBlue << "\n---\n" << cDefault << 
+		description << cBlue << "\n---\n" << cDefault << exits.str() << cBlue << "---\n" << cDefault << 
+		items.str() << cBlue << "---\n" << cDefault << players.str() << "\n";
 	Message* msg = new Message(output.str(), player->GetConnectionId(), Message::outputMessage);
 
 	// place message on message buffer
@@ -548,26 +550,26 @@ void GameWorld::Look(int connection_id, std::string entity_name)
 	Player* player = FindPlayer(connection_id);
 
 	// find room
-	Room* room = FindPlayerRoom(player);
+	Room* room = FindPlayerRoom(*player);
 
 	// first check room exits
-	GameEntity* entity = room->GetExit(entity_name);
+	GameEntity* rentity = room->GetExit(entity_name);
 
-	if (entity) {
+	if (rentity) {
 		std::ostringstream outputString;
-		outputString << "You see " << cYellow << entity->GetName() << cDefault << ".\n";
+		outputString << "You see " << cYellow << rentity->GetName() << cDefault << ".\n";
 		Message* msg = new Message(outputString.str(), connection_id, Message::outputMessage);
 		parent.PutMessage(msg);
 		return;
 	}
 
 	// otherwise, check items
-	entity = room->FindItem(entity_name);
+	GameEntity* rientity = room->FindItem(entity_name);
 
-	if (entity) {
+	if (rientity) {
 		std::ostringstream outputString;
-		outputString << "You see " << cGreen << entity->GetName() << cDefault << " in " << cYellow << room->GetName() << cDefault << ".\n";
-		outputString << "Description:\n" << entity->GetDescription() << "\n";
+		outputString << "You see " << cGreen << rientity->GetName() << cDefault << " in " << cYellow << room->GetName() << cDefault << ".\n";
+		outputString << "Description:\n" << rientity->GetDescription() << "\n";
 		Message* msg = new Message(outputString.str(), connection_id, Message::outputMessage);
 		parent.PutMessage(msg);
 		return;
@@ -575,24 +577,24 @@ void GameWorld::Look(int connection_id, std::string entity_name)
 
 
 	// otherwise, check players
-	entity = room->FindPlayer(entity_name);
+	GameEntity* pentity = room->FindPlayer(entity_name);
 
-	if (entity) {
+	if (pentity) {
 		std::ostringstream outputString;
-		outputString << "You see " << cGreen << entity->GetName() << cDefault << " here with you.\n";
-		outputString << "Description:\n" << entity->GetDescription() << "\n";
+		outputString << "You see " << cGreen << pentity->GetName() << cDefault << " here with you.\n";
+		outputString << "Description:\n" << pentity->GetDescription() << "\n";
 		Message* msg = new Message(outputString.str(), connection_id, Message::outputMessage);
 		parent.PutMessage(msg);
 		return;
 	}
 
 	// otherwise, check the player's inventory for items.
-	entity = player->FindItem(entity_name);
+	GameEntity* pientity = player->FindItem(entity_name);
 
-	if (entity) {
+	if (pientity) {
 		std::ostringstream outputString;
-		outputString << "You see " << cGreen << entity->GetName() << cDefault << " in your inventory.\n";
-		outputString << "Description:\n" << entity->GetDescription() << "\n";
+		outputString << "You see " << cGreen << pientity->GetName() << cDefault << " in your inventory.\n";
+		outputString << "Description:\n" << pientity->GetDescription() << "\n";
 		Message* msg = new Message(outputString.str(), connection_id, Message::outputMessage);
 		parent.PutMessage(msg);
 		return;
@@ -619,38 +621,38 @@ void GameWorld::Move(int connection_id, std::string exit)
 	Player* player = FindPlayer(connection_id);
 
 	// find room player is currently in
-	Room* current_room = FindPlayerRoom(player);
+	Room* current_room = FindPlayerRoom(*player);
 
 	// find room player wants
 	GameEntity* dest_rentity = current_room->GetExit(exit);
 	Room* dest_room = dynamic_cast<Room*>(dest_rentity);
 
-	if (dest_room != NULL)
+	if (dest_room)
 	{
 		// remove player from current room list
 		current_room->RemovePlayer(player->GetId());
 
 		// send exit to other players in room
-		std::vector<GameEntity*>* current_room_players = current_room->GetPlayerVector();
-		for (std::size_t i = 0; i < current_room_players->size(); i++)
+		std::vector<GameEntity*> current_room_players = current_room->GetPlayerVector();
+		for (std::size_t i = 0; i < current_room_players.size(); i++)
 		{
-			Player* room_player = dynamic_cast<Player*>(current_room_players->at(i));
+			Player* room_player = dynamic_cast<Player*>(current_room_players.at(i));
 			Message* exit_msg = new Message(player->GetName() + " headed " + exit + " towards " + dest_room->GetName() + ".", room_player->GetConnectionId(), Message::outputMessage);
 			parent.PutMessage(exit_msg);
 		}
 
 
 		// send entrance to other players in new room
-		std::vector<GameEntity*>* dest_room_players = dest_room->GetPlayerVector();
-		for (std::size_t i = 0; i < dest_room_players->size(); i++)
+		std::vector<GameEntity*> dest_room_players = dest_room->GetPlayerVector();
+		for (std::size_t i = 0; i < dest_room_players.size(); i++)
 		{
-			Player* room_player = dynamic_cast<Player*>(dest_room_players->at(i));
+			Player* room_player = dynamic_cast<Player*>(dest_room_players.at(i));
 			Message* entrance_msg = new Message(player->GetName() + " entered the area.", room_player->GetConnectionId(), Message::outputMessage);
 			parent.PutMessage(entrance_msg);
 		}
 
 		// add player to destination room list
-		dest_room->AddPlayer(player);
+		dest_room->AddPlayer(*player);
 		player->SetRoomId(dest_room->GetId());
 
 		// send room description to player
@@ -662,7 +664,9 @@ void GameWorld::Move(int connection_id, std::string exit)
 	else
 	{
 		// send no room message
-		Message* player_msg = new Message("There is no such place to move to...", player->GetConnectionId(), Message::outputMessage);
+		std::ostringstream outString;
+		outString << "There is no exit " << cGreen << exit << cDefault << ".";
+		Message* player_msg = new Message(outString.str(), player->GetConnectionId(), Message::outputMessage);
 
 		// place message on message buffer
 		parent.PutMessage(player_msg);
@@ -680,13 +684,13 @@ void GameWorld::Say(int connection_id, std::string words)
 	Player* player = FindPlayer(connection_id);
 
 	// find room
-	Room* room = FindPlayerRoom(player);
+	Room* room = FindPlayerRoom(*player);
 
 	// send exit to other players in room
-	std::vector<GameEntity*>* room_players = room->GetPlayerVector();
-	for (std::size_t i = 0; i < room_players->size(); i++)
+	std::vector<GameEntity*> room_players = room->GetPlayerVector();
+	for (std::size_t i = 0; i < room_players.size(); i++)
 	{
-		Player* room_player = dynamic_cast<Player*>(room_players->at(i));
+		Player* room_player = dynamic_cast<Player*>(room_players.at(i));
 		std::ostringstream outString;
 		outString << cGreen << player->GetName() << cDefault << " says \"" << words << "\"";
 		Message* msg = new Message(outString.str(), room_player->GetConnectionId(), Message::outputMessage);
@@ -705,10 +709,10 @@ void GameWorld::Shout(int connection_id, std::string words)
 	Player* player = FindPlayer(connection_id);
 
 	// send meesage to other players in game
-	std::vector<int>* current_player_ids = current_players_->GetIdVector();
-	for (std::size_t i = 0; i < current_player_ids->size(); i++)
+	std::vector<int> current_player_ids = current_players_->GetIdVector();
+	for (std::size_t i = 0; i < current_player_ids.size(); i++)
 	{
-		int id = current_player_ids->at(i);
+		int id = current_player_ids.at(i);
 		Player* game_player = dynamic_cast<Player*>(players_->GetEntity(id));
 		Message* msg = new Message(player->GetName() + " shouts \"" + words +"\"", game_player->GetConnectionId(), Message::outputMessage);
 		parent.PutMessage(msg);
@@ -721,7 +725,7 @@ void GameWorld::Shout(int connection_id, std::string words)
 */
 void GameWorld::Stats(int connection_id) {
 	Player* p = FindPlayer(connection_id);
-	if (!p) {
+	if (p) {
 		return;
 	}
 
@@ -754,7 +758,7 @@ void GameWorld::SignUp(int connection_id, std::string login_name, std::string pa
 		Player* player = new Player(players_->GetNextId(), login_name, password, this);
 
 		// add to player list
-		players_->AddEntity(player);
+		players_->AddEntity(*player);
 
 		// message player
 		std::ostringstream outString;
@@ -777,8 +781,8 @@ void GameWorld::SignUp(int connection_id, std::string login_name, std::string pa
 void GameWorld::Who(int connection_id) {
 	std::ostringstream outString;
 	outString << "\n" << cBlue << "---\n" << cGreen << "Players currently logged in:\n" << cBlue << "---" << cDefault;
-	std::vector<int>* players = current_players_->GetIdVector();
-	for (int id : *players) {
+	std::vector<int> players = current_players_->GetIdVector();
+	for (int id : players) {
 		Player* p = (Player*) GetPlayer(id);
 		outString << "\n" << p->GetName();
 	}
@@ -799,26 +803,26 @@ void GameWorld::Take(int connection_id, std::string entity)
 	Player* player = FindPlayer(connection_id);
 
 	// find room
-	Room* room = FindPlayerRoom(player);
+	Room* room = FindPlayerRoom(*player);
 
 	// find item
-	Item* item = (Item*) room->FindItem(entity);
+	Item* item = dynamic_cast<Item*>(room->FindItem(entity));
 
 	if (item)
 	{
 		// add item to player item list
-		player->AddItem(item);
+		player->AddItem(*item);
 		room->RemoveItem(item->GetId());
 		std::ostringstream outString, roomString;
 		outString << "You take " << cGreen << item->GetName() << cDefault << ".\n";
-		roomString << cYellow << player->GetName() << cDefault << " takes " << cGreen << item->GetName() << cDefault << ".\n";
+		roomString << cGreen << player->GetName() << cDefault << " takes " << cGreen << item->GetName() << cDefault << ".\n";
 		Message* msg = new Message(outString.str(), player->GetConnectionId(), Message::outputMessage);
 		parent.PutMessage(msg);
-		std::vector<GameEntity*>* otherPlayers = room->GetPlayerVector();
-		for (Player* p : *((std::vector<Player*>*) otherPlayers)) {
+		std::vector<GameEntity*> otherPlayers = room->GetPlayerVector();
+		for (GameEntity* p : otherPlayers) {
 			if (p != player) {
 
-				Message* roomMsg = new Message(roomString.str(), p->GetConnectionId(), Message::outputMessage);
+				Message* roomMsg = new Message(roomString.str(), ((Player*) p)->GetConnectionId(), Message::outputMessage);
 				parent.PutMessage(roomMsg);
 			}
 		}
@@ -840,7 +844,7 @@ void GameWorld::Take(int connection_id, std::string entity)
 */
 void GameWorld::Description(int connection_id, std::string words) {
 	Player* player = FindPlayer(connection_id);
-	if (!player) {
+	if (player) {
 		return;
 	}
 	player->SetDescription(words);
@@ -862,7 +866,7 @@ void GameWorld::Whisper(int connection_id, std::string player_name, std::string 
 	Player* player = FindPlayer(connection_id);
 
 	// find room
-	Room* room = FindPlayerRoom(player);
+	Room* room = FindPlayerRoom(*player);
 
 	// find other player
 	GameEntity* other_pentity = room->FindEntity(player_name);
@@ -870,7 +874,7 @@ void GameWorld::Whisper(int connection_id, std::string player_name, std::string 
 	// try to cast to item type
 	Player* other_player = dynamic_cast<Player*>(other_pentity);
 
-	if (other_player != NULL)
+	if (other_player)
 	{
 		std::stringstream playerString, targetString;
 		playerString << "You whisper \"" << words << "\" to " << cGreen << other_player->GetName() << cDefault << ".";
@@ -926,7 +930,7 @@ void GameWorld::Tell(int connection_id, std::string player_name, std::string wor
 	Player* player = FindPlayer(connection_id);
 
 	// find other player
-	Player* otherPlayer = (Player*)players_->FindEntity(player_name);
+	Player* otherPlayer = (Player*) players_->FindEntity(player_name);
 	if (otherPlayer) {
 		if (current_players_->GetPlayerId(otherPlayer->GetConnectionId()) != -1) {
 			std::stringstream playerString, targetString;
@@ -1023,14 +1027,14 @@ void GameWorld::LoadPlayers(std::string filename) {
 				std::stringstream sId(sItemId);
 				int itemId;
 				if (sId >> itemId) {
-					Item* i = new Item(items_->GetNextId(), *((Item*) master_items_->GetEntity(itemId)));
-					items_->AddEntity(i);
-					player->AddItem(i);
+					Item* i = new Item(items_->GetNextId(), (Item&) *(master_items_->GetEntity(itemId)));
+					items_->AddEntity(*i);
+					player->AddItem(*i);
 				}
 			}
 		}
 		// add to player list
-		players_->AddEntity(player);
+		players_->AddEntity(*player);
 	}
 }
 
@@ -1058,7 +1062,7 @@ void GameWorld::LoadRooms(std::string filename) {
 				if (buffer >> intId) {
 					if (master_items_->GetEntity(intId)) {
 						Item* item = new Item(items_->GetNextId(), (Item&) *(master_items_->GetEntity(intId)));
-						room->AddItem(item);
+						room->AddItem(*item);
 						room->AddMasterItem(intId);
 					}
 				}
@@ -1066,7 +1070,7 @@ void GameWorld::LoadRooms(std::string filename) {
 			}
 		}
 
-		rooms_->AddEntity(room);
+		rooms_->AddEntity(*room);
 	}
 #ifdef _DEBUG_FLAG
 	std::cout << "Loading Exits...";
@@ -1090,7 +1094,7 @@ void GameWorld::LoadRooms(std::string filename) {
 
 			if (exit_room)
 			{
-				room->AddExit(exit_room);
+				room->AddExit(*exit_room);
 				room->AddDirection(exit_room->GetId(), exit_dir);
 			}
 		}
@@ -1131,7 +1135,7 @@ void GameWorld::LoadItems(std::string filename) {
 			item->SetDescription(desc);
 		}
 
-		master_items_->AddEntity(item);
+		master_items_->AddEntity(*item);
 	}
 
 }
@@ -1182,10 +1186,12 @@ void GameWorld::DoUpdate() {
 
 		//std::cout << "Updating game world." << std::endl;
 		// Respawn room items
-		std::vector<GameEntity*>* rooms = rooms_->GetEntityVector();
-		for (Room* r : *((std::vector<Room*>*) rooms)) {
-			//std::cout << "Respawning items in." << r->GetName() << std::endl;
-			r->RespawnItems();
+		if (rooms_.get()) {
+			std::vector<GameEntity*> rooms = rooms_->GetEntityVector();
+			for (GameEntity* r : rooms) {
+				//std::cout << "Respawning items in." << r->GetName() << std::endl;
+				((Room*) r)->RespawnItems();
+			}
 		}
 		std::this_thread::sleep_for(10s);
 
@@ -1203,6 +1209,7 @@ EntityList& GameWorld::GetItems() const {
 
 Server& GameWorld::GetParent() const {
 	return parent;
+
 }
 
 void GameWorld::ReleaseThreads() {

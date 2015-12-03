@@ -43,10 +43,10 @@ std::vector<std::string>* FileParser::ParseCsv(std::string csv) {
 		return nullptr;
 }
 
-void FileParser::WritePlayers(std::string filename, std::vector<GameEntity*>* players) {
+void FileParser::WritePlayers(std::string filename, std::vector<GameEntity*>& players) {
 	std::ofstream file(filename);
 	
-	for (Player* p : *((std::vector<Player*>*) players)) {
+	for (Player* p : (std::vector<Player*>&) players) {
 		std::stringstream playerOut;
 		playerOut << p->GetName() << "\t";
 		playerOut << p->GetPassword() << "\t";
@@ -72,7 +72,7 @@ void FileParser::WritePlayers(std::string filename, std::vector<GameEntity*>* pl
 				playerOut << ((Item*)inventory.at(0))->GetMasterId();
 			}
 			else {
-				for (int i = 0; i < inventory.size() - 2; ++i) {
+				for (size_t i = 0; i < inventory.size() - 2; ++i) {
 					playerOut << ((Item*)inventory.at(i))->GetMasterId() << ",";
 				}
 				playerOut << ((Item*)inventory.at(inventory.size() - 1))->GetMasterId();

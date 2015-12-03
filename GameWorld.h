@@ -32,14 +32,14 @@ class GameWorld
 {
 
 private:
-    EntityList* rooms_; // room_id/room_object
-    EntityList* players_; // player_id/player_object
+    std::unique_ptr<EntityList> rooms_; // room_id/room_object
+    std::unique_ptr<EntityList> players_; // player_id/player_object
 
 	// the master item list would be a good place for the Prototype design pattern.
-	EntityList*  master_items_; // item_index/item_object
+	std::unique_ptr<EntityList>  master_items_; // item_index/item_object
 
-	EntityList* items_; // item_id/item_object
-	ConnectionList* current_players_; // connection_id/player_id
+	std::unique_ptr<EntityList> items_; // item_id/item_object
+	std::unique_ptr<ConnectionList> current_players_; // connection_id/player_id
 	Server& parent;
 
 	std::unique_ptr<std::thread> updateThread;
@@ -49,8 +49,8 @@ public:
     GameWorld(Server& par);
     ~GameWorld();
 
-    void AddRoom(Room* entity);
-    void AddPlayer(Player* entity);
+    void AddRoom(Room& entity);
+    void AddPlayer(Player& entity);
 
     void RemoveRoom(int id);
     void RemovePlayer(int id);
@@ -59,7 +59,7 @@ public:
     GameEntity* GetPlayer(int id);
 
 	Player* FindPlayer(int connection_id);
-	Room* FindPlayerRoom(Player* player);
+	Room* FindPlayerRoom(Player& player);
 
 	void ReceiveMessage(Message* message);
 

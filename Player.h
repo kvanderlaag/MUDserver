@@ -46,6 +46,7 @@ private:
  *add/remove/find a item with an item list within player object.
  */
 public:
+
     Player(int id, std::string name, GameWorld* world);
     Player(int id, std::string name, std::string password, GameWorld* world);
     ~Player();
@@ -57,7 +58,7 @@ public:
     void SetRoomId(int room_id);
 	int GetRoomId();
 
-    void AddItem(GameEntity* entity);
+    void AddItem(GameEntity& entity);
 	void RemoveItem(int id);
 	void RemoveItem(std::string name);
 	GameEntity* GetItem(int id);
