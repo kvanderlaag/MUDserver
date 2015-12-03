@@ -43,10 +43,11 @@ std::vector<std::string>* FileParser::ParseCsv(std::string csv) {
 		return nullptr;
 }
 
-void FileParser::WritePlayers(std::string filename, std::vector<GameEntity*>& players) {
+void FileParser::WritePlayers(std::string filename, std::vector<GameEntity*> players) {
 	std::ofstream file(filename);
 	
-	for (Player* p : (std::vector<Player*>&) players) {
+	for (GameEntity* e : players) {
+		Player* p = (Player*) e;
 		std::stringstream playerOut;
 		playerOut << p->GetName() << "\t";
 		playerOut << p->GetPassword() << "\t";
