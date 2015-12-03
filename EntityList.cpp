@@ -21,7 +21,7 @@ EntityList::EntityList()
 */
 EntityList::~EntityList()
 {	
-    //std::cout << "Destroyed a list..." << std::endl;
+    std::cout << "Destroying EntityList" << std::endl;
 }
 
 /**

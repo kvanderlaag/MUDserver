@@ -18,6 +18,7 @@
 #include <cctype>
 #include <memory>
 #include <thread>
+#include <atomic>
 
 /**
 * Header file for game world

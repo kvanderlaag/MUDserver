@@ -1,6 +1,7 @@
 #include "MessageBuffer.h"
 
 #include <queue>
+#include <iostream>
 
 /**
 * Create a message buffer
@@ -16,7 +17,7 @@ MessageBuffer::MessageBuffer()
 */
 MessageBuffer::~MessageBuffer()
 {
-
+	std::cout << "Destroying message buffer.\n";
 }
 
 /**

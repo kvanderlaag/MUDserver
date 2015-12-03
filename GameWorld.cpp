@@ -23,7 +23,7 @@ GameWorld::GameWorld(Server& par) :
 	LoadItems("items.tsv");
 	LoadRooms("rooms.tsv");
 	LoadPlayers("players.tsv");
-	
+
 
 }
 
@@ -172,7 +172,7 @@ void GameWorld::ReceiveMessage(Message* message)
 	else {
 
 
-		if (command == "help" || command == "h") 
+		if (command == "help" || command == "h")
 		{
 			Help(message->GetSource());
 		}
@@ -328,10 +328,10 @@ void GameWorld::Drop(int connection_id, std::string entity) {
 	roomOutputString << cYellow << p->GetName() << cDefault << " drops " << cGreen << i->GetName() << cDefault << ".\n";
 	Message* playerMessage = new Message(playerOutputString.str(), connection_id, Message::MessageType::outputMessage);
 	parent.PutMessage(playerMessage);
-	std::vector<Player*> roomPlayers = (std::vector<Player*>&) r->GetPlayerVector();
-	for (Player* p : roomPlayers) {
-		if (p->GetConnectionId() != connection_id) {
-			Message* roomMessage = new Message(roomOutputString.str(), p->GetConnectionId(), Message::MessageType::outputMessage);
+	std::vector<GameEntity*> roomPlayers = r->GetPlayerVector();
+	for (GameEntity* p : roomPlayers) {
+		if (((Player* )p)->GetConnectionId() != connection_id) {
+			Message* roomMessage = new Message(roomOutputString.str(), ((Player* )p)->GetConnectionId(), Message::MessageType::outputMessage);
 			parent.PutMessage(roomMessage);
 		}
 	}
@@ -365,7 +365,7 @@ void GameWorld::Help(int connection_id)
 	help << cGreen << "take" << cDefault << " <target> -or- " << cGreen << "get" << cDefault << " <target>\n";
 	help << cGreen << "whisper" << cDefault << " <target> <message>\n";
 	help << cGreen << "who" << cDefault << "\n";
-	
+
 	help << "\n";
 	help << "Compass directions north, south, east, and west can be used as commands,\nand shorten to n, s, e, and w.";
 	help << "\n\n";
@@ -529,8 +529,8 @@ void GameWorld::Look(int connection_id)
 
 	// create message
 	std::ostringstream output;
-	output << "\n" << cBlue << "---\n" << cYellow << room->GetName() << cBlue << "\n---\n" << cDefault << 
-		description << cBlue << "\n---\n" << cDefault << exits.str() << cBlue << "---\n" << cDefault << 
+	output << "\n" << cBlue << "---\n" << cYellow << room->GetName() << cBlue << "\n---\n" << cDefault <<
+		description << cBlue << "\n---\n" << cDefault << exits.str() << cBlue << "---\n" << cDefault <<
 		items.str() << cBlue << "---\n" << cDefault << players.str() << "\n";
 	Message* msg = new Message(output.str(), player->GetConnectionId(), Message::outputMessage);
 
@@ -916,7 +916,7 @@ void GameWorld::Password(int connection_id, std::string words) {
 	}
 
 	FileParser::WritePlayers("players.tsv", players_->GetEntityVector());
-	
+
 }
 
 /**
@@ -980,7 +980,7 @@ void GameWorld::LoadPlayers(std::string filename) {
 		std::string password = player_values->at(1);
 
 		Player* player = new Player(players_->GetNextId(), name, password, this);
-		
+
 		if (player_values->size() > 2) {
 			std::stringstream s_current_room(player_values->at(2));
 
@@ -990,7 +990,7 @@ void GameWorld::LoadPlayers(std::string filename) {
 				player->SetRoomId(current_room);
 			}
 		}
-		
+
 
 		if (player_values->size() > 3) {
 			std::vector<std::string>* player_stats = FileParser::ParseCsv(player_values->at(3));
@@ -1047,7 +1047,7 @@ void GameWorld::LoadRooms(std::string filename) {
 #ifdef _DEBUG_FLAG
 	std::cout << "Loading Rooms...";
 #endif
-	for (int i = 0; i != rooms->size(); i++) {
+	for (size_t i = 0; i != rooms->size(); i++) {
 
 		std::vector<std::string>* room_values = FileParser::ParseTsv(rooms->at(i));
 		std::string name = room_values->at(0);
@@ -1075,7 +1075,7 @@ void GameWorld::LoadRooms(std::string filename) {
 #ifdef _DEBUG_FLAG
 	std::cout << "Loading Exits...";
 #endif
-	for (int i = 0; i != rooms->size(); i++) {
+	for (size_t i = 0; i != rooms->size(); i++) {
 
 		std::vector<std::string>* room_values = FileParser::ParseTsv(rooms->at(i));
 		std::string name = room_values->at(0);
@@ -1086,7 +1086,7 @@ void GameWorld::LoadRooms(std::string filename) {
 		//room->Print();
 
 
-		for (int j = 0; j != exits->size(); j++) {
+		for (size_t j = 0; j != exits->size(); j++) {
 			std::string exit_name = exits->at(j);
 			std::string exit_dir = directions->at(j);
 
@@ -1167,7 +1167,7 @@ void GameWorld::DoSave() {
 	using namespace std::chrono_literals;
 
 	while (parent.IsRunning()) {
-		
+
 		std::cout << "Saving player list" << std::endl;
 		FileParser::WritePlayers("players.tsv", players_->GetEntityVector());
 		std::this_thread::sleep_for(5min);
@@ -1190,13 +1190,14 @@ void GameWorld::DoUpdate() {
 			std::vector<GameEntity*> rooms = rooms_->GetEntityVector();
 			for (GameEntity* r : rooms) {
 				//std::cout << "Respawning items in." << r->GetName() << std::endl;
-				((Room*) r)->RespawnItems();
+				((Room*)r)->RespawnItems();
 			}
+			
 		}
 		std::this_thread::sleep_for(10s);
 
 	}
-	
+
 }
 
 EntityList& GameWorld::GetMasterItems() const {
@@ -1213,6 +1214,9 @@ Server& GameWorld::GetParent() const {
 }
 
 void GameWorld::ReleaseThreads() {
+	std::cout << "Waiting for update thread to finish.\n";
+	updateThread.get()->join();
 	updateThread.release();
 	saveThread.release();
+
 }

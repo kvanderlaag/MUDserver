@@ -18,9 +18,6 @@
 
 using namespace std;
 
-static Server NullServer(void);
-static GameWorld NullWorld();
-
 #ifdef _WIN32
 /*
 	WinsockStart()

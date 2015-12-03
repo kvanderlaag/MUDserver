@@ -11,6 +11,7 @@ d:\users\kvand_000\documents\github\mudserver\release\messagebuffer.sbr
 d:\users\kvand_000\documents\github\mudserver\release\mudserver_libevent.sbr
 d:\users\kvand_000\documents\github\mudserver\release\parser.sbr
 d:\users\kvand_000\documents\github\mudserver\release\player.sbr
+d:\users\kvand_000\documents\github\mudserver\release\playerstats.sbr
 d:\users\kvand_000\documents\github\mudserver\release\room.sbr
 d:\users\kvand_000\documents\github\mudserver\release\server.sbr
 d:\users\kvand_000\documents\github\mudserver\release\tcplistener.sbr
@@ -21,6 +22,7 @@ d:\users\kvand_000\documents\github\mudserver\release\tcpstream.obj
 d:\users\kvand_000\documents\github\mudserver\release\tcplistener.obj
 d:\users\kvand_000\documents\github\mudserver\release\server.obj
 d:\users\kvand_000\documents\github\mudserver\release\room.obj
+d:\users\kvand_000\documents\github\mudserver\release\playerstats.obj
 d:\users\kvand_000\documents\github\mudserver\release\player.obj
 d:\users\kvand_000\documents\github\mudserver\release\parser.obj
 d:\users\kvand_000\documents\github\mudserver\release\mudserver_libevent.obj
@@ -32,8 +34,6 @@ d:\users\kvand_000\documents\github\mudserver\release\gameentity.obj
 d:\users\kvand_000\documents\github\mudserver\release\fileparser.obj
 d:\users\kvand_000\documents\github\mudserver\release\entitylist.obj
 d:\users\kvand_000\documents\github\mudserver\release\connectionlist.obj
-d:\users\kvand_000\documents\github\mudserver\release\playerstats.sbr
-d:\users\kvand_000\documents\github\mudserver\release\playerstats.obj
 d:\users\kvand_000\documents\github\mudserver\release\mudserver_libevent.exe
 d:\users\kvand_000\documents\github\mudserver\release\mudserver_libevent.ipdb
 d:\users\kvand_000\documents\github\mudserver\release\mudserver_libevent.iobj

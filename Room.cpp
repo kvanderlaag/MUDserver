@@ -26,7 +26,7 @@ Room::Room(int id, std::string name, std::string description, GameWorld* world) 
 /** Remove a room */
 Room::~Room(  )
 {
-	std::cout << "Destroyed a room..." << std::endl;
+	std::cout << "Destroying room " << GetName() << std::endl;
 }
 
 /**
@@ -119,8 +119,7 @@ GameEntity* Room::GetExit(std::string exit)
 		exit = "north";
 	else if (exit == "s")
 		exit = "south";
-	std::map<int, std::string>::iterator it = directions_.begin();
-	for (it; it != directions_.end(); it++) {
+	for (std::map<int, std::string>::iterator it = directions_.begin(); it != directions_.end(); it++) {
 		if (it->second == exit) {
 			return exits_->GetEntity(it->first);
 		}
@@ -238,15 +237,15 @@ void Room::AddDirection(int id, std::string dir) {
 }
 
 void Room::RespawnItems() {
-	std::vector<Item*> currentItems = (std::vector<Item*>&) items_->GetEntityVector();
+	std::vector<GameEntity*> currentItems = items_->GetEntityVector();
 	std::map<int, int> items_to_add;
 	for (int i : original_items_) {
 		items_to_add.insert(std::pair<int, int>(i, i));
 
 	}
 
-	for (Item* i : currentItems) {
-		items_to_add.erase(i->GetMasterId());
+	for (GameEntity* i : currentItems) {
+		items_to_add.erase(((Item* )i)->GetMasterId());
 	}
 
 	for (std::pair<int, int> i : items_to_add) {

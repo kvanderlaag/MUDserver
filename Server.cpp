@@ -37,7 +37,7 @@ Server::Server(int port)
 */
 Server::~Server()
 {
-//    std::cout << "Destroying server.\n";
+   std::cout << "Destroying server.\n";
 //	world.reset();
 //	listener.reset();
 //	parser.reset();

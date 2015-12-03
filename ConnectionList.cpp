@@ -17,9 +17,7 @@ ConnectionList::ConnectionList()
 */
 ConnectionList::~ConnectionList()
 {
-#ifdef _DEBUG_FLAG
-	std::cout << "Destroyed a connection list..." << std::endl;
-#endif
+	std::cout << "Destroying a ConnectionList" << std::endl;
 }
 
 /**

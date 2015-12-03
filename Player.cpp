@@ -37,7 +37,7 @@ Player::Player(int id, std::string name, std::string password, GameWorld* world)
 * The destructor ~Player() remove object player.
 */
 Player::~Player() {
-    std::cout << "Removed a player..." << std::endl;
+    std::cout << "Deleting player " << GetName() << std::endl;
 }
 
 /**

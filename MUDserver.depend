@@ -1,29 +1,29 @@
 # depslib dependency file v1.0
-1448682085 source:/home/keegan/Documents/Code/CPP/MUDserver/ConnectionList.cpp
+1449160441 source:/home/keegan/Documents/Code/CPP/MUDserver/ConnectionList.cpp
 	"ConnectionList.h"
 	<iostream>
 
-1448396072 /home/keegan/Documents/Code/CPP/MUDserver/ConnectionList.h
+1449084230 /home/keegan/Documents/Code/CPP/MUDserver/ConnectionList.h
 	<map>
 	<vector>
 
-1448567732 source:/home/keegan/Documents/Code/CPP/MUDserver/EntityList.cpp
+1449160327 source:/home/keegan/Documents/Code/CPP/MUDserver/EntityList.cpp
 	"EntityList.h"
 	<iostream>
 	<algorithm>
 
-1448508217 /home/keegan/Documents/Code/CPP/MUDserver/EntityList.h
+1449128776 /home/keegan/Documents/Code/CPP/MUDserver/EntityList.h
 	"GameEntity.h"
 	<map>
 	<vector>
 
-1448511003 /home/keegan/Documents/Code/CPP/MUDserver/GameEntity.h
+1449128999 /home/keegan/Documents/Code/CPP/MUDserver/GameEntity.h
 	<string>
 
-1448834659 source:/home/keegan/Documents/Code/CPP/MUDserver/FileParser.cpp
+1449156411 source:/home/keegan/Documents/Code/CPP/MUDserver/FileParser.cpp
 	"FileParser.h"
 
-1448567732 /home/keegan/Documents/Code/CPP/MUDserver/FileParser.h
+1449156351 /home/keegan/Documents/Code/CPP/MUDserver/FileParser.h
 	<string>
 	<vector>
 	<iostream>
@@ -31,9 +31,11 @@
 	<fstream>
 	"Player.h"
 
-1448830318 /home/keegan/Documents/Code/CPP/MUDserver/Player.h
+1449129315 /home/keegan/Documents/Code/CPP/MUDserver/Player.h
 	"GameEntity.h"
+	"GameWorld.h"
 	"EntityList.h"
+	"PlayerStats.h"
 	"Item.h"
 	<iostream>
 	<string>
@@ -41,23 +43,24 @@
 	<vector>
 	<cctype>
 
-1448777928 /home/keegan/Documents/Code/CPP/MUDserver/Item.h
+1449126065 /home/keegan/Documents/Code/CPP/MUDserver/Item.h
 	"GameEntity.h"
+	"GameWorld.h"
 	<iostream>
 	<vector>
 
-1448682085 source:/home/keegan/Documents/Code/CPP/MUDserver/GameEntity.cpp
+1449160348 source:/home/keegan/Documents/Code/CPP/MUDserver/GameEntity.cpp
 	"GameEntity.h"
 	<iostream>
 
-1448835136 source:/home/keegan/Documents/Code/CPP/MUDserver/GameWorld.cpp
+1449162435 source:/home/keegan/Documents/Code/CPP/MUDserver/GameWorld.cpp
 	"GameWorld.h"
-	"FileParser.h"
 	<iostream>
 	<sstream>
 	<fstream>
+	<ctime>
 
-1448832832 /home/keegan/Documents/Code/CPP/MUDserver/GameWorld.h
+1449129438 /home/keegan/Documents/Code/CPP/MUDserver/GameWorld.h
 	"EntityList.h"
 	"ConnectionList.h"
 	"Player.h"
@@ -66,12 +69,15 @@
 	"Message.h"
 	"Server.h"
 	"Utility.h"
+	"FileParser.h"
 	<map>
 	<vector>
 	<sstream>
 	<cctype>
+	<memory>
+	<thread>
 
-1448834717 /home/keegan/Documents/Code/CPP/MUDserver/Room.h
+1449129294 /home/keegan/Documents/Code/CPP/MUDserver/Room.h
 	<iostream>
 	"EntityList.h"
 	"ConnectionList.h"
@@ -83,17 +89,18 @@
 1448406226 /home/keegan/Documents/Code/CPP/MUDserver/Message.h
 	<string>
 
-1448834707 /home/keegan/Documents/Code/CPP/MUDserver/Server.h
+1449155491 /home/keegan/Documents/Code/CPP/MUDserver/Server.h
 	"TCPListener.h"
 	"MessageBuffer.h"
 	<map>
 	<Windows.h>
 	"GameWorld.h"
+	"FileParser.h"
 	"Parser.h"
 	<string>
 	<thread>
 
-1448835361 /home/keegan/Documents/Code/CPP/MUDserver/TCPListener.h
+1449155306 /home/keegan/Documents/Code/CPP/MUDserver/TCPListener.h
 	<WinSock2.h>
 	<WS2tcpip.h>
 	<Windows.h>
@@ -117,33 +124,37 @@
 	"event2/bufferevent.h"
 	<string>
 
-1447884655 /home/keegan/Documents/Code/CPP/MUDserver/MessageBuffer.h
+1449155191 /home/keegan/Documents/Code/CPP/MUDserver/MessageBuffer.h
 	"Message.h"
 	<queue>
 
-1448084755 /home/keegan/Documents/Code/CPP/MUDserver/Parser.h
+1449155400 /home/keegan/Documents/Code/CPP/MUDserver/Parser.h
 	<string>
 	<vector>
 	"Message.h"
 
-1448693219 /home/keegan/Documents/Code/CPP/MUDserver/Utility.h
+1449003645 /home/keegan/Documents/Code/CPP/MUDserver/Utility.h
 	<string>
 
-1448835157 source:/home/keegan/Documents/Code/CPP/MUDserver/Item.cpp
+1449031150 source:/home/keegan/Documents/Code/CPP/MUDserver/Item.cpp
 	"Item.h"
 
 1448834285 source:/home/keegan/Documents/Code/CPP/MUDserver/main.cpp
 	<iostream>
 
-1448406226 source:/home/keegan/Documents/Code/CPP/MUDserver/Message.cpp
+1449160468 source:/home/keegan/Documents/Code/CPP/MUDserver/Message.cpp
 	"Message.h"
+	<iostream>
 
-1447884658 source:/home/keegan/Documents/Code/CPP/MUDserver/MessageBuffer.cpp
+1449160313 source:/home/keegan/Documents/Code/CPP/MUDserver/MessageBuffer.cpp
 	"MessageBuffer.h"
 	<queue>
+	<iostream>
 
-1448835522 source:/home/keegan/Documents/Code/CPP/MUDserver/MUDServer_libevent.cpp
+1449162443 source:/home/keegan/Documents/Code/CPP/MUDserver/MUDServer_libevent.cpp
 	"Server.h"
+	"GameEntity.h"
+	"GameWorld.h"
 	<WinSock2.h>
 	<WS2tcpip.h>
 	<sys/socket.h>
@@ -151,7 +162,7 @@
 	<iostream>
 	<memory>
 
-1448835166 source:/home/keegan/Documents/Code/CPP/MUDserver/Parser.cpp
+1449155389 source:/home/keegan/Documents/Code/CPP/MUDserver/Parser.cpp
 	"Parser.h"
 	"Message.h"
 	<sstream>
@@ -162,13 +173,13 @@
 	<iterator>
 	<cctype>
 
-1448835201 source:/home/keegan/Documents/Code/CPP/MUDserver/Player.cpp
+1449160382 source:/home/keegan/Documents/Code/CPP/MUDserver/Player.cpp
 	"Player.h"
 
-1448835266 source:/home/keegan/Documents/Code/CPP/MUDserver/Room.cpp
+1449162377 source:/home/keegan/Documents/Code/CPP/MUDserver/Room.cpp
 	"Room.h"
 
-1448835291 source:/home/keegan/Documents/Code/CPP/MUDserver/Server.cpp
+1449160529 source:/home/keegan/Documents/Code/CPP/MUDserver/Server.cpp
 	"Server.h"
 	"TCPListener.h"
 	<map>
@@ -177,12 +188,12 @@
 	<tchar.h.>
 	<strsafe.h>
 
-1448835316 source:/home/keegan/Documents/Code/CPP/MUDserver/TCPListener.cpp
+1449155284 source:/home/keegan/Documents/Code/CPP/MUDserver/TCPListener.cpp
 	"TCPListener.h"
 	"TCPStream.h"
 	<iostream>
 
-1448835385 source:/home/keegan/Documents/Code/CPP/MUDserver/TCPStream.cpp
+1449160275 source:/home/keegan/Documents/Code/CPP/MUDserver/TCPStream.cpp
 	"TCPStream.h"
 	"Message.h"
 	<iostream>
@@ -190,4 +201,12 @@
 1448693138 source:/home/keegan/Documents/Code/CPP/MUDserver/Utility.cpp
 	"Utility.h"
 	<sstream>
+
+1449011557 /home/keegan/Documents/Code/CPP/MUDserver/PlayerStats.h
+	"Utility.h"
+	<string>
+	<sstream>
+
+1449011649 source:/home/keegan/Documents/Code/CPP/MUDserver/PlayerStats.cpp
+	"PlayerStats.h"
 
