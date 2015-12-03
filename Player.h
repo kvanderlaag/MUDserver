@@ -57,12 +57,12 @@ public:
     void SetRoomId(int room_id);
 	int GetRoomId();
 
-    void AddItem(GameEntity* entity);
+    void AddItem(GameEntity& entity);
 	void RemoveItem(int id);
 	void RemoveItem(std::string name);
-	GameEntity* GetItem(int id);
+	GameEntity& GetItem(int id);
 	std::vector<GameEntity*> GetItemVector();
-	GameEntity* FindItem(std::string name) const;
+	GameEntity& FindItem(std::string name) const;
 
 	PlayerStats& GetStats();
 

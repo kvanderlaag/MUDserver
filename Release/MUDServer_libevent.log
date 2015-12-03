@@ -1,31 +1,17 @@
-﻿Build started 12/2/2015 3:37:52 PM.
+﻿Build started 12/2/2015 5:36:47 PM.
      1>Project "D:\Users\kvand_000\Documents\GitHub\MUDserver\MUDServer_libevent.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /Iinclude /I"WIN32-Code" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Release\\" /Fd"Release\vc140.pdb" /FR"Release\\" /Gd /TP /analyze- /errorReport:prompt EntityList.cpp FileParser.cpp GameEntity.cpp GameWorld.cpp Item.cpp MUDServer_libevent.cpp Player.cpp Room.cpp Server.cpp TCPListener.cpp TCPStream.cpp
-         EntityList.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /Iinclude /I"WIN32-Code" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Release\\" /Fd"Release\vc140.pdb" /FR"Release\\" /Gd /TP /analyze- /errorReport:prompt FileParser.cpp GameWorld.cpp Item.cpp MUDServer_libevent.cpp Player.cpp Room.cpp Server.cpp TCPListener.cpp TCPStream.cpp
          FileParser.cpp
-         GameEntity.cpp
          GameWorld.cpp
+     1>GameWorld.cpp(321): error C2100: illegal indirection
+     1>GameWorld.cpp(595): error C2440: '=': cannot convert from 'GameEntity' to 'GameEntity *'
+         GameWorld.cpp(595): note: No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+     1>GameWorld.cpp(817): error C2664: 'void Player::AddItem(GameEntity &)': cannot convert argument 1 from 'Item *' to 'GameEntity &'
+     1>GameWorld.cpp(1035): error C2664: 'void Player::AddItem(GameEntity &)': cannot convert argument 1 from 'Item *' to 'GameEntity &'
          Item.cpp
          MUDServer_libevent.cpp
          Player.cpp
-     1>Player.cpp(89): error C2664: 'void EntityList::AddEntity(GameEntity &)': cannot convert argument 1 from 'GameEntity *' to 'GameEntity &'
-     1>Player.cpp(103): error C2440: 'initializing': cannot convert from 'GameEntity' to 'GameEntity *'
-         Player.cpp(103): note: No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
-     1>Player.cpp(111): error C2440: 'return': cannot convert from 'GameEntity' to 'GameEntity *'
-         Player.cpp(111): note: No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
-     1>Player.cpp(118): error C2440: 'initializing': cannot convert from 'std::vector<GameEntity *,std::allocator<_Ty>>' to 'std::vector<GameEntity *,std::allocator<_Ty>> *'
-                 with
-                 [
-                     _Ty=GameEntity *
-                 ]
-         Player.cpp(118): note: No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
-     1>Player.cpp(123): error C2440: 'initializing': cannot convert from 'std::vector<GameEntity *,std::allocator<_Ty>>' to 'std::vector<GameEntity *,std::allocator<_Ty>> *'
-                 with
-                 [
-                     _Ty=GameEntity *
-                 ]
-         Player.cpp(123): note: No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
          Room.cpp
      1>Room.cpp(38): error C2664: 'void EntityList::AddEntity(GameEntity &)': cannot convert argument 1 from 'GameEntity *' to 'GameEntity &'
      1>Room.cpp(47): error C2664: 'void EntityList::AddEntity(GameEntity &)': cannot convert argument 1 from 'GameEntity *' to 'GameEntity &'
@@ -98,4 +84,4 @@
 
 Build FAILED.
 
-Time Elapsed 00:00:13.62
+Time Elapsed 00:00:13.30

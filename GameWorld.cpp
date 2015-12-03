@@ -318,7 +318,7 @@ void GameWorld::Drop(int connection_id, std::string entity) {
 	std::ostringstream playerOutputString;
 	std::ostringstream roomOutputString;
 
-	Item& i = (Item&) *(p.FindItem(entity));
+	Item& i = (Item&) p.FindItem(entity);
 	if (GameEntity::IsNull(i)) {
 		playerOutputString << "You don't have " << cGreen << entity << cDefault << " in your inventory!\n";
 		Message* playerMessage = new Message(playerOutputString.str(), connection_id, Message::MessageType::outputMessage);
@@ -556,11 +556,11 @@ void GameWorld::Look(int connection_id, std::string entity_name)
 	Room& room = FindPlayerRoom(player);
 
 	// first check room exits
-	GameEntity* entity = room.GetExit(entity_name);
+	GameEntity& entity = *(room.GetExit(entity_name));
 
-	if (entity) {
+	if (!GameEntity::IsNull(entity)) {
 		std::ostringstream outputString;
-		outputString << "You see " << cYellow << entity->GetName() << cDefault << ".\n";
+		outputString << "You see " << cYellow << entity.GetName() << cDefault << ".\n";
 		Message* msg = new Message(outputString.str(), connection_id, Message::outputMessage);
 		parent.PutMessage(msg);
 		return;
@@ -569,10 +569,10 @@ void GameWorld::Look(int connection_id, std::string entity_name)
 	// otherwise, check items
 	entity = room.FindItem(entity_name);
 
-	if (entity) {
+	if (!GameEntity::IsNull(entity)) {
 		std::ostringstream outputString;
-		outputString << "You see " << cGreen << entity->GetName() << cDefault << " in " << cYellow << room.GetName() << cDefault << ".\n";
-		outputString << "Description:\n" << entity->GetDescription() << "\n";
+		outputString << "You see " << cGreen << entity.GetName() << cDefault << " in " << cYellow << room.GetName() << cDefault << ".\n";
+		outputString << "Description:\n" << entity.GetDescription() << "\n";
 		Message* msg = new Message(outputString.str(), connection_id, Message::outputMessage);
 		parent.PutMessage(msg);
 		return;
@@ -582,10 +582,10 @@ void GameWorld::Look(int connection_id, std::string entity_name)
 	// otherwise, check players
 	entity = room.FindPlayer(entity_name);
 
-	if (entity) {
+	if (!GameEntity::IsNull(entity)) {
 		std::ostringstream outputString;
-		outputString << "You see " << cGreen << entity->GetName() << cDefault << " here with you.\n";
-		outputString << "Description:\n" << entity->GetDescription() << "\n";
+		outputString << "You see " << cGreen << entity.GetName() << cDefault << " here with you.\n";
+		outputString << "Description:\n" << entity.GetDescription() << "\n";
 		Message* msg = new Message(outputString.str(), connection_id, Message::outputMessage);
 		parent.PutMessage(msg);
 		return;
@@ -594,10 +594,10 @@ void GameWorld::Look(int connection_id, std::string entity_name)
 	// otherwise, check the player's inventory for items.
 	entity = player.FindItem(entity_name);
 
-	if (entity) {
+	if (!GameEntity::IsNull(entity)) {
 		std::ostringstream outputString;
-		outputString << "You see " << cGreen << entity->GetName() << cDefault << " in your inventory.\n";
-		outputString << "Description:\n" << entity->GetDescription() << "\n";
+		outputString << "You see " << cGreen << entity.GetName() << cDefault << " in your inventory.\n";
+		outputString << "Description:\n" << entity.GetDescription() << "\n";
 		Message* msg = new Message(outputString.str(), connection_id, Message::outputMessage);
 		parent.PutMessage(msg);
 		return;
@@ -809,16 +809,16 @@ void GameWorld::Take(int connection_id, std::string entity)
 	Room& room = FindPlayerRoom(player);
 
 	// find item
-	Item* item = (Item*) room.FindItem(entity);
+	Item& item = room.FindItem(entity);
 
-	if (item)
+	if (!GameEntity::IsNull(item))
 	{
 		// add item to player item list
 		player.AddItem(item);
-		room.RemoveItem(item->GetId());
+		room.RemoveItem(item.GetId());
 		std::ostringstream outString, roomString;
-		outString << "You take " << cGreen << item->GetName() << cDefault << ".\n";
-		roomString << cGreen << player.GetName() << cDefault << " takes " << cGreen << item->GetName() << cDefault << ".\n";
+		outString << "You take " << cGreen << item.GetName() << cDefault << ".\n";
+		roomString << cGreen << player.GetName() << cDefault << " takes " << cGreen << item.GetName() << cDefault << ".\n";
 		Message* msg = new Message(outString.str(), player.GetConnectionId(), Message::outputMessage);
 		parent.PutMessage(msg);
 		std::vector<GameEntity*>* otherPlayers = room.GetPlayerVector();
@@ -1032,7 +1032,7 @@ void GameWorld::LoadPlayers(std::string filename) {
 				if (sId >> itemId) {
 					Item* i = new Item(items_->GetNextId(), ((Item&) master_items_->GetEntity(itemId)));
 					items_->AddEntity(*i);
-					player->AddItem(i);
+					player->AddItem(*i);
 				}
 			}
 		}
