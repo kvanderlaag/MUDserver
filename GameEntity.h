@@ -22,6 +22,9 @@ private:
  *Other functions can get the ID of the entity, get the name of the entity, and get the description of the entity as well as set a new descroption to the entity.
 */
 public:
+
+	static GameEntity NullEntity;
+
     GameEntity(int id, std::string name, GameWorld* world);
     GameEntity(int id, std::string name, std::string description, GameWorld* world);
     ~GameEntity();
@@ -37,6 +40,8 @@ public:
     virtual void SetDescription(std::string description);
 
 	virtual GameWorld& GetWorld() const;
+
+	static bool IsNull(const GameEntity& test);
 
 };
 

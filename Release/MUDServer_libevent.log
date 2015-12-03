@@ -1,39 +1,101 @@
-﻿Build started 12/2/2015 11:29:29 AM.
+﻿Build started 12/2/2015 3:37:52 PM.
      1>Project "D:\Users\kvand_000\Documents\GitHub\MUDserver\MUDServer_libevent.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /Iinclude /I"WIN32-Code" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Release\\" /Fd"Release\vc140.pdb" /FR"Release\\" /Gd /TP /analyze- /errorReport:prompt ConnectionList.cpp GameWorld.cpp
-         ConnectionList.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /Iinclude /I"WIN32-Code" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Release\\" /Fd"Release\vc140.pdb" /FR"Release\\" /Gd /TP /analyze- /errorReport:prompt EntityList.cpp FileParser.cpp GameEntity.cpp GameWorld.cpp Item.cpp MUDServer_libevent.cpp Player.cpp Room.cpp Server.cpp TCPListener.cpp TCPStream.cpp
+         EntityList.cpp
+         FileParser.cpp
+         GameEntity.cpp
          GameWorld.cpp
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Users\kvand_000\Documents\GitHub\MUDserver\Release\MUDServer_libevent.exe" /INCREMENTAL /NOLOGO /LIBPATH:lib libevent.lib libevent_core.lib ws2_32.lib libevent_extras.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"D:\Users\kvand_000\Documents\GitHub\MUDserver\Release\MUDServer_libevent.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG:incremental /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Users\kvand_000\Documents\GitHub\MUDserver\Release\MUDServer_libevent.lib" /MACHINE:X86 /SAFESEH Release\ConnectionList.obj
-         Release\EntityList.obj
-         Release\FileParser.obj
-         Release\GameEntity.obj
-         Release\GameWorld.obj
-         Release\Item.obj
-         Release\Message.obj
-         Release\MessageBuffer.obj
-         Release\MUDServer_libevent.obj
-         Release\Parser.obj
-         Release\Player.obj
-         Release\PlayerStats.obj
-         Release\Room.obj
-         Release\Server.obj
-         Release\TCPListener.obj
-         Release\TCPStream.obj
-         Release\Utility.obj
-     1>LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/LTCG' specification
-     1>LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
-         Generating code
-         1802 of 1810 functions (99.6%) were compiled, the rest were copied from previous compilation.
-           0 functions were new in current compilation
-           0 functions had inline decision re-evaluated but remain unchanged
-         Finished generating code
-         MUDServer_libevent.vcxproj -> D:\Users\kvand_000\Documents\GitHub\MUDserver\Release\MUDServer_libevent.exe
-       BscMake:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\bscmake.exe /nologo /o"D:\Users\kvand_000\Documents\GitHub\MUDserver\Release\MUDServer_libevent.bsc" /n Release\ConnectionList.sbr Release\EntityList.sbr Release\FileParser.sbr Release\GameEntity.sbr Release\GameWorld.sbr Release\Item.sbr Release\Message.sbr Release\MessageBuffer.sbr Release\MUDServer_libevent.sbr Release\Parser.sbr Release\Player.sbr Release\PlayerStats.sbr Release\Room.sbr Release\Server.sbr Release\TCPListener.sbr Release\TCPStream.sbr Release\Utility.sbr
-     1>Done Building Project "D:\Users\kvand_000\Documents\GitHub\MUDserver\MUDServer_libevent.vcxproj" (Build target(s)).
+         Item.cpp
+         MUDServer_libevent.cpp
+         Player.cpp
+     1>Player.cpp(89): error C2664: 'void EntityList::AddEntity(GameEntity &)': cannot convert argument 1 from 'GameEntity *' to 'GameEntity &'
+     1>Player.cpp(103): error C2440: 'initializing': cannot convert from 'GameEntity' to 'GameEntity *'
+         Player.cpp(103): note: No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+     1>Player.cpp(111): error C2440: 'return': cannot convert from 'GameEntity' to 'GameEntity *'
+         Player.cpp(111): note: No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+     1>Player.cpp(118): error C2440: 'initializing': cannot convert from 'std::vector<GameEntity *,std::allocator<_Ty>>' to 'std::vector<GameEntity *,std::allocator<_Ty>> *'
+                 with
+                 [
+                     _Ty=GameEntity *
+                 ]
+         Player.cpp(118): note: No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+     1>Player.cpp(123): error C2440: 'initializing': cannot convert from 'std::vector<GameEntity *,std::allocator<_Ty>>' to 'std::vector<GameEntity *,std::allocator<_Ty>> *'
+                 with
+                 [
+                     _Ty=GameEntity *
+                 ]
+         Player.cpp(123): note: No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+         Room.cpp
+     1>Room.cpp(38): error C2664: 'void EntityList::AddEntity(GameEntity &)': cannot convert argument 1 from 'GameEntity *' to 'GameEntity &'
+     1>Room.cpp(47): error C2664: 'void EntityList::AddEntity(GameEntity &)': cannot convert argument 1 from 'GameEntity *' to 'GameEntity &'
+     1>Room.cpp(55): error C2440: 'type cast': cannot convert from 'GameEntity' to 'Item *'
+         Room.cpp(55): note: No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+     1>Room.cpp(58): error C2664: 'void EntityList::AddEntity(GameEntity &)': cannot convert argument 1 from 'Item *' to 'GameEntity &'
+     1>Room.cpp(65): error C2440: 'type cast': cannot convert from 'std::vector<GameEntity *,std::allocator<_Ty>>' to 'std::vector<Player *,std::allocator<_Ty>> *'
+                 with
+                 [
+                     _Ty=GameEntity *
+                 ]
+                 and
+                 [
+                     _Ty=Player *
+                 ]
+         Room.cpp(65): note: No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+     1>Room.cpp(79): error C2664: 'void EntityList::AddEntity(GameEntity &)': cannot convert argument 1 from 'GameEntity *' to 'GameEntity &'
+     1>Room.cpp(125): error C2440: 'return': cannot convert from 'GameEntity' to 'GameEntity *'
+         Room.cpp(125): note: No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+     1>Room.cpp(137): error C2440: 'return': cannot convert from 'GameEntity' to 'GameEntity *'
+         Room.cpp(137): note: No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+     1>Room.cpp(146): error C2440: 'return': cannot convert from 'GameEntity' to 'GameEntity *'
+         Room.cpp(146): note: No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+     1>Room.cpp(150): error C2440: 'initializing': cannot convert from 'GameEntity' to 'GameEntity *'
+         Room.cpp(150): note: No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+     1>Room.cpp(159): error C2440: 'initializing': cannot convert from 'std::vector<GameEntity *,std::allocator<_Ty>>' to 'std::vector<GameEntity *,std::allocator<_Ty>> *'
+                 with
+                 [
+                     _Ty=GameEntity *
+                 ]
+         Room.cpp(159): note: No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+     1>Room.cpp(174): error C2440: 'initializing': cannot convert from 'std::vector<GameEntity *,std::allocator<_Ty>>' to 'std::vector<GameEntity *,std::allocator<_Ty>> *'
+                 with
+                 [
+                     _Ty=GameEntity *
+                 ]
+         Room.cpp(174): note: No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+     1>Room.cpp(200): error C2440: 'initializing': cannot convert from 'GameEntity' to 'GameEntity *'
+         Room.cpp(200): note: No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+     1>Room.cpp(206): error C2440: 'initializing': cannot convert from 'GameEntity' to 'GameEntity *'
+         Room.cpp(206): note: No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+     1>Room.cpp(212): error C2440: 'initializing': cannot convert from 'GameEntity' to 'GameEntity *'
+         Room.cpp(212): note: No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+     1>Room.cpp(223): error C2440: 'return': cannot convert from 'std::vector<GameEntity *,std::allocator<_Ty>>' to 'std::vector<GameEntity *,std::allocator<_Ty>> *'
+                 with
+                 [
+                     _Ty=GameEntity *
+                 ]
+         Room.cpp(223): note: No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+     1>Room.cpp(228): error C2440: 'return': cannot convert from 'std::vector<GameEntity *,std::allocator<_Ty>>' to 'std::vector<GameEntity *,std::allocator<_Ty>> *'
+                 with
+                 [
+                     _Ty=GameEntity *
+                 ]
+         Room.cpp(228): note: No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+     1>Room.cpp(241): error C2440: 'type cast': cannot convert from 'std::vector<GameEntity *,std::allocator<_Ty>>' to 'std::vector<Item *,std::allocator<_Ty>> *'
+                 with
+                 [
+                     _Ty=GameEntity *
+                 ]
+                 and
+                 [
+                     _Ty=Item *
+                 ]
+         Room.cpp(241): note: No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+         Server.cpp
+         TCPListener.cpp
+         TCPStream.cpp
+     1>Done Building Project "D:\Users\kvand_000\Documents\GitHub\MUDserver\MUDServer_libevent.vcxproj" (Build target(s)) -- FAILED.
 
-Build succeeded.
+Build FAILED.
 
-Time Elapsed 00:00:14.79
+Time Elapsed 00:00:13.62
