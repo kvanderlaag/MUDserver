@@ -52,7 +52,7 @@ void Room::AddMasterItem(int id) {
 }
 
 void Room::SpawnItem(int masterId) {
-	Item& copyFrom = (Item&) GetWorld().GetMasterItems().GetEntity(masterId);
+	Item& copyFrom = (Item&) *(GetWorld().GetMasterItems().GetEntity(masterId));
 	Item* spawnItem = new Item(GetWorld().GetItems().GetNextId(), copyFrom);
 
 	GetWorld().GetItems().AddEntity(*spawnItem);
@@ -109,7 +109,7 @@ void Room::RemovePlayer(int id)
  * Functions as a check made to see if a certain room exists in a room's exit list (using a room id)
  * Return the GameEntity(id) if it is found in the exit list, else return null if it is not
  */
-GameEntity& Room::GetExit(std::string exit)
+GameEntity* Room::GetExit(std::string exit)
 {
 	if (exit == "e")
 		exit = "east";
@@ -125,14 +125,14 @@ GameEntity& Room::GetExit(std::string exit)
 			return exits_->GetEntity(it->first);
 		}
 	}
-	return GameEntity::NullEntity;
+	return nullptr;
 }
 
 /**
  * Gets an item GameEntity using an id if it's in the item list.
  * Return the GameEntity(id) if it is found in the item list, else return null if it is not
  */
-GameEntity& Room::GetItem(int id)
+GameEntity* Room::GetItem(int id)
 {
 	return items_->GetEntity(id);
 }
@@ -141,21 +141,21 @@ GameEntity& Room::GetItem(int id)
  * Gets a player GameEntity using an id if it's in the player list.
  * Return the GameEntity(id) if it is found in the player list, else return null if it is not
  */
-GameEntity& Room::GetPlayer(int id)
+GameEntity* Room::GetPlayer(int id)
 {
 	return players_->GetEntity(id);
 }
 
-GameEntity& Room::FindExit(std::string name) const {
-	GameEntity& exit = exits_->FindEntity(name);
-	if (!GameEntity::IsNull(exit)) {
+GameEntity* Room::FindExit(std::string name) const {
+	GameEntity* exit = exits_->FindEntity(name);
+	if (exit) {
 		return exit;
 	}
-	return GameEntity::NullEntity;
+	return nullptr;
 }
 
 
-GameEntity& Room::FindItem(std::string name) const {
+GameEntity* Room::FindItem(std::string name) const {
 	std::vector<GameEntity*> items = items_->GetEntityVector();
 	for (GameEntity* i : items) {
 		std::string lowername = i->GetName();
@@ -163,14 +163,14 @@ GameEntity& Room::FindItem(std::string name) const {
 			lowername.at(j) = std::tolower(lowername.at(j));
 		}
 		if (lowername == name || ((Item*) i)->FindShortName(name)) {
-			return *i;
+			return i;
 		}
 	}
-	return GameEntity::NullEntity;
+	return nullptr;
 }
 
 
-GameEntity& Room::FindPlayer(std::string name) const {
+GameEntity* Room::FindPlayer(std::string name) const {
 	std::vector<GameEntity*> players = players_->GetEntityVector();
 
 	std::string lowername(name);
@@ -184,10 +184,10 @@ GameEntity& Room::FindPlayer(std::string name) const {
 			pName.at(i) = std::tolower(pName.at(i));
 		}
 		if (pName == lowername) {
-			return *p;
+			return p;
 		}
 	}
-	return GameEntity::NullEntity;
+	return nullptr;
 }
 
 
@@ -195,27 +195,27 @@ GameEntity& Room::FindPlayer(std::string name) const {
 * Looks through all the lists ands finds the entity with the matching name
 * TODO this is slooow, make a map with name -> entity
 */
-GameEntity& Room::FindEntity(std::string name) const
+GameEntity* Room::FindEntity(std::string name) const
 {
-	GameEntity& esearch = exits_->FindEntity(name);
-	if (!GameEntity::IsNull(esearch))
+	GameEntity* esearch = exits_->FindEntity(name);
+	if (esearch)
 	{
 		return esearch;
 	}
 
-	GameEntity& isearch = items_->FindEntity(name);
-	if (!GameEntity::IsNull(isearch))
+	GameEntity* isearch = items_->FindEntity(name);
+	if (isearch)
 	{
 		return isearch;
 	}
 
-	GameEntity& psearch = players_->FindEntity(name);
-	if (!GameEntity::IsNull(psearch))
+	GameEntity* psearch = players_->FindEntity(name);
+	if (psearch)
 	{
 		return psearch;
 	}
 
-	return GameEntity::NullEntity;
+	return nullptr;
 }
 
 std::vector<GameEntity*> Room::GetPlayerVector()

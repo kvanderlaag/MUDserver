@@ -38,14 +38,14 @@ public:
 	void RemoveExit(int id);
 	void RemovePlayer(int id);
 
-	GameEntity& GetExit(std::string exit);
-	GameEntity& GetItem(int id);
-	GameEntity& GetPlayer(int id);
+	GameEntity* GetExit(std::string exit);
+	GameEntity* GetItem(int id);
+	GameEntity* GetPlayer(int id);
 
-	GameEntity& FindEntity(std::string name) const;
-	GameEntity& FindExit(std::string name) const;
-	GameEntity& FindItem(std::string name) const;
-	GameEntity& FindPlayer(std::string name) const;
+	GameEntity* FindEntity(std::string name) const;
+	GameEntity* FindExit(std::string name) const;
+	GameEntity* FindItem(std::string name) const;
+	GameEntity* FindPlayer(std::string name) const;
 
 
 	std::vector<GameEntity*> GetPlayerVector();

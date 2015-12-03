@@ -3,6 +3,7 @@
 */
 #include "Player.h"
 
+
 /**
 * The default constructor create a naive object player by permanent player ID and initial name.
 */
@@ -100,14 +101,14 @@ void Player::RemoveItem(int id) {
 * The function RemoveItem receives the name of an item and remove this item from the item list within player object.
 */
 void Player::RemoveItem(std::string name) {
-	GameEntity& item = items_->FindEntity(name);
+	GameEntity& item = *(items_->FindEntity(name));
 	items_->RemoveEntity(item.GetId());
 }
 
 /**
 * The function GetItem receives the ID of an item and find the item to the item list within player object.
 */
-GameEntity& Player::GetItem(int id) {
+GameEntity* Player::GetItem(int id) {
 	return items_->GetEntity(id);
 }
 
@@ -119,7 +120,7 @@ std::vector<GameEntity*> Player::GetItemVector() {
 	return inventory;
 }
 
-GameEntity& Player::FindItem(std::string name) const {
+GameEntity* Player::FindItem(std::string name) const {
 	std::vector<GameEntity*> inventory = items_->GetEntityVector();
 	for (GameEntity* i : inventory) {
 		std::string lowername = i->GetName();
@@ -127,10 +128,10 @@ GameEntity& Player::FindItem(std::string name) const {
 			lowername.at(j) = std::tolower(lowername.at(j));
 		}
 		if (lowername == name || ((Item*) i)->FindShortName(name)) {
-			return *i;
+			return i;
 		}
 	}
-	return GameEntity::NullEntity;
+	return nullptr;
 }
 
 PlayerStats& Player::GetStats() {

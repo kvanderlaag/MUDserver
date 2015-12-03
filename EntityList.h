@@ -16,8 +16,6 @@ protected:
     std::map<int, GameEntity*> map_;
 	std::vector<int> next_ids_; // stack
 
-	static GameEntity NullEntity;
-
 
 /* Public functions have a default constructor for the class, a destructor
  * Other functions include AddEntity which takes a pointer of game entity and adds the entity to the list
@@ -31,8 +29,8 @@ public:
 
     virtual void AddEntity(GameEntity& game_entity);
     virtual void RemoveEntity(int id);
-    virtual GameEntity& GetEntity(int id);
-	virtual GameEntity& FindEntity(std::string name);
+    virtual GameEntity* GetEntity(int id);
+	virtual GameEntity* FindEntity(std::string name);
 
     int GetEntityCount();
 	virtual std::vector<GameEntity*> GetEntityVector();

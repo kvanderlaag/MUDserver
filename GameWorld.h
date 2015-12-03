@@ -55,11 +55,11 @@ public:
     void RemoveRoom(int id);
     void RemovePlayer(int id);
 
-	GameEntity& GetRoom(int id);
-    GameEntity& GetPlayer(int id);
+	GameEntity* GetRoom(int id);
+    GameEntity* GetPlayer(int id);
 
-	Player& FindPlayer(int connection_id);
-	Room& FindPlayerRoom(Player& player);
+	Player* FindPlayer(int connection_id);
+	Room* FindPlayerRoom(Player& player);
 
 	void ReceiveMessage(Message* message);
 

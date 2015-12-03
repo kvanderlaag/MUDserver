@@ -6,6 +6,7 @@
 #include <iostream>
 #include <algorithm>
 
+
 /**
 * Default constructor that creates an entity list then prints out the information
 */
@@ -60,24 +61,24 @@ void EntityList::RemoveEntity(int id)
 /**
 * Get the entity corresponding to an ID
 */
-GameEntity& EntityList::GetEntity(int id)
+GameEntity* EntityList::GetEntity(int id)
 {	
     if( !map_.empty() )
 	{
 		std::map<int, GameEntity*>::iterator it = map_.find(id);
 		if (it != map_.end()) {
-			return *(it->second);
+			return it->second;
 		}
         
     }
-    return NullEntity;
+    return nullptr;
 }
 
 /**
 * Get the entity corresponding to a String
 * Slow
 */
-GameEntity& EntityList::FindEntity(std::string name)
+GameEntity* EntityList::FindEntity(std::string name)
 {
 	if (!map_.empty())
 	{
@@ -94,11 +95,11 @@ GameEntity& EntityList::FindEntity(std::string name)
 
 			if (map_value_name == name)
 			{
-				return *(iterator->second);
+				return iterator->second;
 			}
 		}
 	}
-	return GameEntity::NullEntity;
+	return nullptr;
 }
 
 /**

@@ -40,7 +40,7 @@ Message* Parser::Parse(const Message* mess) const
 
 		if (command != "say" && command != "shout" && command != "whisper" && command != "signup" 
 			&& command != "desc" && command != "description" && command != "tell" && command != "t"
-			|| command != "password") {
+			|| command != "password" || command != "login") {
 			for (std::size_t j = 0; j < tokens.size(); ++j) {
 				for (std::size_t i = 0; i < tokens.at(j).length(); ++i) {
 					tokens.at(j).at(i) = std::tolower(tokens.at(j).at(i));
