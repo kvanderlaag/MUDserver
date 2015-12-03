@@ -36,7 +36,7 @@ public:
 	void HandleMessageQueue();
 	void ErrorHandler(const std::string arg);
 
-	void PutMessage(const Message* mess);
+	void PutMessage(Message* mess);
 
 	TCPListener* GetListener() const;
     bool IsRunning() const;
@@ -56,6 +56,6 @@ private:
 	std::unique_ptr<std::thread> listenerThread;
 	std::unique_ptr<std::thread> messageQueueThread;
 
-	Message* ParseMessage(const Message&);
+	Message* ParseMessage(Message*);
 	void SendLoginMessage(TCPStream* stream);
 };

@@ -316,7 +316,7 @@ void GameWorld::Drop(int connection_id, std::string entity) {
 	std::ostringstream roomOutputString;
 
 	Item* i = (Item*) p->FindItem(entity);
-	if (i) {
+	if (!i) {
 		playerOutputString << "You don't have " << cGreen << entity << cDefault << " in your inventory!\n";
 		Message* playerMessage = new Message(playerOutputString.str(), connection_id, Message::MessageType::outputMessage);
 		parent.PutMessage(playerMessage);
@@ -385,14 +385,14 @@ void GameWorld::LogIn(int connection_id, std::string login_name, std::string pas
 {
 
 	GameEntity* pentity = players_->FindEntity(login_name);
-	if (pentity)
+	if (!pentity)
 	{
 		Message* msg = new Message("Wrong username/password!", connection_id, Message::outputMessage);
 		parent.PutMessage(msg);
 		return;
 	}
 
-	int con = ( (Player&) pentity ).GetConnectionId();
+	int con = ( (Player*) pentity )->GetConnectionId();
 	if (con != -1) {
 		Message* msg = new Message("User is already logged in.", connection_id, Message::outputMessage);
 		parent.PutMessage(msg);
@@ -1061,8 +1061,8 @@ void GameWorld::LoadRooms(std::string filename) {
 				int intId;
 				if (buffer >> intId) {
 					if (master_items_->GetEntity(intId)) {
-						Item& item = Item(items_->GetNextId(), (Item&) *(master_items_->GetEntity(intId)));
-						room->AddItem(item);
+						Item* item = new Item(items_->GetNextId(), (Item&) *(master_items_->GetEntity(intId)));
+						room->AddItem(*item);
 						room->AddMasterItem(intId);
 					}
 				}

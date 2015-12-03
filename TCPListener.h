@@ -43,7 +43,7 @@ public:
 	static void do_accept(evutil_socket_t listener, short event, void* arg);
 	void ShutdownListener();
 
-	void PutMessage(const Message* mess);
+	void PutMessage(Message* mess);
 
 private:
 	Server* parent;
