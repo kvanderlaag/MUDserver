@@ -28,7 +28,7 @@ GameEntity::GameEntity(int id, std::string name, std::string description, GameWo
 /**A destructor that removes an entity*/
 GameEntity::~GameEntity()
 {
-    //std::cout << "Destroyed an entity..." << std::endl;
+    std::cout << "Destroying entity " << GetName() << std::endl;
 }
 
 /**Get the Id of an entity*/
@@ -77,8 +77,4 @@ void GameEntity::Print()
 
 GameWorld& GameEntity::GetWorld() const {
 	return world_;
-}
-
-bool GameEntity::IsNull(const GameEntity& test) {
-	return &test == &NullEntity;
 }

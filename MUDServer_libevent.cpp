@@ -2,6 +2,8 @@
 //
 
 #include "Server.h"
+#include "GameEntity.h"
+#include "GameWorld.h"
 
 #ifdef _WIN32
 #include <WinSock2.h>
@@ -54,7 +56,7 @@ int main(int argc, char** argv)
 	}
 #endif
 
-	std::unique_ptr<Server> gameServer = std::unique_ptr<Server>(new Server());
+	std::unique_ptr<Server> gameServer = std::unique_ptr<Server>(new Server(9500));
 	gameServer.get()->Start();
 
 	gameServer.reset();

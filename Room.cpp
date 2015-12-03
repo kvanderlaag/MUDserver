@@ -8,7 +8,8 @@ Room::Room(int id, std::string name, GameWorld* world) :
 	GameEntity(id, name, world),
 	exits_(new EntityList()),
 	items_(new EntityList()),
-	players_(new EntityList())
+	players_(new EntityList()),
+	mobs_(new EntityList())
 {
 	std::cout << "Created a room..." << std::endl;
 }
@@ -18,7 +19,8 @@ Room::Room(int id, std::string name, std::string description, GameWorld* world) 
 	GameEntity(id, name, description, world),
 	exits_(new EntityList()),
 	items_(new EntityList()),
-	players_(new EntityList())
+	players_(new EntityList()),
+	mobs_(new EntityList())
 {
 	//std::cout << "Created a room..." << std::endl;
 }
@@ -26,7 +28,7 @@ Room::Room(int id, std::string name, std::string description, GameWorld* world) 
 /** Remove a room */
 Room::~Room(  )
 {
-	std::cout << "Destroyed a room..." << std::endl;
+	std::cout << "Destroying room " << GetName() << std::endl;
 }
 
 /**
@@ -51,8 +53,13 @@ void Room::AddMasterItem(int id) {
 	original_items_.push_back(id);
 }
 
+void Room::AddMasterMob(int id)
+{
+	original_mobs_.push_back(id);
+}
+
 void Room::SpawnItem(int masterId) {
-	Item& copyFrom = (Item&) GetWorld().GetMasterItems().GetEntity(masterId);
+	Item& copyFrom = (Item&) *(GetWorld().GetMasterItems().GetEntity(masterId));
 	Item* spawnItem = new Item(GetWorld().GetItems().GetNextId(), copyFrom);
 
 	GetWorld().GetItems().AddEntity(*spawnItem);
@@ -65,6 +72,25 @@ void Room::SpawnItem(int masterId) {
 	std::vector<GameEntity*> roomPlayers = players_->GetEntityVector();
 	for (GameEntity* p : roomPlayers) {
 		Message* msg = new Message(outString.str(), ((Player*) p)->GetConnectionId(), Message::outputMessage);
+		GetWorld().GetParent().PutMessage(msg);
+	}
+}
+
+void Room::SpawnMob(int masterId)
+{
+	NPC& copyFrom = (NPC&)*(GetWorld().GetMasterMobs().GetEntity(masterId));
+	NPC* spawnMob = new NPC(GetWorld().GetMobs().GetNextId(), copyFrom);
+
+	GetWorld().GetMobs().AddEntity(*spawnMob);
+	AddMob(*spawnMob);
+	//std::cout << "Spawning " << spawnItem->GetName() << " in " << GetName() << " (Master ID: " << spawnItem->GetMasterId() << ")" << std::endl;
+
+	std::ostringstream outString;
+	outString << "\n" << cGreen << spawnMob->GetName() << cDefault << " enters the room.\n";
+
+	std::vector<GameEntity*> roomPlayers = players_->GetEntityVector();
+	for (GameEntity* p : roomPlayers) {
+		Message* msg = new Message(outString.str(), ((Player*)p)->GetConnectionId(), Message::outputMessage);
 		GetWorld().GetParent().PutMessage(msg);
 	}
 }
@@ -105,11 +131,16 @@ void Room::RemovePlayer(int id)
 	players_->RemoveEntity(id);
 }
 
+void Room::RemoveMob(int id)
+{
+	mobs_->RemoveEntity(id);
+}
+
 /**
  * Functions as a check made to see if a certain room exists in a room's exit list (using a room id)
  * Return the GameEntity(id) if it is found in the exit list, else return null if it is not
  */
-GameEntity& Room::GetExit(std::string exit)
+GameEntity* Room::GetExit(std::string exit)
 {
 	if (exit == "e")
 		exit = "east";
@@ -119,20 +150,19 @@ GameEntity& Room::GetExit(std::string exit)
 		exit = "north";
 	else if (exit == "s")
 		exit = "south";
-	std::map<int, std::string>::iterator it = directions_.begin();
-	for (it; it != directions_.end(); it++) {
+	for (std::map<int, std::string>::iterator it = directions_.begin(); it != directions_.end(); it++) {
 		if (it->second == exit) {
 			return exits_->GetEntity(it->first);
 		}
 	}
-	return GameEntity::NullEntity;
+	return nullptr;
 }
 
 /**
  * Gets an item GameEntity using an id if it's in the item list.
  * Return the GameEntity(id) if it is found in the item list, else return null if it is not
  */
-GameEntity& Room::GetItem(int id)
+GameEntity* Room::GetItem(int id)
 {
 	return items_->GetEntity(id);
 }
@@ -141,21 +171,26 @@ GameEntity& Room::GetItem(int id)
  * Gets a player GameEntity using an id if it's in the player list.
  * Return the GameEntity(id) if it is found in the player list, else return null if it is not
  */
-GameEntity& Room::GetPlayer(int id)
+GameEntity* Room::GetPlayer(int id)
 {
 	return players_->GetEntity(id);
 }
 
-GameEntity& Room::FindExit(std::string name) const {
-	GameEntity& exit = exits_->FindEntity(name);
-	if (!GameEntity::IsNull(exit)) {
+GameEntity * Room::GetMob(int id)
+{
+	return mobs_->GetEntity(id);
+}
+
+GameEntity* Room::FindExit(std::string name) const {
+	GameEntity* exit = exits_->FindEntity(name);
+	if (exit) {
 		return exit;
 	}
-	return GameEntity::NullEntity;
+	return nullptr;
 }
 
 
-GameEntity& Room::FindItem(std::string name) const {
+GameEntity* Room::FindItem(std::string name) const {
 	std::vector<GameEntity*> items = items_->GetEntityVector();
 	for (GameEntity* i : items) {
 		std::string lowername = i->GetName();
@@ -163,14 +198,14 @@ GameEntity& Room::FindItem(std::string name) const {
 			lowername.at(j) = std::tolower(lowername.at(j));
 		}
 		if (lowername == name || ((Item*) i)->FindShortName(name)) {
-			return *i;
+			return i;
 		}
 	}
-	return GameEntity::NullEntity;
+	return nullptr;
 }
 
 
-GameEntity& Room::FindPlayer(std::string name) const {
+GameEntity* Room::FindPlayer(std::string name) const {
 	std::vector<GameEntity*> players = players_->GetEntityVector();
 
 	std::string lowername(name);
@@ -184,10 +219,31 @@ GameEntity& Room::FindPlayer(std::string name) const {
 			pName.at(i) = std::tolower(pName.at(i));
 		}
 		if (pName == lowername) {
-			return *p;
+			return p;
 		}
 	}
-	return GameEntity::NullEntity;
+	return nullptr;
+}
+
+GameEntity * Room::FindMob(std::string name) const
+{
+	std::vector<GameEntity*> mobs = mobs_->GetEntityVector();
+
+	std::string lowername(name);
+	for (size_t i = 0; i < lowername.length(); ++i) {
+		lowername.at(i) = std::tolower(lowername.at(i));
+	}
+
+	for (GameEntity* m : mobs) {
+		std::string pName(m->GetName());
+		for (size_t i = 0; i < pName.length(); ++i) {
+			pName.at(i) = std::tolower(pName.at(i));
+		}
+		if (pName == lowername) {
+			return m;
+		}
+	}
+	return nullptr;
 }
 
 
@@ -195,27 +251,27 @@ GameEntity& Room::FindPlayer(std::string name) const {
 * Looks through all the lists ands finds the entity with the matching name
 * TODO this is slooow, make a map with name -> entity
 */
-GameEntity& Room::FindEntity(std::string name) const
+GameEntity* Room::FindEntity(std::string name) const
 {
-	GameEntity& esearch = exits_->FindEntity(name);
-	if (!GameEntity::IsNull(esearch))
+	GameEntity* esearch = exits_->FindEntity(name);
+	if (esearch)
 	{
 		return esearch;
 	}
 
-	GameEntity& isearch = items_->FindEntity(name);
-	if (!GameEntity::IsNull(isearch))
+	GameEntity* isearch = items_->FindEntity(name);
+	if (isearch)
 	{
 		return isearch;
 	}
 
-	GameEntity& psearch = players_->FindEntity(name);
-	if (!GameEntity::IsNull(psearch))
+	GameEntity* psearch = players_->FindEntity(name);
+	if (psearch)
 	{
 		return psearch;
 	}
 
-	return GameEntity::NullEntity;
+	return nullptr;
 }
 
 std::vector<GameEntity*> Room::GetPlayerVector()
@@ -228,6 +284,11 @@ std::vector<GameEntity*> Room::GetItemVector()
 	return items_->GetEntityVector();
 }
 
+std::vector<GameEntity*> Room::GetMobVector()
+{
+	return mobs_->GetEntityVector();
+}
+
 std::map<int, std::string> Room::GetExitVector()
 {
 	return std::map<int, std::string>(directions_);
@@ -237,19 +298,42 @@ void Room::AddDirection(int id, std::string dir) {
 	directions_.insert(std::pair<int, std::string>(id, dir));
 }
 
+void Room::AddMob(GameEntity & entity)
+{
+	mobs_->AddEntity(entity);
+}
+
 void Room::RespawnItems() {
-	std::vector<Item*> currentItems = (std::vector<Item*>&) items_->GetEntityVector();
+	std::vector<GameEntity*> currentItems = items_->GetEntityVector();
 	std::map<int, int> items_to_add;
 	for (int i : original_items_) {
 		items_to_add.insert(std::pair<int, int>(i, i));
 
 	}
 
-	for (Item* i : currentItems) {
-		items_to_add.erase(i->GetMasterId());
+	for (GameEntity* i : currentItems) {
+		items_to_add.erase(((Item* )i)->GetMasterId());
 	}
 
 	for (std::pair<int, int> i : items_to_add) {
 		SpawnItem(i.second);
+	}
+}
+
+void Room::RespawnMobs()
+{
+	std::vector<GameEntity*> currentMobs = mobs_->GetEntityVector();
+	std::map<int, int> mobs_to_add;
+	for (int i : original_mobs_) {
+		mobs_to_add.insert(std::pair<int, int>(i, i));
+
+	}
+
+	for (GameEntity* m : currentMobs) {
+		mobs_to_add.erase(((NPC*)m)->GetMasterId());
+	}
+
+	for (std::pair<int, int> m : mobs_to_add) {
+		SpawnMob(m.second);
 	}
 }

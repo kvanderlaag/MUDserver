@@ -45,8 +45,8 @@ TCPStream::~TCPStream()
 #else
     close(socketfd);
 #endif // _WIN32
-#ifdef _DEBUG_FLAG
 	std::cout << "Closing socket " << socketfd << '\n';
+#ifdef _DEBUG_FLAG
 	std::cout << "Removed socket " << socketfd << " from connection list." << '\n';
 #endif
 }

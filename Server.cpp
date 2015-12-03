@@ -10,8 +10,6 @@
 #endif
 
 
-
-
 /**
 * Creates a server on a given port number
 * Creates a listener on that port
@@ -39,7 +37,7 @@ Server::Server(int port)
 */
 Server::~Server()
 {
-//    std::cout << "Destroying server.\n";
+   std::cout << "Destroying server.\n";
 //	world.reset();
 //	listener.reset();
 //	parser.reset();
@@ -119,7 +117,7 @@ void Server::Shutdown()
 /**
 * Place a new message onto the message buffer
 */
-void Server::PutMessage(const Message* mess)
+void Server::PutMessage(Message* mess)
 {
 	mBuffer->PutMessage(mess);
 }
@@ -162,9 +160,10 @@ void Server::HandleMessageQueue()
 /**
 * Parse a message from the server.
 */
-Message* Server::ParseMessage(const Message& mess) {
-	Message* returnMessage = parser->Parse(&mess);
+Message* Server::ParseMessage(Message* mess) {
+	Message* returnMessage = parser->Parse(mess);
 	mBuffer->PutMessage(returnMessage);
+	delete mess;
 	return returnMessage;
 
 }

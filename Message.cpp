@@ -1,5 +1,7 @@
 #include "Message.h"
 
+#include <iostream>
+
 /**
 * Create a message
 */
@@ -15,7 +17,7 @@ Message::Message(const std::string load, int id, MessageType mType)
 */
 Message::~Message()
 {
-
+	std::cout << "Destroying message\n";
 }
 
 /**

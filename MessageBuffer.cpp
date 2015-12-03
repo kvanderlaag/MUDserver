@@ -1,6 +1,7 @@
 #include "MessageBuffer.h"
 
 #include <queue>
+#include <iostream>
 
 /**
 * Create a message buffer
@@ -16,13 +17,13 @@ MessageBuffer::MessageBuffer()
 */
 MessageBuffer::~MessageBuffer()
 {
-
+	std::cout << "Destroying message buffer.\n";
 }
 
 /**
 * Place a message at the end of the message buffer
 */
-int MessageBuffer::PutMessage(const Message* mess)
+int MessageBuffer::PutMessage(Message* mess)
 {
 	buffer.push(mess);
 	return ++length;
@@ -31,9 +32,9 @@ int MessageBuffer::PutMessage(const Message* mess)
 /**
 * Grab the next message in the message buffer
 */
-const Message* MessageBuffer::DequeueMessage()
+Message* MessageBuffer::DequeueMessage()
 {
-	const Message* ret = buffer.front();
+	Message* ret = buffer.front();
 	buffer.pop();
 	length--;
 	return ret;
