@@ -218,19 +218,19 @@ GameEntity& Room::FindEntity(std::string name) const
 	return GameEntity::NullEntity;
 }
 
-std::vector<GameEntity*>* Room::GetPlayerVector()
+std::vector<GameEntity*> Room::GetPlayerVector()
 {
 	return players_->GetEntityVector();
 }
 
-std::vector<GameEntity*>* Room::GetItemVector()
+std::vector<GameEntity*> Room::GetItemVector()
 {
 	return items_->GetEntityVector();
 }
 
-std::map<int, std::string>* Room::GetExitVector()
+std::map<int, std::string> Room::GetExitVector()
 {
-	return new std::map<int, std::string>(directions_);
+	return std::map<int, std::string>(directions_);
 }
 
 void Room::AddDirection(int id, std::string dir) {
@@ -238,14 +238,14 @@ void Room::AddDirection(int id, std::string dir) {
 }
 
 void Room::RespawnItems() {
-	std::vector<Item*>* currentItems = (std::vector<Item*>*) items_->GetEntityVector();
+	std::vector<Item*> currentItems = (std::vector<Item*>&) items_->GetEntityVector();
 	std::map<int, int> items_to_add;
 	for (int i : original_items_) {
 		items_to_add.insert(std::pair<int, int>(i, i));
 
 	}
 
-	for (Item* i : *currentItems) {
+	for (Item* i : currentItems) {
 		items_to_add.erase(i->GetMasterId());
 	}
 

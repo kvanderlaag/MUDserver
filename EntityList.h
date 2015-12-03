@@ -34,8 +34,6 @@ public:
     virtual GameEntity& GetEntity(int id);
 	virtual GameEntity& FindEntity(std::string name);
 
-	//GameEntity* FindEntityByName(std::string name);
-
     int GetEntityCount();
 	virtual std::vector<GameEntity*> GetEntityVector();
 
