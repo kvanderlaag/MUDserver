@@ -5,6 +5,8 @@
 #include <fstream>
 #include <ctime>
 
+bool GameWorld::running = true;
+
 /**
 * Create a game world, with entity lists for players and rooms
 */
@@ -19,7 +21,6 @@ GameWorld::GameWorld(Server& par) :
 #ifdef _DEBUG_FLAG
     std::cout << "Created a world..." << std::endl;
 #endif
-
 	LoadItems("items.tsv");
 	LoadRooms("rooms.tsv");
 	LoadPlayers("players.tsv");
@@ -1166,7 +1167,7 @@ void GameWorld::StartUpdate() {
 void GameWorld::DoSave() {
 	using namespace std::chrono_literals;
 
-	while (parent.IsRunning()) {
+	while (GameWorld::running) {
 
 		std::cout << "Saving player list" << std::endl;
 		FileParser::WritePlayers("players.tsv", players_->GetEntityVector());
@@ -1182,7 +1183,7 @@ void GameWorld::DoSave() {
 void GameWorld::DoUpdate() {
 	using namespace std::chrono_literals;
 
-	while (parent.IsRunning()) {
+	while (GameWorld::running) {
 
 		//std::cout << "Updating game world." << std::endl;
 		// Respawn room items
@@ -1192,12 +1193,11 @@ void GameWorld::DoUpdate() {
 				//std::cout << "Respawning items in." << r->GetName() << std::endl;
 				((Room*)r)->RespawnItems();
 			}
-			
+
 		}
 		std::this_thread::sleep_for(10s);
 
 	}
-
 }
 
 EntityList& GameWorld::GetMasterItems() const {
@@ -1214,8 +1214,8 @@ Server& GameWorld::GetParent() const {
 }
 
 void GameWorld::ReleaseThreads() {
-	std::cout << "Waiting for update thread to finish.\n";
-	updateThread.get()->join();
+	GameWorld::running = false;
+	//updateThread.get()->join();
 	updateThread.release();
 	saveThread.release();
 

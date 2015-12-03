@@ -33,6 +33,7 @@ class GameWorld
 {
 
 private:
+	static bool running;
     std::unique_ptr<EntityList> rooms_; // room_id/room_object
     std::unique_ptr<EntityList> players_; // player_id/player_object
 
