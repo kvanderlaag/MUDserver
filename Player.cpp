@@ -85,7 +85,7 @@ int Player::GetRoomId(){
 /**
 * The function AddItem receives a pointer of type GameEntity and add item to the item list within player object.
 */
-void Player::AddItem(GameEntity *item) {
+void Player::AddItem(GameEntity& item) {
 	items_.get()->AddEntity(item);
 }
 
@@ -93,21 +93,21 @@ void Player::AddItem(GameEntity *item) {
 * The function RemoveItem receives the ID of an item and remove this item from the item list within player object.
 */
 void Player::RemoveItem(int id) {
-	items_.get()->RemoveEntity(id);
+	items_->RemoveEntity(id);
 }
 
 /**
 * The function RemoveItem receives the name of an item and remove this item from the item list within player object.
 */
 void Player::RemoveItem(std::string name) {
-	GameEntity* item = items_.get()->FindEntity(name);
-	items_.get()->RemoveEntity(item->GetId());
+	GameEntity& item = items_->FindEntity(name);
+	items_->RemoveEntity(item.GetId());
 }
 
 /**
 * The function GetItem receives the ID of an item and find the item to the item list within player object.
 */
-GameEntity* Player::GetItem(int id) {
+GameEntity& Player::GetItem(int id) {
 	return items_->GetEntity(id);
 }
 
@@ -115,22 +115,22 @@ GameEntity* Player::GetItem(int id) {
 * The function GetItemVector returns a vector containing pointers to the items in the current player's inventory.
 */
 std::vector<GameEntity*> Player::GetItemVector() {
-	std::vector<GameEntity*>* inventory = items_.get()->GetEntityVector();
-	return *inventory;
+	std::vector<GameEntity*> inventory = items_->GetEntityVector();
+	return inventory;
 }
 
-GameEntity* Player::FindItem(std::string name) const {
-	std::vector<GameEntity*>* inventory = items_.get()->GetEntityVector();
-	for (Item* i : *((std::vector<Item*>*) inventory)) {
+GameEntity& Player::FindItem(std::string name) const {
+	std::vector<GameEntity*> inventory = items_->GetEntityVector();
+	for (GameEntity* i : inventory) {
 		std::string lowername = i->GetName();
 		for (size_t j = 0; j < lowername.length(); ++j) {
 			lowername.at(j) = std::tolower(lowername.at(j));
 		}
-		if (lowername == name || i->FindShortName(name)) {
-			return i;
+		if (lowername == name || ((Item*) i)->FindShortName(name)) {
+			return *i;
 		}
 	}
-	return nullptr;
+	return GameEntity::NullEntity;
 }
 
 PlayerStats& Player::GetStats() {

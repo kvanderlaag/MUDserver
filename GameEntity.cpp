@@ -78,3 +78,7 @@ void GameEntity::Print()
 GameWorld& GameEntity::GetWorld() const {
 	return world_;
 }
+
+bool GameEntity::IsNull(const GameEntity& test) {
+	return &test == &NullEntity;
+}
