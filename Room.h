@@ -21,6 +21,7 @@ private:
 	EntityList* players_;
 
 public:
+
 	Room(int id, std::string name, GameWorld* world);
 	Room(int id, std::string name, std::string description, GameWorld* world);
 	~Room(  );

@@ -25,6 +25,7 @@ private:
  * and a destructor
 */
 public:
+
 	Item(int id, std::string description, GameWorld* world, int master);
 	Item(int id, std::string name, std::string description, GameWorld* world, int master);
 	Item(int newId, const Item& other);
