@@ -15,13 +15,17 @@ GameWorld::GameWorld(Server& par) :
 	players_(new EntityList()),
 	rooms_(new EntityList()),
 	items_(new EntityList()),
+	mobs_(new EntityList()),
 	current_players_(new ConnectionList()),
-	master_items_(new EntityList())
+	master_items_(new EntityList()),
+	master_mobs_(new EntityList()),
+	battles_(new BattleList(this))
 {
 #ifdef _DEBUG_FLAG
     std::cout << "Created a world..." << std::endl;
 #endif
 	LoadItems("items.tsv");
+	LoadMobs("npcs.tsv");
 	LoadRooms("rooms.tsv");
 	LoadPlayers("players.tsv");
 
@@ -57,6 +61,10 @@ void GameWorld::AddPlayer(Player& player)
 	players_->AddEntity(player);
 }
 
+void GameWorld::AddMob(NPC & entity)
+{
+}
+
 /**
 * Remove a room from the room list in game world
 */
@@ -71,6 +79,10 @@ void GameWorld::RemoveRoom(int id)
 void GameWorld::RemovePlayer(int id)
 {
     players_->RemoveEntity(id);
+}
+
+void GameWorld::RemoveMob(NPC & entity)
+{
 }
 
 /**
@@ -279,6 +291,40 @@ void GameWorld::ReceiveMessage(Message* message)
 			Message* msg = new Message(outString.str(), message->GetSource(), Message::outputMessage);
 			parent.PutMessage(msg);
 		}
+	}
+}
+
+/**
+* Player command
+* Attacks the specified target if not already in combat
+* Switches target if currently in combat.
+*/
+void GameWorld::Attack(int connection_id, std::string entity) {
+	Player* p = FindPlayer(connection_id);
+	Battle* b = battles_->GetBattleByPlayerId(p->GetId());
+	if (!b) {
+		Battle* m = battles_->GetBattleByMobName(entity);
+		if (!m) {
+			Room* r = FindPlayerRoom(*p);
+			NPC* mob = (NPC*) r->FindMob(entity);
+			if (mob) {
+				Battle* newBattle = new Battle(battles_->GetNextId(), this);
+				newBattle->AddPlayer(p, mob);
+				newBattle->AddMob(mob, p);
+				battles_->AddBattle(newBattle);
+			}
+			else {
+				// print message saying no mob was found
+			}
+
+		}
+		else {
+			NPC* mob = m->GetMobByName(entity);
+			m->AddPlayer(p, mob);
+		}
+	}
+	else {
+		b->SetTarget(p, b->GetMobByName(entity));
 	}
 }
 
@@ -520,19 +566,33 @@ void GameWorld::Look(int connection_id)
 	if (vPlayers.size() > 1) {
 		for (size_t i = 0; i < vPlayers.size(); ++i) {
 			if (vPlayers.at(i)->GetName() != player->GetName()) {
-				players << vPlayers.at(i)->GetName() << "\n";
+				players << cGreen << vPlayers.at(i)->GetName() << cDefault << "\n";
 			}
 		}
 	}
 	else {
-		players << "None.";
+		players << "None.\n";
+	}
+
+	// Get mobs
+	std::ostringstream mobs;
+	mobs << cGreen << "Monsters:\n" << cDefault;
+	std::vector<GameEntity*> vMobs = room->GetMobVector();
+	if (vMobs.size() > 0) {
+		for (size_t i = 0; i < vMobs.size(); ++i) {
+			std::cout << vMobs.at(i)->GetName() << "\n";
+			mobs << cRed << vMobs.at(i)->GetName() << cDefault << "\n";
+		}
+	}
+	else {
+		mobs << "None.";
 	}
 
 	// create message
 	std::ostringstream output;
 	output << "\n" << cBlue << "---\n" << cYellow << room->GetName() << cBlue << "\n---\n" << cDefault <<
 		description << cBlue << "\n---\n" << cDefault << exits.str() << cBlue << "---\n" << cDefault <<
-		items.str() << cBlue << "---\n" << cDefault << players.str() << "\n";
+		items.str() << cBlue << "---\n" << cDefault << players.str() << cBlue << "---\n" << mobs.str() << "\n";
 	Message* msg = new Message(output.str(), player->GetConnectionId(), Message::outputMessage);
 
 	// place message on message buffer
@@ -596,6 +656,18 @@ void GameWorld::Look(int connection_id, std::string entity_name)
 		std::ostringstream outputString;
 		outputString << "You see " << cGreen << pientity->GetName() << cDefault << " in your inventory.\n";
 		outputString << "Description:\n" << pientity->GetDescription() << "\n";
+		Message* msg = new Message(outputString.str(), connection_id, Message::outputMessage);
+		parent.PutMessage(msg);
+		return;
+	}
+
+	// otherwise, check mobs
+	GameEntity* mientity = room->FindMob(entity_name);
+
+	if (mientity) {
+		std::ostringstream outputString;
+		outputString << "You see " << cGreen << mientity->GetName() << cDefault << " in " << cYellow << room->GetName() << cDefault << ".\n";
+		outputString << "Description:\n" << mientity->GetDescription() << "\n";
 		Message* msg = new Message(outputString.str(), connection_id, Message::outputMessage);
 		parent.PutMessage(msg);
 		return;
@@ -1057,22 +1129,44 @@ void GameWorld::LoadRooms(std::string filename) {
 
 		if (room_values->size() > 4) {
 			std::vector<std::string>* items = FileParser::ParseCsv(room_values->at(4));
-			for (std::string item_id : *items) {
-				std::stringstream buffer(item_id);
-				int intId;
-				if (buffer >> intId) {
-					if (master_items_->GetEntity(intId)) {
-						Item* item = new Item(items_->GetNextId(), (Item&) *(master_items_->GetEntity(intId)));
-						room->AddItem(*item);
-						room->AddMasterItem(intId);
+			if (items) {
+				for (std::string item_id : *items) {
+					std::stringstream buffer(item_id);
+					int intId;
+					if (buffer >> intId) {
+						if (master_items_->GetEntity(intId)) {
+							Item* item = new Item(items_->GetNextId(), (Item&)*(master_items_->GetEntity(intId)));
+							room->AddItem(*item);
+							room->AddMasterItem(intId);
+						}
 					}
-				}
 
+				}
+			}
+		}
+
+		if (room_values->size() > 5) {
+			std::cout << "Loading mobs.\n" << std::endl;
+			std::vector<std::string>* mobs = FileParser::ParseCsv(room_values->at(5));
+			if (mobs) {
+				for (std::string mob_id : *mobs) {
+					std::stringstream buffer(mob_id);
+					int intId;
+					if (buffer >> intId) {
+						if (master_mobs_->GetEntity(intId)) {
+							NPC* mob = new NPC(mobs_->GetNextId(), (NPC&)*(master_mobs_->GetEntity(intId)));
+							std::cout << "Adding mob " << mob->GetName() << " to " << room->GetName() << "\n";
+							room->AddMob(*mob);
+							room->AddMasterMob(intId);
+						}
+					}
+
+				}
 			}
 		}
 
 		rooms_->AddEntity(*room);
-	}
+}
 #ifdef _DEBUG_FLAG
 	std::cout << "Loading Exits...";
 #endif
@@ -1141,6 +1235,36 @@ void GameWorld::LoadItems(std::string filename) {
 
 }
 
+/*
+* Load mobs from a file
+*/
+
+void GameWorld::LoadMobs(std::string filename) {
+	std::vector<std::string>* mobs = FileParser::ParseFile(filename);
+
+	for (size_t i = 0; i < mobs->size(); ++i) {
+		std::vector<std::string>* mob_values = FileParser::ParseTsv(mobs->at(i));
+		std::stringstream buffer(mob_values->at(0));
+		int id;
+		if (!(buffer >> id)) {
+			id = -1;
+		}
+		std::string name = mob_values->at(1);
+
+		NPC* mob = new NPC(id, name, this, id);
+
+		std::string desc = mob_values->at(2);
+		if (!desc.empty()) {
+			mob->SetDescription(desc);
+		}
+
+		std::cout << "New NPC: ID - " << id << ", Name - " << name << ", Description - " << desc << "\n";
+
+		master_mobs_->AddEntity(*mob);
+	}
+
+}
+
 /**
 * Create a new update processing thread
 */
@@ -1156,9 +1280,16 @@ void GameWorld::CreateSaveThread(void* arg)
 	instance->DoSave();
 }
 
+void GameWorld::CreateBattleUpdateThread(void* arg)
+{
+	GameWorld* instance = (GameWorld*)arg;
+	instance->DoBattleUpdate();
+}
+
 void GameWorld::StartUpdate() {
 	updateThread = std::unique_ptr<std::thread>(new std::thread(&CreateUpdateThread, this));
 	saveThread = std::unique_ptr<std::thread>(new std::thread(&CreateSaveThread, this));
+	battleUpdateThread = std::unique_ptr<std::thread>(new std::thread(&CreateBattleUpdateThread, this));
 }
 
 /**
@@ -1177,6 +1308,22 @@ void GameWorld::DoSave() {
 
 }
 
+void GameWorld::DoBattleUpdate()
+{
+	using namespace std::chrono_literals;
+
+	while (GameWorld::running) {
+
+		//std::cout << "Updating game world." << std::endl;
+		// Respawn room items
+		if (battles_.get()) {
+			battles_->Update();
+		}
+		std::this_thread::sleep_for(10s);
+
+	}
+}
+
 /**
 * Updates game world on interval
 */
@@ -1192,6 +1339,7 @@ void GameWorld::DoUpdate() {
 			for (GameEntity* r : rooms) {
 				//std::cout << "Respawning items in." << r->GetName() << std::endl;
 				((Room*)r)->RespawnItems();
+				((Room*)r)->RespawnMobs();
 			}
 
 		}
@@ -1204,8 +1352,26 @@ EntityList& GameWorld::GetMasterItems() const {
 	return *master_items_;
 }
 
+EntityList & GameWorld::GetMasterMobs() const
+{
+	return *(master_mobs_.get());
+	// TODO: insert return statement here
+}
+
 EntityList& GameWorld::GetItems() const {
 	return *items_;
+}
+
+EntityList & GameWorld::GetMobs() const
+{
+	return *(mobs_.get());
+	// TODO: insert return statement here
+}
+
+BattleList & GameWorld::GetBattles() const
+{
+	return *(battles_.get());
+	// TODO: insert return statement here
 }
 
 Server& GameWorld::GetParent() const {
@@ -1213,10 +1379,17 @@ Server& GameWorld::GetParent() const {
 
 }
 
+EntityList & GameWorld::GetPlayers() const
+{
+	return *(players_.get());
+	// TODO: insert return statement here
+}
+
 void GameWorld::ReleaseThreads() {
 	GameWorld::running = false;
 	//updateThread.get()->join();
 	updateThread.release();
 	saveThread.release();
+	battleUpdateThread.release();
 
 }

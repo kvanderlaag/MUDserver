@@ -11,6 +11,8 @@
 #include "Server.h"
 #include "Utility.h"
 #include "FileParser.h"
+#include "NPC.h"
+#include "BattleList.h"
 
 #include <map>
 #include <vector>
@@ -28,6 +30,7 @@ class Player;
 class Room;
 class Item;
 class Server;
+class BattleList;
 
 class GameWorld
 {
@@ -36,9 +39,12 @@ private:
 	static bool running;
     std::unique_ptr<EntityList> rooms_; // room_id/room_object
     std::unique_ptr<EntityList> players_; // player_id/player_object
+	std::unique_ptr<EntityList> mobs_;
+	std::unique_ptr<BattleList> battles_;
 
 	// the master item list would be a good place for the Prototype design pattern.
 	std::unique_ptr<EntityList>  master_items_; // item_index/item_object
+	std::unique_ptr<EntityList> master_mobs_;
 
 	std::unique_ptr<EntityList> items_; // item_id/item_object
 	std::unique_ptr<ConnectionList> current_players_; // connection_id/player_id
@@ -46,6 +52,7 @@ private:
 
 	std::unique_ptr<std::thread> updateThread;
 	std::unique_ptr<std::thread> saveThread;
+	std::unique_ptr<std::thread> battleUpdateThread;
 
 public:
     GameWorld(Server& par);
@@ -53,9 +60,11 @@ public:
 
     void AddRoom(Room& entity);
     void AddPlayer(Player& entity);
+	void AddMob(NPC& entity);
 
     void RemoveRoom(int id);
     void RemovePlayer(int id);
+	void RemoveMob(NPC& entity);
 
 	GameEntity* GetRoom(int id);
     GameEntity* GetPlayer(int id);
@@ -65,6 +74,7 @@ public:
 
 	void ReceiveMessage(Message* message);
 
+	void Attack(int connection_id, std::string entity);
 	void Look(int connection_id);
 	void Look(int connection_id, std::string entity);
 	void Move(int connection_id, std::string exit);
@@ -83,6 +93,7 @@ public:
 	void LoadPlayers(std::string filename);
 	void LoadItems(std::string filename);
 	void LoadRooms(std::string filename);
+	void LoadMobs(std::string filename);
 
 	void Help(int connection_id);
 
@@ -93,14 +104,20 @@ public:
 	void StartUpdate();
 	static void CreateSaveThread(void* arg);
 	static void CreateUpdateThread(void* arg);
+	static void CreateBattleUpdateThread(void* arg);
 	void DoUpdate();
 	void DoSave();
+	void DoBattleUpdate();
 
 	void ReleaseThreads();
 
 	Server& GetParent() const;
+	EntityList& GetPlayers() const;
 	EntityList& GetMasterItems() const;
+	EntityList& GetMasterMobs() const;
 	EntityList& GetItems() const;
+	EntityList& GetMobs() const;
+	BattleList& GetBattles() const;
 };
 
 #endif // __GAMEWORLD_H__
