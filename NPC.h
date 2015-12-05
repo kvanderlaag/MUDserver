@@ -13,6 +13,7 @@ private:
 	std::unique_ptr<PlayerStats> stats_;
 	std::unique_ptr<EntityList> items_;
 	int master_id_;
+	int room_id_;
 public:
 	NPC(int id, std::string name, GameWorld* world, int master);
 	NPC(int newId, const NPC& other);
@@ -23,6 +24,9 @@ public:
 
 	PlayerStats& GetStats() const;
 	EntityList& GetItems() const;
+	
+	int GetRoomId() const;
+	void SetRoomId(int roomId);
 
 	int GetMasterId() const;
 

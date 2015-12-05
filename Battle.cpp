@@ -95,6 +95,9 @@ void Battle::PlayerFlee(GameEntity* p) {
 		// insert flee calculation logic here
 
 		players_.erase(p->GetId());
+		for (std::map<GameEntity*, GameEntity*>::iterator it = targets_.find(p); it != targets_.end(); it = targets_.find(p)) {
+			targets_.erase(it->first);
+		}
 	}
 }
 
@@ -104,6 +107,9 @@ void Battle::MobFlee(GameEntity* p) {
 		// insert flee calculation logic here
 
 		mobs_.erase(p->GetId());
+		for (std::map<GameEntity*, GameEntity*>::iterator it = targets_.find(p); it != targets_.end(); it = targets_.find(p)) {
+			targets_.erase(it->first);
+		}
 	}
 }
 
@@ -120,13 +126,7 @@ void Battle::SetTarget(GameEntity* p, GameEntity* target) {
 void Battle::Update() {
 	// If there are no players or no NPCs remaining, end the battle
 	if (players_.empty() || mobs_.empty()) {
-		for (std::pair<int, Player*> pPair : players_) {
-			players_.erase(pPair.first);
-		}
-		for (std::pair<int, NPC*> mPair : mobs_) {
-			mobs_.erase(mPair.first);
-		}
-		return;
+		parent_.GetBattles().DeleteBattle(id_);
 	}
 
 	// loop through each participant and calculate their attack.
@@ -156,14 +156,14 @@ void Battle::Update() {
 			if (t->Damage(p->GetStats().GetStrength()) == 1) {
 				t->Die();
 				/* This should really be the die code, but we need accessors for GameWorld and Room and shit first */
-				Room* r = (Room*)parent_.GetRoom(p->GetRoomId());
+				Room* r = (Room*)parent_.GetRoom(t->GetRoomId());
 				r->RemoveMob(t->GetId());
 				/* Derp */
 				outString.str("");
 				outString << cGreen << t->GetName() << cDefault << " dies." << cDefault;
 				Message* mobDieMsg = new Message(outString.str(), p->GetConnectionId(), Message::outputMessage);
 				parent_.GetParent().PutMessage(mobDieMsg);
-				mobs_.erase(t->GetId());
+				MobFlee(t);
 			}
 		}
 		else {
@@ -208,7 +208,7 @@ void Battle::Update() {
 				r->AddPlayer(*t);
 				/* end of derpy die code */
 				parent_.Look(t->GetConnectionId());
-				players_.erase(p->GetId());
+				PlayerFlee(t);
 			}
 		}
 		else {

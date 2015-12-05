@@ -133,6 +133,35 @@ Room* GameWorld::FindPlayerRoom(Player& player)
 }
 
 /**
+* Find the NPC object given the NPC ID.
+*/
+NPC* GameWorld::FindMob(int mobId)
+{
+	// find NPC
+	GameEntity* mentity = mobs_->GetEntity(mobId);
+	if (mentity) {
+		NPC* mob = dynamic_cast<NPC*>(mentity);
+
+		return mob;
+	}
+	return nullptr;
+}
+
+/**
+* Get the room object given the NPC object
+*/
+Room* GameWorld::FindMobRoom(NPC& mob)
+{
+	// find room id
+	int rid = mob.GetRoomId();
+	// find room
+	GameEntity* rentity = rooms_->GetEntity(rid);
+	Room* room = dynamic_cast<Room*>(rentity);
+
+	return room;
+}
+
+/**
 * Receive a message and handle it
 */
 void GameWorld::ReceiveMessage(Message* message)
