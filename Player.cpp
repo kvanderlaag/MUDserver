@@ -134,6 +134,14 @@ GameEntity* Player::FindItem(std::string name) const {
 	return nullptr;
 }
 
+int Player::Damage(const int damage) {
+	stats_->SetHealth(stats_->GetHealth() - damage);
+	if (stats_->GetHealth() <= 0) {
+		return 1;
+	}
+	return 0;
+}
+
 PlayerStats& Player::GetStats() {
 	return *(stats_.get());
 }

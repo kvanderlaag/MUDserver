@@ -32,6 +32,8 @@ public:
 	NPC* GetMobByName(std::string name);
 	Player* GetPlayerByName(std::string name);
 
+	bool IsEmpty() const;
+
 	void AddPlayer(GameEntity* p, GameEntity* target);
 	void AddMob(GameEntity* p, GameEntity* target);
 	void SetTarget(GameEntity* p, GameEntity* target);

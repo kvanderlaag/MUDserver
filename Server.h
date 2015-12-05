@@ -41,6 +41,8 @@ public:
 	TCPListener* GetListener() const;
     bool IsRunning() const;
 
+	GameWorld& GetWorld();
+
 private:
 	bool running;
 

@@ -183,9 +183,10 @@ void GameWorld::ReceiveMessage(Message* message)
 		}
 	}
 	else {
-
-
-		if (command == "help" || command == "h")
+		if (command == "attack" || command == "a") {
+			Attack(message->GetSource(), words);
+		}
+		else if (command == "help" || command == "h")
 		{
 			Help(message->GetSource());
 		}
@@ -202,7 +203,9 @@ void GameWorld::ReceiveMessage(Message* message)
 		}
 		else if (command == "move")
 		{
-			Move(message->GetSource(), words);
+			if (!battles_->GetBattleByPlayerId(player->GetId())) {
+				Move(message->GetSource(), words);
+			}
 		}
 		else if (command == "shout") {
 			Shout(message->GetSource(), words);
@@ -244,17 +247,27 @@ void GameWorld::ReceiveMessage(Message* message)
 			Who(message->GetSource());
 		}
 		else if (command == "n" || command == "s" || command == "e" || command == "w") {
-			if (command == "n")
-				Move(message->GetSource(), "north");
-			if (command == "s")
-				Move(message->GetSource(), "south");
-			if (command == "e")
-				Move(message->GetSource(), "east");
-			if (command == "w")
-				Move(message->GetSource(), "west");
+			if (!battles_->GetBattleByPlayerId(player->GetId())) {
+				if (command == "n")
+					Move(message->GetSource(), "north");
+				if (command == "s")
+					Move(message->GetSource(), "south");
+				if (command == "e")
+					Move(message->GetSource(), "east");
+				if (command == "w")
+					Move(message->GetSource(), "west");
+			}
 		}
 		else if (command == "north" || command == "south" || command == "east" || command == "west") {
-			Move(message->GetSource(), command);
+			if (!battles_->GetBattleByPlayerId(player->GetId())) {
+				Move(message->GetSource(), command);
+			}
+			else {
+				std::ostringstream outString;
+				outString << "You can't do that while you're in combat!";
+				Message* outMsg = new Message(outString.str(), message->GetSource(), Message::outputMessage);
+				parent.PutMessage(outMsg);
+			}
 		}
 		else if (command == "inventory" || command == "i" || command == "inv") {
 			DisplayInventory(message->GetSource());
@@ -301,6 +314,9 @@ void GameWorld::ReceiveMessage(Message* message)
 */
 void GameWorld::Attack(int connection_id, std::string entity) {
 	Player* p = FindPlayer(connection_id);
+	if (!p) {
+		return;
+	}
 	Battle* b = battles_->GetBattleByPlayerId(p->GetId());
 	if (!b) {
 		Battle* m = battles_->GetBattleByMobName(entity);
@@ -312,8 +328,17 @@ void GameWorld::Attack(int connection_id, std::string entity) {
 				newBattle->AddPlayer(p, mob);
 				newBattle->AddMob(mob, p);
 				battles_->AddBattle(newBattle);
+
+				std::ostringstream outString;
+				outString << "You enter combat with " << cGreen << mob->GetName() << cDefault << "!";
+				Message* outMsg = new Message(outString.str(), p->GetConnectionId(), Message::outputMessage);
+				parent.PutMessage(outMsg);
 			}
 			else {
+				std::ostringstream outString;
+				outString << cGreen << entity << cDefault << "is not here.";
+				Message* outMsg = new Message(outString.str(), p->GetConnectionId(), Message::outputMessage);
+				parent.PutMessage(outMsg);
 				// print message saying no mob was found
 			}
 
@@ -321,10 +346,26 @@ void GameWorld::Attack(int connection_id, std::string entity) {
 		else {
 			NPC* mob = m->GetMobByName(entity);
 			m->AddPlayer(p, mob);
+			std::ostringstream outString;
+			outString << "You enter combat with " << cGreen << mob->GetName() << cDefault << "!";
+			Message* outMsg = new Message(outString.str(), p->GetConnectionId(), Message::outputMessage);
+			parent.PutMessage(outMsg);
 		}
 	}
 	else {
 		b->SetTarget(p, b->GetMobByName(entity));
+		if (NPC* mob = b->GetMobByName(entity)) {
+			std::ostringstream outString;
+			outString << "You change targets to " << cGreen << mob->GetName() << cDefault << ".";
+			Message* outMsg = new Message(outString.str(), p->GetConnectionId(), Message::outputMessage);
+			parent.PutMessage(outMsg);
+		}
+		else {
+			std::ostringstream outString;
+			outString << "You aren't fighting " << cGreen << entity << cDefault << "!";
+			Message* outMsg = new Message(outString.str(), p->GetConnectionId(), Message::outputMessage);
+			parent.PutMessage(outMsg);
+		}
 	}
 }
 
@@ -1319,7 +1360,7 @@ void GameWorld::DoBattleUpdate()
 		if (battles_.get()) {
 			battles_->Update();
 		}
-		std::this_thread::sleep_for(10s);
+		std::this_thread::sleep_for(3s);
 
 	}
 }

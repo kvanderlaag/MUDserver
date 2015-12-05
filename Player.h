@@ -64,6 +64,8 @@ public:
 	GameEntity* GetItem(int id);
 	std::vector<GameEntity*> GetItemVector();
 	GameEntity* FindItem(std::string name) const;
+	
+	int Damage(const int damage);
 
 	PlayerStats& GetStats();
 
