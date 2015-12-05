@@ -137,7 +137,7 @@ const int TCPStream::Write(std::string outputMessage) {
 	Player* p = parent->GetParent().GetWorld().FindPlayer(socketfd);
 	if (p) {
 		std::ostringstream outString;
-		outString << "\n" << cRed << p->GetStats().GetHealth() << cDefault << " | " << cBlue << p->GetStats().GetMana() << cDefault << " >";
+		outString << "\n" << cRed << p->GetStats().GetHealth() << cDefault << " | " << cBlue << p->GetStats().GetMana() << cDefault << " > ";
 		outputMessage += outString.str();
 	}
 	else {

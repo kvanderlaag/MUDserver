@@ -621,7 +621,7 @@ void GameWorld::Look(int connection_id)
 	std::vector<GameEntity*> vMobs = room->GetMobVector();
 	if (vMobs.size() > 0) {
 		for (size_t i = 0; i < vMobs.size(); ++i) {
-			std::cout << vMobs.at(i)->GetName() << "\n";
+			//std::cout << vMobs.at(i)->GetName() << "\n";
 			mobs << cRed << vMobs.at(i)->GetName() << cDefault << "\n";
 		}
 	}
@@ -1187,7 +1187,7 @@ void GameWorld::LoadRooms(std::string filename) {
 		}
 
 		if (room_values->size() > 5) {
-			std::cout << "Loading mobs.\n" << std::endl;
+			//std::cout << "Loading mobs.\n" << std::endl;
 			std::vector<std::string>* mobs = FileParser::ParseCsv(room_values->at(5));
 			if (mobs) {
 				for (std::string mob_id : *mobs) {
@@ -1196,7 +1196,7 @@ void GameWorld::LoadRooms(std::string filename) {
 					if (buffer >> intId) {
 						if (master_mobs_->GetEntity(intId)) {
 							NPC* mob = new NPC(mobs_->GetNextId(), (NPC&)*(master_mobs_->GetEntity(intId)));
-							std::cout << "Adding mob " << mob->GetName() << " to " << room->GetName() << "\n";
+							//std::cout << "Adding mob " << mob->GetName() << " to " << room->GetName() << "\n";
 							room->AddMob(*mob);
 							room->AddMasterMob(intId);
 						}
@@ -1299,7 +1299,7 @@ void GameWorld::LoadMobs(std::string filename) {
 			mob->SetDescription(desc);
 		}
 
-		std::cout << "New NPC: ID - " << id << ", Name - " << name << ", Description - " << desc << "\n";
+		//std::cout << "New NPC: ID - " << id << ", Name - " << name << ", Description - " << desc << "\n";
 
 		master_mobs_->AddEntity(*mob);
 	}

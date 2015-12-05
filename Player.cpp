@@ -15,7 +15,7 @@ Player::Player(int id, std::string name, GameWorld* world) : GameEntity(id, name
 	password_ = "";
 	room_id_ = 0;
 
-    std::cout << "Created a player..." << std::endl;
+    //std::cout << "Created a player..." << std::endl;
 }
 
 /**
