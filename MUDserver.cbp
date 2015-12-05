@@ -35,9 +35,12 @@
 		</Build>
 		<Compiler>
 			<Add option="-std=c++0x" />
-			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="Battle.cpp" />
+		<Unit filename="Battle.h" />
+		<Unit filename="BattleList.cpp" />
+		<Unit filename="BattleList.h" />
 		<Unit filename="ConnectionList.cpp" />
 		<Unit filename="ConnectionList.h" />
 		<Unit filename="EntityList.cpp" />
@@ -55,6 +58,8 @@
 		<Unit filename="Message.h" />
 		<Unit filename="MessageBuffer.cpp" />
 		<Unit filename="MessageBuffer.h" />
+		<Unit filename="NPC.cpp" />
+		<Unit filename="NPC.h" />
 		<Unit filename="Parser.cpp" />
 		<Unit filename="Parser.h" />
 		<Unit filename="Player.cpp" />

@@ -31,7 +31,7 @@
 	<fstream>
 	"Player.h"
 
-1449129315 /home/keegan/Documents/Code/CPP/MUDserver/Player.h
+1449279978 /home/keegan/Documents/Code/CPP/MUDserver/Player.h
 	"GameEntity.h"
 	"GameWorld.h"
 	"EntityList.h"
@@ -53,14 +53,14 @@
 	"GameEntity.h"
 	<iostream>
 
-1449162435 source:/home/keegan/Documents/Code/CPP/MUDserver/GameWorld.cpp
+1449279978 source:/home/keegan/Documents/Code/CPP/MUDserver/GameWorld.cpp
 	"GameWorld.h"
 	<iostream>
 	<sstream>
 	<fstream>
 	<ctime>
 
-1449129438 /home/keegan/Documents/Code/CPP/MUDserver/GameWorld.h
+1449178132 /home/keegan/Documents/Code/CPP/MUDserver/GameWorld.h
 	"EntityList.h"
 	"ConnectionList.h"
 	"Player.h"
@@ -70,26 +70,30 @@
 	"Server.h"
 	"Utility.h"
 	"FileParser.h"
+	"NPC.h"
+	"BattleList.h"
 	<map>
 	<vector>
 	<sstream>
 	<cctype>
 	<memory>
 	<thread>
+	<atomic>
 
-1449129294 /home/keegan/Documents/Code/CPP/MUDserver/Room.h
+1449177210 /home/keegan/Documents/Code/CPP/MUDserver/Room.h
 	<iostream>
 	"EntityList.h"
 	"ConnectionList.h"
 	"GameEntity.h"
 	"Item.h"
 	"Player.h"
+	"NPC.h"
 	<cctype>
 
 1448406226 /home/keegan/Documents/Code/CPP/MUDserver/Message.h
 	<string>
 
-1449155491 /home/keegan/Documents/Code/CPP/MUDserver/Server.h
+1449279979 /home/keegan/Documents/Code/CPP/MUDserver/Server.h
 	"TCPListener.h"
 	"MessageBuffer.h"
 	<map>
@@ -173,13 +177,13 @@
 	<iterator>
 	<cctype>
 
-1449160382 source:/home/keegan/Documents/Code/CPP/MUDserver/Player.cpp
+1449279978 source:/home/keegan/Documents/Code/CPP/MUDserver/Player.cpp
 	"Player.h"
 
-1449162377 source:/home/keegan/Documents/Code/CPP/MUDserver/Room.cpp
+1449180712 source:/home/keegan/Documents/Code/CPP/MUDserver/Room.cpp
 	"Room.h"
 
-1449160529 source:/home/keegan/Documents/Code/CPP/MUDserver/Server.cpp
+1449279979 source:/home/keegan/Documents/Code/CPP/MUDserver/Server.cpp
 	"Server.h"
 	"TCPListener.h"
 	<map>
@@ -193,7 +197,7 @@
 	"TCPStream.h"
 	<iostream>
 
-1449160275 source:/home/keegan/Documents/Code/CPP/MUDserver/TCPStream.cpp
+1449279979 source:/home/keegan/Documents/Code/CPP/MUDserver/TCPStream.cpp
 	"TCPStream.h"
 	"Message.h"
 	<iostream>
@@ -209,4 +213,33 @@
 
 1449011649 source:/home/keegan/Documents/Code/CPP/MUDserver/PlayerStats.cpp
 	"PlayerStats.h"
+
+1449279978 /home/keegan/Documents/Code/CPP/MUDserver/NPC.h
+	"GameEntity.h"
+	"PlayerStats.h"
+	"EntityList.h"
+	<string>
+	<memory>
+
+1449175283 /home/keegan/Documents/Code/CPP/MUDserver/BattleList.h
+	"Battle.h"
+	"GameWorld.h"
+	<map>
+	<vector>
+	<string>
+
+1449279978 /home/keegan/Documents/Code/CPP/MUDserver/Battle.h
+	"GameEntity.h"
+	"Player.h"
+	"NPC.h"
+	"Utility.h"
+	<iostream>
+	<random>
+	<map>
+
+1449279978 source:/home/keegan/Documents/Code/CPP/MUDserver/Battle.cpp
+	"Battle.h"
+
+1449279978 source:/home/keegan/Documents/Code/CPP/MUDserver/BattleList.cpp
+	"BattleList.h"
 
