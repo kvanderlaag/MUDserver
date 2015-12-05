@@ -205,3 +205,7 @@ void Server::SendLoginMessage(TCPStream* stream) {
 bool Server::IsRunning() const {
     return running;
 }
+
+GameWorld& Server::GetWorld() {
+	return *(world.get());
+}

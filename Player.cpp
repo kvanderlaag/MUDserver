@@ -15,7 +15,7 @@ Player::Player(int id, std::string name, GameWorld* world) : GameEntity(id, name
 	password_ = "";
 	room_id_ = 0;
 
-    std::cout << "Created a player..." << std::endl;
+    //std::cout << "Created a player..." << std::endl;
 }
 
 /**
@@ -132,6 +132,14 @@ GameEntity* Player::FindItem(std::string name) const {
 		}
 	}
 	return nullptr;
+}
+
+int Player::Damage(const int damage) {
+	stats_->SetHealth(stats_->GetHealth() - damage);
+	if (stats_->GetHealth() <= 0) {
+		return 1;
+	}
+	return 0;
 }
 
 PlayerStats& Player::GetStats() {

@@ -68,6 +68,13 @@ Player * Battle::GetPlayerByName(std::string name)
 	return nullptr;
 }
 
+bool Battle::IsEmpty() const
+{
+	if (players_.empty() && mobs_.empty())
+		return true;
+	return false;
+}
+
 void Battle::AddPlayer(GameEntity* p, GameEntity* target) {
 	if (!IsParticipant(p)) {
 		players_.insert(std::pair<int, Player*>(p->GetId(), (Player*) p));
@@ -111,21 +118,53 @@ void Battle::SetTarget(GameEntity* p, GameEntity* target) {
 }
 
 void Battle::Update() {
+	// If there are no players or no NPCs remaining, end the battle
+	if (players_.empty() || mobs_.empty()) {
+		for (std::pair<int, Player*> pPair : players_) {
+			players_.erase(pPair.first);
+		}
+		for (std::pair<int, NPC*> mPair : mobs_) {
+			mobs_.erase(mPair.first);
+		}
+		return;
+	}
+
 	// loop through each participant and calculate their attack.
 	for (std::pair<int, Player*> pair : players_) {
 		Player* p = pair.second;
 		NPC* t = (NPC*) targets_.at(p);
 
-		std::uniform_int_distribution<int> playerDist(1, p->GetStats().GetDexterity());
-		int playerRoll = playerDist(engine_);
-		std::uniform_int_distribution<int> mobDist(1, t->GetStats().GetDexterity());
-		int mobRoll = mobDist(engine_);
+		if (!IsParticipant(t)) {
+			break;
+		}
+
+		unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+		engine_ = std::default_random_engine(seed);
+
+		std::uniform_int_distribution<int> playerDist(1, 10);
+		int playerRoll = playerDist(engine_) + p->GetStats().GetDexterity();
+		std::uniform_int_distribution<int> mobDist(1, 10);
+		int mobRoll = mobDist(engine_) + t->GetStats().GetDexterity();
 
 		if (playerRoll > mobRoll) {
 			std::stringstream outString;
 			outString << "You hit " << cGreen << t->GetName() << cDefault << " for " << cRed << p->GetStats().GetStrength() << cDefault << " damage.";
+			// this next line is for debug only
+			//outString << "\n(" << t->GetStats().GetHealth() - p->GetStats().GetStrength() << " remaining)";
 			Message* playerMsg = new Message(outString.str(), p->GetConnectionId(), Message::outputMessage);
 			parent_.GetParent().PutMessage(playerMsg);
+			if (t->Damage(p->GetStats().GetStrength()) == 1) {
+				t->Die();
+				/* This should really be the die code, but we need accessors for GameWorld and Room and shit first */
+				Room* r = (Room*)parent_.GetRoom(p->GetRoomId());
+				r->RemoveMob(t->GetId());
+				/* Derp */
+				outString.str("");
+				outString << cGreen << t->GetName() << cDefault << " dies." << cDefault;
+				Message* mobDieMsg = new Message(outString.str(), p->GetConnectionId(), Message::outputMessage);
+				parent_.GetParent().PutMessage(mobDieMsg);
+				mobs_.erase(t->GetId());
+			}
 		}
 		else {
 			std::stringstream outString;
@@ -139,16 +178,38 @@ void Battle::Update() {
 		NPC* p = pair.second;
 		Player* t = (Player*) targets_.at(p);
 
-		std::uniform_int_distribution<int> playerDist(1, t->GetStats().GetDexterity());
-		int playerRoll = playerDist(engine_);
-		std::uniform_int_distribution<int> mobDist(1, p->GetStats().GetDexterity());
-		int mobRoll = mobDist(engine_);
+		if (!IsParticipant(t)) {
+			break;
+		}
+
+		std::uniform_int_distribution<int> playerDist(1, 10);
+		int playerRoll = playerDist(engine_) + t->GetStats().GetDexterity();
+		std::uniform_int_distribution<int> mobDist(1, 10);
+		int mobRoll = mobDist(engine_) + p->GetStats().GetDexterity();
 
 		if (mobRoll > playerRoll) {
 			std::stringstream outString;
-			outString << cGreen << t->GetName() << cDefault << " hits you for " << cRed << p->GetStats().GetStrength() << cDefault << " damage.";
+			outString << cGreen << p->GetName() << cDefault << " hits you for " << cRed << p->GetStats().GetStrength() << cDefault << " damage.";
 			Message* playerMsg = new Message(outString.str(), t->GetConnectionId(), Message::outputMessage);
 			parent_.GetParent().PutMessage(playerMsg);
+			if (t->Damage(p->GetStats().GetStrength()) == 1) {
+				outString.str("");
+				outString << cRed << "You die." << cDefault;
+				Message* playerDieMsg = new Message(outString.str(), t->GetConnectionId(), Message::outputMessage);
+				parent_.GetParent().PutMessage(playerDieMsg);
+				p->Die();
+				/* This should also be the die code. */
+				Room* r = parent_.FindPlayerRoom(*t);
+				r->RemovePlayer(t->GetId());
+				t->GetStats().SetHealth(t->GetStats().GetMaxHealth());
+				t->GetStats().SetMana(t->GetStats().GetMaxMana());
+				t->SetRoomId(0);
+				r = (Room*)parent_.GetRoom(0);
+				r->AddPlayer(*t);
+				/* end of derpy die code */
+				parent_.Look(t->GetConnectionId());
+				players_.erase(p->GetId());
+			}
 		}
 		else {
 			std::stringstream outString;

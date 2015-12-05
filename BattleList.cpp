@@ -4,6 +4,7 @@
 BattleList::BattleList(GameWorld * world) :
 	parent_(*world)
 {
+	next_ids_.push_back(0);
 }
 
 BattleList::~BattleList()
@@ -32,6 +33,16 @@ void BattleList::PutNextId(int nextId)
 
 void BattleList::Update()
 {
+	for (std::pair<int, Battle*> bPair : battles_) {
+		Battle* b = bPair.second;
+		if (b->IsEmpty()) {
+			DeleteBattle(b);
+			delete b;
+		}
+		else {
+			b->Update();
+		}
+	}
 }
 
 void BattleList::AddBattle(Battle * b)

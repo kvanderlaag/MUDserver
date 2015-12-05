@@ -134,7 +134,15 @@ const int TCPStream::GetSocket() {
 }
 
 const int TCPStream::Write(std::string outputMessage) {
-	outputMessage += "\n> ";
+	Player* p = parent->GetParent().GetWorld().FindPlayer(socketfd);
+	if (p) {
+		std::ostringstream outString;
+		outString << "\n" << cRed << p->GetStats().GetHealth() << cDefault << " | " << cBlue << p->GetStats().GetMana() << cDefault << " > ";
+		outputMessage += outString.str();
+	}
+	else {
+		outputMessage += "\n> ";
+	}
 	std::string outString;
 	std::string::iterator it = outputMessage.begin();
 	int posCounter = 0;

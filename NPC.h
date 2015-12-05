@@ -18,6 +18,8 @@ public:
 	NPC(int newId, const NPC& other);
 	~NPC();
 
+	int Damage(const int damage);
+	void Die();
 
 	PlayerStats& GetStats() const;
 	EntityList& GetItems() const;
