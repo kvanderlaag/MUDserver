@@ -81,6 +81,8 @@ void Room::SpawnMob(int masterId)
 	NPC& copyFrom = (NPC&)*(GetWorld().GetMasterMobs().GetEntity(masterId));
 	NPC* spawnMob = new NPC(GetWorld().GetMobs().GetNextId(), copyFrom);
 
+	spawnMob->SetRoomId(GetId());
+
 	GetWorld().GetMobs().AddEntity(*spawnMob);
 	AddMob(*spawnMob);
 	//std::cout << "Spawning " << spawnItem->GetName() << " in " << GetName() << " (Master ID: " << spawnItem->GetMasterId() << ")" << std::endl;

@@ -40,6 +40,14 @@ int NPC::Damage(const int damage) {
 	return 0;
 }
 
+int NPC::GetRoomId() const {
+	return room_id_;
+}
+
+void NPC::SetRoomId(int roomId) {
+	room_id_ = roomId;
+}
+
 void NPC::Die() {
 
 }

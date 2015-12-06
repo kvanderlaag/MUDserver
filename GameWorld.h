@@ -71,6 +71,10 @@ public:
 
 	Player* FindPlayer(int connection_id);
 	Room* FindPlayerRoom(Player& player);
+	
+	NPC* FindMob(int mobId);
+	Room* FindMobRoom(NPC& mob);
+	
 
 	void ReceiveMessage(Message* message);
 
