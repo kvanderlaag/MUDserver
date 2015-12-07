@@ -13,6 +13,8 @@
 #include "FileParser.h"
 #include "NPC.h"
 #include "BattleList.h"
+#include "CharacterClassList.h"
+#include "CharacterClass.h"
 
 #include <map>
 #include <vector>
@@ -31,6 +33,7 @@ class Room;
 class Item;
 class Server;
 class BattleList;
+class CharacterClassList;
 
 class GameWorld
 {
@@ -41,6 +44,7 @@ private:
     std::unique_ptr<EntityList> players_; // player_id/player_object
 	std::unique_ptr<EntityList> mobs_;
 	std::unique_ptr<BattleList> battles_;
+	std::unique_ptr<CharacterClassList> character_classes_;
 
 	// the master item list would be a good place for the Prototype design pattern.
 	std::unique_ptr<EntityList>  master_items_; // item_index/item_object
@@ -98,6 +102,7 @@ public:
 	void LoadItems(std::string filename);
 	void LoadRooms(std::string filename);
 	void LoadMobs(std::string filename);
+	void LoadCharacterClasses(std::string filename);
 
 	void Help(int connection_id);
 
@@ -122,6 +127,7 @@ public:
 	EntityList& GetItems() const;
 	EntityList& GetMobs() const;
 	BattleList& GetBattles() const;
+	CharacterClassList& GetCharacterClasses() const;
 };
 
 #endif // __GAMEWORLD_H__
