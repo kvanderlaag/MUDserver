@@ -19,7 +19,8 @@ GameWorld::GameWorld(Server& par) :
 	current_players_(new ConnectionList()),
 	master_items_(new EntityList()),
 	master_mobs_(new EntityList()),
-	battles_(new BattleList(this))
+	battles_(new BattleList(this)),
+	character_classes_(new CharacterClassList(this))
 {
 #ifdef _DEBUG_FLAG
     std::cout << "Created a world..." << std::endl;
@@ -28,6 +29,7 @@ GameWorld::GameWorld(Server& par) :
 	LoadMobs("npcs.tsv");
 	LoadRooms("rooms.tsv");
 	LoadPlayers("players.tsv");
+	LoadCharacterClasses("characterclasses.tsv");
 
 
 }
@@ -1331,6 +1333,73 @@ void GameWorld::LoadMobs(std::string filename) {
 		//std::cout << "New NPC: ID - " << id << ", Name - " << name << ", Description - " << desc << "\n";
 
 		master_mobs_->AddEntity(*mob);
+	}
+
+}
+
+/*
+* Load classes from a file
+*/
+void GameWorld::LoadCharacterClasses(std::string filename) {
+	std::vector<std::string>* classes = FileParser::ParseFile(filename);
+
+	for (size_t i = 0; i < classes->size(); ++i) {
+		std::vector<std::string>* class_values = FileParser::ParseTsv(classes->at(i));
+
+		std::stringstream buffer(class_values->at(0));
+		int id;
+		if (!(buffer >> id)) {
+			id = -1;
+		}
+		std::string name = class_values->at(1);
+
+		CharacterClass* class_ = new CharacterClass(id, name, this);
+
+		buffer.str(class_values->at(2));
+		int health;
+		if (!(buffer >> id)) {
+			class_->SetHealth(health);
+		}
+
+		buffer.str(class_values->at(3));
+		int mana;
+		if (!(buffer >> id)) {
+			class_->SetMana(mana);
+		}
+
+		buffer.str(class_values->at(4));
+		int strength;
+		if (!(buffer >> id)) {
+			class_->SetStrength(strength);
+		}
+
+		buffer.str(class_values->at(5));
+		int dexterity;
+		if (!(buffer >> id)) {
+			class_->SetDexterity(dexterity);
+		}
+
+		buffer.str(class_values->at(6));
+		int constitution;
+		if (!(buffer >> id)) {
+			class_->SetConstitution(constitution);
+		}
+
+		buffer.str(class_values->at(7));
+		int intelligence;
+		if (!(buffer >> id)) {
+			class_->SetIntelligence(intelligence);
+		}
+
+		buffer.str(class_values->at(8));
+		int charisma;
+		if (!(buffer >> id)) {
+			class_->SetCharisma(charisma);
+		}
+
+		//std::cout << "New CLASS: ID - " << id << ", Name - " << name << ", Description - " << desc << "\n";
+
+		character_classes_->AddCharacterClass(class_);
 	}
 
 }
