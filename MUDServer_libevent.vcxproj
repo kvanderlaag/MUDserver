@@ -165,6 +165,7 @@
     <ClCompile Include="GameEntity.cpp" />
     <ClCompile Include="GameWorld.cpp" />
     <ClCompile Include="Item.cpp" />
+    <ClCompile Include="Memento.cpp" />
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="MessageBuffer.cpp" />
     <ClCompile Include="MUDServer_libevent.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="GameEntity.h" />
     <ClInclude Include="GameWorld.h" />
     <ClInclude Include="ConnectionList.h" />
+    <ClInclude Include="Memento.h" />
     <ClInclude Include="NPC.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="Item.h" />
