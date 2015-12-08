@@ -12,21 +12,27 @@ Battle::~Battle()
 
 bool Battle::IsParticipant(GameEntity* p) const {
 	
+	std::cout << "Is " << p->GetName() << " a member of Battle " << id_ << "?\n";
 	// check players
-	for (std::pair<int, Player*> pair : players_) {
-		if (pair.second == (Player*) p) {
+	std::map<int, Player*>::const_iterator pIt = players_.find(p->GetId());
+	if (pIt != players_.end()) {
+		if (pIt->second == (Player*) p) {
+			std::cout << "Yes\n";
 			return true;
 		}
 	}
 
 	// check mobs
-	for (std::pair<int, NPC*> pair : mobs_) {
-		if (pair.second == (NPC*) p) {
+	std::map<int, NPC*>::const_iterator mIt = mobs_.find(p->GetId());
+	if (mIt != mobs_.end()) {
+		if (mIt->second == (NPC*)p) {
+			std::cout << "Yes\n";
 			return true;
 		}
 	}
 
 	// otherwise nope
+	std::cout << "No\n";
 	return false;
 }
 
