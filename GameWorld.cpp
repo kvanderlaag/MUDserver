@@ -23,14 +23,9 @@ GameWorld::GameWorld(Server& par) :
 	character_classes_(new CharacterClassList(this))
 {
 #ifdef _DEBUG_FLAG
-    std::cout << "Created a world..." << std::endl;
+	std::cout << "Created a world..." << std::endl;
 #endif
-	LoadItems("items.tsv");
-	LoadMobs("npcs.tsv");
-	LoadRooms("rooms.tsv");
-	LoadPlayers("players.tsv");
-	LoadCharacterClasses("characterclasses.tsv");
-
+	memento->GetState();
 
 }
 
@@ -40,7 +35,7 @@ GameWorld::GameWorld(Server& par) :
 */
 GameWorld::~GameWorld()
 {
-	FileParser::WritePlayers("players.tsv", players_->GetEntityVector());
+	memento->SetState();
 	std::cout << "Destroyed a world..." << std::endl;
 }
 
@@ -52,7 +47,7 @@ void GameWorld::AddRoom(Room& room)
 #ifdef _DEBUG_FLAG
 	std::cout << "Added a room" << std::endl;
 #endif
-    rooms_->AddEntity(room);
+	rooms_->AddEntity(room);
 }
 
 /**
@@ -72,7 +67,7 @@ void GameWorld::AddMob(NPC & entity)
 */
 void GameWorld::RemoveRoom(int id)
 {
-    rooms_->RemoveEntity(id);
+	rooms_->RemoveEntity(id);
 }
 
 /**
@@ -80,7 +75,7 @@ void GameWorld::RemoveRoom(int id)
 */
 void GameWorld::RemovePlayer(int id)
 {
-    players_->RemoveEntity(id);
+	players_->RemoveEntity(id);
 }
 
 void GameWorld::RemoveMob(NPC & entity)
@@ -92,7 +87,7 @@ void GameWorld::RemoveMob(NPC & entity)
 */
 GameEntity* GameWorld::GetRoom(int id)
 {
-    return rooms_->GetEntity(id);
+	return rooms_->GetEntity(id);
 }
 
 /**
@@ -100,7 +95,7 @@ GameEntity* GameWorld::GetRoom(int id)
 */
 GameEntity* GameWorld::GetPlayer(int id)
 {
-    return players_->GetEntity(id);
+	return players_->GetEntity(id);
 }
 
 /**
@@ -1060,7 +1055,7 @@ void GameWorld::Password(int connection_id, std::string words) {
 		parent.PutMessage(msg);
 	}
 
-	FileParser::WritePlayers("players.tsv", players_->GetEntityVector());
+	memento->SetState();
 
 }
 
@@ -1112,299 +1107,6 @@ void GameWorld::Tell(int connection_id, std::string player_name, std::string wor
 }
 
 /**
-* Load Players from file
-*/
-void GameWorld::LoadPlayers(std::string filename) {
-	std::vector<std::string>* players = FileParser::ParseFile("players.tsv");
-#ifdef _DEBUG_FLAG
-	std::cout << "Loading players..." << std::endl;
-#endif
-	for (size_t i = 0; i < players->size(); ++i) {
-		std::vector<std::string>* player_values = FileParser::ParseTsv(players->at(i));
-		std::string name = player_values->at(0);
-		std::string password = player_values->at(1);
-
-		Player* player = new Player(players_->GetNextId(), name, password, this);
-
-		if (player_values->size() > 2) {
-			std::stringstream s_current_room(player_values->at(2));
-
-			int current_room;
-
-			if (s_current_room >> current_room) {
-				player->SetRoomId(current_room);
-			}
-		}
-
-
-		if (player_values->size() > 3) {
-			std::vector<std::string>* player_stats = FileParser::ParseCsv(player_values->at(3));
-
-			if (player_stats->size() >= 7) {
-				int health, mana, strength, dexterity, constitution, intelligence, charisma;
-				std::stringstream sHealth(player_stats->at(0));
-				std::stringstream sMana(player_stats->at(1));
-				std::stringstream sStr(player_stats->at(2));
-				std::stringstream sDex(player_stats->at(3));
-				std::stringstream sCon(player_stats->at(4));
-				std::stringstream sInt(player_stats->at(5));
-				std::stringstream sCha(player_stats->at(6));
-
-				sHealth >> health;
-				sMana >> mana;
-				sStr >> strength;
-				sDex >> dexterity;
-				sCon >> constitution;
-				sInt >> intelligence;
-				sCha >> charisma;
-
-				player->GetStats().SetStats(health, mana, strength, dexterity, constitution, intelligence, charisma);
-			}
-		}
-
-		if (player_values->size() > 4) {
-			player->SetDescription(player_values->at(4));
-		}
-
-		if (player_values->size() > 5) {
-			std::vector<std::string>* playerInventory = FileParser::ParseCsv(player_values->at(5));
-			for (std::string sItemId : *playerInventory) {
-				std::stringstream sId(sItemId);
-				int itemId;
-				if (sId >> itemId) {
-					Item* i = new Item(items_->GetNextId(), (Item&) *(master_items_->GetEntity(itemId)));
-					items_->AddEntity(*i);
-					player->AddItem(*i);
-				}
-			}
-		}
-		// add to player list
-		players_->AddEntity(*player);
-	}
-}
-
-/**
-* Load rooms from file
-*/
-void GameWorld::LoadRooms(std::string filename) {
-	std::vector<std::string>* rooms = FileParser::ParseFile("rooms.tsv");
-
-#ifdef _DEBUG_FLAG
-	std::cout << "Loading Rooms...";
-#endif
-	for (size_t i = 0; i != rooms->size(); i++) {
-
-		std::vector<std::string>* room_values = FileParser::ParseTsv(rooms->at(i));
-		std::string name = room_values->at(0);
-		std::string description = room_values->at(1);
-		Room* room = new Room(rooms_->GetNextId(), name, description, this);
-
-		if (room_values->size() > 4) {
-			std::vector<std::string>* items = FileParser::ParseCsv(room_values->at(4));
-			if (items) {
-				for (std::string item_id : *items) {
-					std::stringstream buffer(item_id);
-					int intId;
-					if (buffer >> intId) {
-						if (master_items_->GetEntity(intId)) {
-							Item* item = new Item(items_->GetNextId(), (Item&)*(master_items_->GetEntity(intId)));
-							room->AddItem(*item);
-							room->AddMasterItem(intId);
-						}
-					}
-
-				}
-			}
-		}
-
-		if (room_values->size() > 5) {
-			//std::cout << "Loading mobs.\n" << std::endl;
-			std::vector<std::string>* mobs = FileParser::ParseCsv(room_values->at(5));
-			if (mobs) {
-				for (std::string mob_id : *mobs) {
-					std::stringstream buffer(mob_id);
-					int intId;
-					if (buffer >> intId) {
-						if (master_mobs_->GetEntity(intId)) {
-							NPC* mob = new NPC(mobs_->GetNextId(), (NPC&)*(master_mobs_->GetEntity(intId)));
-							//std::cout << "Adding mob " << mob->GetName() << " to " << room->GetName() << "\n";
-							room->AddMob(*mob);
-							room->AddMasterMob(intId);
-						}
-					}
-
-				}
-			}
-		}
-
-		rooms_->AddEntity(*room);
-}
-#ifdef _DEBUG_FLAG
-	std::cout << "Loading Exits...";
-#endif
-	for (size_t i = 0; i != rooms->size(); i++) {
-
-		std::vector<std::string>* room_values = FileParser::ParseTsv(rooms->at(i));
-		std::string name = room_values->at(0);
-		std::vector<std::string>* exits = FileParser::ParseCsv(room_values->at(2));
-		std::vector<std::string>* directions = FileParser::ParseCsv(room_values->at(3));
-
-		Room* room = dynamic_cast<Room*>(rooms_->FindEntity(name));
-		//room->Print();
-
-
-		for (size_t j = 0; j != exits->size(); j++) {
-			std::string exit_name = exits->at(j);
-			std::string exit_dir = directions->at(j);
-
-			Room* exit_room = dynamic_cast<Room*>(rooms_->FindEntity(exit_name));
-
-			if (exit_room)
-			{
-				room->AddExit(*exit_room);
-				room->AddDirection(exit_room->GetId(), exit_dir);
-			}
-		}
-	}
-#ifdef _DEBUG_FLAG
-	std::cout << "DONE" << std::endl;
-#endif
-#ifdef _DEBUG_FLAG
-	std::cout << "DONE" << std::endl;
-#endif
-}
-
-void GameWorld::LoadItems(std::string filename) {
-	std::vector<std::string>* items = FileParser::ParseFile("items.tsv");
-
-	for (size_t i = 0; i < items->size(); ++i) {
-		std::vector<std::string>* item_values = FileParser::ParseTsv(items->at(i));
-		std::stringstream buffer(item_values->at(0));
-		int id;
-		if (!(buffer >> id)) {
-			id = -1;
-		}
-		std::string name = item_values->at(1);
-
-		Item* item = new Item(id, name, this, id);
-
-		std::vector<std::string>* shortnames = FileParser::ParseCsv(item_values->at(2));
-		if (shortnames) {
-			for (std::string shortName : *shortnames) {
-				if (!shortName.empty()) {
-					//std::cout << shortName << std::endl;
-					item->AddShortName(shortName);
-				}
-			}
-		}
-		std::string desc = item_values->at(3);
-		if (!desc.empty()) {
-			item->SetDescription(desc);
-		}
-
-		master_items_->AddEntity(*item);
-	}
-
-}
-
-/*
-* Load mobs from a file
-*/
-
-void GameWorld::LoadMobs(std::string filename) {
-	std::vector<std::string>* mobs = FileParser::ParseFile(filename);
-
-	for (size_t i = 0; i < mobs->size(); ++i) {
-		std::vector<std::string>* mob_values = FileParser::ParseTsv(mobs->at(i));
-		std::stringstream buffer(mob_values->at(0));
-		int id;
-		if (!(buffer >> id)) {
-			id = -1;
-		}
-		std::string name = mob_values->at(1);
-
-		NPC* mob = new NPC(id, name, this, id);
-
-		std::string desc = mob_values->at(2);
-		if (!desc.empty()) {
-			mob->SetDescription(desc);
-		}
-
-		//std::cout << "New NPC: ID - " << id << ", Name - " << name << ", Description - " << desc << "\n";
-
-		master_mobs_->AddEntity(*mob);
-	}
-
-}
-
-/*
-* Load classes from a file
-*/
-void GameWorld::LoadCharacterClasses(std::string filename) {
-	std::vector<std::string>* classes = FileParser::ParseFile(filename);
-
-	for (size_t i = 0; i < classes->size(); ++i) {
-		std::vector<std::string>* class_values = FileParser::ParseTsv(classes->at(i));
-
-		std::stringstream buffer(class_values->at(0));
-		int id;
-		if (!(buffer >> id)) {
-			id = -1;
-		}
-		std::string name = class_values->at(1);
-
-		CharacterClass* class_ = new CharacterClass(id, name, this);
-
-		buffer.str(class_values->at(2));
-		int health;
-		if (!(buffer >> id)) {
-			class_->SetHealth(health);
-		}
-
-		buffer.str(class_values->at(3));
-		int mana;
-		if (!(buffer >> id)) {
-			class_->SetMana(mana);
-		}
-
-		buffer.str(class_values->at(4));
-		int strength;
-		if (!(buffer >> id)) {
-			class_->SetStrength(strength);
-		}
-
-		buffer.str(class_values->at(5));
-		int dexterity;
-		if (!(buffer >> id)) {
-			class_->SetDexterity(dexterity);
-		}
-
-		buffer.str(class_values->at(6));
-		int constitution;
-		if (!(buffer >> id)) {
-			class_->SetConstitution(constitution);
-		}
-
-		buffer.str(class_values->at(7));
-		int intelligence;
-		if (!(buffer >> id)) {
-			class_->SetIntelligence(intelligence);
-		}
-
-		buffer.str(class_values->at(8));
-		int charisma;
-		if (!(buffer >> id)) {
-			class_->SetCharisma(charisma);
-		}
-
-		//std::cout << "New CLASS: ID - " << id << ", Name - " << name << ", Description - " << desc << "\n";
-
-		character_classes_->AddCharacterClass(class_);
-	}
-
-}
-
-/**
 * Create a new update processing thread
 */
 void GameWorld::CreateUpdateThread(void* arg)
@@ -1440,10 +1142,10 @@ void GameWorld::DoSave() {
 	while (GameWorld::running) {
 
 		std::cout << "Saving player list" << std::endl;
-		FileParser::WritePlayers("players.tsv", players_->GetEntityVector());
+		memento->SetState();
 		std::this_thread::sleep_for(5min);
 
-    }
+	}
 
 }
 
@@ -1487,14 +1189,18 @@ void GameWorld::DoUpdate() {
 	}
 }
 
-EntityList& GameWorld::GetMasterItems() const {
-	return *master_items_;
+Server& GameWorld::GetParent() const {
+	return parent;
 }
 
-EntityList & GameWorld::GetMasterMobs() const
+EntityList & GameWorld::GetRooms() const
 {
-	return *(master_mobs_.get());
-	// TODO: insert return statement here
+	return *(rooms_.get());
+}
+
+EntityList & GameWorld::GetPlayers() const
+{
+	return *(players_.get());
 }
 
 EntityList& GameWorld::GetItems() const {
@@ -1504,24 +1210,25 @@ EntityList& GameWorld::GetItems() const {
 EntityList & GameWorld::GetMobs() const
 {
 	return *(mobs_.get());
-	// TODO: insert return statement here
+}
+
+EntityList& GameWorld::GetMasterItems() const {
+	return *master_items_;
+}
+
+EntityList & GameWorld::GetMasterMobs() const
+{
+	return *(master_mobs_.get());
 }
 
 BattleList & GameWorld::GetBattles() const
 {
 	return *(battles_.get());
-	// TODO: insert return statement here
 }
 
-Server& GameWorld::GetParent() const {
-	return parent;
-
-}
-
-EntityList & GameWorld::GetPlayers() const
+CharacterClassList & GameWorld::GetCharacterClasses() const
 {
-	return *(players_.get());
-	// TODO: insert return statement here
+	return *(character_classes_.get());
 }
 
 void GameWorld::ReleaseThreads() {

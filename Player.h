@@ -32,11 +32,11 @@ class Player: public GameEntity
 * The private variable items_ is a entity list pointer points to a list of items. Player can add, remove, and find the items within the object.
 */
 private:
-    int connection_id_;
-    std::string password_;
+	int connection_id_;
+	std::string password_;
 
-    int room_id_;
-    std::unique_ptr<EntityList> items_;
+	int room_id_;
+	std::unique_ptr<EntityList> items_;
 
 	std::unique_ptr<PlayerStats> stats_;
 
@@ -47,18 +47,18 @@ private:
  */
 public:
 
-    Player(int id, std::string name, GameWorld* world);
-    Player(int id, std::string name, std::string password, GameWorld* world);
-    ~Player();
-    void PrintPlayer();
+	Player(int id, std::string name, GameWorld* world);
+	Player(int id, std::string name, std::string password, GameWorld* world);
+	~Player();
+	void PrintPlayer();
 
 	void SetConnectionId(int connection_id);
-    int GetConnectionId();
+	int GetConnectionId();
 
-    void SetRoomId(int room_id);
+	void SetRoomId(int room_id);
 	int GetRoomId();
 
-    void AddItem(GameEntity& entity);
+	void AddItem(GameEntity& entity);
 	void RemoveItem(int id);
 	void RemoveItem(std::string name);
 	GameEntity* GetItem(int id);
@@ -70,7 +70,7 @@ public:
 	PlayerStats& GetStats();
 
 	/**The function GetPassword returns the initial password of the player.*/  
-    std::string GetPassword() const;
+	std::string GetPassword() const;
 	void SetPassword(std::string password);
 };
 

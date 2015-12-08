@@ -15,7 +15,7 @@ Player::Player(int id, std::string name, GameWorld* world) : GameEntity(id, name
 	password_ = "";
 	room_id_ = 0;
 
-    //std::cout << "Created a player..." << std::endl;
+	//std::cout << "Created a player..." << std::endl;
 }
 
 /**
@@ -26,10 +26,10 @@ Player::Player(int id, std::string name, std::string password, GameWorld* world)
 	stats_(std::unique_ptr<PlayerStats>(new PlayerStats()))
 {
 	connection_id_ = -1;
-    password_ = password;
+	password_ = password;
 	room_id_ = 0;
 #ifdef _DEBUG_FLAG
-    std::cout << "Created a player with connection ID & password..." << std::endl;
+	std::cout << "Created a player with connection ID & password..." << std::endl;
 #endif
 }
 
@@ -37,7 +37,7 @@ Player::Player(int id, std::string name, std::string password, GameWorld* world)
 * The destructor ~Player() remove object player.
 */
 Player::~Player() {
-    std::cout << "Deleting player " << GetName() << std::endl;
+	std::cout << "Deleting player " << GetName() << std::endl;
 }
 
 /**
@@ -59,14 +59,14 @@ void Player::SetConnectionId(int new_connection_id) {
 * The GetConnectionID function returns the current connection ID.
 */
 int Player::GetConnectionId() {
-    return connection_id_;
+	return connection_id_;
 }
 
 /**
 * The GetPassword function returns the initial passoword.
 */
 std::string Player::GetPassword() const {
-    return password_;
+	return password_;
 }
 
 /**
@@ -80,7 +80,7 @@ void Player::SetRoomId(int room_id) {
 * The destructor ~Player() remove object player.
 */
 int Player::GetRoomId(){
-    return room_id_;
+	return room_id_;
 }
 
 /**
