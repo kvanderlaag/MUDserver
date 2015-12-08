@@ -13,6 +13,9 @@
 #include "FileParser.h"
 #include "NPC.h"
 #include "BattleList.h"
+#include "CharacterClassList.h"
+#include "CharacterClass.h"
+#include "Memento.h"
 
 #include <map>
 #include <vector>
@@ -31,22 +34,26 @@ class Room;
 class Item;
 class Server;
 class BattleList;
+class CharacterClassList;
+class Memento;
 
 class GameWorld
 {
 
 private:
 	static bool running;
-    std::unique_ptr<EntityList> rooms_; // room_id/room_object
-    std::unique_ptr<EntityList> players_; // player_id/player_object
+	std::unique_ptr<EntityList> rooms_; // room_id/room_object
+	std::unique_ptr<EntityList> players_; // player_id/player_object
+	std::unique_ptr<EntityList> items_; // item_id/item_object
 	std::unique_ptr<EntityList> mobs_;
-	std::unique_ptr<BattleList> battles_;
 
 	// the master item list would be a good place for the Prototype design pattern.
-	std::unique_ptr<EntityList>  master_items_; // item_index/item_object
+	std::unique_ptr<EntityList> master_items_; // item_index/item_object
 	std::unique_ptr<EntityList> master_mobs_;
 
-	std::unique_ptr<EntityList> items_; // item_id/item_object
+	std::unique_ptr<BattleList> battles_;
+	std::unique_ptr<CharacterClassList> character_classes_;
+
 	std::unique_ptr<ConnectionList> current_players_; // connection_id/player_id
 	Server& parent;
 
@@ -54,20 +61,22 @@ private:
 	std::unique_ptr<std::thread> saveThread;
 	std::unique_ptr<std::thread> battleUpdateThread;
 
-public:
-    GameWorld(Server& par);
-    ~GameWorld();
+	std::unique_ptr<Memento> memento;
 
-    void AddRoom(Room& entity);
-    void AddPlayer(Player& entity);
+public:
+	GameWorld(Server& par);
+	~GameWorld();
+
+	void AddRoom(Room& entity);
+	void AddPlayer(Player& entity);
 	void AddMob(NPC& entity);
 
-    void RemoveRoom(int id);
-    void RemovePlayer(int id);
+	void RemoveRoom(int id);
+	void RemovePlayer(int id);
 	void RemoveMob(NPC& entity);
 
 	GameEntity* GetRoom(int id);
-    GameEntity* GetPlayer(int id);
+	GameEntity* GetPlayer(int id);
 
 	Player* FindPlayer(int connection_id);
 	Room* FindPlayerRoom(Player& player);
@@ -94,11 +103,6 @@ public:
 	void Tell(int connection_id, std::string name, std::string words);
 	void Password(int connection_id, std::string words);
 
-	void LoadPlayers(std::string filename);
-	void LoadItems(std::string filename);
-	void LoadRooms(std::string filename);
-	void LoadMobs(std::string filename);
-
 	void Help(int connection_id);
 
 	void SignUp(int connection_id, std::string login_name, std::string password);
@@ -116,12 +120,16 @@ public:
 	void ReleaseThreads();
 
 	Server& GetParent() const;
+	EntityList& GetRooms() const;
 	EntityList& GetPlayers() const;
-	EntityList& GetMasterItems() const;
-	EntityList& GetMasterMobs() const;
 	EntityList& GetItems() const;
 	EntityList& GetMobs() const;
+
+	EntityList& GetMasterItems() const;
+	EntityList& GetMasterMobs() const;
+
 	BattleList& GetBattles() const;
+	CharacterClassList& GetCharacterClasses() const;
 };
 
 #endif // __GAMEWORLD_H__

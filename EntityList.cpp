@@ -13,7 +13,7 @@
 EntityList::EntityList()
 {	
 	next_ids_.push_back(0);
-    //std::cout << "Created a list..." << std::endl;
+	//std::cout << "Created a list..." << std::endl;
 }
 
 /**
@@ -21,7 +21,7 @@ EntityList::EntityList()
 */
 EntityList::~EntityList()
 {	
-    std::cout << "Destroying EntityList" << std::endl;
+	std::cout << "Destroying EntityList" << std::endl;
 }
 
 /**
@@ -32,11 +32,11 @@ void EntityList::AddEntity(GameEntity& game_entity)
 {			
 	if(map_.find(game_entity.GetId()) != map_.end())
 	{
-        std::cout << "Duplicate id in entity list!!!" << std::endl;
+		std::cout << "Duplicate id in entity list!!!" << std::endl;
 		return;
-    }
+	}
 	
-    map_.insert(std::pair<int,GameEntity*>(game_entity.GetId(), &game_entity));
+	map_.insert(std::pair<int,GameEntity*>(game_entity.GetId(), &game_entity));
 }
 
 /**
@@ -63,15 +63,14 @@ void EntityList::RemoveEntity(int id)
 */
 GameEntity* EntityList::GetEntity(int id)
 {	
-    if( !map_.empty() )
+	if( !map_.empty() )
 	{
 		std::map<int, GameEntity*>::iterator it = map_.find(id);
 		if (it != map_.end()) {
 			return it->second;
 		}
-        
-    }
-    return nullptr;
+	}
+	return nullptr;
 }
 
 /**
@@ -107,7 +106,7 @@ GameEntity* EntityList::FindEntity(std::string name)
 */
 int EntityList::GetEntityCount()
 {	
-    return map_.size();
+	return map_.size();
 }
 
 /**
