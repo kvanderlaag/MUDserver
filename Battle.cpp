@@ -1,7 +1,8 @@
 #include "Battle.h"
 
 Battle::Battle(int id, GameWorld* parent) :
-	parent_(*parent)
+	parent_(*parent),
+	id_(id)
 {
 }
 
@@ -104,6 +105,11 @@ void Battle::PlayerFlee(GameEntity* p) {
 		for (std::map<GameEntity*, GameEntity*>::iterator it = targets_.find(p); it != targets_.end(); it = targets_.find(p)) {
 			targets_.erase(it->first);
 		}
+		for (std::map<GameEntity*, GameEntity*>::iterator it = targets_.begin(); it != targets_.end(); it++) {
+			if (it->second == p) {
+				it->second = nullptr;
+			}
+		}
 	}
 }
 
@@ -115,6 +121,11 @@ void Battle::MobFlee(GameEntity* p) {
 		mobs_.erase(p->GetId());
 		for (std::map<GameEntity*, GameEntity*>::iterator it = targets_.find(p); it != targets_.end(); it = targets_.find(p)) {
 			targets_.erase(it->first);
+		}
+		for (std::map<GameEntity*, GameEntity*>::iterator it = targets_.begin(); it != targets_.end(); it++) {
+			if (it->second == p) {
+				it->second = nullptr;
+			}
 		}
 	}
 }
@@ -141,7 +152,8 @@ void Battle::Update() {
 		NPC* t = (NPC*) targets_.at(p);
 
 		if (!IsParticipant(t)) {
-			break;
+			SetTarget(p, mobs_.begin()->second);
+			t = mobs_.begin()->second;
 		}
 
 		unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
@@ -185,7 +197,8 @@ void Battle::Update() {
 		Player* t = (Player*) targets_.at(p);
 
 		if (!IsParticipant(t)) {
-			break;
+			SetTarget(p, players_.begin()->second);
+			t = players_.begin()->second;
 		}
 
 		std::uniform_int_distribution<int> playerDist(1, 10);

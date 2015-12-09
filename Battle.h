@@ -10,6 +10,8 @@
 #include <map>
 
 class Player;
+class NPC;
+class GameWorld;
 
 class Battle
 {

@@ -49,5 +49,8 @@ void NPC::SetRoomId(int roomId) {
 }
 
 void NPC::Die() {
+	for (Battle* b = GetWorld().GetBattles().GetBattleByMobId(GetId()); b != nullptr; b = GetWorld().GetBattles().GetBattleByMobId(GetId())) {
+		b->MobFlee(this);
+	}
 
 }

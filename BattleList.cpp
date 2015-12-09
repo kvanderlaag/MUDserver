@@ -20,7 +20,7 @@ int BattleList::GetNextId()
 	// if its empty, push id+1 onto it
 	if (next_ids_.size() == 0)
 	{
-		next_ids_.push_back(id + 1);
+		next_ids_.push_back(battles_.size());
 	}
 
 	return id;

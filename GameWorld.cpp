@@ -348,6 +348,9 @@ void GameWorld::Attack(int connection_id, std::string entity) {
 	if (!p) {
 		return;
 	}
+
+	// TODO: Rewrite this logic properly.
+
 	Battle* b = battles_->GetBattleByPlayerId(p->GetId());
 	if (!b) {
 		Battle* m = battles_->GetBattleByMobName(entity);
@@ -398,6 +401,8 @@ void GameWorld::Attack(int connection_id, std::string entity) {
 			parent.PutMessage(outMsg);
 		}
 	}
+
+	// END TODO
 }
 
 /**
@@ -1357,43 +1362,43 @@ void GameWorld::LoadCharacterClasses(std::string filename) {
 
 		buffer.str(class_values->at(2));
 		int health;
-		if (!(buffer >> id)) {
+		if ((buffer >> health)) {
 			class_->SetHealth(health);
 		}
 
 		buffer.str(class_values->at(3));
 		int mana;
-		if (!(buffer >> id)) {
+		if ((buffer >> mana)) {
 			class_->SetMana(mana);
 		}
 
 		buffer.str(class_values->at(4));
 		int strength;
-		if (!(buffer >> id)) {
+		if ((buffer >> strength)) {
 			class_->SetStrength(strength);
 		}
 
 		buffer.str(class_values->at(5));
 		int dexterity;
-		if (!(buffer >> id)) {
+		if ((buffer >> dexterity)) {
 			class_->SetDexterity(dexterity);
 		}
 
 		buffer.str(class_values->at(6));
 		int constitution;
-		if (!(buffer >> id)) {
+		if ((buffer >> constitution)) {
 			class_->SetConstitution(constitution);
 		}
 
 		buffer.str(class_values->at(7));
 		int intelligence;
-		if (!(buffer >> id)) {
+		if ((buffer >> intelligence)) {
 			class_->SetIntelligence(intelligence);
 		}
 
 		buffer.str(class_values->at(8));
 		int charisma;
-		if (!(buffer >> id)) {
+		if ((buffer >> charisma)) {
 			class_->SetCharisma(charisma);
 		}
 

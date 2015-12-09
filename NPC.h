@@ -1,10 +1,15 @@
 #pragma once
 #include "GameEntity.h"
+#include "GameWorld.h"
 #include "PlayerStats.h"
 #include "EntityList.h"
+#include "Battle.h"
 
 #include <string>
 #include <memory>
+
+class Battle;
+class GameWorld;
 
 class NPC :
 	public GameEntity
