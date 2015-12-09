@@ -1,69 +1,15 @@
-<<<<<<< HEAD
-﻿Build started 2015-12-08 3:04:01 PM.
-     1>Project "C:\Users\Jacob\Documents\GitHub\MUDserver\MUDServer_libevent.vcxproj" on node 2 (Rebuild target(s)).
+﻿Build started 2015-12-08 4:04:35 PM.
+     1>Project "C:\Users\Jacob\Documents\GitHub\MUDserver\MUDServer_libevent.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /Iinclude /I"WIN32-Code" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Release\\" /Fd"Release\vc140.pdb" /FR"Release\\" /Gd /TP /analyze- /errorReport:prompt Battle.cpp BattleList.cpp CharacterClass.cpp CharacterClassList.cpp ConnectionList.cpp EntityList.cpp FileParser.cpp GameEntity.cpp GameWorld.cpp Item.cpp Memento.cpp Message.cpp MessageBuffer.cpp MUDServer_libevent.cpp NPC.cpp Parser.cpp Player.cpp PlayerStats.cpp Room.cpp Server.cpp TCPListener.cpp TCPStream.cpp Utility.cpp
-         Battle.cpp
-     1>Battle.cpp(141): warning C4244: 'initializing': conversion from 'std::chrono::system_clock::rep' to 'unsigned int', possible loss of data
-         BattleList.cpp
-         CharacterClass.cpp
-         CharacterClassList.cpp
-=======
-﻿Build started 12/7/2015 12:37:17 PM.
-     1>Project "D:\Users\kvand_000\Documents\GitHub\MUDserver\MUDServer_libevent.vcxproj" on node 2 (Build target(s)).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /Iinclude /I"WIN32-Code" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Release\\" /Fd"Release\vc140.pdb" /FR"Release\\" /Gd /TP /analyze- /errorReport:prompt Battle.cpp BattleList.cpp CharacterClass.cpp ConnectionList.cpp EntityList.cpp FileParser.cpp GameEntity.cpp GameWorld.cpp Item.cpp Message.cpp MessageBuffer.cpp MUDServer_libevent.cpp NPC.cpp Parser.cpp Player.cpp PlayerStats.cpp Room.cpp Server.cpp TCPListener.cpp TCPStream.cpp Utility.cpp
-         Battle.cpp
-     1>Battle.cpp(147): warning C4244: 'initializing': conversion from 'std::chrono::system_clock::rep' to 'unsigned int', possible loss of data
-         BattleList.cpp
-         CharacterClass.cpp
-     1>CharacterClass.cpp(15): error C2059: syntax error: '.'
-     1>CharacterClass.cpp(15): error C2976: 'std::map': too few template arguments
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\map(72): note: see declaration of 'std::map'
-     1>CharacterClass.cpp(15): error C2556: 'std::map &CharacterClass::GenerateStats(int)': overloaded function differs only by return type from 'std::map<std::string,int,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>> &CharacterClass::GenerateStats(int)'
-                 with
-                 [
-                     _Kty=std::string,
-                     _Ty=int
-                 ]
-         d:\users\kvand_000\documents\github\mudserver\CharacterClass.h(17): note: see declaration of 'CharacterClass::GenerateStats'
-     1>CharacterClass.cpp(15): error C2371: 'CharacterClass::GenerateStats': redefinition; different basic types
-         d:\users\kvand_000\documents\github\mudserver\CharacterClass.h(17): note: see declaration of 'CharacterClass::GenerateStats'
-     1>CharacterClass.cpp(16): error C2530: 'stats': references must be initialized
-     1>CharacterClass.cpp(26): warning C4018: '<': signed/unsigned mismatch
-     1>CharacterClass.cpp(37): error C2143: syntax error: missing ';' before '}'
-     1>CharacterClass.cpp(40): error C2530: 'increase': references must be initialized
->>>>>>> 79dab9ce8a4a5c009e31c9abf967abebee197509
-         ConnectionList.cpp
-         EntityList.cpp
-         FileParser.cpp
-         GameEntity.cpp
-         GameWorld.cpp
-         Item.cpp
-<<<<<<< HEAD
-         Memento.cpp
-=======
->>>>>>> 79dab9ce8a4a5c009e31c9abf967abebee197509
-         Message.cpp
-         MessageBuffer.cpp
-         MUDServer_libevent.cpp
-         NPC.cpp
-         Parser.cpp
-         Player.cpp
-         PlayerStats.cpp
-         Room.cpp
-         Server.cpp
-<<<<<<< HEAD
-         Compiling...
-         TCPListener.cpp
-         TCPStream.cpp
-         Utility.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /Iinclude /I"WIN32-Code" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Release\\" /Fd"Release\vc140.pdb" /FR"Release\\" /Gd /TP /analyze- /errorReport:prompt EntityFactory.cpp
+         EntityFactory.cpp
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Jacob\Documents\GitHub\MUDserver\Release\MUDServer_libevent.exe" /INCREMENTAL /NOLOGO /LIBPATH:lib libevent.lib libevent_core.lib ws2_32.lib libevent_extras.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"C:\Users\Jacob\Documents\GitHub\MUDserver\Release\MUDServer_libevent.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG:incremental /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Jacob\Documents\GitHub\MUDserver\Release\MUDServer_libevent.lib" /MACHINE:X86 /SAFESEH Release\Battle.obj
          Release\BattleList.obj
          Release\CharacterClass.obj
          Release\CharacterClassList.obj
          Release\ConnectionList.obj
+         Release\EntityFactory.obj
          Release\EntityList.obj
          Release\FileParser.obj
          Release\GameEntity.obj
@@ -85,24 +31,15 @@
      1>LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/LTCG' specification
      1>LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
          Generating code
-         All 2587 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+         0 of 2601 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+           0 functions were new in current compilation
+           0 functions had inline decision re-evaluated but remain unchanged
          Finished generating code
          MUDServer_libevent.vcxproj -> C:\Users\Jacob\Documents\GitHub\MUDserver\Release\MUDServer_libevent.exe
        BscMake:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\bscmake.exe /nologo /o"C:\Users\Jacob\Documents\GitHub\MUDserver\Release\MUDServer_libevent.bsc" /n Release\Battle.sbr Release\BattleList.sbr Release\CharacterClass.sbr Release\CharacterClassList.sbr Release\ConnectionList.sbr Release\EntityList.sbr Release\FileParser.sbr Release\GameEntity.sbr Release\GameWorld.sbr Release\Item.sbr Release\Memento.sbr Release\Message.sbr Release\MessageBuffer.sbr Release\MUDServer_libevent.sbr Release\NPC.sbr Release\Parser.sbr Release\Player.sbr Release\PlayerStats.sbr Release\Room.sbr Release\Server.sbr Release\TCPListener.sbr Release\TCPStream.sbr Release\Utility.sbr
-     1>Done Building Project "C:\Users\Jacob\Documents\GitHub\MUDserver\MUDServer_libevent.vcxproj" (Rebuild target(s)).
-=======
-         TCPListener.cpp
-         TCPStream.cpp
-         Compiling...
-         Utility.cpp
-     1>Done Building Project "D:\Users\kvand_000\Documents\GitHub\MUDserver\MUDServer_libevent.vcxproj" (Build target(s)) -- FAILED.
->>>>>>> 79dab9ce8a4a5c009e31c9abf967abebee197509
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\bscmake.exe /nologo /o"C:\Users\Jacob\Documents\GitHub\MUDserver\Release\MUDServer_libevent.bsc" /n Release\Battle.sbr Release\BattleList.sbr Release\CharacterClass.sbr Release\CharacterClassList.sbr Release\ConnectionList.sbr Release\EntityFactory.sbr Release\EntityList.sbr Release\FileParser.sbr Release\GameEntity.sbr Release\GameWorld.sbr Release\Item.sbr Release\Memento.sbr Release\Message.sbr Release\MessageBuffer.sbr Release\MUDServer_libevent.sbr Release\NPC.sbr Release\Parser.sbr Release\Player.sbr Release\PlayerStats.sbr Release\Room.sbr Release\Server.sbr Release\TCPListener.sbr Release\TCPStream.sbr Release\Utility.sbr
+     1>Done Building Project "C:\Users\Jacob\Documents\GitHub\MUDserver\MUDServer_libevent.vcxproj" (Build target(s)).
 
-Build FAILED.
+Build succeeded.
 
-<<<<<<< HEAD
-Time Elapsed 00:01:03.11
-=======
-Time Elapsed 00:00:26.31
->>>>>>> 79dab9ce8a4a5c009e31c9abf967abebee197509
+Time Elapsed 00:00:14.88

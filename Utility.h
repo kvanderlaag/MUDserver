@@ -26,4 +26,3 @@ public:
 	static std::string Color(int fgcolor, int bgcolor);
 	static std::string Color(int fgcolor, int bgcolor, int flags);
 };
-

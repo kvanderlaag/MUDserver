@@ -73,4 +73,3 @@ private:
 	int mIntelligence, mTempIntelligence;
 	int mCharisma, mTempCharisma;
 };
-

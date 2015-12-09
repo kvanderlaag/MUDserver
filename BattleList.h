@@ -38,4 +38,3 @@ public:
 
 	GameWorld& GetParent() const;
 };
-

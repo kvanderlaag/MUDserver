@@ -3,8 +3,6 @@
 
 #include <iostream>
 
-
-
 TCPStream::TCPStream(TCPListener* par, int socket)
 	: parent(par)
 	, socketfd(socket)
@@ -35,7 +33,6 @@ TCPStream::TCPStream(TCPListener* par, int socket)
 	bufferevent_read(bEvent, NULL, -1);
 
 }
-
 
 TCPStream::~TCPStream()
 {

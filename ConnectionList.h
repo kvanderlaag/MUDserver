@@ -1,5 +1,4 @@
-#ifndef __CONNECTIONLIST_H__
-#define __CONNECTIONLIST_H__
+#pragma once
 
 #include <map>
 #include <vector>
@@ -24,5 +23,3 @@ public:
 
 	std::vector<int> GetIdVector();
 };
-
-#endif // __CONNECTIONLIST_H__

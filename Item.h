@@ -1,9 +1,4 @@
 #pragma once
-/**Header file for item
- *item inherits GameEntity
-*/
-#ifndef __ITEM_H__
-#define __ITEM_H__
 
 #include "GameEntity.h"
 #include "GameWorld.h"
@@ -36,6 +31,3 @@ public:
 
 	~Item();
 };
-
-#endif	// __ITEM_H__ 
-

@@ -38,4 +38,3 @@ private:
 	std::string buffer;
 
 };
-
