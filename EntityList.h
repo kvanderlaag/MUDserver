@@ -9,11 +9,11 @@
 
 /*Header file for EntityList*/
 class EntityList
-{                          
+{
 
 /* Private variable uses a map to implement the list of entities */
 protected:
-    std::map<int, GameEntity*> map_;
+	std::map<int, GameEntity*> map_;
 	std::vector<int> next_ids_; // stack
 
 
@@ -24,15 +24,15 @@ protected:
  * GetEntityCount returns the the current size of the list containing entities
 */
 public:
-    EntityList();
-    ~EntityList();
+	EntityList();
+	~EntityList();
 
-    virtual void AddEntity(GameEntity& game_entity);
-    virtual void RemoveEntity(int id);
-    virtual GameEntity* GetEntity(int id);
+	virtual void AddEntity(GameEntity& game_entity);
+	virtual void RemoveEntity(int id);
+	virtual GameEntity* GetEntity(int id);
 	virtual GameEntity* FindEntity(std::string name);
 
-    int GetEntityCount();
+	int GetEntityCount();
 	virtual std::vector<GameEntity*> GetEntityVector();
 
 	int GetNextId();

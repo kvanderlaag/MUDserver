@@ -120,7 +120,7 @@ int CharacterClass::GetCharisma()
 PlayerStats & CharacterClass::GenerateStats(int level) {
 	PlayerStats& stats = PlayerStats(0,0,0,0,0,0,0);
 
-	for (std::size_t i = 0; i < level; i++) {
+	for (int i = 0; i < level; i++) {
 		 LevelUp(stats);
 	}
 

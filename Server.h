@@ -39,7 +39,7 @@ public:
 	void PutMessage(Message* mess);
 
 	TCPListener* GetListener() const;
-    bool IsRunning() const;
+	bool IsRunning() const;
 
 	GameWorld& GetWorld();
 

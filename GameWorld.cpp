@@ -23,14 +23,9 @@ GameWorld::GameWorld(Server& par) :
 	character_classes_(new CharacterClassList(this))
 {
 #ifdef _DEBUG_FLAG
-    std::cout << "Created a world..." << std::endl;
+	std::cout << "Created a world..." << std::endl;
 #endif
-	LoadItems("items.tsv");
-	LoadMobs("npcs.tsv");
-	LoadRooms("rooms.tsv");
-	LoadPlayers("players.tsv");
-	LoadCharacterClasses("characterclasses.tsv");
-
+	memento->GetState();
 
 }
 
@@ -40,7 +35,7 @@ GameWorld::GameWorld(Server& par) :
 */
 GameWorld::~GameWorld()
 {
-	FileParser::WritePlayers("players.tsv", players_->GetEntityVector());
+	memento->SetState();
 	std::cout << "Destroyed a world..." << std::endl;
 }
 
@@ -52,7 +47,7 @@ void GameWorld::AddRoom(Room& room)
 #ifdef _DEBUG_FLAG
 	std::cout << "Added a room" << std::endl;
 #endif
-    rooms_->AddEntity(room);
+	rooms_->AddEntity(room);
 }
 
 /**
@@ -72,7 +67,7 @@ void GameWorld::AddMob(NPC & entity)
 */
 void GameWorld::RemoveRoom(int id)
 {
-    rooms_->RemoveEntity(id);
+	rooms_->RemoveEntity(id);
 }
 
 /**
@@ -80,7 +75,7 @@ void GameWorld::RemoveRoom(int id)
 */
 void GameWorld::RemovePlayer(int id)
 {
-    players_->RemoveEntity(id);
+	players_->RemoveEntity(id);
 }
 
 void GameWorld::RemoveMob(NPC & entity)
@@ -92,7 +87,7 @@ void GameWorld::RemoveMob(NPC & entity)
 */
 GameEntity* GameWorld::GetRoom(int id)
 {
-    return rooms_->GetEntity(id);
+	return rooms_->GetEntity(id);
 }
 
 /**
@@ -100,7 +95,7 @@ GameEntity* GameWorld::GetRoom(int id)
 */
 GameEntity* GameWorld::GetPlayer(int id)
 {
-    return players_->GetEntity(id);
+	return players_->GetEntity(id);
 }
 
 /**
@@ -1065,7 +1060,7 @@ void GameWorld::Password(int connection_id, std::string words) {
 		parent.PutMessage(msg);
 	}
 
-	FileParser::WritePlayers("players.tsv", players_->GetEntityVector());
+	memento->SetState();
 
 }
 
@@ -1117,6 +1112,7 @@ void GameWorld::Tell(int connection_id, std::string player_name, std::string wor
 }
 
 /**
+<<<<<<< HEAD
 * Load Players from file
 */
 void GameWorld::LoadPlayers(std::string filename) {
@@ -1410,6 +1406,8 @@ void GameWorld::LoadCharacterClasses(std::string filename) {
 }
 
 /**
+=======
+>>>>>>> origin/master
 * Create a new update processing thread
 */
 void GameWorld::CreateUpdateThread(void* arg)
@@ -1445,10 +1443,10 @@ void GameWorld::DoSave() {
 	while (GameWorld::running) {
 
 		std::cout << "Saving player list" << std::endl;
-		FileParser::WritePlayers("players.tsv", players_->GetEntityVector());
+		memento->SetState();
 		std::this_thread::sleep_for(5min);
 
-    }
+	}
 
 }
 
@@ -1492,14 +1490,18 @@ void GameWorld::DoUpdate() {
 	}
 }
 
-EntityList& GameWorld::GetMasterItems() const {
-	return *master_items_;
+Server& GameWorld::GetParent() const {
+	return parent;
 }
 
-EntityList & GameWorld::GetMasterMobs() const
+EntityList & GameWorld::GetRooms() const
 {
-	return *(master_mobs_.get());
-	// TODO: insert return statement here
+	return *(rooms_.get());
+}
+
+EntityList & GameWorld::GetPlayers() const
+{
+	return *(players_.get());
 }
 
 EntityList& GameWorld::GetItems() const {
@@ -1509,24 +1511,25 @@ EntityList& GameWorld::GetItems() const {
 EntityList & GameWorld::GetMobs() const
 {
 	return *(mobs_.get());
-	// TODO: insert return statement here
+}
+
+EntityList& GameWorld::GetMasterItems() const {
+	return *master_items_;
+}
+
+EntityList & GameWorld::GetMasterMobs() const
+{
+	return *(master_mobs_.get());
 }
 
 BattleList & GameWorld::GetBattles() const
 {
 	return *(battles_.get());
-	// TODO: insert return statement here
 }
 
-Server& GameWorld::GetParent() const {
-	return parent;
-
-}
-
-EntityList & GameWorld::GetPlayers() const
+CharacterClassList & GameWorld::GetCharacterClasses() const
 {
-	return *(players_.get());
-	// TODO: insert return statement here
+	return *(character_classes_.get());
 }
 
 void GameWorld::ReleaseThreads() {

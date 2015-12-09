@@ -112,7 +112,7 @@ void Room::AddPlayer(GameEntity& player)
  */
 void Room::RemoveExit(int id)
 {
-    exits_->RemoveEntity(id);
+	exits_->RemoveEntity(id);
 }
 
 /**

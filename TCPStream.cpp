@@ -43,7 +43,7 @@ TCPStream::~TCPStream()
 #ifdef _WIN32
 	closesocket(socketfd);
 #else
-    close(socketfd);
+	close(socketfd);
 #endif // _WIN32
 	std::cout << "Closing socket " << socketfd << '\n';
 #ifdef _DEBUG_FLAG
