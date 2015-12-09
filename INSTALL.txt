@@ -1,12 +1,42 @@
 Tools Needed:
-- Visual Studio
+One of:
+- Visual Studio 2015
+- Code::Blocks (with MinGW32 for Windows)
+- G++/GCC
+- Command Line Tools (Mac)
 
-How to Build:
+How to Build (Visual Studio 2015):
 - Open /MUDServer_libevent.sln with Visual Studio
-- Build the program in Visual Studio with ctrl+shift+b
+- Select the Release build target if not already selected
+- Build the program in Visual Studio with Ctrl+Shift+B
+
+How to Build (Code::Blocks):
+- Open ./MUDserver.cbp with Code::Blocks (Windows or Linux)
+- Select the Release build target if not already selected
+- Build the program in Code::Blocks with Ctrl+F9
+
+How to Build (Linux G++/GCC, Mac):
+- Change directories to ./MUDserver
+- Run ‘make’
 
 How to Run:
-- Run the program in Visual Studio with ctrl+f5
+- Run the built executable from the previous step
+
+How to Connect (Windows):
+- Open the ‘Run’ dialog using Windows+R
+- Type ‘cmd’ and press enter
+- Type ‘pkgmgr /iu:”Telnet Client”’ and press enter
+- Close the command prompt
+- Reopen it using the first and second steps of this process
+- Type ‘telnet localhost 9500’ and press enter
+
+How to Connect (Linux):
+- From a terminal prompt, type ‘telnet localhost 9500’ and press enter
+
+How to Connect (Mac):
+- Open Spotlight by pressing Command+Space
+- Type ‘terminal’ and press enter
+- Type ‘telnet localhost 9500’ and press enter
 
 
 To View the Doxygen:
