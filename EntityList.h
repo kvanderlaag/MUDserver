@@ -1,6 +1,4 @@
 #pragma once
-#ifndef __ENTITYLIST_H__
-#define __ENTITYLIST_H__
 
 #include "GameEntity.h"
 
@@ -40,5 +38,3 @@ public:
 	virtual void Print();
 
 };
-
-#endif // __ENTITYLIST_H__

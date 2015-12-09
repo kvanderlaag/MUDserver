@@ -1,19 +1,17 @@
 #pragma once
-#ifndef __GAMEWORLD_H__
-#define __GAMEWORLD_H__
 
+#include "Server.h"
+#include "Message.h"
 #include "EntityList.h"
 #include "ConnectionList.h"
-#include "Player.h"
-#include "Room.h"
-#include "Item.h"
-#include "Message.h"
-#include "Server.h"
-#include "Utility.h"
-#include "FileParser.h"
-#include "NPC.h"
 #include "BattleList.h"
 #include "CharacterClassList.h"
+#include "Utility.h"
+#include "FileParser.h"
+#include "Room.h"
+#include "Player.h"
+#include "Item.h"
+#include "NPC.h"
 #include "CharacterClass.h"
 #include "Memento.h"
 
@@ -29,10 +27,10 @@
 * Header file for game world
 */
 
-class Player;
-class Room;
-class Item;
 class Server;
+class Room;
+class Player;
+class Item;
 class BattleList;
 class CharacterClassList;
 class Memento;
@@ -131,5 +129,3 @@ public:
 	BattleList& GetBattles() const;
 	CharacterClassList& GetCharacterClasses() const;
 };
-
-#endif // __GAMEWORLD_H__

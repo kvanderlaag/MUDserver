@@ -1,5 +1,4 @@
-#ifndef __PARSER_H__
-#define __PARSER_H__
+#pragma once
 
 #include <string>
 #include <vector>
@@ -18,5 +17,3 @@ public:
 	Message* Parse(Message* mess) const;
 
 };
-
-#endif // __PARSER_H__

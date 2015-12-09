@@ -1,4 +1,5 @@
 #pragma once
+
 #include "GameEntity.h"
 #include "PlayerStats.h"
 #include "EntityList.h"
@@ -32,4 +33,3 @@ public:
 
 
 };
-

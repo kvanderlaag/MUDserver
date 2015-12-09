@@ -1,6 +1,5 @@
 #include "CharacterClassList.h"
 
-
 CharacterClassList::CharacterClassList(GameWorld * world) :
 	parent_(*world)
 {
@@ -71,5 +70,4 @@ CharacterClass * CharacterClassList::GetCharacterClassById(int id)
 GameWorld & CharacterClassList::GetParent() const
 {
 	return parent_;
-	// TODO: insert return statement here
 }

@@ -5,7 +5,6 @@ CharacterClass::CharacterClass(int id,std::string name, GameWorld * parent) :
 	name_(name),
 	parent_(*parent)
 {
-
 }
 
 CharacterClass::CharacterClass(int id, std::string name, int health, int mana, int strength, int dexterity, int constitution, int intelligence, int charisma, GameWorld * parent) :
@@ -20,11 +19,10 @@ CharacterClass::CharacterClass(int id, std::string name, int health, int mana, i
 	charisma_(charisma),
 	parent_(*parent)
 {
-
 }
 
-CharacterClass::~CharacterClass() {
-
+CharacterClass::~CharacterClass() 
+{
 }
 
 int CharacterClass::GetId()

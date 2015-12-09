@@ -9,7 +9,6 @@
 #include <strsafe.h>
 #endif
 
-
 /**
 * Creates a server on a given port number
 * Creates a listener on that port

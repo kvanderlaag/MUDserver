@@ -1,6 +1,4 @@
 #pragma once
-#ifndef __FILEPARSER_H__
-#define __FILEPARSER_H__
 
 #include <string>
 #include <vector>
@@ -21,5 +19,3 @@ public:
 	static std::vector<std::string>* ParseTsv(std::string tsv);
 	static std::vector<std::string>* ParseCsv(std::string csv);
 };
-
-#endif // __FILEPARSER_H__

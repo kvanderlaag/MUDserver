@@ -6,7 +6,6 @@
 #include <iostream>
 #include <algorithm>
 
-
 /**
 * Default constructor that creates an entity list then prints out the information
 */

@@ -1,6 +1,4 @@
 #pragma once
-#ifndef __ROOM_H__
-#define __ROOM_H__
 
 #include <iostream>
 #include "EntityList.h"
@@ -63,5 +61,3 @@ public:
 	std::vector<GameEntity*> GetItemVector();
 	std::vector<GameEntity*> GetMobVector();
 };
-
-#endif // __ROOM_H__

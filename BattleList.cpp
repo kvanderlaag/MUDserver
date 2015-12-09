@@ -1,6 +1,5 @@
 #include "BattleList.h"
 
-
 BattleList::BattleList(GameWorld * world) :
 	parent_(*world)
 {
@@ -121,5 +120,4 @@ Battle * BattleList::GetBattleByMobId(int id)
 GameWorld & BattleList::GetParent() const
 {
 	return parent_;
-	// TODO: insert return statement here
 }

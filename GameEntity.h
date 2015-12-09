@@ -1,6 +1,4 @@
 #pragma once
-#ifndef __GAMEENTITY_H__
-#define __GAMEENTITY_H__
 
 #include <string>
 
@@ -39,5 +37,3 @@ public:
 	virtual GameWorld& GetWorld() const;
 
 };
-
-#endif // __GAMEENTITY_H__

@@ -3,8 +3,6 @@
 * Player also includes an entity list for the item inventory.
 */
 #pragma once
-#ifndef __PLAYER_H__
-#define __PLAYER_H__
 
 #include "GameEntity.h"
 #include "GameWorld.h"
@@ -73,5 +71,3 @@ public:
 	std::string GetPassword() const;
 	void SetPassword(std::string password);
 };
-
-#endif

@@ -1,7 +1,5 @@
 #include "PlayerStats.h"
 
-
-
 PlayerStats::PlayerStats() : mHealth(iDefaultHealth), mMana(iDefaultMana), mTempMana(iDefaultMana),
 	mTempHealth(iDefaultHealth), mStrength(iDefaultStrength), mTempStrength(iDefaultStrength), 
 	mDexterity(iDefaultDexterity), mTempDexterity(iDefaultDexterity), mConstitution(iDefaultConstitution), 

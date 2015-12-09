@@ -43,4 +43,3 @@ public:
 	void Update();
 	GameWorld& GetParent() const;
 };
-
